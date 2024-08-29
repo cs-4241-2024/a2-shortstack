@@ -7,18 +7,28 @@ const submit = async function( event ) {
   // remains to this day
   event.preventDefault()
   
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
+  const name = document.querySelector( '#name' ),
+        message = document.querySelector( '#message' ),
+        json = { name: name.value, message: message.value },
         body = JSON.stringify( json )
+
+  if (name.value === "" || message.value === "") {
+    alert("Please fill out both fields.")
+    return
+  }
 
   const response = await fetch( '/submit', {
     method:'POST',
     body 
   })
 
-  const text = await response.text()
-
-  console.log( 'text:', text )
+  let res = await response.json()
+  let output = document.getElementById("response");
+  let li = document.createElement("li");
+  
+  console.log(res)
+  li.textContent = `${res.name}, ${res.message}`;
+  output.appendChild(li);
 }
 
 window.onload = function() {

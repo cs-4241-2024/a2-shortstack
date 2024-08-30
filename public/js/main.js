@@ -21,7 +21,21 @@ const submit = async function( event ) {
   console.log( 'text:', text )
 }
 
+let score = 0;
+
+const incrementScore = async function(event) {
+  event.preventDefault();
+  score += 1;
+
+  const scoreElement = document.getElementById('score');
+  scoreElement.textContent = score;
+
+};
+
 window.onload = function() {
-   const button = document.querySelector("button");
+   const button = document.getElementById("submit");
   button.onclick = submit;
+
+  const scoreButton = document.getElementById("scoreButton")
+  scoreButton.onclick=incrementScore;
 }

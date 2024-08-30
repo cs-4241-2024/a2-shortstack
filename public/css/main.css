@@ -2,3 +2,35 @@ body {
   background:black;
   color:white;
 }
+
+.area-block {
+  padding-top: 10px;
+  width:49%;
+  display:inline-block;
+  text-align:center;
+}
+
+/* Adapt for smaller screen */
+@media screen and (max-width:500px) {
+  .area-block {
+    display:block;
+  }
+}
+
+.disp-element {
+  display:inline;
+}
+
+#game-button {
+  background:cyan;
+  border-color:cyan;
+  font-size:50px;
+  border-width:10px;
+}
+
+
+table {
+  text-align:center;
+  margin:auto;
+  margin-top:10px;
+}

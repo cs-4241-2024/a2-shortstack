@@ -10,9 +10,20 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
   <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
-    </form>
+    <div class="area-block">
+      <button class="disp-element" id="game-button">Test</button>
+      <p>Your score: <span id="score">0</span></p>
+    </div>
+    <section class="area-block" id="scores-div">
+      <h1>High Scores</h1>
+      <form>
+        <input type="text" id="yourname" placeholder="Enter name">
+        <button id = "submit-button">Submit score</button>
+      </form>
+      <table id = "score_table">
+                <tbody id = "score_tbody">
+        </tbody> 
+      </table>
+    </section>
   </body>
 </html>

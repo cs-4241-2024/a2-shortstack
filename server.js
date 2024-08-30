@@ -6,13 +6,14 @@ const http = require( 'http' ),
       // file.
       mime = require( 'mime' ),
       dir  = 'public/',
-      port = 3000
+      port = 4001
 
 const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+  { 'name': 'Lisa', 'score': 1000, 'rank': 1},
+  { 'name': 'John', 'score': 100, 'rank':2},
+  { 'name': 'Jacob', 'score': 5, 'rank': 3},
+  ]
+
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
@@ -27,6 +28,9 @@ const handleGet = function( request, response ) {
 
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
+  } else if (request.url === '/data') {
+    response.writeHead(200, "OK", {'Content-Type': 'text/plain'});
+    response.end(JSON.stringify(appdata))
   }else{
     sendFile( response, filename )
   }
@@ -41,11 +45,30 @@ const handlePost = function( request, response ) {
 
   request.on( 'end', function() {
     console.log( JSON.parse( dataString ) )
+    const data = JSON.parse(dataString);
+    let updated = false;
+    for (var i = 0; i < appdata.length; i++) {
+      if (data.name === appdata[i].name) {
+        appdata[i].score = data.score;
+        updated = true;
+      }     
+    }
+    if (!updated) {
+        console.log("name " + data.name);
+        appdata.push({'name':data.name, 'score':data.score, 'rank':0})
+    }
 
+    appdata.sort(function(a, b) {return b.score - a.score});
+    console.log("data: " + JSON.stringify(appdata));
+
+    for (var i = 0; i < appdata.length; i++) {
+      appdata[i].rank = i+1;
+    }
+    
     // ... do something with the data here!!!
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end(JSON.stringify(appdata))
   })
 }
 

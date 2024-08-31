@@ -14,35 +14,35 @@ Try to make your application do something useful! A todo list, storing / retriev
 
 Your application is required to implement the following functionalities:
 
-- a `Server` which not only serves files, but also maintains a tabular dataset with 3 or more fields related to your application
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows a user to add or delete data items residing in the server's memory
-- a `Server Logic` which, upon receiving new or modified "incoming" data, includes and uses a function that adds at least one additional derived field to this incoming data before integrating it with the existing dataset
-- the `Derived field` for a new row of data must be computed based on fields already existing in the row. 
+- ~~a `Server` which not only serves files, but also maintains a tabular dataset with 3 or more fields related to your application~~
+- ~~a `Results` functionality which shows the entire dataset residing in the server's memory~~
+- ~~a `Form/Entry` functionality which allows a user to add or delete data items residing in the server's memory~~
+- ~~a `Server Logic` which, upon receiving new or modified "incoming" data, includes and uses a function that adds at least one additional derived field to this incoming data before integrating it with the existing dataset~~
+- ~~the `Derived field` for a new row of data must be computed based on fields already existing in the row.~~
 For example, a `todo` dataset with `task`, `priority`, and `creation_date` may generate a new field `deadline` by looking at `creation_date` and `priority`
 
 Your application is required to demonstrate the use of the following concepts:
 
 HTML:
-- One or more [HTML Forms](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms), with any combination of form tags appropriate for the user input portion of the application
-- A results page displaying all data currently available on the server. You will most likely use a `<table>` tag for this, but `<ul>` or `<ol>` could also work and might be simpler to work with. Alternatively, you can create a single-page app (see Technical Acheivements) but this is not a requirement.
-- All pages should [validate](https://validator.w3.org)
-- If your app contains multple pages, they should all be accessible from the homepage (index.html)
+- ~~One or more [HTML Forms](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms), with any combination of form tags appropriate for the user input portion of the application~~
+- ~~A results page displaying all data currently available on the server. You will most likely use a `<table>` tag for this, but `<ul>` or `<ol>` could also work and might be simpler to work with. Alternatively, you can create a single-page app (see Technical Acheivements) but this is not a requirement.~~
+- ~~All pages should [validate](https://validator.w3.org)~~
+- ~~If your app contains multple pages, they should all be accessible from the homepage (index.html)~~
 
 CSS:
-- CSS styling of the primary visual elements in the application
-- Various CSS Selector functionality must be demonstrated:
+- ~~CSS styling of the primary visual elements in the application~~
+- ~~Various CSS Selector functionality must be demonstrated:~~
     - Element selectors
     - ID selectors
     - Class selectors
-- CSS positioning and styling of the primary visual elements in the application:
-    - Use of either a CSS grid or flexbox for layout
-    - Rules defining fonts for all text used; be deliberate! Be sure to use a web safe font or a font from a web service like [Google Fonts](http://fonts.google.com/)
+- ~~CSS positioning and styling of the primary visual elements in the application:~~
+    - ~~Use of either a CSS grid or flexbox for layout~~
+    -~~ Rules defining fonts for all text used; be deliberate! Be sure to use a web safe font or a font from a web service like [Google Fonts](http://fonts.google.com/)
 
-- CSS defined in a maintainable, readable form, in external stylesheets 
+- ~~CSS defined in a maintainable, readable form, in external stylesheets~~ 
 
 JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server; a sample is provided in this repository.
+- ~~At minimum, a small amount of front-end JavaScript to get / fetch data from the server; a sample is provided in this repository.~~
 
 Node.js:
 - An HTTP Server that delivers all necessary files and data for the application, and also creates the required `Derived Fields` in your data. 
@@ -67,9 +67,9 @@ Acheivements
 Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM. Remember, the highest grade you can get on any individual assignment is a 100%.
 
 *Technical*
-- (5 points) Create a single-page app that both provides a form for users to submit data and always shows the current state of the server-side data. To put it another way, when the user submits data, the server should respond sending back the updated data (including the derived field calculated on the server) and the client should then update its data display.
+- ~~(5 points) Create a single-page app that both provides a form for users to submit data and always shows the current state of the server-side data. To put it another way, when the user submits data, the server should respond sending back the updated data (including the derived field calculated on the server) and the client should then update its data display.~~
 
-- (5 points) In addition to a form enabling adding and deleting data on the server, also add the ability to modify existing data.
+- ~~(5 points) In addition to a form enabling adding and deleting data on the server, also add the ability to modify existing data.~~
 
 *Design/UX*
 - (5 points per person, with a max of 10 points) Test your user interface with other students in the class. Define a specific task for them to complete (ideally something short that takes <10 minutes), and then use the [think-aloud protocol](https://en.wikipedia.org/wiki/Think_aloud_protocol) to obtain feedback on your design (talk-aloud is also fine). Important considerations when designing your study:
@@ -94,7 +94,22 @@ Sample Readme (delete the above when you're ready to submit, and modify the belo
 Include a very brief summary of your project here. Be sure to include the CSS positioning technique you used, and any required instructions to use your application.
 
 ## Technical Achievements
-- **Tech Achievement 1**: Using a combination of...
+- **Single Page App**: A single page app was implemented with forms on the right to add or delete players. When a player is added or deleted the page updates automatically.
+- **Edit feature**: all records can be edited by pressing the edit button on the right of the record (make sure to click save to save the change)
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: 
+- **Student Feedback 1**: Last Name: ---
+  - **What problems did the user have with your design?**
+  - ds
+  - **What comments did they make that surprised you?**
+  - ds
+  - **What would you change about the interface based on their feedback?**
+  - ds
+
+- **Student Feedback 2**: Last Name: ---
+  - **What problems did the user have with your design?**
+  - ds
+  - **What comments did they make that surprised you?**
+  - ds
+  - **What would you change about the interface based on their feedback?**
+  - ds

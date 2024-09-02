@@ -1,24 +1,93 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    
+    <link rel="stylesheet" href="css/main.css" />
+
     <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
   </head>
   <body>
-    <form>
-      <input type="text" id="name" placeholder="your name here">
-      <input type="text" id="message" placeholder="your message here">
-      <button>submit</button>
-    </form>
-    <div >
-      <ul id="response">
+    <table>
+      <caption>Student Grades</caption>
+      <thead>
+        <tr>
+          <th scope="col">Student Name</th>
+          <th scope="col">Student Year/Type</th>
+          <th scope="col">Grade (Number)</th>
+          <th scope="col">Calculated Final Grade (Char)</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+      </tbody>
+    </table>
 
-      </ul>
+    <form>
+      <input type="text" id="name" placeholder="Student Name" required/>
+      <select id="class" required>
+        <option value="">Select Student Year/Type</option>
+        <option value="freshman">Freshman</option>
+        <option value="sophomore">Sophomore</option>
+        <option value="junior">Junior</option>
+        <option value="senior">Senior</option>
+        <option value="grad">Grad</option>
+        <option value="part-time">Part-Time</option>
+      </select>
+      <input type="number" id="grade" placeholder="Final Grade (Number)" required/>
+      <button id="submit">Add/Update Student</button>
+      <button id="delete">Delete Student</button>
+    </form>
+
+    <div id="stats">
+      <table>
+        <caption>Class Statistics</caption>
+        <thead>
+          <tr>
+            <th scope="col">Student Year/Type</th>
+            <th scope="col">Average Grade</th>
+            <th scope="col">Number of Students</th>
+          </tr>
+        </thead>
+        <tbody id="stats-body">
+          <tr>
+            <td>Whole Class</td>
+            <td id="all-avg">0</td>
+            <td id="all-count">0</td>
+          </tr>
+          <tr>
+            <td>Freshman</td>
+            <td id="freshman-avg">0</td>
+            <td id="freshman-count">0</td>
+          </tr>
+          <tr>
+            <td>Sophomore</td>
+            <td id="sophomore-avg">0</td>
+            <td id="sophomore-count">0</td>
+          </tr>
+          <tr>
+            <td>Junior</td>
+            <td id="junior-avg">0</td>
+            <td id="junior-count">0</td>
+          </tr>
+          <tr>
+            <td>Senior</td>
+            <td id="senior-avg">0</td>
+            <td id="senior-count">0</td>
+          </tr>
+          <tr>
+            <td>Grad</td>
+            <td id="grad-avg">0</td>
+            <td id="grad-count">0</td>
+          </tr>
+          <tr>
+            <td>Part-Time</td>
+            <td id="part-time-avg">0</td>
+            <td id="part-time-count">0</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </body>
 </html>

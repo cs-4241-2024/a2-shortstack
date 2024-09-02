@@ -1,31 +1,26 @@
-const submit = async function(event) {
+const appdata = [
+  { model: 'toyota', year: 1999, mpg: 23, age: new Date().getFullYear() - 1999 },
+  { model: 'honda', year: 2004, mpg: 30, age: new Date().getFullYear() - 2004 },
+  { model: 'ford', year: 1987, mpg: 14, age: new Date().getFullYear() - 1987 }
+];
+
+const submit = function(event) {
   event.preventDefault();
 
   const model = document.querySelector('#model').value;
   const year = document.querySelector('#year').value;
   const mpg = document.querySelector('#mpg').value;
-  const json = { model, year, mpg };
-  const body = JSON.stringify(json);
+  const data = { model, year, mpg, age: new Date().getFullYear() - year };
 
-  const response = await fetch('/submit', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body
-  });
-
-  const text = await response.text();
-  console.log('text:', text);
+  appdata.push(data);
+  console.log('Data added:', data);
   loadTable();
 };
 
-const loadTable = async function() {
-  const response = await fetch('/data');
-  const data = await response.json();
+const loadTable = function() {
   const tableBody = document.querySelector('#dataTable tbody');
   tableBody.innerHTML = '';
-  data.forEach(row => {
+  appdata.forEach(row => {
     const tr = document.createElement('tr');
     tr.innerHTML = `<td>${row.model}</td><td>${row.year}</td><td>${row.mpg}</td><td>${row.age}</td>`;
     tableBody.appendChild(tr);

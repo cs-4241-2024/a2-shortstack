@@ -181,7 +181,7 @@ const saveRow = async (index) => {
     startdate: startDateInput.value,
     duedate: dueDateInput.value,
     daysavailable: Math.round((new Date(dueDateInput.value) - new Date(startDateInput.value)) / (1000 * 60 * 60 * 24)),
-    daysleft: Math.ceil((new Date(dueDateInput.value) - new Date()) / (1000 * 60 * 60 * 24))
+    daysleft: Math.max(0, Math.ceil((new Date(dueDateInput.value) - new Date()) / (1000 * 60 * 60 * 24)))
   };
 
   const response = await fetch(`/update/${index}`, {

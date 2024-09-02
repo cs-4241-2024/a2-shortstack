@@ -1,4 +1,36 @@
 body {
-  background:black;
-  color:white;
+  background: black;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+form, table {
+  margin: 20px;
+}
+
+input, button {
+  margin: 5px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid white;
+  padding: 10px;
+  text-align: left;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
 }

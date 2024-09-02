@@ -1,27 +1,39 @@
-// FRONT-END (CLIENT) JAVASCRIPT HERE
+const submit = async function(event) {
+  event.preventDefault();
 
-const submit = async function( event ) {
-  // stop form submission from trying to load
-  // a new .html page for displaying results...
-  // this was the original browser behavior and still
-  // remains to this day
-  event.preventDefault()
-  
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
-        body = JSON.stringify( json )
+  const model = document.querySelector('#model').value;
+  const year = document.querySelector('#year').value;
+  const mpg = document.querySelector('#mpg').value;
+  const json = { model, year, mpg };
+  const body = JSON.stringify(json);
 
-  const response = await fetch( '/submit', {
-    method:'POST',
-    body 
-  })
+  const response = await fetch('/submit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body
+  });
 
-  const text = await response.text()
+  const text = await response.text();
+  console.log('text:', text);
+  loadTable();
+};
 
-  console.log( 'text:', text )
-}
+const loadTable = async function() {
+  const response = await fetch('/data');
+  const data = await response.json();
+  const tableBody = document.querySelector('#dataTable tbody');
+  tableBody.innerHTML = '';
+  data.forEach(row => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${row.model}</td><td>${row.year}</td><td>${row.mpg}</td><td>${row.age}</td>`;
+    tableBody.appendChild(tr);
+  });
+};
 
 window.onload = function() {
-   const button = document.querySelector("button");
-  button.onclick = submit;
-}
+  const form = document.querySelector('#dataForm');
+  form.onsubmit = submit;
+  loadTable();
+};

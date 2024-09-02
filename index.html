@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+  </head>
+  <body style="background-color:#df91f7;">
+    <header>CS4241 Assignment 2</header>
+    <h2>This is a Book Collection Manager</h2>
+
+    <h3>Input</h3>
+    <p> All books inputted must have a different Title. Meaning 2 of the same book can't be entered.</p>
+
+    <!--Book ID will be the unique identifier -- I will make these my own-->
+
+    <h4>Title:</h4> 
+    <input type="text" id="title" name="title" required minlength="1" required maxlength="40" size="30" />
+
+    <h4>Author:</h4>
+    <input type="text" id="title" name="author" required minlength="1" required maxlength="40" size="10" />
+
+    <h4>Year Published:</h4>
+    <input type="number" id="title" name="year" min="1000" max="2025" />
+
+    <h4>Genre:</h4>
+    <p>Here is a list of valid genre entries:
+        (fiction, non-fiction, sci-fi, fantasy, romance, and contemperary)
+    </p>
+    <input type="genre" id="title" name="genre" pattern="fiction|Fiction|non-fiction|Non-fiction|sci-fi|Sci-fi|romance|Romance|contemperary|contemperary" />
+    
+
+    <h4>Ranking (1-5 stars): </h4>
+    <input type="number" id="title" name="ranking" min="1" max="5" />
+
+    <button onclick="newBook()">submit</button>
+    
+
+    <h3>Display</h3>
+
+    <h4>List the Books:</h4>
+    <button onclick="listBooks()">List</button>
+    <h4>List the Authors:</h4>
+    <button onclick="listAuthors()">List</button>
+    <h4>List books in a certain Genre:</h4>
+    <button onclick="genre()">List</button>
+    <h4>List the 5 star books:</h4>
+    <button onclick="fiveStars()">List</button>
+    <h4 >Order of authors with the most 5 stars rankings:</h4>
+    <p>Authors who have an equal amount of 5 star books are then ordered alphabetically</p>
+    <button onclick="authorWithMostFiveStars()">List</button>
+    <!--Derived one will be Author with the most 5 stars (looks at author name and ranking)-->
+
+    <h3>Delete Entry</h3>
+
+    <h4>Title:</h4>
+
+    <h4>Author:</h4>
+
+    <h4>Year Published:</h4>
+
+    <h4>Genre:</h4>
+
+    <h4>Ranking (1-5 stars): </h4>
+
+    <button onclick="deleteBook()">delete</button>
+
+  </body>
+</html>

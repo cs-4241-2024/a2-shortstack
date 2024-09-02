@@ -92,15 +92,33 @@ const populateTable = (data) => {
       const row = document.createElement('tr');
 
       const taskCell = document.createElement('td');
-      taskCell.textContent = item.task;
+      const taskContainer = document.createElement('div');
+      taskContainer.classList.add('flex-container');
+      const taskInput = document.createElement('input');
+      taskInput.type = 'text';
+      taskInput.value = item.task;
+      taskContainer.appendChild(taskInput);
+      taskCell.appendChild(taskContainer);
       row.appendChild(taskCell);
 
       const startDateCell = document.createElement('td');
-      startDateCell.textContent = item.startdate;
+      const startDateContainer = document.createElement('div');
+      startDateContainer.classList.add('flex-container');
+      const startDateInput = document.createElement('input');
+      startDateInput.type = 'date';
+      startDateInput.value = item.startdate;
+      startDateContainer.appendChild(startDateInput);
+      startDateCell.appendChild(startDateContainer);
       row.appendChild(startDateCell);
 
       const dueDateCell = document.createElement('td');
-      dueDateCell.textContent = item.duedate;
+      const dueDateContainer = document.createElement('div');
+      dueDateContainer.classList.add('flex-container');
+      const dueDateInput = document.createElement('input');
+      dueDateInput.type = 'date';
+      dueDateInput.value = item.duedate;
+      dueDateContainer.appendChild(dueDateInput);
+      dueDateCell.appendChild(dueDateContainer);
       row.appendChild(dueDateCell);
 
       const daysAvailableCell = document.createElement('td');
@@ -111,10 +129,18 @@ const populateTable = (data) => {
       daysLeftCell.textContent = item.daysleft;
       row.appendChild(daysLeftCell);
 
+      const saveCell = document.createElement('td');
+      const saveButton = document.createElement('button');
+      saveButton.textContent = 'Save';
+
+      saveButton.onclick = () => saveRow(index);
+      saveCell.appendChild(saveButton);
+      row.appendChild(saveCell);
+
       const deleteCell = document.createElement('td'); 
       const deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
-      
+
       deleteButton.onclick = () => deleteRow(index);
       deleteCell.appendChild(deleteButton);
       row.appendChild(deleteCell);
@@ -125,9 +151,53 @@ const populateTable = (data) => {
 };
 
 const deleteRow = async (index) => {
-  const appData = JSON.parse(localStorage.getItem('appData'));
-  appData.splice(index, 1);
+  const response = await fetch(`/delete/${index}`, {
+    method: 'DELETE',
+  });
 
-  localStorage.setItem('appData', JSON.stringify(appData));
-  populateTable(appData);
+  if (response.ok) {
+    const appData = await response.json(); 
+    localStorage.setItem('appData', JSON.stringify(appData)); 
+    populateTable(appData);
+  } else {
+    console.error('Failed to delete the row on the server');
+  }
 };
+
+const saveRow = async (index) => {
+  const tableBody = document.querySelector('#data-table tbody');
+  const row = tableBody.children[index];
+
+  const taskInput = row.querySelector('input[type="text"]');
+  const startDateInput = row.querySelector('input[type="date"]'); // First date input nth child is not worth the pain
+  const dueDateInput = row.querySelectorAll('input[type="date"]')[1]; // Second date input
+
+  // console.log('Task:', taskInput.value);
+  // console.log('Start Date:', startDateInput.value);
+  // console.log('Due Date:', dueDateInput.value);
+
+  const updatedTask = {
+    task: taskInput.value,
+    startdate: startDateInput.value,
+    duedate: dueDateInput.value,
+    daysavailable: Math.round((new Date(dueDateInput.value) - new Date(startDateInput.value)) / (1000 * 60 * 60 * 24)),
+    daysleft: Math.ceil((new Date(dueDateInput.value) - new Date()) / (1000 * 60 * 60 * 24))
+  };
+
+  const response = await fetch(`/update/${index}`, {
+    method: 'PUT',
+    body: JSON.stringify(updatedTask),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (response.ok) {
+    const updatedAppData = await response.json();
+    localStorage.setItem('appData', JSON.stringify(updatedAppData));
+    populateTable(updatedAppData);
+  } else {
+    console.error('Failed to save the row on the server');
+  }
+};
+

@@ -111,3 +111,13 @@ tbody tr:nth-child(even) {
 tbody tr:nth-child(odd) {
   background-color: #333; 
 }
+
+.flex-container {
+  display: flex;
+  align-items: center;
+}
+
+.flex-container input {
+  width: 150px; 
+  margin-right: 10px;
+}

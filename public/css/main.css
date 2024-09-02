@@ -1,4 +1,113 @@
 body {
-  background:black;
-  color:white;
+  background: black;
+  color: white;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+form {
+  display: inline-block;
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 1em;
+  background-color: #333;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+form li + li {
+  margin-top: 1em;
+}
+
+label {
+  display: inline-block;
+  min-width: 100px;
+  text-align: right;
+}
+
+input,
+textarea {
+  font: 1em sans-serif;
+  width: 300px;
+  box-sizing: border-box;
+  border: 1px solid #999;
+  background-color: #222; 
+  color: white;
+  padding: 0.5em;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #fff;
+  outline: none; 
+}
+
+.form-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style-type: none;
+  padding: 0;
+}
+
+.input-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.button-item {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.button-item button {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: #444;
+  color: white;
+  cursor: pointer;
+}
+
+.button-item button:hover {
+  background-color: #555; 
+}
+
+#data-table {
+  border-collapse: collapse;
+  width: 80%; 
+  max-width: 800px; 
+  margin: 20px auto; 
+  background-color: #333; 
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px; 
+  text-align: center; 
+  border-bottom: 1px solid #444; 
+}
+
+th {
+  background-color: #555;
+  color: white; 
+  font-weight: bold; 
+}
+
+tbody tr:hover {
+  background-color: #444; 
+}
+
+tbody tr:nth-child(even) {
+  background-color: #444; 
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #333; 
 }

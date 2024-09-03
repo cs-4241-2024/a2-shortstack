@@ -98,13 +98,15 @@ Include a very brief summary of your project here. Be sure to include the CSS po
 - **Edit feature**: all records can be edited by pressing the edit button on the right of the record (make sure to click save to save the change)
 
 ### Design/Evaluation Achievements
-- **Student Feedback 1**: Last Name: ---
+- **Student Feedback 1**: Last Name: Le
   - **What problems did the user have with your design?**
-  - ds
+  - When asked to delete a player Le clicked on the edit button next to the player first before noticing the form on the left.
+    - Although this is likely because the first instruction he was told to perform was to edit a player.
+  - When adding a player Le failed to notice that all the fields contained placeholder values.
   - **What comments did they make that surprised you?**
-  - ds
+  - Le could not tell that the player add form had placeholder text, and expressed his surprise.
   - **What would you change about the interface based on their feedback?**
-  - ds
+  - Add alert or make it more obvious (different text color) that all field need to be filled out to input a player.
 
 - **Student Feedback 2**: Last Name: ---
   - **What problems did the user have with your design?**

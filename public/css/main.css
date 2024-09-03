@@ -1,19 +1,22 @@
 body {
   background:black;
   color:white;
+  font-family: "Comic Neue", cursive;
+}
+
+.parent-div {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .area-block {
-  padding-top: 10px;
-  width:49%;
-  display:inline-block;
   text-align:center;
 }
 
 /* Adapt for smaller screen */
 @media screen and (max-width:500px) {
-  .area-block {
-    display:block;
+  .parent-div {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -26,11 +29,26 @@ body {
   border-color:cyan;
   font-size:50px;
   border-width:10px;
+  font-family: "Arial", sans-serif;
 }
 
+h1 {
+  font-family:"Times New Roman", serif;
+}
 
 table {
   text-align:center;
   margin:auto;
   margin-top:10px;
 }
+
+#first-para {
+  padding-top:30px;
+  display:block;
+}
+
+
+
+
+
+

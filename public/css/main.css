@@ -1,4 +1,29 @@
 body {
-  background:black;
+  background-color:rgb(12, 235, 216);
   color:white;
+}
+
+h1 {
+  text-align: center;
+  margin: 50px;
+  color: #7541D9;
+  font-family: Nerko;
+  font-size: 300%;
+  border: 2px solid #7541D9;
+}
+
+button {
+  width: 100px;
+  margin:150px auto 0;
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+  position: relative;
+  color: #7541D9;
+} 
+
+.vertical-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
 }

@@ -9,7 +9,7 @@ const http = require( 'http' ),
       port = 3000
 
 const appdata = [
-  { name: 'Jeremy', points: 1000 },
+  { name: 'Jeremy', clickCount: 10, points: 1000 },
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -46,12 +46,14 @@ const handlePost = function( request, response ) {
       console.log(dataString)
       const parsedData = JSON.parse( dataString )
 
-      let score = parsedData.points*100
+      let score = parsedData.clickCount*100
 
-      console.log(score )
+      // console.log(score )
 
       //Store Data
-      appdata.push({name: parsedData.name, points: score })
+      appdata.push({name: parsedData.name, clickCount: parsedData.clickCount, points: score })
+
+      console.log(appdata)
 
 
       response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })

@@ -33,26 +33,31 @@ const handleGet = function( request, response ) {
 
 const handlePost = function( request, response ) {
   let dataString = ''
-
-  request.on( 'data', function( data ) {
-      dataString += data
-  })
-
-  request.on( 'end', function() {
-
-    const parsedData = JSON.parse( dataString )
-
-    let score = parsedData.points*100
-
-    console.log(parsedData )
-
-    //Store Data
-    appdata.push({name: parsedData.name, points: score })
-
-
+  if( request.url === '/getData'){
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
+    response.end(JSON.stringify(appdata))
+  }
+  else{
+    request.on( 'data', function( data ) {
+      dataString += data
+    })
+
+    request.on( 'end', function() {
+      console.log(dataString)
+      const parsedData = JSON.parse( dataString )
+
+      let score = parsedData.points*100
+
+      console.log(score )
+
+      //Store Data
+      appdata.push({name: parsedData.name, points: score })
+
+
+      response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+      response.end(JSON.stringify(appdata))
+    })
+  }
 }
 
 

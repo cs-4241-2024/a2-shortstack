@@ -2,9 +2,9 @@
 
 // Global Variable Score
 let score = 0;
-let table = document.createElement('table')
+// let table = document.createElement('table')
 // table add row
-table.appendChild(document.createElement('tr')).appendChild(document.createElement('th')).appendChild(document.createTextNode('Name')).parentNode.parentNode.appendChild(document.createElement('th')).appendChild(document.createTextNode('Score'))
+// table.appendChild(document.createElement('tr')).appendChild(document.createElement('th')).appendChild(document.createTextNode('Name')).parentNode.parentNode.appendChild(document.createElement('th')).appendChild(document.createTextNode('Score'))
 
 const submit = async function( event ) {
   // stop form submission from trying to load
@@ -21,15 +21,15 @@ const submit = async function( event ) {
     method:'POST',
     body 
   })
-
+  const jsonData = await response.json()
 
   // Why does this promise break everything
   // const data = await response.json()
 
-
+  table.innerHTML = ''
   // How to fetch from response instead
-  createNewRow(json.name, json.points)
-  console.log( 'data:', data )
+  generateTable(jsonData)
+  // console.log( 'data:', data )
 }
 
 
@@ -42,8 +42,11 @@ const incrementScore = function(event) {
   scoreElement.textContent = score;
 
 };
-
+const generateTable = function(jsonData) {
+  jsonData.forEach((data) =>createNewRow(data.name, data.points))
+}
 const createNewRow = function (name, score) {
+  let tableElement = document.getElementById('table')
   const row = document.createElement('tr');
   const nameCell = document.createElement('td');
   nameCell.textContent = name;
@@ -51,18 +54,25 @@ const createNewRow = function (name, score) {
   const scoreCell = document.createElement('td');
   scoreCell.textContent = score;
   row.appendChild(scoreCell);
-  table.appendChild(row);
+  tableElement.appendChild(row);
 }
 
-window.onload = function() {
+window.onload = async function() {
    const button = document.getElementById("submit");
   button.onclick = submit;
 
   const scoreButton = document.getElementById("scoreButton")
   scoreButton.onclick=incrementScore;
 
-  const tableDiv = document.getElementById('tableDiv')
-    tableDiv.appendChild(table)
+  const input = document.querySelector( '#yourname' ),
+      json = { name: input.value, points: score },
+      body = JSON.stringify( json )
+  const response = await fetch( '/getData', {
+    method:'POST',
+    body
+  })
 
-  createNewRow('Jeremy',1000)
+  const jsonData = await response.json()
+  generateTable(jsonData)
+
 }

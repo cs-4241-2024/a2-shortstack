@@ -19,8 +19,6 @@ const submitPlayer = async function( ev ) {
 
   //send new data
   let message = JSON.stringify( newRecord )
-  console.log("stryder message")
-  console.log(message)
 
   const response = await fetch( '/submit', {
     method:'POST',
@@ -41,8 +39,6 @@ async function deletePlayer(ev) {
   //send id to delete
   let idToDelete = {id: document.getElementById("id").value}
   let message = JSON.stringify(idToDelete)
-  console.log("stryder message")
-  console.log(message)
 
   const response = await fetch('/delete', {
     method: 'POST',
@@ -70,11 +66,9 @@ async function loadTable() {
     method: 'GET'
   })
   let FFdata = JSON.parse(await response.text())
-  console.log(FFdata)
   // create new rows in table based on data
   for (let i =0; i<FFdata.length;i++) {
     let newTableRow = document.createElement("tr")
-    console.log(FFdata[i])
     createCell(newTableRow,FFdata[i]["id"])
     createCell(newTableRow,FFdata[i]["rDyn"])
     createCell(newTableRow,FFdata[i]["rPPR"])
@@ -102,7 +96,6 @@ function createCell(row,content){
 }
 
 async function handleEdit(event){
-  console.log("HANDLE EDIT")
   let editButton = event.target
   let index = event.indexID
   editButton.textContent="Save"
@@ -122,7 +115,6 @@ async function handleEdit(event){
 }
 
 async function handleSave(event) {
-  console.log("HANDLE SAVEEEEEEEEEEEEEEE")
   let editButton = event.target
   let index = editButton.indexID
 
@@ -147,30 +139,20 @@ async function handleSave(event) {
   let test = currentRow.children[1]
   let inputTest = test.firstElementChild
   let valueTest = inputTest.value
-  console.log("hihihihhi")
-  console.log(valueTest)
 
   //skip last element as thats the save button
   for(let i =1; i<currentRow.children.length-1;i++){
     let cell = currentRow.children[i]
-    console.log("cell tag " +cell.tagName)
-    console.log("cell inner " +cell.textContent)
     let input = cell.firstElementChild
     let value = input.value
-    console.log("input tag " +input.tagName)
-    console.log("input tag " +input.className)
 
     editedRecord[recordFields[i-1]]=value
-    console.log("val: "+value)
     cell.removeChild(input)
     cell.textContent=value
-    console.log("val: "+value)
   }
 
 
   let editMessage = {index: index.toString(), editedRecord: JSON.stringify(editedRecord)}
-  console.log("Hellop")
-  console.log(editedRecord)
   const responseEdit = await fetch('/edit', {
     method: 'POST',
     body: JSON.stringify(editMessage)

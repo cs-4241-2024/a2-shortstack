@@ -60,7 +60,7 @@ function handleNewPlayer( request, response ){
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+    // console.log( JSON.parse( dataString ) )
 
     let newRecord = JSON.parse( dataString )
 

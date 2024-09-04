@@ -43,11 +43,11 @@ const incrementScore = function(event) {
 
 };
 const generateTable = function(jsonData) {
-  jsonData.forEach((data) =>createNewRow(data.name, data.clickCount, data.points))
-}
-const createNewRow = function (name, clicks, score) {
   let tableElement = document.getElementById('table')
   tableElement.appendChild(document.createElement('tr')).appendChild(document.createElement('th')).appendChild(document.createTextNode('Name')).parentNode.parentNode.appendChild(document.createElement('th')).appendChild(document.createTextNode('Times Clicked')).parentNode.parentNode.appendChild(document.createElement('th')).appendChild(document.createTextNode('Score'))
+  jsonData.forEach((data) =>createNewRow(data.name, data.clickCount, data.points, tableElement))
+}
+const createNewRow = function (name, clicks, score, tableElement) {
   const row = document.createElement('tr');
   const nameCell = document.createElement('td');
   nameCell.textContent = name;

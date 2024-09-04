@@ -14,7 +14,7 @@ const submit = async function( event ) {
   const response = await fetch( '/submit', {
     method:'POST',
     body 
-  })
+  });
 
   const text = await response.text()
 
@@ -23,7 +23,7 @@ const submit = async function( event ) {
 
 
 document.addEventListener("DOMContentLoaded", function() {
-  const cart = {};
+  let cart = {};
 
   const addToCartForms = document.querySelectorAll(".add-to-cart-form");
 
@@ -48,33 +48,28 @@ document.addEventListener("DOMContentLoaded", function() {
       });
   });
 
+
   function updateCart() {
-      const cartItems = document.getElementById("cart-items");
-      const cartTotal = document.getElementById("cart-total");
+    const cartItems = document.getElementById("cart-items");
+    const cartTotal = document.getElementById("cart-total");
 
-      if (cartItems && cartTotal) {
-        cartItems.innerHTML = "";
-        let total = 0;
+    if (cartItems && cartTotal) {
+      cartItems.innerHTML ="";
+      let total = 0;
 
-        for (const [name, item] of Object.entries(cart)) {
+      for (const [name, item] of Object.entries(cart)) {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
 
-          const itemTotal = item.price * item.quantity; 
-          total += itemTotal;
-        
-          const listItem = document.createElement("li");
-          listItem.textContent = `${name} - $${item.price.toFixed(2)} x ${item.quantity} = $${itemTotal.toFixed(2)}`;
+        const listItem = document.createElement('li');
+        listItem.textContent = `${name} - $${item.price.toFixed(2)} x ${item.quantity} = $${itemTotal.toFixed(2)}`;
         cartItems.appendChild(listItem);
-        }
-
-        cartTotal.textContent = `Total: $${total.toFixed(2)}`;
-
-        window.cartTotal = total;
       }
+
+      cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+      window.cartTotal = total;
+    }
   }
-
-
-
-
 
   const contactForm = document.getElementById('contactForm');
       if (contactForm) {
@@ -95,11 +90,23 @@ document.addEventListener("DOMContentLoaded", function() {
           const basePrice = window.cartTotal || 0;
           const deliveryFee = 5.00;
           const taxRate = 0.07;
-          const totalPrice = (basePrice + deliveryFee) * (1 + taxRate);
+          const totalPrice = (basePrice *( 1 + taxRate)) + deliveryFee;
+          const taxPrice = (basePrice * (1 + taxRate)) - basePrice;
+
+          const confirmBasePrice = document.getElementById('confirm-food');
+          if(confirmBasePrice) {
+            confirmBasePrice.textContent = `$${basePrice.toFixed(2)}`;
+          }
+
 
           const confirmPrice = document.getElementById('confirm-price');
           if(confirmPrice) {
             confirmPrice.textContent = `$${totalPrice.toFixed(2)}`;
+          }
+
+          const confirmTax = document.getElementById('confirm-tax');
+          if(confirmTax) {
+            confirmTax.textContent = `$${taxPrice.toFixed(2)}`;
           }
 
           document.querySelector('.contact-form').style.display = 'none';
@@ -120,14 +127,21 @@ document.addEventListener("DOMContentLoaded", function() {
             name: document.getElementById('confirm-phone').value,
             name: document.getElementById('confirm-address').value,
             name: document.getElementById('confirm-instructions').value,
+            taxPrice: document.getElementById('confirm-tax').textContent,
             totalPrice: document.getElementById('confirm-price').textContent,
           };
 
+          cart = {};
+          updateCart();
 
-  console.log('Order Confirmed:', confirmedData);
+          document.querySelector('.confirm-form').style.display = 'none';
+          document.querySelector('.contact-form').style.display = 'block';
 
-  alert('Your order has been placed successfully!');
-  this.reset(); 
+          console.log('Order Confirmed:', confirmedData);
+
+          alert('Your order has been placed successfully!');
+          
+        this.reset(); 
 });
 
       }

@@ -205,29 +205,79 @@
 <div class="confirm-form" style="display:none;">
   <h2>Confirm Your Order</h2>
   <form id="confirmForm">
-      <div class="form-group">
+      <div class="form-group-1">
           <label for="confirm-name">Full Name:</label>
           <input type="text" id="confirm-name" name="confirm-name" readonly>
       </div>
-      <div class="form-group">
+      <div class="form-group-1">
           <label for="confirm-phone">Phone Number:</label>
           <input type="tel" id="confirm-phone" name="confirm-phone" readonly>
       </div>
-      <div class="form-group">
+      <div class="form-group-1">
           <label for="confirm-address">Delivery Address:</label>
           <textarea id="confirm-address" name="confirm-address" readonly></textarea>
       </div>
-      <div class="form-group">
+      <div class="form-group-1">
           <label for="confirm-instructions">Special Instructions:</label>
           <textarea id="confirm-instructions" name="confirm-instructions" readonly></textarea>
       </div>
+
       <div class="form-group">
-          <label for="confirm-price">Total Price:</label>
-          <div id="confirm-price" style="font-size: 24px; font-weight: bold;">$0.00</div>
-      </div>
+        <label for="confirm-instructions">Card Information</label>
+        <textarea id="card-info" name="card-info" required></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="confirm-food">Price of Order:</label>
+        <div id="confirm-food" style="font-size: 18px; font-weight: normal;">$0.00</div>
+    </div>
+
+    <div class="form-group">
+        <label for="confirm-tax">Tax:</label>
+        <div id="confirm-tax" style="font-size: 18px; font-weight: normal;">$0.00</div>
+    </div>
+
+    <div class="form-group">
+        <label for="confirm-delivery">Delivery Fee:</label>
+        <div id="confirm-delivery" style="font-size: 18px; font-weight: normal;">$5.00</div>
+    </div>
+
+    <div class="form-group">
+        <label for="confirm-price">Total Price:</label>
+        <div id="confirm-price" style="font-size: 24px; font-weight: bold;">$0.00</div>
+    </div>
+
+
+
       <button type="submit">Confirm and Place Order</button>
   </form>
 </div>
+
+<form id="order-form">
+    <label for="customerName">Customer Name:</label>
+    <input type="text" id="customerName" name="customerName" required>
+    <br><br>
+    <label for="dish">Dish:</label>
+    <input type="text" id="dish" name="dish" required>
+    <br><br>
+  </form>
+
+  <div class="table-container">
+
+    <table id="orders-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Dish Ordered</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+    </table>
+
+  </div>
+
 
 <!-- 
     <div class="form-container">
@@ -239,6 +289,8 @@
 
     </div> -->
 
+    <button id="viewOrders">View All Orders</button>
+    <div id="ordersList"></div>
 
   </body>
 </html>

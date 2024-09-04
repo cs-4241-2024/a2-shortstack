@@ -3,6 +3,10 @@
   <head>
     <title>CS4241 Assignment 2</title>
     <link rel="stylesheet" type="text/css" href="style.css"/>
+    <meta charset="utf-8">
+    <script src="main.js"></script>
+    <!-- get rid of favicon error -->
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
   <body style="background-color:#df91f7;">
     <header>CS4241 Assignment 2</header>
@@ -32,7 +36,10 @@
     <h4>Ranking (1-5 stars): </h4>
     <input type="number" id="title" name="ranking" min="1" max="5" />
 
-    <button onclick="newBook()">submit</button>
+    <button id="newBook">submit</button>
+
+    <h3>Result</h3>
+    <p>Click <a href="results.html">here</a> to go to the results page.</p>
     
 
     <h3>Display</h3>
@@ -45,22 +52,17 @@
     <button onclick="genre()">List</button>
     <h4>List the 5 star books:</h4>
     <button onclick="fiveStars()">List</button>
-    <h4 >Order of authors with the most 5 stars rankings:</h4>
+    <!--Derived one will be Author with the most stars (looks at author name and ranking)-->
+    <h4 >Order of authors with the most stars rankings:</h4>
     <p>Authors who have an equal amount of 5 star books are then ordered alphabetically</p>
     <button onclick="authorWithMostFiveStars()">List</button>
-    <!--Derived one will be Author with the most 5 stars (looks at author name and ranking)-->
+    
 
     <h3>Delete Entry</h3>
 
     <h4>Title:</h4>
-
-    <h4>Author:</h4>
-
-    <h4>Year Published:</h4>
-
-    <h4>Genre:</h4>
-
-    <h4>Ranking (1-5 stars): </h4>
+    <!--not sure what the best way to go about this is-->
+    <input type="text" id="delTitle" name="delTitle" required minlength="1" required maxlength="40" size="30" />
 
     <button onclick="deleteBook()">delete</button>
 

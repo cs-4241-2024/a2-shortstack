@@ -9,9 +9,9 @@ const http = require( 'http' ),
       port = 3000
 
 const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+  { 'title': 'cat in the hat', 'author': 'mary', 'year': 2023, 'genre':'fantasy','ranking':2},
+  { 'title': 'rymes', 'author': 'jane', 'year': 2030, 'genre':'non-fiction','ranking':2 },
+  { 'title': 'love story', 'author': 'lisa', 'year': 2014, 'genre':'romance','ranking':2} 
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -32,7 +32,7 @@ const handleGet = function( request, response ) {
   }
 }
 
-const handlePost = function( request, response ) {
+const handlePost = function( request, response ) { //would do to display data as well
   let dataString = ''
 
   request.on( 'data', function( data ) {
@@ -43,6 +43,7 @@ const handlePost = function( request, response ) {
     console.log( JSON.parse( dataString ) )
 
     // ... do something with the data here!!!
+    console.log(dataString)
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end('test')

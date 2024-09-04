@@ -5,9 +5,9 @@ const dir = 'public/';
 const port = 3000;
 
 let appdata = [
-  { model: 'toyota', year: 1999, mpg: 23, age: new Date().getFullYear() - 1999 },
-  { model: 'honda', year: 2004, mpg: 30, age: new Date().getFullYear() - 2004 },
-  { model: 'ford', year: 1987, mpg: 14, age: new Date().getFullYear() - 1987 }
+  { name: 'Assignment 1', points: 100, score: 90, difficulty: 5 },
+  { name: 'Assignment 2', points: 50, score: 45, difficulty: 3 },
+  { name: 'Assignment 3', points: 75, score: 70, difficulty: 7 }
 ];
 
 const server = http.createServer(function(request, response) {
@@ -15,6 +15,10 @@ const server = http.createServer(function(request, response) {
     handleGet(request, response);
   } else if (request.method === 'POST') {
     handlePost(request, response);
+  } else if (request.method === 'PUT') {
+    handlePut(request, response);
+  } else if (request.method === 'DELETE') {
+    handleDelete(request, response);
   }
 });
 
@@ -40,12 +44,36 @@ const handlePost = function(request, response) {
 
   request.on('end', function() {
     const data = JSON.parse(dataString);
-    data.age = new Date().getFullYear() - data.year;
     appdata.push(data);
 
-    response.writeHead(200, 'OK', { 'Content-Type': 'text/plain' });
-    response.end('Data added');
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(appdata));
   });
+};
+
+const handlePut = function(request, response) {
+  const index = parseInt(request.url.split('/').pop(), 10);
+  let dataString = '';
+
+  request.on('data', function(data) {
+    dataString += data;
+  });
+
+  request.on('end', function() {
+    const data = JSON.parse(dataString);
+    appdata[index] = data;
+
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(appdata));
+  });
+};
+
+const handleDelete = function(request, response) {
+  const index = parseInt(request.url.split('/').pop(), 10);
+  appdata.splice(index, 1);
+
+  response.writeHead(200, { 'Content-Type': 'application/json' });
+  response.end(JSON.stringify(appdata));
 };
 
 const sendFile = function(response, filename) {

@@ -1,8 +1,14 @@
 // public/js/main.js
 
-// Function to add a task
+// Function to add a task with confirmation
 document.getElementById('addTaskForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  // Confirmation popup for adding a task
+  if (!confirm('Are you sure you want to add this task?')) {
+    return; // Exit if the user cancels
+  }
+
   const taskName = document.getElementById('taskName').value;
   const dueDate = document.getElementById('dueDate').value;
   const priority = document.getElementById('priority').value;
@@ -17,9 +23,15 @@ document.getElementById('addTaskForm').addEventListener('submit', async (e) => {
   displayTasks(data);
 });
 
-// Function to modify a task
+// Function to modify a task with confirmation
 document.getElementById('modifyTaskForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  // Confirmation popup for modifying a task
+  if (!confirm('Are you sure you want to modify this task?')) {
+    return; // Exit if the user cancels
+  }
+
   const oldTaskName = document.getElementById('oldTaskName').value;
   const newTaskName = document.getElementById('newTaskName').value;
   const dueDate = document.getElementById('newDueDate').value;
@@ -35,8 +47,13 @@ document.getElementById('modifyTaskForm').addEventListener('submit', async (e) =
   displayTasks(data);
 });
 
-// Function to delete a task
+// Function to delete a task with confirmation
 async function deleteTask(taskName) {
+  // Confirmation popup for deleting a task
+  if (!confirm(`Are you sure you want to delete the task "${taskName}"?`)) {
+    return; // Exit if the user cancels
+  }
+
   const response = await fetch('/delete', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

@@ -1,18 +1,70 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
-    <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    
-    <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  </head>
-  <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
+
+<head>
+  <title>CS4241 Assignment 2</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- get rid of favicon error -->
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>SHAPE MATCH</h1>
+    <h3>Score: <span id="score"></span></h3>
+    <span id="error">Try Again</span>
+    <button class="play-btn">Play Again</button>
+    <br></br>
+    <button class="end-btn">End Game</button>
+    <form id="form">
+      <input type="text" id="name" placeholder="Enter your name" required>
+      <button id="submitName">Submit</button>
     </form>
-  </body>
+    <p>Drag the colorful shapes into the matching holes!</p>
+  </header>
+
+  <div class="drop-section">
+    <div class="drop square" id="shape1"></div>
+    <div class="drop rectangle" id="shape2"></div>
+    <div class="drop circle" id="shape3"></div>
+    <div class="drop square2" id="shape4"></div>
+    <div class="drop oval2" id="shape5"></div>
+    <div class="drop rectangle2" id="shape6"></div>
+    <div class="drop rectangle3" id="shape7"></div>
+    <div class="drop pill" id="shape8"></div>
+    <div class="drop oval" id="shape9"></div>
+    <div class="drop pill2" id="shape10"></div>
+  </div>
+
+  <div class="drag-section">
+    <div class="square" draggable="true"></div>
+    <div class="rectangle" draggable="true"></div>
+    <div class="circle" draggable="true"></div>
+    <div class="square2" draggable="true"></div>
+    <div class="oval2" draggable="true"></div>
+    <div class="rectangle2" draggable="true"></div>
+    <div class="rectangle3" draggable="true"></div>
+    <div class="pill" draggable="true"></div>
+    <div class="oval" draggable="true"></div>
+    <div class="pill2" draggable="true"></div>
+  </div>
+
+  <div class="listscore">
+    <div class="container">
+      <h2 style="color: cadetblue;">Best Score</h2>
+      <button id="reset">Reset Scores</button>
+    </div>
+    <ul class="List">
+
+    </ul>
+  </div>
+
+</body>
+
+<script src="/js/main.js"></script>
+
 </html>

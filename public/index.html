@@ -1,18 +1,54 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
-    <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    
-    <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  </head>
-  <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
-    </form>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Weekly Todo List</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<h1>Weekly Todo List</h1>
+
+
+<form id="addTaskForm">
+    <input type="text" id="taskName" placeholder="Task Name" required>
+    <input type="date" id="dueDate" required>
+    <select id="priority">
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+    </select>
+    <button type="submit">Add Task</button>
+</form>
+
+
+<form id="modifyTaskForm">
+    <input type="text" id="oldTaskName" placeholder="Task to Modify" required>
+    <input type="text" id="newTaskName" placeholder="New Task Name" required>
+    <input type="date" id="newDueDate" required>
+    <select id="newPriority">
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+    </select>
+    <button type="submit">Modify Task</button>
+</form>
+
+<h2>Current Tasks</h2>
+<table id="taskTable">
+    <thead>
+    <tr>
+        <th>Task Name</th>
+        <th>Due Date</th>
+        <th>Priority</th>
+        <th>Days Remaining</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="taskTableBody">
+    </tbody>
+</table>
+
+<script src="/js/main.js"></script>
+</body>
 </html>

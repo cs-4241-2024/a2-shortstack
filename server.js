@@ -8,8 +8,8 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
+let appdata = [
+  { 'item': 'apple', 'subtotal': 1.99, 'total': "subtotal" * 1.0625 },
   { 'model': 'honda', 'year': 2004, 'mpg': 30 },
   { 'model': 'ford', 'year': 1987, 'mpg': 14} 
 ]
@@ -40,12 +40,15 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
-
+    const data = JSON.parse( dataString )
+    appdata.push(data);
+    console.log(appdata);
     // ... do something with the data here!!!
+    
+    // ... and then add it to appdata
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end( JSON.stringify( appdata ) )
   })
 }
 

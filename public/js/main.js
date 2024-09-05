@@ -13,15 +13,19 @@ const submit = async function( event ) {
 
   const response = await fetch( '/submit', {
     method:'POST',
-    body 
+    body
   })
 
-  const text = await response.text()
-
+  const text = await response.json()
+  
+  const element = document.createElement('p')
+  element.innerHTML = `<a href="http://wpi.edu"> ${text[0].year} </a>`
+  document.body.appendChild( element )
+  
   console.log( 'text:', text )
 }
 
 window.onload = function() {
-   const button = document.querySelector("button");
+  const button = document.querySelector("button");
   button.onclick = submit;
 }

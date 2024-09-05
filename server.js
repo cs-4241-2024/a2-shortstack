@@ -101,6 +101,17 @@ const handlePost = function( request, response ) {
       response.end(JSON.stringify( appdata ) )
     }
 
+    } else if (data.task === "display") {
+      const rowCount = appdata.length;
+      if (rowCount>0) {//success
+        console.log("displaying table");
+        response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+        response.end(JSON.stringify(appdata)) 
+      } else {
+        console.log("no rows in the table");
+        response.writeHead( 400, "Bad Request", {'Content-Type': 'text/plain' })
+        response.end(JSON.stringify( appdata))
+      }
     }
     
     

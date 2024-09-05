@@ -39,11 +39,6 @@ const submit = async function( event ) {
     }
   
     const text = await response.json()
-    
-    const element = document.createElement('p')
-    //element.innerHTML = `<a href="http://wpi.edu"> ${text[2].title} </a>`
-    document.body.appendChild( element )
-    
     console.log( 'text:', text)
   }
 
@@ -56,7 +51,7 @@ const submit = async function( event ) {
     event.preventDefault()
     
     const input = document.querySelector( '#delTitle');
-    const input2 = "delete"
+    const input2 = "delete",
           json = { "title": input.value, "task":input2},
           body = JSON.stringify( json )
   
@@ -80,20 +75,61 @@ const submit = async function( event ) {
       //I will update the status or a pop up thing with ID so it won't add to it since it's incorrect
     }
   
-    const text = await response.json()
-    
-    const element = document.createElement('p')
-    //element.innerHTML = `<a href="http://wpi.edu"> ${text[2].title} </a>`
-    document.body.appendChild( element )
-    
+    const text = await response.json()  
     console.log( 'text:', text)
   }
+
+  const displayer = async function( event ) {
+    event.preventDefault()
+
+    const input = "display",
+          json = {"task":input},
+          body = JSON.stringify( json )
   
-  window.onload = function() {
+    const response = await fetch( '/displayer', {
+      method:'POST',
+      body
+    })
+    if (response.status==200) {//request successful
+
+    } else if (response.status==400) {
+      //no data to display
+    }
+    const text = await response.json()
+
+    
+    //element.innerHTML = `<a href="http://wpi.edu"> ${text[2].title} </a>`
+    while (tableBody.rows.length > 0) {
+      tableBody.deleteRow(0);//clearing the table rows to rewrite
+    }
+    for (let i=0;i<text.length;i++) {
+      // Create a new row
+      let row = document.createElement('tr');
+
+      for (const key in text[i]) {
+        let cell = document.createElement('td');
+        cell.textContent = text[i][key]; // Set the content of the cell
+        row.appendChild(cell);
+      }
+      tableBody.appendChild(row);
+    }
+      
+      
+
+  
+    console.log('text:',"display cllicked");
+
+  }
+  
+  window.onload = function() {//learned if there is an uncaught error in this then the rest won't be run
+    const displayButton = document.querySelector("#display");
+    displayButton.onclick = displayer;
     const newBookButton = document.querySelector("#newBook");
     newBookButton.onclick = submit;
     const deleteBookButton = document.querySelector("#deleteBook");
     deleteBookButton.onclick = deleter;
+
+    
 
     const tableBody = document.getElementById('tableBody');
     

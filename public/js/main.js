@@ -16,9 +16,14 @@ const submit = async function( event ) {
     body 
   })
 
-  const text = await response.text()
-
-  console.log( 'text:', text )
+  const data = await response.json()
+  data.map(item => item.model)
+      .map(item => item[0].toUpperCase() + item.slice(3))
+      .forEach(item => {
+          const li = document.createElement('li')
+          li.innerText = item
+          ul.appendChild(li)
+  })
 }
 
 window.onload = function() {

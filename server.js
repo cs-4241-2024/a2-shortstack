@@ -8,11 +8,11 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'title': 'cat in the hat', 'author': 'mary', 'year': 2023, 'genre':'fantasy','ranking':2},
-  { 'title': 'rymes', 'author': 'jane', 'year': 2030, 'genre':'non-fiction','ranking':2 },
-  { 'title': 'love story', 'author': 'lisa', 'year': 2014, 'genre':'romance','ranking':2} 
-]
+      let appdata = [
+        { 'title': 'cat in the hat', 'author': 'mary', 'year': 2023, 'genre':'fantasy','ranking':2},
+        { 'title': 'rhymes', 'author': 'jane', 'year': 2030, 'genre':'non-fiction','ranking':2 },
+        { 'title': 'love story', 'author': 'lisa', 'year': 2014, 'genre':'romance','ranking':2} 
+      ]
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
@@ -22,8 +22,8 @@ const server = http.createServer( function( request,response ) {
   }
 })
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
+const handleGet = function( request, response ) {//figure out if this GET request is requesting for data probabbly other ways to do without changing get
+  const filename = dir + request.url.slice( 1 ) //page loading, setting data <-- other stuff I could add if I desire
 
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
@@ -32,7 +32,7 @@ const handleGet = function( request, response ) {
   }
 }
 
-const handlePost = function( request, response ) { //would do to display data as well
+const handlePost = function( request, response ) {
   let dataString = ''
 
   request.on( 'data', function( data ) {
@@ -40,13 +40,70 @@ const handlePost = function( request, response ) { //would do to display data as
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+    const data = JSON.parse( dataString )
 
-    // ... do something with the data here!!!
-    console.log(dataString)
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    if (data.task==="add") {
+      // ... do something with the data here!!!
+    newData = {
+      title: data.title,
+      author: data.author,
+      year: data.year,
+      genre: data.genre,
+      ranking: data.ranking,
+    }
+    // ... and then add it to appdata
+    let add = 1;
+    const rowCount = appdata.length;
+    for (let i=0;i<rowCount;i++) {
+      if (appdata[i].title === newData.title) {
+        add = 0;
+      }
+    }
+    if (newData.title==="") {//title is empty and trying to add
+      add = 0;
+    }
+    if (add == 1) {
+      console.log("added to table");
+      appdata.push(newData);
+      console.log(appdata);
+      response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+      response.end(JSON.stringify(appdata)) //obj:1
+    }
+    else if (add==0) {
+      console.log("couldn't add to table");
+      response.writeHead( 400, "Bad Request", {'Content-Type': 'text/plain' })
+      response.end(JSON.stringify( appdata ) )
+    }
+
+    } else if (data.task === "delete") {
+      let del = 0;
+      let row = 0;
+    const rowCount = appdata.length;
+    for (let i=0;i<rowCount;i++) {
+      //console.log('Found matching item:', appdata[i]);
+      if (appdata[i].title === data.title) {
+        del = 1;
+        row = i;
+      }
+    }
+  
+
+    if (del == 1) {
+      console.log("deleted from table");
+      appdata.splice(row, 1);
+      response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+      response.end(JSON.stringify(appdata)) //obj:1
+    }
+    else if (del==0) {
+      console.log("couldn't delete from table");
+      response.writeHead( 400, "Bad Request", {'Content-Type': 'text/plain' })
+      response.end(JSON.stringify( appdata ) )
+    }
+
+    }
+    
+    
   })
 }
 

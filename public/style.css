@@ -1,0 +1,22 @@
+
+header {
+    color:#000000;
+}
+h3 {
+    color:#523BED;
+}
+
+input {
+    display:inline-block;
+}
+.field {
+    display:inline-block;
+}
+.message {
+    display:inline-block;
+    visibility:hidden;
+    color:rgb(231, 55, 55);
+}
+th, td {
+    padding: 15px;
+  }

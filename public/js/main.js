@@ -3,23 +3,67 @@
 (function () {
   let selected;
   let score = 0;
+  let isGameStarted = false;
   const dropZones = document.querySelectorAll(".drop");
   const startGameBtn = document.querySelector(".play-btn");
   const endGamebtn = document.querySelector(".end-btn");
   const errorMsg = document.querySelector("#error");
   const scoreDisplay = document.querySelector("#score");
-  const submitname = document.querySelector("#submitname");
+  const nameInput = document.querySelector("#name");
+
+  const disableDragAndDrop = () => {
+    document.querySelectorAll('.drag-section div').forEach((item) => {
+      item.setAttribute('draggable', false);
+    });
+  };
+
+  const enableDragAndDrop = () => {
+    document.querySelectorAll('.drag-section div').forEach((item) => {
+      item.setAttribute('draggable', true);
+    });
+  };
 
   const startGame = () => {
     window.location.reload();
+    isGameStarted = true;
+    enableDragAndDrop();
+    // window.location.reload();
   };
+
+  const checkIfNameExists = () => {
+    const playerName = nameInput.value.trim();
+
+    if (!playerName) {
+      errorMsg.style.display = "inline";
+      errorMsg.style.opacity = 100;
+      errorMsg.innerText = "Please enter your name";
+      return;
+    }
+    errorMsg.style.display = "none";
+  }
+
+  const handleNameInput = (e) => {
+    const playerName = nameInput.value.trim();
+
+    if (playerName && !isGameStarted) {
+      isGameStarted = true;
+      enableDragAndDrop();
+      errorMsg.style.display = "none";
+    } else if (!playerName) {
+      isGameStarted = false;
+      disableDragAndDrop();
+      errorMsg.style.opacity = 100;
+      errorMsg.innerText = "Please enter your name to play";
+    }
+  }
 
   const endGame = () => {
     errorMsg.style.display = "none";
     startGameBtn.style.display = "inline";
     addScore();
-    document.querySelector(".drag-section").style.border = "none";
     endGamebtn.style.display = "none";
+    isGameStarted = false;
+    disableDragAndDrop();
   };
 
   const addScore = () => {
@@ -85,6 +129,10 @@
   document.querySelector("#form").addEventListener("submit", handleSubmitName);
 
   const handleDrop = (e) => {
+    if (!isGameStarted) {
+      return;
+    }
+
     if (document.querySelector(".drag-section").childElementCount === 1) {
       // Calls end condition if all the shapes are matched 
       endGame();
@@ -99,16 +147,22 @@
       return;
     } else if (score === 0) {
       // Condition to not get a negative score
+      errorMsg.innerText = "Wrong shape!";
       errorMsg.style.opacity = 100; // Shows the error message
       return;
     }
     // Handles the wrong dropped shape: Decrement score
     errorMsg.style.opacity = 100;
+    errorMsg.style.display = "inline";
+    errorMsg.innerText = "Wrong shape!";
     score--;
     document.querySelector('#score').innerText = score;
   };
 
   const handleDragStart = (e) => {
+    if (!isGameStarted) {
+      return;
+    }
     selected = e.target;
     e.target.style.opacity = 0.5;
   };
@@ -152,6 +206,8 @@
   scoreDisplay.innerText = score;
 
   // Initialize the game
+  disableDragAndDrop();
+  nameInput.addEventListener("input", handleNameInput);
   $(".play-btn").click(startGame);
   $(".end-btn").click(endGame);
 
@@ -175,6 +231,7 @@
   $(document).ready(function (e) {
     shuffle();
     showScore();
+    checkIfNameExists();
   });
 
 })();

@@ -9,9 +9,9 @@ const http = require( 'http' ),
       port = 3000
 
 const appdata = [
-  { 'To Do': 'Webware HW', 'Priority': 1},
-  { 'To Do': 'PQP prep', 'Priority': 2},
-  { 'To Do': 'Ask WICS Chord question', 'Priority': 3} 
+  { 'ToDo': 'Webware HW', 'Priority': '1'},
+  { 'ToDo': 'PQP prep', 'Priority': '2'},
+  { 'ToDo': 'Ask WICS Chord question', 'Priority': '3'} 
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -40,12 +40,17 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+    console.log("hi")
+    //console.log( JSON.parse( dataString ) )
+
+    appdata.push(JSON.parse( dataString ))
+    console.log(appdata)
 
     // ... do something with the data here!!!
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.write(JSON.stringify(appdata));
+    response.end()
   })
 }
 

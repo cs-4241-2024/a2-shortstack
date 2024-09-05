@@ -7,8 +7,9 @@ const submit = async function( event ) {
   // remains to this day
   event.preventDefault()
   
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
+  const input = document.querySelector( '#ToDo' )
+  const input2 = document.querySelector( '#priority' ),
+        json = { ToDo: input.value , priority: input2.value},
         body = JSON.stringify( json )
 
   const response = await fetch( '/submit', {
@@ -16,12 +17,17 @@ const submit = async function( event ) {
     body 
   })
 
-  const text = await response.text()
+  const text = await response.json()
+  const element = document.createElement('li')
+  element.innerHTML= text.stringify
+  document.body.appendChild(element)
 
   console.log( 'text:', text )
+  //call the ul and add the entries using li
 }
 
 window.onload = function() {
-   const button = document.querySelector("button");
+  const button = document.querySelector("button");
   button.onclick = submit;
+ // button.click();
 }

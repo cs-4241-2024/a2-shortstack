@@ -1,29 +1,42 @@
 body {
-  background-color:rgb(12, 235, 216);
-  color:white;
+  background-color: rgb(12, 235, 216);
+  color: white;
 }
 
 h1 {
   text-align: center;
   margin: 50px;
   color: #7541D9;
-  font-family: Nerko;
+  font-family: Nerko, sans-serif;
   font-size: 300%;
   border: 2px solid #7541D9;
 }
 
-button {
-  width: 100px;
-  margin:150px auto 0;
-  text-align: center;
-  padding: 10px 0;
-  cursor: pointer;
-  position: relative;
+h2 {
   color: #7541D9;
-} 
+  font-family: Nerko, sans-serif;
+  font-size: 200%;
+}
 
-.vertical-form {
+form.vertical-form {
   display: flex;
   flex-direction: column;
-  gap: 10px; 
+  align-items: center; /* Center the elements horizontally */
+  gap: 10px; /* Optional: Adds space between the elements */
+  margin: 0 auto; /* Center the form within the body */
+}
+
+input[type="text"] {
+  padding: 10px;
+  width: 200px; /* Set a consistent width for the inputs */
+}
+
+button {
+  width: 100px;
+  padding: 10px 0;
+  cursor: pointer;
+  color: #7541D9;
+  background-color: white; /* Optional: Adds background color for contrast */
+  border: none; /* Removes default border */
+  border-radius: 5px; /* Optional: Rounds the corners of the button */
 }

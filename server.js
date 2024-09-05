@@ -43,6 +43,9 @@ const handlePost = function( request, response ) {
     console.log( JSON.parse( dataString ) )
 
     // ... do something with the data here!!!
+    const ul = document.getElementById("ul")
+    ul.appendChild(document.createElement("li"), {textContent: JSON.stringify( dataString)})
+    
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end('test')

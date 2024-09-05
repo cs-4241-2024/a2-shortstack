@@ -1,4 +1,18 @@
 body {
+  background:rgba(148, 193, 239, 0.708);
+  color:black;
+  margin: 0 auto;
+  max-width: 50em;
+  text-align: center;
+}
+
+button {
   background:black;
   color:white;
+  border: 5px solid violet;
+}
+
+div {
+  font: 100px thick;
+  color:gold;
 }

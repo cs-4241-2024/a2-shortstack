@@ -28,7 +28,7 @@ window.onload = function () {
 
 // Set up race track
 const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
 const size = window.innerHeight;
 canvas.width = size;
@@ -51,6 +51,11 @@ const carLenght = size / 16;
 // Draw racecar
 const racecar = document.getElementById("racecar");
 ctx.drawImage(racecar, x, y, size / 8, size / 16);
+
+// Draw timer
+ctx.fillStyle = "Black";
+ctx.font = "30px serif";
+ctx.fillText("0.00", 10, 30);
 
 // Store inputs
 let forward = false,
@@ -101,6 +106,9 @@ document.addEventListener("keyup", (e) => {
   }
 });
 
+// Timer
+let startTime = Date.now();
+
 // Game running function
 const run = () => {
   if (right && !left) {
@@ -118,13 +126,33 @@ const run = () => {
   x += velocity * Math.cos(direction);
   y += velocity * Math.sin(direction);
 
+  // Draw grass
+  ctx.fillStyle = "#2ab50b";
   ctx.fillRect(0, 0, size, size);
+
+  // Draw track
   ctx.drawImage(racetrack, 0, 0, size, size);
 
+  // Check for car being on grass, if so slow down
+  const data = ctx.getImageData(x + carWidth / 2, y + carLenght / 2, 1, 1).data;
+  if (data[0] == 42) {
+    if (velocity > 1) {
+      velocity -= 0.8;
+    } else if (velocity < -1) {
+      velocity += 0.8;
+    }
+  }
+
+  // Draw car
   ctx.translate(x + carWidth / 2, y + carLenght / 2);
   ctx.rotate(direction);
   ctx.drawImage(racecar, -carWidth / 2, -carLenght / 2, carWidth, carLenght);
   ctx.resetTransform();
+
+  // Draw timer
+  ctx.fillStyle = "Black";
+  let time = Math.floor((Date.now() - startTime) / 100) / 10;
+  ctx.fillText(time + (time % 1 == 0 ? ".0" : ""), 10, 30);
 
   requestAnimationFrame(run);
 };

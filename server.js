@@ -194,6 +194,35 @@ const handlePost = function( request, response ) {
         } else if (data.row==4) {
           appdata[data.col].ranking = Number(data.newVal);
           change = 1;
+          //gotta do derivied part
+      let arrayStars = [];
+      for (let i=0;i<appdata.length;i++) {
+        //row
+        let rowAuthor = appdata[i].author;
+        let rowStar = appdata[i].ranking;
+  
+        for (let j=0;j<appdata.length;j++) {
+          if (!(i==j) && rowAuthor===appdata[j].author) {
+            rowStar = rowStar + appdata[j].ranking;
+          }
+        }
+        arrayStars.push(rowStar);
+      }
+      //let arrayStar = [];
+      for (let i=0;i<arrayStars.length;i++) {
+        let num = 1;
+        let arrayAbove = []
+        for (let j=0;j<arrayStars.length;j++) {
+          
+          //compare with the others in the list and making sure the ones with the same amount of stars in not counted twice
+          if (!(i==j) &&arrayStars[j]>arrayStars[i] && !(arrayAbove.includes(arrayStars[j]))) {
+            arrayAbove.push(arrayStars[j]);
+            num = num + 1;
+          }
+        }
+        appdata[i].authorStars = num;//correctly placing the right number
+      }
+      //gotta do derivied part
 
         }
       } else if (data.col<5 && data.col>=0) {

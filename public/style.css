@@ -19,6 +19,7 @@ input {
 }
 th, td {
     padding: 15px;
+    flex-basis:auto;
   }
 table {
     margin:auto;

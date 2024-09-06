@@ -7,19 +7,19 @@ const submit = async function( event ) {
   // remains to this day
   event.preventDefault()
   
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
+  const input = document.querySelector( '#user_name' ),
+        json = { name: input.value },
         body = JSON.stringify( json )
 
   const response = await fetch( '/submit', {
     method:'POST',
-    body 
+    body
   })
 
   const data = await response.json()
   const ul = document.querySelector('ul')
   ul.innerHTML=''
-  data.map( item => item )
+  data.map( item => item.activity )
       .map( item => item[0].toUpperCase() + item.slide(1))
       .forEach(item=> {
       const li = document.createElement('li')
@@ -36,6 +36,6 @@ const submit = async function( event ) {
 }
 
 window.onload = function() {
-   const button = document.querySelector("button");
-  button.onclick = submit;
+   const button = document.querySelector("submit");
+    button.onclick = submit;
 }

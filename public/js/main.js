@@ -54,8 +54,13 @@ ctx.drawImage(racecar, x, y, size / 8, size / 16);
 
 // Draw timer
 ctx.fillStyle = "Black";
-ctx.font = "30px serif";
-ctx.fillText("0.00", 10, 30);
+ctx.font = "25px serif";
+ctx.fillText("0.0", 10, 30);
+
+// Draw status text
+let statusText =
+  "Use WASD or arrow keys to reach the checkpoint at the bottom of the map.";
+ctx.fillText(statusText, 10, size - 10);
 
 // Store inputs
 let forward = false,
@@ -63,8 +68,19 @@ let forward = false,
   right = false,
   left = false;
 
+// Timer
+let startTime = 0;
+let prevLap = 0;
+
 // Add input listeners
 document.addEventListener("keydown", (e) => {
+  // Check if race is not started, if not, start race
+  if (startTime == 0) {
+    startTime = Date.now();
+    prevLap = startTime;
+    requestAnimationFrame(run);
+  }
+
   switch (e.key) {
     case "ArrowUp":
     case "w":
@@ -106,11 +122,25 @@ document.addEventListener("keyup", (e) => {
   }
 });
 
-// Timer
-let startTime = Date.now();
+// Lap controls
+const lapTimes = [];
+let checkpoint = false;
 
 // Game running function
 const run = () => {
+  // Check for crossing checkpoint and lap
+  if (!checkpoint && y > (size * 3) / 4) {
+    statusText = "Checkpoint reached!";
+    checkpoint = true;
+  } else if (checkpoint && y < size / 8 && x > size / 3) {
+    checkpoint = false;
+    const lapTime = Date.now();
+    lapTimes.push(lapTime - prevLap);
+    statusText =
+      "Lap " + lapTimes.length + " time: " + (lapTime - prevLap) / 1000;
+    prevLap = lapTime;
+  }
+
   if (right && !left) {
     direction += 0.02;
   } else if (left && !right) {
@@ -137,9 +167,9 @@ const run = () => {
   const data = ctx.getImageData(x + carWidth / 2, y + carLenght / 2, 1, 1).data;
   if (data[0] == 42) {
     if (velocity > 1) {
-      velocity -= 0.8;
+      velocity -= 0.5;
     } else if (velocity < -1) {
-      velocity += 0.8;
+      velocity += 0.5;
     }
   }
 
@@ -154,8 +184,8 @@ const run = () => {
   let time = Math.floor((Date.now() - startTime) / 100) / 10;
   ctx.fillText(time + (time % 1 == 0 ? ".0" : ""), 10, 30);
 
-  requestAnimationFrame(run);
-};
+  // Draw status text
+  ctx.fillText(statusText, 10, size - 10);
 
-// Start race
-requestAnimationFrame(run);
+  if (lapTimes.length < 3) requestAnimationFrame(run);
+};

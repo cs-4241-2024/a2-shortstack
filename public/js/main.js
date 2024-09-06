@@ -122,7 +122,7 @@ let lapTimes = [];
 let checkpoint = false;
 
 // Game running function
-const run = () => {
+const run = async () => {
   // If start time is 0, the stage was reset
   if (startTime == 0) return;
 
@@ -169,7 +169,7 @@ const run = () => {
   if (lapTimes.length < 3) requestAnimationFrame(run);
   else {
     // Submit time
-    fetch("/submit", {
+    await fetch("/submit", {
       method: "POST",
       body: JSON.stringify(lapTimes),
     });
@@ -212,8 +212,8 @@ const setupTable = async () => {
 
     const deleteButton = document.createElement("button");
     deleteButton.innerHTML = "Delete";
-    deleteButton.onclick = () => {
-      fetch("/delete", {
+    deleteButton.onclick = async () => {
+      await fetch("/delete", {
         method: "DELETE",
         body: i,
       });
@@ -224,8 +224,8 @@ const setupTable = async () => {
 
     const shuffleButton = document.createElement("button");
     shuffleButton.innerHTML = "Shuffle";
-    shuffleButton.onclick = () => {
-      fetch("/shuffle", {
+    shuffleButton.onclick = async () => {
+      await fetch("/shuffle", {
         method: "POST",
         body: i,
       });

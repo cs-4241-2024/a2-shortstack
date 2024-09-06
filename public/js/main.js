@@ -182,10 +182,14 @@ const setupTable = async () => {
 
   const table = document.getElementById("highscores");
 
-  // Clear table
-  for (let i = 1; i < table.rows.length; i++) {
-    table.deleteRow(i);
-  }
+  // Reset table
+  table.innerHTML = `<tr>
+          <th>Lap 1</th>
+          <th>Lap 2</th>
+          <th>Lap 3</th>
+          <th>Total</th>
+          <th>Options</th>
+        </tr>`;
 
   for (let i = 0; i < data.length; i++) {
     const tableRow = table.insertRow();
@@ -200,7 +204,6 @@ const setupTable = async () => {
     const buttonCell = tableRow.insertCell(4);
 
     const deleteButton = document.createElement("button");
-    deleteButton.className = "delete-button";
     deleteButton.innerHTML = "Delete";
     deleteButton.onclick = () => {
       fetch("/delete", {
@@ -211,6 +214,18 @@ const setupTable = async () => {
       setupTable();
     };
     buttonCell.appendChild(deleteButton);
+
+    const shuffleButton = document.createElement("button");
+    shuffleButton.innerHTML = "Shuffle";
+    shuffleButton.onclick = () => {
+      fetch("/shuffle", {
+        method: "POST",
+        body: i,
+      });
+
+      setupTable();
+    };
+    buttonCell.appendChild(shuffleButton);
 
     // buttonCell.
   }

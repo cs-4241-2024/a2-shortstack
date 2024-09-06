@@ -8,7 +8,12 @@ const http = require("http"),
   dir = "public/",
   port = 3000;
 
-const highscores = [];
+const highscores = [
+  [1, 2, 3, 6],
+  [2, 3, 3, 8],
+  [1.6, 2.2, 3.6, 6],
+  [8, 9, 10, 1],
+];
 
 const server = http.createServer(function (request, response) {
   if (request.method === "GET") {
@@ -41,22 +46,45 @@ const handlePost = function (request, response) {
   });
 
   request.on("end", function () {
-    const raceTime = JSON.parse(dataString);
+    if (request.url === "/shuffle") {
+      // Swap two lap times randomly, for fun
+      const toSwap = Math.floor(Math.random() * 3);
+      const row = parseInt(dataString);
 
-    const raceTotal = raceTime[0] + raceTime[1] + raceTime[2];
-    raceTime.push(raceTotal);
-    highscores.push(raceTime);
+      const temp = highscores[row][toSwap];
+      highscores[row][toSwap] = highscores[row][(toSwap + 1) % 3];
+      highscores[row][(toSwap + 1) % 3] = temp;
 
-    response.writeHead(200, "OK", { "Content-Type": "text/plain" });
-    response.end("Success");
+      response.writeHeader(200, { "Content-Type": "text/plain" });
+      response.end("Success");
+    } else if (request.url === "/submit") {
+      const raceTime = JSON.parse(dataString);
+
+      const raceTotal = raceTime[0] + raceTime[1] + raceTime[2];
+      raceTime.push(raceTotal);
+      highscores.push(raceTime);
+
+      response.writeHead(200, "OK", { "Content-Type": "text/plain" });
+      response.end("Success");
+    }
   });
 };
 
 const handleDelete = function (request, response) {
-  highscores.splice(request.body, 1);
+  let dataString = "";
 
-  response.writeHead(200, "OK", { "Content-Type": "text/plain" });
-  response.end("Success");
+  request.on("data", function (data) {
+    dataString += data;
+  });
+
+  request.on("end", function () {
+    const row = parseInt(dataString);
+
+    highscores.splice(row, 1);
+
+    response.writeHead(200, "OK", { "Content-Type": "text/plain" });
+    response.end("Success");
+  });
 };
 
 const sendFile = function (response, filename) {

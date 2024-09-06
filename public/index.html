@@ -5,24 +5,27 @@
     <meta charset="utf-8">
     <script src="js/main.js"></script>
     <link rel="stylesheet" href="css/main.css">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap" rel="stylesheet">
     <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    
   </head>
   <body>
-    <h1>
+    <h1  class="smallhead">
       D&D 5e Wizard Spell Slot Usage
     </h1>
     <p>
-      Hi there! Enter your Wizard's level to generate the amount of spell slots you have and what levels they are. 
+      Hi there! Enter your Wizard's level (1-20) to generate the amount of spell slots you have and what levels they are. 
       Then, use the buttons below to keep track of how many you've used.
     </p>
     <form>
-      <div>Wizard Level:</div>
-      <input type="number" min="0" max="20" id="wizlvl" value=0>
-      <button>Submit</button>
+      <div class="inl">Wizard Level:</div>
+      <input class="inl" type="number" min="1" max="20" id="wizlvl" value=1>
+      <button class="inl">Submit</button>
     </form>
-    <div>
+    <div class="smallhead">
       Spell Slots:
     </div>
     <table id="table">
@@ -35,7 +38,7 @@
       </tr>
     </table>
     <form>
-      <button margin-top="100px" id="lrest">Long Rest</button>
+      <button id="lrest">Long Rest</button>
     </form>
   </body>
 </html>

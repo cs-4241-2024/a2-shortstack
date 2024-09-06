@@ -261,8 +261,9 @@ const resetStage = () => {
   draw();
 };
 
-// Draw initial scene
-draw();
+// Draw initial scene upon image load
+racecar.onload = () => draw();
+racetrack.onload = () => draw();
 
 // Set up base table
 setupTable();

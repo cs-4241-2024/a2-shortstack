@@ -8,6 +8,7 @@ const http = require("http"),
   dir = "public/",
   port = 3000;
 
+// To aid in testing and grading, these example (but real) times are preloaded on the server.
 const highscores = [
   [18.6, 13.3, 16.7, 48.7],
   [12.5, 12.6, 13.9, 39.1],
@@ -28,6 +29,7 @@ const handleGet = function (request, response) {
   const filename = dir + request.url.slice(1);
 
   if (request.url === "/highscores") {
+    // Get all data from the server
     response.writeHeader(200, { "Content-Type": "text/plain" });
     response.end(JSON.stringify(highscores));
   } else if (request.url === "/") {
@@ -57,6 +59,7 @@ const handlePost = function (request, response) {
       response.writeHeader(200, { "Content-Type": "text/plain" });
       response.end("Success");
     } else if (request.url === "/submit") {
+      // Submit a race time to the server
       const raceTime = JSON.parse(dataString);
 
       const raceTotal = raceTime[0] + raceTime[1] + raceTime[2];
@@ -70,6 +73,7 @@ const handlePost = function (request, response) {
 };
 
 const handleDelete = function (request, response) {
+  // Delete an entry from the server
   let dataString = "";
 
   request.on("data", function (data) {

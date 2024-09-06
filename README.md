@@ -1,3 +1,5 @@
+Emma Pollak - https://a2-empollak.glitch.me/
+
 ## Assignment 2 - Short Stack: Basic Two-tier Web Application using HTML/CSS/JS and Node.js  
 My project is a very simple one-button clicker "game." You can click the button to increase your score, and then enter your name and press submit to submit it to the high scores table.
 You can edit your score by simply writing your name again and pressing submit.

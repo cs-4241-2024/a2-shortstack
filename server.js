@@ -8,7 +8,9 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = []
+const appdata = [
+  { 'name': 'Piper', 'activity': 'Track Practice'}
+]
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {

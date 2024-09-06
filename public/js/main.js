@@ -7,7 +7,7 @@ const submit = async function( event ) {
   // remains to this day
   event.preventDefault()
   
-  const input = document.querySelector( '#user_name' ),
+  const input = document.querySelector( ),
         json = { name: input.value },
         body = JSON.stringify( json )
 
@@ -19,11 +19,11 @@ const submit = async function( event ) {
   const data = await response.json()
   const ul = document.querySelector('ul')
   ul.innerHTML=''
-  data.map( item => item.activity )
-      .map( item => item[0].toUpperCase() + item.slide(1))
+  data.map( item => item.cookie )
+      //.map( item => item[0].toUpperCase() + item.slide(1))
       .forEach(item=> {
       const li = document.createElement('li')
-        li.innerText = item
+        li.innerText = item.cookie
         ul.appendChild(li)
       })
       //.forEach(item=>console.log(item))

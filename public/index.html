@@ -1,18 +1,45 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
-    <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    
-    <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  </head>
-  <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
-    </form>
-  </body>
+    <head>
+        <title>CS4241 Assignment 2</title>
+        <meta charset="utf-8">
+        <script src="js/main.js"></script>
+        <link rel="stylesheet" href="css/main.css">
+        <!-- get rid of favicon error -->
+        <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+        <!-- fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+              rel="stylesheet">
+    </head>
+    <body>
+        <div class="parent-div">
+            <div class="area-block">
+                <p id="first-para" class="disp-element">
+                    Click the button below to increase your score!
+                    <br>
+                    When you are done, enter your name and press submit to submit your high score.
+                    <br>
+                    You can edit your score by entering your name and pressing submit again.
+                </p>
+                <button class="disp-element" id="game-button">Click here!</button>
+                <p>
+                    Your score: <span id="score">0</span>
+                </p>
+            </div>
+            <div class="area-block" id="scores-div">
+                <h1>High Scores</h1>
+                <form>
+                    <input type="text" id="yourname" placeholder="Enter name">
+                    <button id = "submit-button">Submit score</button>
+                    <button id = "delete-button">Delete score</button>
+                </form>
+                <table id = "score_table">
+                    <tbody id = "score_tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
 </html>

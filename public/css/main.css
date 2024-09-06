@@ -1,4 +1,54 @@
 body {
   background:black;
   color:white;
+  font-family: "Comic Neue", cursive;
 }
+
+.parent-div {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.area-block {
+  text-align:center;
+}
+
+/* Adapt for smaller screen */
+@media screen and (max-width:500px) {
+  .parent-div {
+    grid-template-columns: 1fr;
+  }
+}
+
+.disp-element {
+  display:inline;
+}
+
+#game-button {
+  background:cyan;
+  border-color:cyan;
+  font-size:50px;
+  border-width:10px;
+  font-family: "Arial", sans-serif;
+}
+
+h1 {
+  font-family:"Times New Roman", serif;
+}
+
+table {
+  text-align:center;
+  margin:auto;
+  margin-top:10px;
+}
+
+#first-para {
+  padding-top:30px;
+  display:block;
+}
+
+
+
+
+
+

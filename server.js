@@ -9,10 +9,9 @@ const http = require("http"),
   port = 3000;
 
 const highscores = [
-  [1, 2, 3, 6],
-  [2, 3, 3, 8],
-  [1.6, 2.2, 3.6, 6],
-  [8, 9, 10, 1],
+  [18.6, 13.3, 16.7, 48.7],
+  [12.5, 12.6, 13.9, 39.1],
+  [23.8, 21.2, 24.4, 69.5],
 ];
 
 const server = http.createServer(function (request, response) {

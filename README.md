@@ -8,7 +8,7 @@ The derived field calculated by the server is the total time. The client only pa
 
 I chose to use the google font Roboto, which can be seen in my style.css file.
 
-TODO: Include Glitch Link
+Glitch Link: https://a2-eddie048.glitch.me/
 
 ## Technical Achievements
 

@@ -233,8 +233,6 @@ const setupTable = async () => {
       setupTable();
     };
     buttonCell.appendChild(shuffleButton);
-
-    // buttonCell.
   }
 };
 

@@ -13,6 +13,7 @@ const highscores = [
   [18.6, 13.3, 16.7, 48.7],
   [12.5, 12.6, 13.9, 39.1],
   [23.8, 21.2, 24.4, 69.5],
+  [13.3, 10, 11.3, 34.7],
 ];
 
 const server = http.createServer(function (request, response) {

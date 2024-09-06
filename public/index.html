@@ -11,21 +11,31 @@
   </head>
   <body>
     <h1>
-      Wait I'm goated?
+      D&D 5e Wizard Spell Slot Usage
     </h1>
     <p>
-      Hi there! Welcome to my webpage.
+      Hi there! Enter your Wizard's level to generate the amount of spell slots you have and what levels they are. 
+      Then, use the buttons below to keep track of how many you've used.
     </p>
     <form>
-      
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
+      <div>Wizard Level:</div>
+      <input type="number" min="0" max="20" id="wizlvl" value=0>
+      <button>Submit</button>
     </form>
     <div>
-      Goat List:
+      Spell Slots:
     </div>
-    <ul>
-
-    </ul>
+    <table id="table">
+      <tr>
+        <th>Level</th>
+        <th>Total</th>
+        <th>Used</th>
+        <th>Remaining</th>
+        <th>Unlocked?</th>
+      </tr>
+    </table>
+    <form>
+      <button margin-top="100px" id="lrest">Long Rest</button>
+    </form>
   </body>
 </html>

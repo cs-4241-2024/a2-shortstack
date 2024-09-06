@@ -11,7 +11,10 @@ h1{
 
 h3{
   font-family: 'Trebuchet MS', sans-serif;
-  margin-bottom:30px
+  margin-bottom:30px;
+  display:flex;
+  gap:30px;
+  padding:20px;
 }
 
 form{

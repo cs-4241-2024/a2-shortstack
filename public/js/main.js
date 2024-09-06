@@ -1,4 +1,4 @@
-// Set up race track
+// Set up stage
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
@@ -6,11 +6,13 @@ const size = window.innerHeight;
 canvas.width = size;
 canvas.height = size;
 
-ctx.fillStyle = "#2ab50b";
-ctx.fillRect(0, 0, size, size);
-
+// Get images
 const racetrack = document.getElementById("racetrack");
-ctx.drawImage(racetrack, 0, 0, size, size);
+const racecar = document.getElementById("racecar");
+
+// Initial status text
+let statusText =
+  "Use WASD or arrow keys to reach the checkpoint at the bottom of the map.";
 
 // Store racecar values
 let velocity = 0,
@@ -20,19 +22,40 @@ let velocity = 0,
 const carWidth = size / 8;
 const carLenght = size / 16;
 
-// Draw racecar
-const racecar = document.getElementById("racecar");
-ctx.drawImage(racecar, x, y, size / 8, size / 16);
+const draw = () => {
+  // Draw grass
+  ctx.fillStyle = "#2ab50b";
+  ctx.fillRect(0, 0, size, size);
 
-// Draw timer
-ctx.fillStyle = "Black";
-ctx.font = "25px serif";
-ctx.fillText("0.0", 10, 30);
+  // Draw track
+  ctx.drawImage(racetrack, 0, 0, size, size);
 
-// Draw status text
-let statusText =
-  "Use WASD or arrow keys to reach the checkpoint at the bottom of the map.";
-ctx.fillText(statusText, 10, size - 10);
+  // Get racecar position pixel
+  const pixelData = ctx.getImageData(
+    x + carWidth / 2,
+    y + carLenght / 2,
+    1,
+    1
+  ).data;
+
+  // Draw racecar
+  ctx.translate(x + carWidth / 2, y + carLenght / 2);
+  ctx.rotate(direction);
+  ctx.drawImage(racecar, -carWidth / 2, -carLenght / 2, carWidth, carLenght);
+  ctx.resetTransform();
+
+  // Draw timer
+  ctx.fillStyle = "Black";
+  ctx.font = "25px serif";
+  let time =
+    startTime == 0 ? 0 : Math.floor((Date.now() - startTime) / 100) / 10;
+  ctx.fillText(time + (time % 1 == 0 ? ".0" : ""), 10, 30);
+
+  // Draw status text
+  ctx.fillText(statusText, 10, size - 10);
+
+  return pixelData[0] == 42;
+};
 
 // Store inputs
 let forward = false,
@@ -95,11 +118,14 @@ document.addEventListener("keyup", (e) => {
 });
 
 // Lap controls
-const lapTimes = [];
+let lapTimes = [];
 let checkpoint = false;
 
 // Game running function
 const run = () => {
+  // If start time is 0, the stage was reset
+  if (startTime == 0) return;
+
   // Check for crossing checkpoint and lap
   if (!checkpoint && y > (size * 3) / 4) {
     statusText = "Checkpoint reached!";
@@ -128,36 +154,17 @@ const run = () => {
   x += velocity * Math.cos(direction);
   y += velocity * Math.sin(direction);
 
-  // Draw grass
-  ctx.fillStyle = "#2ab50b";
-  ctx.fillRect(0, 0, size, size);
+  // Draw stage
+  const onGrass = draw();
 
-  // Draw track
-  ctx.drawImage(racetrack, 0, 0, size, size);
-
-  // Check for car being on grass, if so slow down
-  const data = ctx.getImageData(x + carWidth / 2, y + carLenght / 2, 1, 1).data;
-  if (data[0] == 42) {
+  // If on grass, slow down
+  if (onGrass) {
     if (velocity > 1) {
       velocity -= 0.5;
     } else if (velocity < -1) {
       velocity += 0.5;
     }
   }
-
-  // Draw car
-  ctx.translate(x + carWidth / 2, y + carLenght / 2);
-  ctx.rotate(direction);
-  ctx.drawImage(racecar, -carWidth / 2, -carLenght / 2, carWidth, carLenght);
-  ctx.resetTransform();
-
-  // Draw timer
-  ctx.fillStyle = "Black";
-  let time = Math.floor((Date.now() - startTime) / 100) / 10;
-  ctx.fillText(time + (time % 1 == 0 ? ".0" : ""), 10, 30);
-
-  // Draw status text
-  ctx.fillText(statusText, 10, size - 10);
 
   if (lapTimes.length < 3) requestAnimationFrame(run);
   else {
@@ -231,4 +238,33 @@ const setupTable = async () => {
   }
 };
 
+const resetStage = () => {
+  // Reset status text
+  statusText =
+    "Use WASD or arrow keys to reach the checkpoint at the bottom of the map.";
+
+  // Reset racecar values
+  velocity = 0;
+  x = size / 3;
+  y = size / 18;
+  direction = 0;
+
+  // Reset lap and checkpoint
+  lapTimes = [];
+  checkpoint = false;
+
+  // Timer
+  startTime = 0;
+  prevLap = 0;
+
+  // Redraw
+  draw();
+};
+
+// Draw initial scene
+draw();
+
+// Set up base table
 setupTable();
+
+document.getElementById("reset").onclick = resetStage;

@@ -9,4 +9,8 @@ exactly matches the input given. CSS positioning techniques used include the use
 - **Single Page Application**: To my knowledge, the application is a single-page app.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: 
+- **UI Test with Other Students**: 
+1. Provide the last name of each student you conduct the evaluation with.
+2. What problems did the user have with your design?
+3. What comments did they make that surprised you?
+4. What would you change about the interface based on their feedback?

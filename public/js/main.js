@@ -16,9 +16,23 @@ const submit = async function( event ) {
     body 
   })
 
-  const text = await response.text()
+  const data = await response.json()
+  const ul = document.querySelector('ul')
+  ul.innerHTML=''
+  data.map( item => item )
+      .map( item => item[0].toUpperCase() + item.slide(1))
+      .forEach(item=> {
+      const li = document.createElement('li')
+        li.innerText = item
+        ul.appendChild(li)
+      })
+      //.forEach(item=>console.log(item))
+  // Take the values the server gives you and make an element out of that!
+    // const element = document.createElement('p')
+    // element.innerHTML='<a href="http://wpi.edu">wpi</a>'
+    // document.body.appendChild(element)
 
-  console.log( 'text:', text )
+  //console.log( 'text:', text )
 }
 
 window.onload = function() {

@@ -1,5 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   display: flex;
   flex-direction: row;
   margin: 0;
+  background-color: #2ab50b;
+}
+
+.score-page {
+  margin: 2rem;
+  padding: 2rem;
+  background-color: #d0d0d0;
+  border-radius: 1rem;
+  width: 100%;
+  text-align: center;
+}
+
+#highscores {
+  background-color: #eaeaea;
+  width: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #fd6015;
+  color: white;
 }

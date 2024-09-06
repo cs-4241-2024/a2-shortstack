@@ -8,11 +8,7 @@ const http = require("http"),
   dir = "public/",
   port = 3000;
 
-const appdata = [
-  { model: "toyota", year: 1999, mpg: 23 },
-  { model: "honda", year: 2004, mpg: 30 },
-  { model: "ford", year: 1987, mpg: 14 },
-];
+const highscores = [];
 
 const server = http.createServer(function (request, response) {
   if (request.method === "GET") {
@@ -25,7 +21,10 @@ const server = http.createServer(function (request, response) {
 const handleGet = function (request, response) {
   const filename = dir + request.url.slice(1);
 
-  if (request.url === "/") {
+  if (request.url === "/highscores") {
+    response.writeHeader(200, { "Content-Type": "text/plain" });
+    response.end(JSON.stringify(highscores));
+  } else if (request.url === "/") {
     sendFile(response, "public/index.html");
   } else {
     sendFile(response, filename);
@@ -40,12 +39,14 @@ const handlePost = function (request, response) {
   });
 
   request.on("end", function () {
-    console.log(JSON.parse(dataString));
+    const raceTime = JSON.parse(dataString);
 
-    // ... do something with the data here!!!
+    const raceTotal = raceTime[0] + raceTime[1] + raceTime[2];
+    raceTime.push(raceTotal);
+    highscores.push(raceTime);
 
     response.writeHead(200, "OK", { "Content-Type": "text/plain" });
-    response.end("test");
+    response.end("Success");
   });
 };
 

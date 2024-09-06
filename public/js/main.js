@@ -1,31 +1,3 @@
-// FRONT-END (CLIENT) JAVASCRIPT HERE
-
-const submit = async function (event) {
-  // stop form submission from trying to load
-  // a new .html page for displaying results...
-  // this was the original browser behavior and still
-  // remains to this day
-  event.preventDefault();
-
-  const input = document.querySelector("#yourname"),
-    json = { yourname: input.value },
-    body = JSON.stringify(json);
-
-  const response = await fetch("/submit", {
-    method: "POST",
-    body,
-  });
-
-  const text = await response.text();
-
-  console.log("text:", text);
-};
-
-window.onload = function () {
-  const button = document.querySelector("button");
-  button.onclick = submit;
-};
-
 // Set up race track
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d", { willReadFrequently: true });
@@ -135,9 +107,9 @@ const run = () => {
   } else if (checkpoint && y < size / 8 && x > size / 3) {
     checkpoint = false;
     const lapTime = Date.now();
-    lapTimes.push(lapTime - prevLap);
-    statusText =
-      "Lap " + lapTimes.length + " time: " + (lapTime - prevLap) / 1000;
+    const delta = (lapTime - prevLap) / 1000;
+    lapTimes.push(delta);
+    statusText = "Lap " + lapTimes.length + " time: " + delta;
     prevLap = lapTime;
   }
 
@@ -188,4 +160,44 @@ const run = () => {
   ctx.fillText(statusText, 10, size - 10);
 
   if (lapTimes.length < 3) requestAnimationFrame(run);
+  else {
+    // Submit time
+    fetch("/submit", {
+      method: "POST",
+      body: JSON.stringify(lapTimes),
+    });
+
+    // Update table
+    setupTable();
+  }
 };
+
+const setupTable = async () => {
+  const response = await fetch("/highscores", {
+    method: "GET",
+  });
+
+  const text = await response.text();
+  const data = JSON.parse(text);
+
+  const table = document.getElementById("highscores");
+
+  // Clear table
+  for (let i = 1; i < table.rows.length; i++) {
+    table.deleteRow(i);
+  }
+
+  for (let row of data) {
+    const tableRow = table.insertRow();
+    for (let i = 0; i < 4; i++) {
+      const tableCell = tableRow.insertCell(i);
+
+      // Round value
+      row[i] = Math.floor(row[i] * 10) / 10;
+
+      tableCell.innerHTML = row[i];
+    }
+  }
+};
+
+setupTable();

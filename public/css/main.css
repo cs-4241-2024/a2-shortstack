@@ -30,3 +30,7 @@ th {
   background-color: #fd6015;
   color: white;
 }
+
+.delete-button {
+  border-radius: 20px;
+}

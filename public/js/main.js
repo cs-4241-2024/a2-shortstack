@@ -187,16 +187,32 @@ const setupTable = async () => {
     table.deleteRow(i);
   }
 
-  for (let row of data) {
+  for (let i = 0; i < data.length; i++) {
     const tableRow = table.insertRow();
-    for (let i = 0; i < 4; i++) {
-      const tableCell = tableRow.insertCell(i);
+    for (let k = 0; k < 4; k++) {
+      const tableCell = tableRow.insertCell(k);
 
       // Round value
-      row[i] = Math.floor(row[i] * 10) / 10;
+      data[i][k] = Math.floor(data[i][k] * 10) / 10;
 
-      tableCell.innerHTML = row[i];
+      tableCell.innerHTML = data[i][k];
     }
+    const buttonCell = tableRow.insertCell(4);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "delete-button";
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = () => {
+      fetch("/delete", {
+        method: "DELETE",
+        body: i,
+      });
+
+      setupTable();
+    };
+    buttonCell.appendChild(deleteButton);
+
+    // buttonCell.
   }
 };
 

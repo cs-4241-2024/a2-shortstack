@@ -24,10 +24,12 @@ const submit = async function( event ) {
       body
     })
     if (response.status==200) {//making a message show up to the user to see successfully added or deleted
+      displayer();
       const element =document.querySelector("#canAdd")
       element.style.visibility = "visible";
       await sleep(5000); // 5000 ms = 5 seconds
       element.style.visibility = "hidden";
+      
 
     } else if (response.status==400) { //error for you can't add it to the dataset but whatever i do not know how to tell the user that
       const element =document.querySelector("#canNotAdd")
@@ -61,6 +63,7 @@ const submit = async function( event ) {
     })
 
     if (response.status==200) {//making a message show up to the user to see successfully added or deleted
+      displayer();
       const element =document.querySelector("#canDel")
       element.style.visibility = "visible";
       await sleep(5000); // 5000 ms = 5 seconds
@@ -80,7 +83,11 @@ const submit = async function( event ) {
   }
 
   const displayer = async function( event ) {
-    event.preventDefault()
+    // stop form submission from trying to load
+    // a new .html page for displaying results...
+    // this was the original browser behavior and still
+    // remains to this day
+    //event.preventDefault()
 
     const input = "display",
           json = {"task":input},
@@ -117,17 +124,57 @@ const submit = async function( event ) {
       
 
   
-    console.log('text:',"display cllicked");
+    console.log('text:',"display clicked");
 
+  }
+
+  const change = async function( event ) {
+    // stop form submission from trying to load
+    // a new .html page for displaying results...
+    // this was the original browser behavior and still
+    // remains to this day
+    event.preventDefault()
+    
+    const input = document.querySelector( '#row');
+    const input2 = document.querySelector( '#col');
+    const input3 = document.querySelector( '#newVal');
+    const input4 = "change",
+          json = { "row": Number(input.value),"col":Number(input2.value), "newVal":input3.value,"task":input4},
+          body = JSON.stringify( json )
+  
+    const response = await fetch( '/change', {
+      method:'POST', 
+      body
+    })
+    if (response.status==200) {//request successful
+      displayer();
+      const element =document.querySelector("#canChange")
+      element.style.visibility = "visible";
+      await sleep(5000); // 5000 ms = 5 seconds
+      element.style.visibility = "hidden";
+
+    } else if (response.status==400) {
+      //no change
+      const element =document.querySelector("#canNotChange")
+      element.style.visibility = "visible";
+      await sleep(10000); // 10000 ms = 10 seconds
+      element.style.visibility = "hidden";
+      throw new Error(`HTTP error! Status: Could not change Entry in the Table`);
+    }
+    const text = await response.json()
+    console.log( 'text:', text)
   }
   
   window.onload = function() {//learned if there is an uncaught error in this then the rest won't be run
-    const displayButton = document.querySelector("#display");
-    displayButton.onclick = displayer;
     const newBookButton = document.querySelector("#newBook");
     newBookButton.onclick = submit;
     const deleteBookButton = document.querySelector("#deleteBook");
     deleteBookButton.onclick = deleter;
+    const changingButton = document.querySelector("#changing");
+    changingButton.onclick = change;
+    //call the function
+    displayer();
+    console.log("ran this above");
 
     
 

@@ -8,58 +8,107 @@
     <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
-  <body style="background-color:#df91f7;">
+  <body>
     <header>CS4241 Assignment 2</header>
     <h2>This is a Book Collection Manager</h2>
 
+    <div class="box">
     <h3>Input</h3>
     <p> All books inputted must have a different Title. Meaning 2 of the same book can't be entered.</p>
+    <p>Years entered must be in the 1000s and less than 2025</p>
 
-    <!--Book ID will be the unique identifier -- I will make these my own-->
+    <!--Book ID will be the unique identifier, I will make these my own-->
 
     <div class="field"><h5>Title:</h5> </div>
-    <input type="text" id="title" name="title" required minlength="1" required maxlength="40" size="30" />
+    <input type="text" id="title" name="title" required minlength="1" maxlength="40" size="30" />
     
     
     <div class="field"><h5>Author:</h5></div>
-    <input type="text" id="author" name="author" required minlength="1" required maxlength="40" size="10" />
+    <input type="text" id="author" name="author" required minlength="1" maxlength="40" size="10" />
     
     
     <div class="field"><h5>Year Published:</h5></div>
     <input type="number" id="year" name="year" min="1000" max="2025" /><br>
 
     <div class="field"><h5>Genre:</h5></div>
-    <input type="genre" id="genre" name="genre" pattern="fiction|Fiction|non-fiction|Non-fiction|sci-fi|Sci-fi|romance|Romance|contemperary|contemperary" />
-    <p>Here is a list of valid genre entries:
+    <input type="genre" id="genre" name="genre"/>
+    <div class="field"><h5>Ranking (1-5 stars): </h5></div>
+    <input type="number" id="ranking" name="ranking" min="1" max="5" />
+    <p>Here is a list of ideas for genre entries:
       (fiction, non-fiction, sci-fi, fantasy, romance, and contemperary)
     </p>
     
-    <div class="field"><h5>Ranking (1-5 stars): </h5></div>
-    <input type="number" id="ranking" name="ranking" min="1" max="5" />
+   
 
     <button id="newBook">submit</button><br>
 
     <div class="message"><p id="canAdd">Successfully Added</p></div>
     <div class="message"><p id="canNotAdd">Couldn't be Added</p></div>
+
+  </div>
    
 
-    
-
-
-    <h3>Result</h3>
-    <p style="color: rgb(255, 255, 255)">Click <a href="results.html">here</a> to go to the results page. <br>
-    This is where you can get lists and see the table of all the books in the list </p>
-    
+    <div class="box">
     <h3>Delete Entry</h3>
 
     <div class="field"><h5>Title:</h5></div>
     <!--not sure what the best way to go about this is-->
-    <input type="text" id="delTitle" name="delTitle" required minlength="1" required maxlength="40" size="30" />
+    <input type="text" id="delTitle" name="delTitle" required minlength="1" maxlength="40" size="30" />
 
     <button id="deleteBook">delete</button><br>
     <div class="message"><p id="canDel">Successfully Deleted</p></div>
     <div class="message"><p id="canNotDel">Couldn't be Deleted</p></div>
-    <div class="message"><button id="display">fake button</button></div>
+
+    </div>
+
+    <div class="result">
+      <h2>Results</h2>
+        <p>Here is the display of the table</p>
+      
+      <table>
+          <thead>
+              <tr>
+                  <th>Book Title</th>
+                  <th>Author</th>
+                  <th>Year Published</th>
+                  <th>Genre</th>
+                  <th>Ranking</th>
+                  <th>Author&Stars</th>
+              </tr>
+          </thead>
+          <tbody id="tableBody">
+              <!--the rows (i.e. books in the table)-->
+          </tbody>
+      </table>
+      <p>Type the row and column you want to change in integer form (like 0 0)</p>
+      <div class="field">
+        <input id="row" type="number" min="0" max="100">
+        <input id="col" type="number" min="0" max="100">
+      </div>
+      <button id="changing">Press Here to change the data</button>
+      <input id="newVal">
+      <p>put in the what you want to change the entry in the table to</p>
+      <div class="message"><p id="canChange">Successfully Changed</p></div>
+      <div class="message"><p id="canNotChange">Couldn't be Changed</p></div>
+    </div>
+
+
+
+    <div class="field"><h5>List the Books:</h5></div>
+    <div class="field"><button onclick="listBooks()">List</button></div>
+    <div class="field"><h5>List the Authors:</h5></div>
+    <div class="field"><button onclick="listAuthors()">List</button></div><br>
+    <p id="listBooks"></p>
+    <p id="listAuthors"></p>
+    <div class="field"><h5>List books in a certain Genre:</h5></div>
+    <div class="field"><button onclick="genre()">List</button></div>
+    <p id="listGenre"></p>
+    <div class="field"><h5>List the 5 star books:</h5></div>
+    <div class="field"><button onclick="fiveStars()">List</button></div> <br>
+    <p></p>
+    <!--Derived one will be Author with the most stars (looks at author name and ranking)
+    Authors who have an equal amount of 5 star books are then ordered alphabetically-->
+    
 
   </body>
 </html>

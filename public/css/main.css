@@ -14,9 +14,17 @@ body {
 }
 .inputArea{
   display: flex;
-  direction: column;
   justify-content: center;
-
+  background-color: lightgray;
+  height: 40em;
+  width: 40em;
+  border-radius: 1.5rem;
+  margin-left: 5em;
+}
+.resultsArea{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: lightgray;
   height: 40em;
   width: 40em;
@@ -41,7 +49,6 @@ body {
   font-size: large;
   font-style: italic;
   font-family: "poppins";
-
 }
 input, 
 select{
@@ -50,6 +57,17 @@ select{
   justify-content: center;
   align-items: center;
   width:100%;
+
+}
+
+table{
+  display: flex; 
+  flex-direction: row; 
+  justify-content: center; 
+  align-items: cener;
+
+
+
 
 }
 button{
@@ -72,6 +90,12 @@ button{
   font-style: italic;
   font-family: "poppins";
 
+}
+.displayContainer{ 
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 

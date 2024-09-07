@@ -8,63 +8,99 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+let moods = []
+
+const generateId = () => {
+  if (moods.length === 0) return 1;
+  return Math.max(...moods.map(m => m.id || 0)) + 1; // default to 0 if id is missing
+}
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+    handleGet( request, response );    
+  }else if( request.method === 'POST'){
+    handlePost( request, response );
+  } else if(request.method === 'DELETE'){
+    handleDelete(request, response);
   }
 })
 
 const handleGet = function( request, response ) {
   const filename = dir + request.url.slice( 1 ) 
 
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
+  if( request.url === '/' || request.url === '/index.html') {
+    sendFile( response, 'public/index.html' );
+  }else if (request.url === '/results'){
+    response.writeHead(200, {'Content-Type': 'application/json'});
+    response.end(JSON.stringify(moods));
+  } else {
+    sendFile( response, filename );
   }
 }
 
 const handlePost = function( request, response ) {
-  let dataString = ''
+  let dataString = '';
 
   request.on( 'data', function( data ) {
-      dataString += data 
+      dataString += data;
   })
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+  request.on( 'end', () => {
+    // console.log( JSON.parse( dataString ));
 
+    const newMood = JSON.parse(dataString);
+
+    //console.log("Mood before pushing is ", newMood);
+    newMood.id = generateId();
+    newMood.timestamp = new Date().toISOString();
+    newMood.moodScore = calculateMoodScore(newMood.mood);
+
+    moods.push(newMood);
+
+    //console.log("New mood is: ", newMood);
     // ... do something with the data here!!!
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    //console.log("Moods now are : ", moods);
+
+    response.writeHead( 200, {'Content-Type': 'application/json' });
+    response.end(JSON.stringify(moods));
   })
 }
+
+const handleDelete = (request, response) => {
+  const id = parseInt(request.url.split('/')[2], 10);
+  moods = moods.filter(mood => mood.id !== id);
+
+  response.writeHead(200, {'Content-Type': 'application/json'});
+  response.end(JSON.stringify(moods));
+}
+
+const calculateMoodScore = (mood) => {
+  switch (mood) {
+    case 'happy' : return 8;
+    case 'sad' : return 3;
+    case 'angry': return 2;
+    case 'excited': return 7;
+    default : return 5;
+  }
+};
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 
 
-   fs.readFile( filename, function( err, content ) {
+   fs.readFile( filename, ( err, content ) => {
 
      // if the error = null, then we've loaded the file successfully
      if( err === null ) {
 
        // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
+       response.writeHead( 200, { 'Content-Type': type })
        response.end( content )
 
      }else{
 
        // file not found, error code 404
-       response.writeHeader( 404 )
+       response.writeHead( 404 )
        response.end( '404 Error: File Not Found' )
 
      }

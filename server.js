@@ -101,10 +101,15 @@ const handlePatch = function( request, response ) {
     console.log(dataString)
     const parsedData = JSON.parse( dataString )
 
-    let index = parsedData.index
+    let index = Number(parsedData.index)
 
     if( request.url === '/alterRow'){
-      appdata.splice(index, 1)
+      console.log(index)
+      const targetObject = appdata.find( (row, i) => i === index )
+      console.log(targetObject)
+      targetObject.name = parsedData.name
+      targetObject.clickCount = parsedData.clickCount
+      targetObject.points = parsedData.clickCount*100
       response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
       response.end(JSON.stringify(appdata))
     }

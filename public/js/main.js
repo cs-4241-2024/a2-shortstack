@@ -62,6 +62,25 @@ const deleteRow = async function(event) {
   generateTable(jsonData)
 }
 
+const alterRow = async function(event) {
+  event.preventDefault();
+
+  const input = { index: document.getElementById( 'indexOfChange' ), name: document.getElementById("nameChange"), clickCount: document.getElementById("scoreChange") },
+      json = { index: input.index.value, name: input.name.value, clickCount: input.clickCount.value },
+      body = JSON.stringify( json )
+
+  const response = await fetch( '/alterRow', {
+    method:'PATCH',
+    body
+  })
+  const jsonData = await response.json()
+
+  let table = document.getElementById('table')
+  table.innerHTML = ''
+  // How to fetch from response instead
+  generateTable(jsonData)
+}
+
 const generateTable = function(jsonData) {
   const tableElement = document.getElementById('table')
   tableElement.appendChild(document.createElement('tr')).appendChild(document.createElement('th')).appendChild(document.createTextNode('Index')).parentNode.parentNode.appendChild(document.createElement('th')).appendChild(document.createTextNode('Name')).parentNode.parentNode.appendChild(document.createElement('th')).appendChild(document.createTextNode('Times Clicked')).parentNode.parentNode.appendChild(document.createElement('th')).appendChild(document.createTextNode('Score'))
@@ -95,6 +114,9 @@ window.onload = async function() {
 
   const deleteButton = document.getElementById("delete");
   deleteButton.onclick = deleteRow;
+
+  const alterButton = document.getElementById("alter");
+  alterButton.onclick = alterRow;
 
   const input = document.querySelector( '#yourname' ),
       json = { name: input.value, clickCount: clicks },

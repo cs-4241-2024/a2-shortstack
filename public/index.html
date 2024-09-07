@@ -8,39 +8,47 @@
     
     <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
   </head>
-  <body>
+  <body class="vt323-regular">
     <h1>Button Game!</h1>
     <h2>Press the BUTTON!</h2>
-    <button id="scoreButton">Click Me</button>
-    <p id="clickCounter">0</p>
-    <div style="display: flex; justify-content: space-between;">
-      <form>
-        <input type="text" id="yourname" value="your name here">
-        <button id="submit">submit</button>
-      </form>
-      <form>
-        <input type="number" id="index">
-        <button id="delete">delete</button>
-      </form>
+    <div id="container-score">
+      <h3 id="clickCounter">0</h3>
+      <button id="scoreButton" class="vt323-regular">Click Me</button>
     </div>
-    <div style="display: flex; justify-content: space-between;">
-      <div>
-        <p id="highscores">High Scores:</p>
+    <form class="flex-vertical">
+      <label for="yourname"> Name:</label>
+      <input type="text" id="yourname" value="your name here" placeholder="your name here">
+      <button id="submit">submit</button>
+    </form>
+
+
+    <div class="flex-horizontal">
+      <div class="flex-vertical">
+        <h2>High Scores:</h2>
         <table id="table"></table>
       </div>
-      <form>
-        <input type="number" id="indexOfChange">
-        <input type="text" id="nameChange">
-        <input type="number" id="scoreChange">
+      <form class="flex-vertical">
+        <h2>Delete Data:</h2>
+        <label for="index">Target data's Index:</label>
+        <input type="number" id="index" placeholder="0">
+        <button id="delete">delete</button>
+      </form>
+      <form class="flex-vertical">
+        <h2> Alter Data:</h2>
+        <label for="indexOfChange">Target data's Index:</label>
+        <input type="number" id="indexOfChange" placeholder="0">
+        <label for="nameChange">New Name:</label>
+        <input type="text" id="nameChange" placeholder="John">
+        <label for="scoreChange">New Times Clicked:</label>
+        <input type="number" id="scoreChange" placeholder="2">
         <button id="alter">alter data</button>
       </form>
 
     </div>
-
-
-    </table>
-
-
   </body>
 </html>

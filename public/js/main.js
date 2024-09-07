@@ -27,6 +27,10 @@ const submit = async function( event ) {
   // const data = await response.json()
   let table = document.getElementById('table')
   table.innerHTML = ''
+
+  clicks = 0
+  let scoreElement = document.getElementById('clickCounter');
+  scoreElement.textContent = clicks;
   // How to fetch from response instead
   generateTable(jsonData)
   // console.log( 'data:', data )

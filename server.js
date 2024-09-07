@@ -67,6 +67,7 @@ const handleGet = function( request, response ) {
     sendFile( response, 'public/index.html' )
   }
   else if(request.url === "/api/getResults"){
+    console.log(purchases); 
     response.writeHead(200, "OK", {"content-type": 'application/json'}); 
     response.end(JSON.stringify(purchases)); 
     }
@@ -89,8 +90,10 @@ const handlePost = function( request, response ) {
   request.on( 'end', function() {
     console.log( JSON.parse( dataString ) )
     const body = JSON.parse(dataString); 
+    console.log(dataString); 
 
     if(request.url === "/api/createPurchase"){
+      console.log("rec rec"); 
 
       addPurchase(body); 
     }
@@ -125,56 +128,3 @@ const sendFile = function( response, filename ) {
 }
 
 server.listen( process.env.PORT || port )
-/* 
-
-
-
-const handlePost = function( request, response ) {
-  let dataString = ''
-
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
-
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
-    const body = JSON.parse(dataString); 
-
-    if(request.url === "/api/createPurchase"){
-     
-      
-
-      addPurchase(body); 
-    }
-
-
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
-
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
-
-   fs.readFile( filename, function( err, content ) {
-
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
-}
-
-server.listen( process.env.PORT || port )
-
-*/ 

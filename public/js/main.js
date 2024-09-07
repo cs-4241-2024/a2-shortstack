@@ -20,8 +20,49 @@ const submit = async function( event ) {
 
   console.log( 'text:', text )
 }
-
-window.onload = function() {
-   const button = document.querySelector("button");
-  button.onclick = submit;
+const handleSubmit = async(title, type, store, price, coh) => { 
+  const body = JSON.stringify({ 
+    "title": title, 
+    "category": type, 
+    "store": store, 
+    "price": price, 
+    "cashOnHand": coh
+  }); 
+  const makeRequest = await fetch('/api/createPurchase', {
+    method: 'POST', 
+    body
+  }); 
+  return makeRequest; 
+  
 }
+window.onload =  function() {
+   const form = document.getElementById('budgetForm'); 
+   const title = document.getElementById('title').value; 
+   const type = document.getElementById('types').value; 
+   const store = document.getElementById('store').value; 
+   const price = document.getElementById('price').value; 
+   const coh = document.getElementById('coh').value; 
+
+
+   form.addEventListener("submit", (event) => { 
+    
+  event.preventDefault(); 
+  form.onsubmit=  handleSubmit(title, type, store, price, coh ).then(); 
+
+  
+
+ 
+
+
+ 
+
+
+
+
+
+  // console.log(title, type, store, price, coh) ;
+  //   console.log("test'"); 
+  //  })
+   }); 
+}
+

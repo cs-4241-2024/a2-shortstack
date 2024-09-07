@@ -7,12 +7,49 @@
     <link rel="stylesheet" href="css/main.css">
     
     <!-- get rid of favicon error -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
   <body>
-    <form>
+    <h1 class = "heroText">Manage your budget!</h1>
+      <div class = "inputArea">
+        <form id = "budgetForm" class = ".customForm">
+          <h2 class="formHeader">Add a purchase!</h2>
+          <h2 class = "formHeader">Add a title: </h2>
+          <input id = "title" value="Enter Title Here"/>
+          <h2 class = "formHeader">Add a category!</h2>
+          <select name = "types" id="types">
+            <option value = "utilities">utilities</option>
+            <option value = "groceries">groceries</option>
+            <option value = "fun">Fun Money!</option>
+          </select>
+          <h2 class = "formHeader">Add the store name!: </h2>
+
+          <input  id = "store" value = "Enter the store name!"/>
+          <h2 class = "formHeader">Add the item price!: </h2>
+
+          <input id = "price" value = "Enter the price!"/>
+          <h2 class = "formHeader">Add your cash on hand!: </h2>
+
+          <input id = "coh" value = "Enter your cash on hand!"/>
+          <button type = "submit" >Submit</button>
+        </div>
+
+
+      </form>
+
+
+
+
+
+
+
+    <!-- <form>
       <input type="text" id="yourname" value="your name here">
       <button>submit</button>
-    </form>
+    </form> -->
   </body>
 </html>

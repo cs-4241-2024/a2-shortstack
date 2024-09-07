@@ -1,12 +1,12 @@
 {
-  "name": "",
-  "version": "",
+  "name": "a2-jpthesmar",
+  "version": "1.0.0",
   "description": "",
-  "author": "",
+  "author": "Joseph Thesmar",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "mime": "^2.4.4"
+    "mime": "^2.6.0"
   }
 }

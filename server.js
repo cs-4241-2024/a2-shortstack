@@ -21,7 +21,7 @@ const server = http.createServer( function( request,response ) {
     handlePost( request, response ) 
   }
 })
-const purchases = []; //this will be the "database" of JSON objects 
+let purchases = []; //this will be the "database" of JSON objects 
 
 /* 
   A purchase will have 
@@ -57,7 +57,6 @@ const addPurchase = (aPurchase) => {
   //add to the server array 
   purchases.push(addToServer);
   //log array for debugging  
-  console.log("new", purchases); 
 }
 
 const handleGet = function( request, response ) {
@@ -67,10 +66,9 @@ const handleGet = function( request, response ) {
     sendFile( response, 'public/index.html' )
   }
   else if(request.url === "/api/getResults"){
-    console.log(purchases); 
     response.writeHead(200, "OK", {"content-type": 'application/json'}); 
     response.end(JSON.stringify(purchases)); 
-    }
+  }
  
   
   
@@ -78,7 +76,9 @@ const handleGet = function( request, response ) {
     sendFile( response, filename )
   }
 }
-
+const deletePurchase = (aPurchase) => {
+  purchases =  purchases.filter((item) => item.title != aPurchase.title); 
+}
 
 const handlePost = function( request, response ) {
   let dataString = ''
@@ -88,14 +88,15 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
     const body = JSON.parse(dataString); 
-    console.log(dataString); 
 
     if(request.url === "/api/createPurchase"){
 
       addPurchase(body); 
       
+    }
+    else if (request.url === '/api/deletePurchase'){
+      deletePurchase(body); 
     }
 
     // ... do something with the data here!!!

@@ -36,7 +36,49 @@ window.onload =  function() {
     
   event.preventDefault(); 
   form.onsubmit=  handleSubmit(title, type, store, price, coh ).then((res) => { 
-    console.log("res is", res); 
+    res.map((item, idx) => { 
+      const title = res[idx]['title']; 
+      const category = res[idx]['category']; 
+      const store = res[idx]['store']; 
+      const price = res[idx]['price']; 
+      const cashOnHand = res[idx]['cashOnHand']; 
+      const affoardable = res[idx]['affoardable?']; 
+      const resultsTable = document.getElementById('resultsTable'); 
+      const resultRow = document.createElement('tr'); 
+
+
+      const resultTitle = document.createElement('td'); 
+      resultTitle.innerHTML = title; 
+      const resultCategory = document.createElement('td'); 
+      resultCategory.innerHTML = category; 
+      const resultStore = document.createElement('td'); 
+      resultStore.innerHTML = store; 
+      const resultPrice = document.createElement('td'); 
+      resultPrice.innerHTML = price; 
+      const resultCOH =  document.createElement('td');
+      resultCOH.innerHTML = cashOnHand; 
+      const resultAffoardable = document.createElement('td'); 
+      resultAffoardable.innerHTML = affoardable; 
+      
+
+
+      resultTitle.innerHTML= "test"; 
+      resultRow.appendChild(resultTitle); 
+      resultRow.appendChild(resultCategory); 
+      resultRow.appendChild(resultStore)
+      resultRow.appendChild(resultPrice)
+      resultRow.appendChild(resultCOH)
+      resultRow.appendChild(resultAffoardable); 
+      resultsTable.appendChild(resultRow); 
+
+    })
+
+
+
+
+
+   
+
   }); 
 
   

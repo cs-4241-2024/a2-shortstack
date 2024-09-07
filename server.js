@@ -8,11 +8,9 @@ const http = require('http'),
   dir = 'public/',
   port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14 }
-]
+let appdata = [
+  // { 'Code': 'b', 'Name': b, 'Assignment': b }
+];
 
 const server = http.createServer(function (request, response) {
   if (request.method === 'GET') {
@@ -24,33 +22,45 @@ const server = http.createServer(function (request, response) {
 
 const handleGet = function (request, response) {
   const filename = dir + request.url.slice(1)
-
   if (request.url === '/') {
     sendFile(response, 'public/index.html')
-  } else {
+  }
+  else if (request.url === '/data') {
+    response.end(JSON.stringify(appdata))
+  }
+  else {
     sendFile(response, filename)
   }
 }
 
 const handlePost = function (request, response) {
   let dataString = ''
-
+  //TODO: Finish me
   request.on('data', function (data) {
-    dataString += data
+    dataString += data;
   })
 
   request.on('end', function () {
+    if (request.url === "/submit") {
+      let newData = JSON.parse(dataString);
+      console.log(newData)
+      // appdata.push({
+      //   "classCode": classCode,
+      //   "className": className,
+      //   "assignment": assignment
+      // })
+    }
     console.log(JSON.parse(dataString))
 
     // ... do something with the data here!!!
 
     response.writeHead(200, "OK", { 'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end(JSON.stringify(appdata))
   })
 }
 
 const sendFile = function (response, filename) {
-  const type = mime.getType(filename)
+  const type = mime.getType(filename);
 
   fs.readFile(filename, function (err, content) {
 

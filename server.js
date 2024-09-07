@@ -43,7 +43,7 @@ const handlePost = function (request, response) {
   request.on('end', function () {
     if (request.url === "/submit") {
       let newData = JSON.parse(dataString);
-      console.log(newData)
+      console.log(newData.toString())
       // appdata.push({
       //   "classCode": classCode,
       //   "className": className,

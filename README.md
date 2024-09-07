@@ -1,10 +1,3 @@
-Assignment 2 - Short Stack: Basic Two-tier Web Application using HTML/CSS/JS and Node.js  
-===
-
-Due: September 9th, by 11:59 AM.
-
-This assignment will introduce you to creating a prototype two-tiered web application. 
-Your application will include the use of HTML, CSS, JavaScript, and Node.js functionality, with active communication between the client and the server.
 
 Baseline Requirements
 ---
@@ -51,7 +44,7 @@ A starting point is provided in this repository.
 Deliverables
 ---
 
-Do the following to complete this assignment and acheive a base grade of 85%:
+Do the following to complete this assignment and achieve a base grade of 85%:
 
 1. Fork the starting project code. This repo contains some starter code that may be used or discarded as needed.
 2. Implement your project with the above requirements.

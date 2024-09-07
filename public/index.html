@@ -24,21 +24,27 @@
         <label for="other">Other:</label>
         <textarea id="other" name="other"></textarea>
         <br/>
-        <button type="submit" id="submit">Enter</button>
+        <button id="button">Enter</button>
         <br/>
     </form>
     <table id="target">
-        <tr>
-            <th>Name</th>
-            <th>Cookie</th>
-            <th>Ice Cream</th>
-            <th>Other:</th>
-        </tr>
-        <tr>
-            <td>Piper</td>
-            <td>Chocolate Chip Cookies</td>
-            <td>Vanilla</td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Cookie</th>
+                <th>Ice Cream</th>
+                <th>Other:</th>
+                <th>Delete Entry</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            <tr>
+                <td>Piper</td>
+                <td>Chocolate Chip Cookies</td>
+                <td>Vanilla</td>
+                <td><button id="deleteButton" onclick="deleteData()"></button></td>
+            </tr>
+        </tbody>
     </table>
   </body>
 </html>

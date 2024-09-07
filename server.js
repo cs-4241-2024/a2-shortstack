@@ -225,7 +225,7 @@ const handlePost = function( request, response ) {
       //gotta do derivied part
 
         }
-      } else if (data.col<5 && data.col>=0) {
+      } else if (data.col<5 && data.col>=0 && data.newVal != "") {
         console.log("here");
         if (data.row==0) {
           appdata[data.col].title = data.newVal;

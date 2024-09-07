@@ -69,6 +69,7 @@ const handleGet = function( request, response ) {
     response.writeHead(200, "OK", {"content-type": 'application/json'}); 
     response.end(JSON.stringify(purchases)); 
   }
+  
  
   
   
@@ -78,6 +79,22 @@ const handleGet = function( request, response ) {
 }
 const deletePurchase = (aPurchase) => {
   purchases =  purchases.filter((item) => item.title != aPurchase.title); 
+  console.log("purchases is now", purchases); 
+}
+
+const updatePurchase = (aPurchase) => {
+  purchases =  purchases.filter((item) => item.title != aPurchase.oldTitle);
+  const newPurchase = {
+    "title": aPurchase.title, 
+    "category": aPurchase.category, 
+    "store": aPurchase.store,  
+    "price": aPurchase.price, 
+    "cashOnHand": aPurchase.cashOnHand, 
+    "affoardable?": isInBudget(aPurchase), 
+  } 
+  purchases.push(newPurchase); 
+  console.log("updated", purchases); 
+
 }
 
 const handlePost = function( request, response ) {
@@ -97,6 +114,9 @@ const handlePost = function( request, response ) {
     }
     else if (request.url === '/api/deletePurchase'){
       deletePurchase(body); 
+    }
+    else if (request.url === '/api/updatePurchase'){
+      updatePurchase(body); 
     }
 
     // ... do something with the data here!!!

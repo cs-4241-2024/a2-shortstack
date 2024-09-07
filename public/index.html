@@ -40,6 +40,36 @@
     
       </form>
     </div>
+
+    <dialog id = "deleteDialog" >
+      <form id = "budgetForm" class = ".customForm">
+        <h2 class="formHeader">Delete/modify a purchase!</h2>
+        <h2 class = "formHeader">Title: </h2>
+          <input id = "updatetitle" value="title"/>
+        <h2 class = "formHeader">Category</h2>
+        <select name = "types" id="updatetypes">
+          <option value = "utilities">utilities</option>
+          <option value = "groceries">groceries</option>
+          <option value = "fun">Fun Money!</option>
+        </select>
+        <h2 class = "formHeader">Store:  </h2>
+
+        <input  id = "updatestore" value = "Enter the store name!"/>
+        <h2 class = "formHeader">Price </h2>
+
+        <input id = "updateprice" value = "Enter the price!"/>
+        <h2 class = "formHeader">Cash On Hand </h2>
+
+        <input id = "updatecoh" value = "Enter your cash on hand!"/>
+        <button id = "submitUpdates"  type = "button" >Submit Updates</button>
+        <button id = "deleteButton" type = "button" >Delete Purchase</button>
+
+  
+    </form>
+
+    </dialog>
+
+
     <div class = "resultsArea" >
         <h2 class="formHeader">Add a purchase!</h2>
         

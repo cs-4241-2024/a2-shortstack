@@ -21,6 +21,14 @@ body {
   border-radius: 1.5rem;
   margin-left: 5em;
 }
+dialog{ 
+
+  height: 60%;
+  width: 30rem;
+}
+dialog::backdrop{
+  backdrop-filter: blur(2px);
+}
 .resultsArea{
   display: flex;
   flex-direction: column;

@@ -1,7 +1,3 @@
-// FRONT-END (CLIENT) JAVASCRIPT HERE
-
-let data = {}; 
-
 const handleSubmit = async(title, type, store, price, coh) => { 
   const body = JSON.stringify({ 
     "title": title, 
@@ -10,7 +6,7 @@ const handleSubmit = async(title, type, store, price, coh) => {
     "price": price, 
     "cashOnHand": coh
   }); 
-  const makeRequest = await fetch('/api/createPurchase', {
+   await fetch('/api/createPurchase', {
     method: 'POST', 
     body
   }); 
@@ -35,20 +31,42 @@ const handleDelete = async (title) => {
 
 
 }
+const handleUpdate = async (title, newTitle, newType, newStore, newPrice, newCoh) => { 
+  const body = JSON.stringify({
+    "oldTitle": title, 
+    "title": newTitle, 
+    "category": newType, 
+    "store": newStore, 
+    "price": newPrice, 
+    "cashOnHand": newCoh
+  }); 
+  const makeRequest = await fetch('/api/updatePurchase', {
+    method: 'POST', 
+    body
+  }); 
+  const getResults = await fetch('/api/getResults', { 
+    method:'GET'
+  }); 
+  return (await getResults.json()); 
+
+
+}
+const buildTable = () => { 
+  
+}
 window.onload =  function() {
+  //logic for creating a new item 
    const form = document.getElementById('budgetForm'); 
- 
-
-
    form.addEventListener("submit", (event) => { 
+    event.preventDefault(); 
+    const title = document.getElementById('title').value; 
+    const type = document.getElementById('types').value; 
+    const store = document.getElementById('store').value; 
+    const price = document.getElementById('price').value; 
+    const coh = document.getElementById('coh').value; 
+
     
-  event.preventDefault(); 
-  const title = document.getElementById('title').value; 
-  const type = document.getElementById('types').value; 
-  const store = document.getElementById('store').value; 
-  const price = document.getElementById('price').value; 
-  const coh = document.getElementById('coh').value; 
-  form.onsubmit=  handleSubmit(title, type, store, price, coh ).then((res) => { 
+    form.onsubmit=  handleSubmit(title, type, store, price, coh ).then((res) => { 
     const item = res.at(-1); 
   
     
@@ -76,6 +94,7 @@ window.onload =  function() {
       resultAffoardable.innerHTML = affoardable; 
       const editButton = document.createElement('button'); 
       editButton.innerHTML = 'update Item'; 
+      const deleteButton = document.getElementById('deleteButton');
     
       resultRow.appendChild(resultTitle); 
       resultRow.appendChild(resultCategory); 
@@ -85,12 +104,34 @@ window.onload =  function() {
       resultRow.appendChild(resultAffoardable); 
       resultRow.appendChild(editButton); 
       resultsTable.appendChild(resultRow); 
+      
       editButton.onclick = () => { 
-        const title = resultTitle.innerHTML; 
-        handleDelete(title); 
-        resultsTable.removeChild(resultRow); 
+     
+       
+        const modal = document.getElementById('deleteDialog'); 
+        modal.showModal();
         
+        const buttonUpdate = document.getElementById('submitUpdates'); 
+        buttonUpdate.addEventListener('click', (event) => {
+          event.preventDefault();
+          
+          const newtitle = document.getElementById('updatetitle').value; 
+          const newType = document.getElementById('updatetypes').value; 
+          const newStore =  document.getElementById('updatestore').value; 
+         const newPrice = document.getElementById('updateprice').value; 
+        const newCoh = document.getElementById('updatecoh').value; 
+          handleUpdate(oldTitle, newtitle, newType, newStore, newPrice, newCoh); 
+          modal.close(); 
+        })
+       
+
       }
+      deleteButton.addEventListener('click', (event) => { 
+        console.log('dkkdkd'); 
+
+        event.preventDefault();
+        handleDelete(title); 
+      }); 
   }); 
 
    }); 

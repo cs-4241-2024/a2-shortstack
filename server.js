@@ -21,6 +21,44 @@ const server = http.createServer( function( request,response ) {
     handlePost( request, response ) 
   }
 })
+const purchases = []; //this will be the "database" of JSON objects 
+
+/* 
+  A purchase will have 
+  1. A title 
+  2. A category (one of utilities, groceries, and fun)
+  3. A store
+  4. A price 
+  5. The cash on hand when purchased
+  6. (derived) whether or not it  was within a budget (see isInBudget for budget details)
+*/ 
+
+
+const isInBudget = (aPurchase) => { 
+  //for the purposes of this assignment, a purchase is in budget if it is 15% or less of the cash on hand 
+  const budget = aPurchase.cashOnHand * .15; 
+  if(aPurchase.price > budget){
+    return false; 
+  }
+  return true; 
+
+}
+
+const addPurchase = (aPurchase) => { 
+  //create a new object with the derived field and to validate fields
+  const addToServer = { 
+    "title": aPurchase.title, 
+    "category": aPurchase.category, 
+    "store": aPurchase.store,  
+    "price": aPurchase.price, 
+    "cashOnHand": aPurchase.cashOnHand, 
+    "affoardable?": isInBudget(aPurchase), 
+  }; 
+  //add to the server array 
+  purchases.push(addToServer);
+  //log array for debugging  
+  console.log("new", purchases); 
+}
 
 const handleGet = function( request, response ) {
   const filename = dir + request.url.slice( 1 ) 
@@ -41,6 +79,12 @@ const handlePost = function( request, response ) {
 
   request.on( 'end', function() {
     console.log( JSON.parse( dataString ) )
+    const body = JSON.parse(dataString); 
+
+    if(request.url === "/api/createPurchase"){
+
+      addPurchase(body); 
+    }
 
     // ... do something with the data here!!!
 

@@ -1,34 +1,9 @@
 // FRONT-END (CLIENT) JAVASCRIPT HERE
 
-const submit = async function( event ) {
-  // stop form submission from trying to load
-  // a new .html page for displaying results...
-  // this was the original browser behavior and still
-  // remains to this day
-  event.preventDefault()
-  
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
-        body = JSON.stringify( json )
-/* 
-  A purchase will have 
-  1. A title 
-  2. A category (one of utilities, groceries, and fun)
-  3. A store
-  4. A price 
-  5. The cash on hand when purchased
-  6. (derived) whether or not it  was within a budget (see isInBudget for budget details)
-*/ 
-  const response = await fetch( '/submit', {
-    method:'POST',
-    body 
-  })
+let data = {}; 
 
-  const text = await response.text()
-
-  console.log( 'text:', text )
-}
 const handleSubmit = async(title, type, store, price, coh) => { 
+  console.log("inside function"); 
   const body = JSON.stringify({ 
     "title": title, 
     "category": type, 
@@ -40,7 +15,12 @@ const handleSubmit = async(title, type, store, price, coh) => {
     method: 'POST', 
     body
   }); 
-  return makeRequest; 
+  const getResults = await fetch('/api/getResults', { 
+    method:'GET'
+  }); 
+  return (await getResults.json())
+
+  
   
 }
 window.onload =  function() {
@@ -55,7 +35,9 @@ window.onload =  function() {
    form.addEventListener("submit", (event) => { 
     
   event.preventDefault(); 
-  form.onsubmit=  handleSubmit(title, type, store, price, coh ).then(); 
+  form.onsubmit=  handleSubmit(title, type, store, price, coh ).then((res) => { 
+    console.log("res is", res); 
+  }); 
 
   
 

@@ -93,9 +93,9 @@ const handlePost = function( request, response ) {
     console.log(dataString); 
 
     if(request.url === "/api/createPurchase"){
-      console.log("rec rec"); 
 
       addPurchase(body); 
+      
     }
 
     // ... do something with the data here!!!

@@ -64,6 +64,9 @@ select{
 tr, th{ 
   margin-right: 3rem;
 }
+table, th, td{ 
+  border: 1px solid black; 
+}
 button{
   display: flex; 
   flex-direction: column;

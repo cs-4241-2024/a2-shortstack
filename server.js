@@ -17,6 +17,10 @@ const server = http.createServer( function( request,response ) {
     handleGet( request, response )
   }else if( request.method === 'POST' ){
     handlePost( request, response )
+  }else if (request.method === 'DELETE'){
+    handleDelete( request, response )
+  }else if (request.method === 'PATCH'){
+    handlePatch( request, response)
   }
 })
 
@@ -60,6 +64,56 @@ const handlePost = function( request, response ) {
       response.end(JSON.stringify(appdata))
     })
   }
+}
+
+const handleDelete = function( request, response ) {
+  let dataString = ''
+  request.on( 'data', function( data ) {
+    dataString += data
+  })
+
+  request.on( 'end', function() {
+    console.log(dataString)
+    const parsedData = JSON.parse( dataString )
+
+    let index = parsedData.index
+
+    if( request.url === '/deleteRow'){
+      appdata.splice(index, 1)
+      response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+      response.end(JSON.stringify(appdata))
+    }
+    else{
+      response.writeHead( 404)
+      response.end( '404 Error: No delete valid request found' )
+    }
+
+  })
+}
+
+const handlePatch = function( request, response ) {
+  let dataString = ''
+  request.on( 'data', function( data ) {
+    dataString += data
+  })
+
+  request.on( 'end', function() {
+    console.log(dataString)
+    const parsedData = JSON.parse( dataString )
+
+    let index = parsedData.index
+
+    if( request.url === '/alterRow'){
+      appdata.splice(index, 1)
+      response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+      response.end(JSON.stringify(appdata))
+    }
+    else{
+      response.writeHead( 404)
+      response.end( '404 Error: No delete valid request found' )
+    }
+
+  })
 }
 
 

@@ -42,13 +42,38 @@ const incrementScore = function(event) {
   scoreElement.textContent = clicks;
 
 };
-const generateTable = function(jsonData) {
-  let tableElement = document.getElementById('table')
-  tableElement.appendChild(document.createElement('tr')).appendChild(document.createElement('th')).appendChild(document.createTextNode('Name')).parentNode.parentNode.appendChild(document.createElement('th')).appendChild(document.createTextNode('Times Clicked')).parentNode.parentNode.appendChild(document.createElement('th')).appendChild(document.createTextNode('Score'))
-  jsonData.forEach((data) =>createNewRow(data.name, data.clickCount, data.points, tableElement))
+
+const deleteRow = async function(event) {
+  event.preventDefault();
+
+  const input = document.querySelector( '#index' ),
+      json = { index: input.value },
+      body = JSON.stringify( json )
+
+  const response = await fetch( '/deleteRow', {
+    method:'DELETE',
+    body
+  })
+  const jsonData = await response.json()
+
+  let table = document.getElementById('table')
+  table.innerHTML = ''
+  // How to fetch from response instead
+  generateTable(jsonData)
 }
-const createNewRow = function (name, clicks, score, tableElement) {
+
+const generateTable = function(jsonData) {
+  const tableElement = document.getElementById('table')
+  tableElement.appendChild(document.createElement('tr')).appendChild(document.createElement('th')).appendChild(document.createTextNode('Index')).parentNode.parentNode.appendChild(document.createElement('th')).appendChild(document.createTextNode('Name')).parentNode.parentNode.appendChild(document.createElement('th')).appendChild(document.createTextNode('Times Clicked')).parentNode.parentNode.appendChild(document.createElement('th')).appendChild(document.createTextNode('Score'))
+  for (let i = 0; i < jsonData.length; i++) {
+    createNewRow(i, jsonData[i].name, jsonData[i].clickCount, jsonData[i].points, tableElement)
+  }
+}
+const createNewRow = function (index, name, clicks, score, tableElement) {
   const row = document.createElement('tr');
+  const indexCell = document.createElement('td');
+  indexCell.textContent = index;
+  row.appendChild(indexCell);
   const nameCell = document.createElement('td');
   nameCell.textContent = name;
   row.appendChild(nameCell);
@@ -67,6 +92,9 @@ window.onload = async function() {
 
   const scoreButton = document.getElementById("scoreButton")
   scoreButton.onclick=incrementScore;
+
+  const deleteButton = document.getElementById("delete");
+  deleteButton.onclick = deleteRow;
 
   const input = document.querySelector( '#yourname' ),
       json = { name: input.value, clickCount: clicks },

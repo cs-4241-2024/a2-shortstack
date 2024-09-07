@@ -1,8 +1,8 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "bf-4241-shortstack",
+  "version": "0.1.0",
+  "description": "WPI CS 4241 second assignment",
+  "author": "Brittany Ficarra",
   "scripts": {
     "start": "node server.js"
   },

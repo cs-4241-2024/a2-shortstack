@@ -1,11 +1,12 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "a2-piperoco23-piper-oconnell",
+  "version": "0.0.1",
+  "description": "WPI A2",
+  "author": "Piper O'Connell",
   "scripts": {
     "start": "node server.js"
   },
+  "engines": {"node": "16.x"},
   "dependencies": {
     "mime": "^2.4.4"
   }

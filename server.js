@@ -9,7 +9,9 @@ const http = require( 'http' ),
       port = 3000
 
 const appdata = [
-  { 'name': 'Piper', 'cookie':'chocolate chip cookie' }
+  { 'name': 'Piper', 'cookie':'chocolate chip cookie', 'icecream': 'vanilla' },
+  { 'name': 'James', 'cookie':'chocolate chip cookie', 'icecream': 'chocolate' },
+  { 'name': 'Sky', 'cookie':'sugar', 'icecream': 'vanilla' }
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -21,8 +23,7 @@ const server = http.createServer( function( request,response ) {
 })
 
 const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
-
+  const filename = dir + request.url.slice( 1 )
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
   }else{
@@ -39,7 +40,6 @@ const handlePost = function( request, response ) {
 
   request.on( 'end', function() {
     console.log( JSON.parse( dataString ) )
-
     // ... do something with the data here!!!
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })

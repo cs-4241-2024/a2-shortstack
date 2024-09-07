@@ -9,7 +9,7 @@ const http = require( 'http' ),
       port = 3000
 
 const appdata = [
-  { 'name': 'Piper', 'activity': 'Track Practice'}
+  { 'name': 'Piper', 'cookie':'chocolate chip cookie' }
 ]
 
 const server = http.createServer( function( request,response ) {

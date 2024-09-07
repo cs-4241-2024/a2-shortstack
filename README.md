@@ -94,7 +94,13 @@ Sample Readme (delete the above when you're ready to submit, and modify the belo
 Include a very brief summary of your project here. Be sure to include the CSS positioning technique you used, and any required instructions to use your application.
 
 ## Technical Achievements
-- **Tech Achievement 1**: Using a combination of...
+- **Tech Achievement 1**: Created a single-page app that updates the table on the client and adds, deletes, and modifies data on the server
+- **Tech Achievement 2**: Added ability to modify data
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: 
+- **Think-aloud 1:**: 
+  - **Last Name**:
+  - **Problems**:
+  - **Comments**:
+  - **Changes**:
+- 

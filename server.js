@@ -50,6 +50,7 @@ const handlePost = function( request, response ) {
 
     const newMood = JSON.parse(dataString);
 
+
     //console.log("Mood before pushing is ", newMood);
     newMood.id = generateId();
     newMood.timestamp = new Date().toISOString();

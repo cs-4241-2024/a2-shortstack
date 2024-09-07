@@ -9,13 +9,14 @@ const submit = async function( event ) {
 
   const mood = document.querySelector('#mood').value;
   const comment = document.querySelector('#comment').value;
+  const name = document.querySelector('#name').value;
 
-  if (!mood){
-    alert('Please choose a mood.');
+  if (!mood || !name){
+    alert('Please fill in all the required fields.');
     return;
   }
 
-  const json = {mood, comment};
+  const json = {name, mood, comment};
 
   const response = await fetch( '/submit', {
     method:'POST',
@@ -29,6 +30,7 @@ const submit = async function( event ) {
   // console.log( 'text:', updatedMoods );
 
   //clear the form fields
+  document.querySelector('name').selectedIndex = '';
   document.querySelector('#mood').selectedIndex = 0;
   document.querySelector('#comment').value = '';
 };
@@ -41,6 +43,7 @@ const updateTable = function(moods){
     const row = document.createElement('tr');
 
     row.innerHTML = `
+    <td>${mood.name}</td>
     <td>${mood.mood}</td>
     <td>${mood.comment || ''}</td>
     <td>${mood.timestamp}</td>

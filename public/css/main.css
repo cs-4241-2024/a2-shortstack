@@ -60,15 +60,9 @@ select{
 
 }
 
-table{
-  display: flex; 
-  flex-direction: row; 
-  justify-content: center; 
-  align-items: cener;
 
-
-
-
+tr, th{ 
+  margin-right: 3rem;
 }
 button{
   display: flex; 

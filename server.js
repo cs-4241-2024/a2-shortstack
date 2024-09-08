@@ -44,6 +44,7 @@ const handlePost = function (request, response) {
     if (request.url === "/submit") {
       let newData = JSON.parse(dataString);
       console.log(newData.toString())
+      console.log("MADe IT")
       // appdata.push({
       //   "classCode": classCode,
       //   "className": className,

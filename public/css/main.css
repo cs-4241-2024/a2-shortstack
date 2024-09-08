@@ -1,4 +1,35 @@
 body {
-  background:black;
-  color:white;
+  background-color: #1d1d1d;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #e2e2e2;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  font-size: 18px;
+}
+
+h1 {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  color: #ff0000;
+  font-size: 36px;
+}
+
+#button {
+  background-color: #aa3939;
+  border-width: 5px;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #e2e2e2;
+  font-size: 28px;
+}
+
+table {
+  text-align: center;
+
 }

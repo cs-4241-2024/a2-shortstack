@@ -7,18 +7,33 @@ const submit = async function( event ) {
   // remains to this day
   event.preventDefault()
   
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
-        body = JSON.stringify( json )
+  const productInput = document.querySelector( '#product' ),
+        json1 = { product: productInput.value },
+        body1 = JSON.stringify( json1 )
 
+  const releaseYearInput = document.querySelector( '#yearOfRelease' ),
+      json2 = { yearOfRelease: releaseYearInput },
+      body2 = JSON.stringify( json2 )
+
+  const releaseCostInput = document.querySelector( '#releaseCost' ),
+      json3 = { releaseCost: releaseCostInput },
+      body3 = JSON.stringify( json3 )
+        
   const response = await fetch( '/submit', {
     method:'POST',
-    body 
+    body1,
+    body2,
+    body3 
   })
 
-  const text = await response.text()
+  const data = await response.json()
 
-  console.log( 'text:', text )
+  data.map( item => item.model)
+    .forEach(item => console.log(item))
+
+  //data.forEach(d => console.log(d))
+
+  //console.log( 'text:', text )
 }
 
 window.onload = function() {

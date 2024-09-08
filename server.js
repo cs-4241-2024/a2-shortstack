@@ -1,5 +1,3 @@
-const { count } = require("console");
-
 const http = require("http"),
   fs = require("fs"),
   // IMPORTANT: you must run `npm install` in the directory for this assignment
@@ -22,7 +20,7 @@ const server = http.createServer(function (request, response) {
 const handleGet = function (request, response) {
   const filename = dir + request.url.slice(1);
 
-  if (request.url === "/") {
+  if (request.url === "/" || request.url === "/index.html" || request.url === "/?") {
     sendFile(response, "public/index.html");
   } else if (request.url === "/students") {
     // Added this to handle the GET request for the students list

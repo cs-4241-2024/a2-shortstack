@@ -1,5 +1,23 @@
 // FRONT-END (CLIENT) JAVASCRIPT HERE
 
+const showData = function (data) {
+  const dataTable = document.querySelector('#dataTable').value;
+  console.log("Data: ", data);
+  data.forEach(element => {
+    console.log(element.assignment);
+  });
+
+}
+
+const getData = async function (event) {
+  const response = await fetch('/data', {
+    method: 'GET'
+  });
+  const json = await response.json();
+  showData(json);
+}
+
+
 const submit = async function (event) {
   // stop form submission from trying to load
   // a new .html page for displaying results...
@@ -28,8 +46,10 @@ const submit = async function (event) {
 
   console.log('text:', text);
   console.log("data:", newData);
+  getData();
 }
 
 window.onload = function () {
   document.querySelector('#submitButton').onclick = submit;
+  getData();
 }

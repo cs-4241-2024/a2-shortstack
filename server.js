@@ -33,17 +33,20 @@ const handleGet = function (request, response) {
 
 const handlePost = function (request, response) {
   let dataString = '';
-  console.log("In handlePost");
+
   request.on('data', function (data) {
     dataString += data;
   })
 
   request.on('end', function () {
     const newData = JSON.parse(dataString);
-    const classCode = newData.classCode;
-    const className = newData.className;
-    const assignment = newData.assignment;
-    const daysLeft = newData.days;
+
+    console.log("newData", newData)
+    console.log("classcode", newData[0].classCode)
+    const classCode = newData[0].classCode;
+    const className = newData[0].className;
+    const assignment = newData[0].assignment;
+    const daysLeft = newData[0].daysLeft;
     //TODO: Make date calculations
 
     appdata.push({
@@ -52,9 +55,7 @@ const handlePost = function (request, response) {
       'assignment': assignment,
       'daysLeft': daysLeft
     });
-    console.log(JSON.parse(dataString))
-
-    // ... do something with the data here!!!
+    console.log("appdata:", appdata)
 
     response.writeHead(200, "OK", { 'Content-Type': 'text/plain' })
     response.end(JSON.stringify(appdata))

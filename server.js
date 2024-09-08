@@ -8,17 +8,19 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+let appdata = [
+  { 'yourname': 'Bob', 'game': 'Galaga', 'score': 10000, rank: 'B'},
+  { 'yourname': 'Chris', 'game': 'Pac-Man', 'score': 20000, rank: 'A'},
+  { 'yourname': 'Sean', 'game': 'Burger Time', 'score': 15000, rank: 'B'} 
 ]
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+    handlePost( request, response )
+  }else if( request.method === 'DELETE' ){
+    handleDelete( request, response )
   }
 })
 
@@ -40,14 +42,63 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+    const data = JSON.parse( dataString )
 
+  const yourname = data.yourname
+  const game = data.game
+  const score = data.score
+  console.log(data, yourname, game, score);
+  let rank = ''
+  if(Number(score) < 1000) {
+    rank = 'E'
+  } else if(score < 5000) {
+    rank = 'D'
+  } else if(score < 10000) {
+    rank = 'C'
+  } else if(score < 20000) {
+    rank = 'B'
+  } else if(score < 30000) {
+    rank = 'A'
+  } else {
+    rank = 'S'
+  }
+    
+    appdata.push({
+      'yourname': yourname,
+      'game': game,
+      'score': score,
+      'rank': rank
+    })
     // ... do something with the data here!!!
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end(JSON.stringify(appdata))
   })
 }
+
+const handleDelete = function( request, response ) {
+  let dataString = ''
+  
+  request.on( 'data', function( data ) {
+      dataString += data 
+  })
+  
+  request.on( 'end', function() {
+  const input = JSON.parse(dataString)
+  const x = appdata.findIndex(item =>
+    item.yourname === input.yourname &&
+    item.game === input.game &&
+    item.score === input.score)
+
+  if (x !== -1){
+    appdata.splice(x, 1)
+  }
+      
+  response.writeHead( 200, "OK", {'Content-Type': 'text/plain' }) 
+  response.end(JSON.stringify(appdata))
+  })
+}
+             
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 

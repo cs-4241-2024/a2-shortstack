@@ -84,7 +84,16 @@ const deletePurchase = (aPurchase) => {
 const updatePurchase = (aPurchase) => {
 
   //first make sure that a purchase with that title does not exist already 
-  const findIndex = purchases.findIndex(purchase => purchase.title === aPurchase.title); 
+  const findIndex = purchases.findIndex(purchase => {
+    purchase.title === aPurchase.title &&
+    purchase.category == aPurchase.category &&
+    purchase.store == aPurchase.store &&
+    purchase.price == aPurchase.price &&
+    purchase.cashOnHand == aPurchase.cashOnHand
+  
+  
+  
+  }); 
   
   if(findIndex != -1){
     return; 

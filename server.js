@@ -9,9 +9,9 @@ const http = require( 'http' ),
       port = 3000
 
 const appdata = [
-  { 'name': 'Piper', 'cookie':'chocolate chip cookie', 'icecream': 'vanilla' },
-  { 'name': 'James', 'cookie':'chocolate chip cookie', 'icecream': 'chocolate' },
-  { 'name': 'Sky', 'cookie':'sugar', 'icecream': 'vanilla' }
+  { 'name': 'Piper', 'cookie':'chocolate chip cookie', 'icecream': 'vanilla', 'other':'' },
+  { 'name': 'James', 'cookie':'chocolate chip cookie', 'icecream': 'chocolate', 'other':''},
+  { 'name': 'Sky', 'cookie':'sugar', 'icecream': 'vanilla', 'other':'' }
 ]
 
 const server = http.createServer( function( fillTable( text )) {

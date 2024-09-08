@@ -1,4 +1,42 @@
 body {
-  background:white;
-  color:black;
+  background: #f8f5f0;
+  color: #302f2f;
+  font-family: Nunito;
+}
+
+h1{
+  color: #052259;
+}
+
+table{
+  border: 2px solid #302f2f;
+  border-collapse: collapse;
+  width: 50%;
+  font-family: "Nunito", sans-serif;
+}
+
+thead{
+  border: 1px solid #302f2f;
+  font-family: "Nunito", sans-serif;
+  font-weight: bold;
+}
+
+th, td{
+  padding: 5px;
+  text-align: left;
+  border-bottom: 1px solid;
+  font-family: "Nunito", sans-serif;
+  font-weight: normal;
+}
+
+.box{
+  width: 1500px;
+  height: 2000px;
+  margin: 10px;
+  padding: 25px;
+}
+
+.table-box{
+  margin: 20px;
+  padding: 25px;
 }

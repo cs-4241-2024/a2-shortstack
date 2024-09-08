@@ -14,7 +14,7 @@ const appdata = [
   { 'name': 'Sky', 'cookie':'sugar', 'icecream': 'vanilla' }
 ]
 
-const server = http.createServer( function( request,response ) {
+const server = http.createServer( function( fillTable(text)) {
   if( request.method === 'GET' ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){
@@ -41,6 +41,7 @@ const handlePost = function( request, response ) {
   request.on( 'end', function() {
     console.log( JSON.parse( dataString ) )
     // ... do something with the data here!!!
+    //and add it to appdata!
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end('test')

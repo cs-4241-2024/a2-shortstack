@@ -18,11 +18,12 @@ const submit = async function( event ) {
   console.log('text:',text)
 }
 
-window.onload = function() {
+const fillTable = async function( event ) {
+
     const button = document.querySelector("#button");
     const table = document.querySelector("#target")
     const tbody = document.querySelector("#tbody")
-    //const newRow = table.insertRow(table.rows.length)
+//const newRow = table.insertRow(table.rows.length)
     const name = document.querySelector("#name")
     const cookie = document.querySelector("#cookie")
     const icecream = document.querySelector("#icecream")
@@ -57,11 +58,11 @@ window.onload = function() {
         // newRow.insertCell(3).innerHTML = otherValue
 
     })
+}
 
-    // const deleteRow = function () {
-    //
-    // }
 
-    button.onclick = submit;
+window.onload = function() {
+
+    //button.onclick = submit;
 
 }

@@ -5,11 +5,13 @@
     <meta charset="utf-8">
     <script src="js/main.js"></script>
     <link rel="stylesheet" href="css/main.css">
-    
+      <style>
+          @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+      </style>
     <!-- get rid of favicon error -->
     <!-- <link rel="icon" href="data:;base64,iVBORw0KGgo="> -->
   </head>
-  <body>
+  <body class="box">
   <h1>The Cookie Jar</h1>
     <form name="testform" id="userinfo">
         <label for="name">Name:</label>
@@ -27,7 +29,7 @@
         <button id="button">Enter</button>
         <br/>
     </form>
-    <table id="target">
+    <table id="target" class="table-box">
         <thead>
             <tr>
                 <th>Name</th>
@@ -42,6 +44,7 @@
                 <td>Piper</td>
                 <td>Chocolate Chip Cookies</td>
                 <td>Vanilla</td>
+                <td></td>
                 <td><button id="deleteButton" onclick="deleteData()"></button></td>
             </tr>
         </tbody>

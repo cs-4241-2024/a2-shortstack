@@ -30,13 +30,13 @@ const appdata =  [
   { 'name': 'Sky', 'cookie':'sugar', 'icecream': 'vanilla', 'other':'' }
 ]
 
-const server = http.createServer( request, response ) {
+const server = http.createServer function ( request, response ) {
   if( request.method === 'GET' ) {
     handleGet( request, response )
   }else if( request.method === 'POST' ){
     handlePost( request, response )
   }
-}
+})
 
 // const data = function(){
 //   return appdata

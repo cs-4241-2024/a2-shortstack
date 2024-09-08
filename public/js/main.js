@@ -31,5 +31,4 @@ const submit = async function (event) {
 
 window.onload = function () {
   document.querySelector('#submitButton').onclick = submit;
-  fetchData()//might delete
 }

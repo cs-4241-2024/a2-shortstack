@@ -15,7 +15,7 @@ exactly matches the input given. CSS positioning techniques used include the use
 3. No comments really surprised me.
 4. Get rid of the ability to submit blank fields.
 
-1. Provide the last name of each student you conduct the evaluation with.
-2. What problems did the user have with your design?
-3. What comments did they make that surprised you?
-4. What would you change about the interface based on their feedback?
+1. Ficarra
+2. The colors almost do a bit of a 3D effect since it's red and blue.
+3. Shorten the instructions since it's pretty self-explanitory.
+4. Change the color(s) and shorten the instructions a bit.

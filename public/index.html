@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <script src="js/main.js"></script>
     <link rel="stylesheet" href="css/main.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
       <style>
           @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
       </style>
@@ -13,22 +14,23 @@
   </head>
   <body class="box">
   <h1>The Cookie Jar</h1>
-    <form name="testform" id="userinfo">
+    <form name="testform" id="userinfo" class="form-box">
         <label for="name">Name:</label>
         <input type="text" id="name" name="user_name" />
-        <br/>
+
         <label for="cookie">Favorite Type of Cookie:</label>
         <input type="text" id="cookie" name="favorite_cookie" />
-        <br/>
+
         <label for="icecream">Favorite Type of Ice Cream:</label>
         <input type="text" id="icecream" name="favorite_icecream" />
-        <br/>
+
         <label for="other">Other:</label>
         <textarea id="other" name="other"></textarea>
-        <br/>
-        <button id="button">Enter</button>
-        <br/>
+
+        <button class="button" id="button">Enter</button>
+
     </form>
+    <h2>Results Saved from Previous Users:</h2>
     <table id="target" class="table-box">
         <thead>
             <tr>
@@ -45,7 +47,7 @@
                 <td>Chocolate Chip Cookies</td>
                 <td>Vanilla</td>
                 <td></td>
-                <td><button id="deleteButton" onclick="deleteData()"></button></td>
+                <td><button class="button" id="deleteButton" onclick="deleteData()"><span class="material-symbols-outlined">delete</span></button></td>
             </tr>
         </tbody>
     </table>

@@ -40,3 +40,28 @@ th, td{
   margin: 20px;
   padding: 25px;
 }
+
+.form-box{
+  margin: 20px;
+  padding: 25px;
+}
+
+form{
+  position: relative;
+  padding: 0px;
+  box-sizing: border-box;
+  display: grid;
+  grid-gap: 5px;
+  column-gap: 5px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 2em 2em 2em 5em;
+}
+
+.button{
+  background-color: white;
+  border-color: #052259;
+  color: #052259;
+  width: 50px;
+  height: 30px;
+  text-align: center;
+}

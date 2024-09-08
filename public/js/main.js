@@ -1,27 +1,40 @@
-// FRONT-END (CLIENT) JAVASCRIPT HERE
-
-const submit = async function( event ) {
-  // stop form submission from trying to load
-  // a new .html page for displaying results...
-  // this was the original browser behavior and still
-  // remains to this day
-  event.preventDefault()
-  
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
-        body = JSON.stringify( json )
-
-  const response = await fetch( '/submit', {
-    method:'POST',
-    body 
-  })
-
-  const text = await response.text()
-
-  console.log( 'text:', text )
+/**
+ * Formats a log message to include message source.
+ * 
+ * @param {string} src Message source.
+ * @param {string} message Base log message.
+ * @returns Formatted log message.
+ */
+const formatLog = function(src, message)
+{
+  return `[${src.toUpperCase()}] → ${message}`;
 }
 
-window.onload = function() {
-   const button = document.querySelector("button");
+/**
+ * Handler for user input submission.
+ * 
+ * @param {*} event Event object.
+ */
+const submit = async function(event)
+{
+  // Prevent browser from loading a new page
+  event.preventDefault();
+  
+  const input = document.querySelector("#yourname");
+  const json  = {yourname: input.value};
+  const body  = JSON.stringify(json);
+
+  const response = await fetch("/submit", {method:'POST', body});
+  const text     = await response.text();
+
+  console.log(formatLog("SUBMIT", `User input: ${text}`));
+}
+
+/**
+ * Set button click action to submit function.
+ */
+window.onload = function()
+{
+  const button = document.querySelector("button");
   button.onclick = submit;
 }

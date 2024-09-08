@@ -99,7 +99,7 @@ const handlePost = function(request, response)
 }
 
 /**
- * Given a URL, finds an HTML page to display to the user. Error 404 if not found.
+ * Given a file path, finds an HTML page to display to the user. Error 404 if not found.
  * 
  * @param {*} response Response object.
  * @param {string} filename Local file path.

@@ -15,6 +15,8 @@ const submit = async function( event ) {
     // const input = document.querySelector('#testform'),
     //     json = {testform: input.value},
     //     body = JSON.stringify (json);
+
+
     // const input = document.querySelector( '#yourname' ),
     //     json = { yourname: input.value },
     //     body = JSON.stringify( json )
@@ -23,8 +25,8 @@ const submit = async function( event ) {
     const cookie = document.getElementById('cookie').value
     const icecream = document.getElementById('icecream').value
     const other = document.getElementById('other').value
-    //const input = [name, cookie, icecream, other]
-    //const body = JSON.stringify( input )
+    const input = [name, cookie, icecream, other]
+    const body = JSON.stringify( input )
 
     const dict = {'name': name, 'cookie': cookie, 'icecream': icecream, 'other': other}
     //window.globalVar.appendChild(dict)
@@ -33,25 +35,31 @@ const submit = async function( event ) {
     //     method: 'POST',
     //     body
     // })
-    const input = document.querySelector( "#name"),
-        json = { name: input.value },
-        body = JSON.stringify( json );
+    // const input = document.querySelector( "#name"),
+    //     json = { name: input.value },
+    //     body = JSON.stringify( json );
+
+    const response = await fetch('/handlePost', {
+        method:'POST',
+        body
+    })
 
     const responseData = await fetch('/data',{
-        method: 'GET',    })
+        method: 'GET'
+    })
 
-    // const response = await fetch( '/submit', {
-    //     method:'POST',
-    //     body
-    // });
-    //const textPre = await response.text();
-    //const text = JSON.parse(response);
-    //fillTable(input)
-    fillTable(responseData)
+    const textPre = await responseData.text();
+    const text = JSON.parse(textPre);
+
+    console.log(text)
+    console.log(text[0].name.value)
+    fillTable(text)
+    //fillTable(responseData)
+
     //console.log('text:',text)
 }
 
-const fillTable = function( array ) {
+const fillTable = function( dict ) {
     /* I don't think you are doing this correctly */
 // I would look explore this https://stackoverflow.com/questions/46157018/dynamically-populate-data-into-table-using-javascript
 //This is similar to what the professor is suggesting
@@ -64,20 +72,23 @@ const fillTable = function( array ) {
         return td;
     }
 
-    const row = table.insertRow();
-    addCell(row, array[0])
-    addCell(row, array[1])
-    addCell(row, array[2])
-    addCell(row, array[3])
+//     const row = table.insertRow();
+//     addCell(row, array[0])
+//     addCell(row, array[1])
+//     addCell(row, array[2])
+//     addCell(row, array[3])
 
-
-    // //text.forEach(function (item){
-    //     const row = table.insertRow();
-    //     addCell(row, item.name.value)
-    //     addCell(row, item.cookie.value)
-    //     addCell(row, item.icecream.value)
-    //     addCell(row, item.other.value)
-    // //})
+    dict.forEach(function (item){
+        const row = table.insertRow();
+        const name = item["name"];
+        const cookie = item["cookie"];
+        const icecream = item["icecream"];
+        const other = item["other"]
+        addCell(row, name)
+        addCell(row, cookie)
+        addCell(row, icecream)
+        addCell(row, other)
+    })
 }
 
 

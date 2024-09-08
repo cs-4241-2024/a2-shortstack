@@ -14,8 +14,9 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
   <body>
-    <h1 class = "heroText">Manage your budget!</h1>
-    <div class = "displayContainer">
+    <h1 id = "heroText">Manage your budget!</h1>
+    <h2 id = "disclaimer">Note - Purchases can not have the same title</h2>
+    <div id = "displayContainer">
       <div class = "inputArea">
         <form id = "budgetForm" class = ".customForm">
           <h2 class="formHeader">Add a purchase!</h2>
@@ -62,6 +63,7 @@
 
         <input id = "updatecoh" value = "Enter your cash on hand!">
         <button id = "submitUpdates"  type = "button" >Submit Updates</button>
+        <button id = "deletePurchase"  type = "button" >Delete</button>
       
 
   
@@ -71,7 +73,7 @@
 
 
     <div class = "resultsArea" >
-        <h2 class="formHeader">Add a purchase!</h2>
+        <h2 class="formHeader">View your purchases!</h2>
         
         <table id = "resultsTable">
           <tr> 

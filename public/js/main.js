@@ -45,6 +45,7 @@ const handleDelete = async (title) => {
   modal.close(); 
 }
 const handleUpdate = async (title, newTitle, newType, newStore, newPrice, newCoh) => { 
+  console.log("Calling update function with a new title of", newTitle); 
   const body = JSON.stringify({
     "oldTitle": title, 
     "title": newTitle, 
@@ -66,7 +67,7 @@ const handleUpdate = async (title, newTitle, newType, newStore, newPrice, newCoh
 }
 const buildTable = (res, mode) => { 
   resultsTable.innerHTML = ''; 
-  res.map((item) => {
+  res.map((item, idx) => {
 
 
   
@@ -83,6 +84,35 @@ const buildTable = (res, mode) => {
 
   const resultTitle = document.createElement('td'); 
       resultTitle.innerHTML = title; 
+    if(idx === 0){
+
+  
+     const headers = document.createElement('tr'); 
+     const purchaseHeader = document.createElement('th'); 
+     purchaseHeader.innerHTML = 'Purchase Title'; 
+     const categoryHeader = document.createElement('th'); 
+     categoryHeader.innerHTML = 'Category'; 
+     const storeHeader = document.createElement('th'); 
+     storeHeader.innerHTML = 'Store'; 
+     const priceHeader = document.createElement('th'); 
+     priceHeader.innerHTML = 'Price'; 
+     
+     const cohHeader = document.createElement('th'); 
+     cohHeader.innerHTML = 'Cash On Hand'
+     const affoardableHeader=document.createElement('th'); 
+     affoardableHeader.innerHTML = 'Affoardable?'; 
+     const editHeader = document.createElement('th'); 
+     editHeader.innerHTML = 'edit/delete'
+     headers.appendChild(purchaseHeader); 
+     headers.appendChild(categoryHeader); 
+     headers.appendChild(storeHeader); 
+     headers.appendChild(priceHeader); 
+     headers.append(cohHeader); 
+     headers.append(affoardableHeader); 
+     headers.append(editHeader); 
+     resultsTable.appendChild(headers); 
+    }
+
       const resultCategory = document.createElement('td'); 
       resultCategory.innerHTML = category; 
       const resultStore = document.createElement('td'); 
@@ -97,6 +127,7 @@ const buildTable = (res, mode) => {
       editButton.innerHTML = 'update Item'; 
       const deleteButton = document.createElement('button');
       deleteButton.innerHTML = 'delete item'; 
+      
       resultRow.appendChild(resultTitle); 
       resultRow.appendChild(resultCategory); 
       resultRow.appendChild(resultStore)
@@ -105,9 +136,11 @@ const buildTable = (res, mode) => {
       resultRow.appendChild(resultAffoardable); 
       resultRow.appendChild(editButton); 
       resultRow.appendChild(deleteButton); 
+      
       resultsTable.appendChild(resultRow); 
       editButton.addEventListener('click', (event) =>{
         console.log(resultTitle.innerHTML); 
+        console.log('button clicked');  
         handleEditClick(event, resultTitle.innerHTML, resultCategory.innerHTML, resultStore.innerHTML, resultPrice.innerHTML, resultCOH.innerHTML);
       }); 
       deleteButton.addEventListener('click', () => {
@@ -128,8 +161,15 @@ const handleEditClick = (event, oldTitle, category, store, price, coh, ) => {
   document.getElementById('updatecoh').value = coh;  
   console.log("the old title was", oldTitle); 
   modal.showModal();
+  const deleteButton = document.getElementById('deletePurchase'); 
+  deleteButton.addEventListener('click', (event) => { 
+    event.preventDefault(); 
+    handleDelete(oldTitle); 
+    modal.close(); 
+  })
   const buttonUpdate = document.getElementById('submitUpdates'); 
   buttonUpdate.addEventListener('click', (event) => {
+    console.log("Button go"); 
   event.preventDefault();
           
   const newtitle = document.getElementById('updatetitle').value; 
@@ -138,6 +178,7 @@ const handleEditClick = (event, oldTitle, category, store, price, coh, ) => {
   const newPrice = document.getElementById('updateprice').value; 
   const newCoh = document.getElementById('updatecoh').value; 
   handleUpdate(oldTitle, newtitle, newType, newStore, newPrice, newCoh); 
+  oldTitle = newtitle; 
   const updatedArr = []; 
   getAllItems().then((res) => {
     buildTable(res, 'update'); 

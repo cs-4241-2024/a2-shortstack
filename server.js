@@ -83,7 +83,19 @@ const deletePurchase = (aPurchase) => {
 }
 
 const updatePurchase = (aPurchase) => {
-  purchases =  purchases.filter((item) => item.title != aPurchase.oldTitle);
+
+  //first make sure that a purchase with that title does not exist already 
+  const findIndex = purchases.findIndex(purchase => purchase.title === aPurchase.title); 
+  
+  console.log("foubd", findIndex, aPurchase); 
+  if(findIndex != -1){
+    return; 
+  }
+
+  const purchaseLen = purchases.length; 
+  purchases =  purchases.filter((item) => item.title !== aPurchase.oldTitle);
+
+
   const newPurchase = {
     "title": aPurchase.title, 
     "category": aPurchase.category, 
@@ -93,6 +105,7 @@ const updatePurchase = (aPurchase) => {
     "affoardable?": isInBudget(aPurchase), 
   } 
   purchases.push(newPurchase); 
+
   console.log("updated", purchases); 
 
 }
@@ -116,6 +129,7 @@ const handlePost = function( request, response ) {
       deletePurchase(body); 
     }
     else if (request.url === '/api/updatePurchase'){
+      console.log("Here"); 
       updatePurchase(body); 
     }
 

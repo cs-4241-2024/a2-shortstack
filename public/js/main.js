@@ -1,27 +1,51 @@
-// FRONT-END (CLIENT) JAVASCRIPT HERE
+const submit = async function (event) {
+  event.preventDefault();
 
-const submit = async function( event ) {
-  // stop form submission from trying to load
-  // a new .html page for displaying results...
-  // this was the original browser behavior and still
-  // remains to this day
-  event.preventDefault()
-  
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
-        body = JSON.stringify( json )
+  const employeeID = document.querySelector('#employeeid').value;
+  const yourName = document.querySelector('#yourname').value;
+  const salary = document.querySelector('#salary').value;
+  const regDate = document.querySelector('#regdate').value;
 
-  const response = await fetch( '/submit', {
-    method:'POST',
-    body 
-  })
+  const data = {
+    employeeid: employeeID,
+    yourname: yourName,
+    salary: salary,
+    regdate: regDate
+  };
 
-  const text = await response.text()
+  const response = await fetch('/submit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
 
-  console.log( 'text:', text )
-}
+  if (response.ok) {
+    const updatedData = await response.json();
 
-window.onload = function() {
-   const button = document.querySelector("button");
-  button.onclick = submit;
-}
+    const tableBody = document.querySelector('#employeeTable tbody');
+    tableBody.innerHTML = '';
+
+    updatedData.forEach(entry => {
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>${entry.employeeid}</td>
+        <td>${entry.name}</td>
+        <td>${entry.salary}</td>
+        <td>${entry.regdate}</td>
+        <td>${entry.expdate}</td>
+      `;
+      tableBody.appendChild(newRow);
+    });
+
+    document.querySelector('#employeeForm').reset();
+  } else {
+    console.error('Failed to submit data');
+  }
+};
+
+window.onload = function () {
+  const form = document.querySelector('#employeeForm');
+  form.onsubmit = submit;
+};

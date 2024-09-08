@@ -34,6 +34,7 @@ const handleGet = function (request, response) {
 }
 
 const handlePost = function (request, response) {
+  console.log("here");
   let dataString = ''
   //TODO: Finish me
   request.on('data', function (data) {

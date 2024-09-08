@@ -18,8 +18,17 @@ const handleSubmit = async(title, type, store, price, coh) => {
   
   
 }
+const getAllItems = async () => {
+  const data = await fetch('/api/getResults', {
+    method: "GET"
+  }); 
+  return (await data.json()); 
+}
 
 const handleDelete = async (title) => {
+  console.log("deleting..."); 
+  console.log("title is!", title); 
+  const modal = document.getElementById('deleteDialog'); 
   const body = JSON.stringify({
     "title": title
   }); 
@@ -28,8 +37,12 @@ const handleDelete = async (title) => {
     body
   }); 
 
+  getAllItems().then((res) => {
+    console.log("res is", res); 
+    buildTable(res, 'delete'); 
 
-
+  })
+  modal.close(); 
 }
 const handleUpdate = async (title, newTitle, newType, newStore, newPrice, newCoh) => { 
   const body = JSON.stringify({
@@ -51,36 +64,24 @@ const handleUpdate = async (title, newTitle, newType, newStore, newPrice, newCoh
 
 
 }
-const buildTable = () => { 
+const buildTable = (res, mode) => { 
+  resultsTable.innerHTML = ''; 
+  res.map((item) => {
+
+
   
-}
-window.onload =  function() {
-  //logic for creating a new item 
-   const form = document.getElementById('budgetForm'); 
-   form.addEventListener("submit", (event) => { 
-    event.preventDefault(); 
-    const title = document.getElementById('title').value; 
-    const type = document.getElementById('types').value; 
-    const store = document.getElementById('store').value; 
-    const price = document.getElementById('price').value; 
-    const coh = document.getElementById('coh').value; 
+  const title = item['title']; 
+  const category = item['category']; 
+  const store = item['store']; 
+  const price = item['price']; 
+  const cashOnHand = item['cashOnHand']; 
+  const affoardable = item['affoardable?']; 
+  const resultsTable = document.getElementById('resultsTable'); 
 
-    
-    form.onsubmit=  handleSubmit(title, type, store, price, coh ).then((res) => { 
-    const item = res.at(-1); 
   
-    
-      const title = item['title']; 
-      const category = item['category']; 
-      const store = item['store']; 
-      const price = item['price']; 
-      const cashOnHand = item['cashOnHand']; 
-      const affoardable = item['affoardable?']; 
-      const resultsTable = document.getElementById('resultsTable'); 
-      const resultRow = document.createElement('tr'); 
+  const resultRow = document.createElement('tr'); 
 
-
-      const resultTitle = document.createElement('td'); 
+  const resultTitle = document.createElement('td'); 
       resultTitle.innerHTML = title; 
       const resultCategory = document.createElement('td'); 
       resultCategory.innerHTML = category; 
@@ -94,8 +95,8 @@ window.onload =  function() {
       resultAffoardable.innerHTML = affoardable; 
       const editButton = document.createElement('button'); 
       editButton.innerHTML = 'update Item'; 
-      const deleteButton = document.getElementById('deleteButton');
-    
+      const deleteButton = document.createElement('button');
+      deleteButton.innerHTML = 'delete item'; 
       resultRow.appendChild(resultTitle); 
       resultRow.appendChild(resultCategory); 
       resultRow.appendChild(resultStore)
@@ -103,35 +104,66 @@ window.onload =  function() {
       resultRow.appendChild(resultCOH)
       resultRow.appendChild(resultAffoardable); 
       resultRow.appendChild(editButton); 
+      resultRow.appendChild(deleteButton); 
       resultsTable.appendChild(resultRow); 
-      
-      editButton.onclick = () => { 
-     
-       
-        const modal = document.getElementById('deleteDialog'); 
-        modal.showModal();
-        
-        const buttonUpdate = document.getElementById('submitUpdates'); 
-        buttonUpdate.addEventListener('click', (event) => {
-          event.preventDefault();
-          
-          const newtitle = document.getElementById('updatetitle').value; 
-          const newType = document.getElementById('updatetypes').value; 
-          const newStore =  document.getElementById('updatestore').value; 
-         const newPrice = document.getElementById('updateprice').value; 
-        const newCoh = document.getElementById('updatecoh').value; 
-          handleUpdate(oldTitle, newtitle, newType, newStore, newPrice, newCoh); 
-          modal.close(); 
-        })
-       
-
-      }
-      deleteButton.addEventListener('click', (event) => { 
-        console.log('dkkdkd'); 
-
-        event.preventDefault();
-        handleDelete(title); 
+      editButton.addEventListener('click', (event) =>{
+        console.log(resultTitle.innerHTML); 
+        handleEditClick(event, resultTitle.innerHTML, resultCategory.innerHTML, resultStore.innerHTML, resultPrice.innerHTML, resultCOH.innerHTML);
       }); 
+      deleteButton.addEventListener('click', () => {
+        handleDelete(resultTitle.innerHTML); 
+        
+      })
+    })
+
+
+}
+const handleEditClick = (event, oldTitle, category, store, price, coh, ) => { 
+  event.preventDefault(); 
+  const modal = document.getElementById('deleteDialog'); 
+  document.getElementById('updatetitle').value = oldTitle; 
+  document.getElementById('updatetypes').value = category;
+  document.getElementById('updatestore').value = store; 
+  document.getElementById('updateprice').value = price; 
+  document.getElementById('updatecoh').value = coh;  
+  console.log("the old title was", oldTitle); 
+  modal.showModal();
+  const buttonUpdate = document.getElementById('submitUpdates'); 
+  buttonUpdate.addEventListener('click', (event) => {
+  event.preventDefault();
+          
+  const newtitle = document.getElementById('updatetitle').value; 
+  const newType = document.getElementById('updatetypes').value; 
+  const newStore =  document.getElementById('updatestore').value; 
+  const newPrice = document.getElementById('updateprice').value; 
+  const newCoh = document.getElementById('updatecoh').value; 
+  handleUpdate(oldTitle, newtitle, newType, newStore, newPrice, newCoh); 
+  const updatedArr = []; 
+  getAllItems().then((res) => {
+    buildTable(res, 'update'); 
+
+  })
+ 
+  modal.close(); 
+  }); 
+}
+
+
+
+window.onload =  function() {
+  //logic for creating a new item 
+   const form = document.getElementById('budgetForm'); 
+   form.addEventListener("submit", (event) => { 
+    event.preventDefault(); 
+    const title = document.getElementById('title').value; 
+    const type = document.getElementById('types').value; 
+    const store = document.getElementById('store').value; 
+    const price = document.getElementById('price').value; 
+    const coh = document.getElementById('coh').value; 
+
+    
+    form.onsubmit=  handleSubmit(title, type, store, price, coh ).then((res) => { 
+      buildTable(res, 'create'); 
   }); 
 
    }); 

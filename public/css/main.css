@@ -12,6 +12,7 @@ body {
   font-style: italic;
   font-family: "poppins";
 }
+#disclaimer2, 
 #disclaimer{ 
   display:flex; 
   flex-direction: row;

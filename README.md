@@ -76,7 +76,7 @@ Below are suggested technical and design achievements. You can use these to help
 
 1. Make sure you start the study by clearly stating the task that you expect your user to accomplish.
 2. You shouldn't provide any verbal instructions on how to use your interface / accomplish the task you give them. Make sure that your interface is clear enough that users can figure it out without any instruction, or provide text instructions from within the interface itself. 
-3. If users get stuck to the point where they give up, you can then provde instruction so that the study can continue, but make sure to discuss this in your README. You won't lose any points for this... all feedback is good feedback!
+3. If users get stuck to the point where they give up, you can then provide instruction so that the study can continue, but make sure to discuss this in your README. You won't lose any points for this... all feedback is good feedback!
 
 You'll need to use sometype of collaborative software that will enable you both to see the test subject's screen and listen to their voice as they describe their thoughts, or conduct the studies in person. After completing each study, briefly (one to two sentences for each question) address the following in your README:
 
@@ -94,7 +94,21 @@ Sample Readme (delete the above when you're ready to submit, and modify the belo
 Include a very brief summary of your project here. Be sure to include the CSS positioning technique you used, and any required instructions to use your application.
 
 ## Technical Achievements
-- **Tech Achievement 1**: Using a combination of...
+- **Tech Achievement 1**: I have created a single page app for a restaurant service of ordering food. There is a form to submit food requests [full name, food option, food quantity]. The app stores the submitted food requests in the console log with inputted fields, sending back the data. The data is displayed along with the cumulative total price (calculated by the server)
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: 
+- **Design Achievement 1 [First Evaluation] **: Finished an evaluation for Stryder Crouse on the application.
+- **Design Achievement 2 [Second Evaluation] **: Finished an Evaluation for Jeremy Kurtz on the application.
+
+### Testing
+- Last Name: Crouse
+- Problems: Check back-end if it stores data? They refresh the page and their ordered items are gone. [Fixed]
+- Comments: Used negative quantity for orders, resulting in negative cumulative data.
+- Feedback: Make the ordered items into a table, so it doesn't pop out when ordering food items.
+
+- Last Name: Kurtz
+- Problems: Cancel Button doesn't work. No functionality
+- Comments: Color Scheme is good.
+- Feedback: Little disorienting when you add orders. Maybe make a table?
+
+Glitch: https://ablaze-copper-hadrosaurus.glitch.me

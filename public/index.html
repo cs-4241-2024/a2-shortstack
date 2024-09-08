@@ -3,40 +3,45 @@
 <head>
   <title>CS4241 Assignment 2</title>
   <meta charset="utf-8" />
-  <script src="js/main.js"></script>
+  <script src="js/main.js" defer></script> <!-- Defer to load JS after HTML -->
   <link rel="stylesheet" href="css/main.css" />
   <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
 </head>
 <body>
-<form>
-  <h1>Restaurant service</h1>
+<form id="orderForm">
+  <h1>Restaurant Service</h1>
 
+  <!-- Name input field -->
   <label for="name">Input your name here:</label><br />
-  <input type="text" id="name" value="Full Name" /><br />
+  <input type="text" id="name"/><br />
+
+  <!-- Food selection dropdown -->
   <label for="food">What food do you want to order?</label><br />
   <select id="food">
     <option value="10">Burger ($10)</option>
     <option value="5">Fries ($5)</option>
-    <option value="3">Milkshake ($3)</option></select
-  ><br />
+    <option value="3">Milkshake ($3)</option>
+  </select><br />
+
+  <!-- Quantity input field -->
   <label for="quantity">Quantity amount:</label><br />
-  <input
-          type="number"
-          id="quantity"
-          name="quantity"
-          min="1"
-          max="5"
-  /><br />
+  <input type="number" id="quantity" name="quantity" min="1" max="5" value="1" /><br />
 
-  <button>submit</button>
+  <!-- Submit button -->
+  <button type="submit">Submit</button>
 
+  <!-- Cumulative total price display -->
   <div id="totalPriceField">
-    <h3>Cumulative Total Price Made: $0</h3>
+    <h3>Cumulative Total Price: $0</h3>
   </div>
+
 </form>
 
+<!-- Ordered items list -->
 <h3>Ordered Items:</h3>
 <ul id="orderedItemsList"></ul>
+
 </body>
 </html>
+
 

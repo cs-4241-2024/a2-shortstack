@@ -1,74 +1,129 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+const http = require("http");
+const fs   = require("fs");
+const mime = require("mime");
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+// Local directory
+const dir  = "public/";
+
+// Server port
+const port = 3000;
+
+// Data table for active laptop loans
+const activeLoans = 
+[
+  {"id": 0, "firstname": "test-first", "lastname": "test-last"}
 ]
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+/**
+ * Formats a log message to include message source.
+ * 
+ * @param {string} src Message source.
+ * @param {string} message Base log message.
+ * @returns Formatted log message.
+ */
+const formatLog = function(src, message)
+{
+  return `[${src.toUpperCase()}] → ${message}`;
+}
+
+/**
+ * Creates a server object and binds GET and POST requests to functions.
+ * Any other requests will go unhandled and print an error.
+ */
+const server = http.createServer(function(request ,response)
+{
+  switch (request.method)
+  {
+  case "GET":
+    handleGet(request, response);
+    break;
+
+  case "POST":
+    handlePost(request, response);
+    break;
+
+  default:
+    console.log(formatLog("SERVER", `Unhandled request type ${request.method}`));
+    break;
   }
-})
+});
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
+/**
+ * Handles an incoming GET request.
+ * 
+ * @param {*} request Request object.
+ * @param {*} response Response object.
+ */
+const handleGet = function(request, response)
+{
+  const file = request.url.slice(1);
 
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
+  switch (file)
+  {
+  case "":
+    sendFile(response, `${dir}/index.html`);
+    break;
+
+  default:
+    sendFile(response, `${dir}/${file}`)
   }
 }
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+/**
+ * Handles an incoming POST request.
+ * 
+ * @param {*} request Request object.
+ * @param {*} response Response object.
+ */
+const handlePost = function(request, response)
+{
+  let dataString;
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+  // Get data from request
+  request.on("data", function(data)
+  {
+    dataString = data;
+  });
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+  // Process data from request
+  request.on("end", function()
+  {
+    const userText = JSON.parse(dataString).yourname;
+    console.log(formatLog("POST", `User input: ${userText}`));
 
     // ... do something with the data here!!!
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
+    response.writeHead(200, "OK", {"Content-Type": "text/plain"});
+    response.end(`${userText}`);
+  });
 }
 
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
-
-   fs.readFile( filename, function( err, content ) {
-
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
+/**
+ * Given a URL, finds an HTML page to display to the user. Error 404 if not found.
+ * 
+ * @param {*} response Response object.
+ * @param {string} filename Local file path.
+ */
+const sendFile = function(response, filename)
+{
+  fs.readFile(filename, function(error, content)
+  {
+    // Check for error finding file
+    if (error === null)
+    {
+      // Status code reference: https://httpstatuses.com
+      response.writeHeader(200, {"Content-Type": mime.getType(filename)});
+      response.end(content);
+    }
+    else
+    {
+      // File not found :(
+      response.writeHeader(404);
+      response.end("Error 404: File Not Found");
+    }
+  });
 }
 
+// Start server on port
 server.listen( process.env.PORT || port )
+console.log(formatLog("SERVER", `Server running on port ${port}`))

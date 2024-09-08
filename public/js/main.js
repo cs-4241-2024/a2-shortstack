@@ -19,15 +19,17 @@ const submit = async function (event) {
 
   const response = await fetch('/submit', {
     method: 'POST',
+    // headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newData)
   });
 
   const text = await response.text();
 
-  console.log('text:', newData);
+  console.log('text:', text);
+  console.log("data:", newData);
 }
 
 window.onload = function () {
-  const button = document.querySelector("button");
-  button.onclick = submit;
+  document.querySelector('#submitButton').onclick = submit;
+  fetchData()//might delete
 }

@@ -14,7 +14,7 @@ const appdata = [
   { 'name': 'Sky', 'cookie':'sugar', 'icecream': 'vanilla' }
 ]
 
-const server = http.createServer( function( fillTable(text)) {
+const server = http.createServer( function( fillTable( text )) {
   if( request.method === 'GET' ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){

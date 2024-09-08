@@ -51,36 +51,18 @@ const handleUpdate = async (title, newTitle, newType, newStore, newPrice, newCoh
 
 
 }
-const buildTable = () => { 
-  
-}
-window.onload =  function() {
-  //logic for creating a new item 
-   const form = document.getElementById('budgetForm'); 
-   form.addEventListener("submit", (event) => { 
-    event.preventDefault(); 
-    const title = document.getElementById('title').value; 
-    const type = document.getElementById('types').value; 
-    const store = document.getElementById('store').value; 
-    const price = document.getElementById('price').value; 
-    const coh = document.getElementById('coh').value; 
+const buildTable = (res) => { 
+  const item = res.at(-1); 
+  const title = item['title']; 
+  const category = item['category']; 
+  const store = item['store']; 
+  const price = item['price']; 
+  const cashOnHand = item['cashOnHand']; 
+  const affoardable = item['affoardable?']; 
+  const resultsTable = document.getElementById('resultsTable'); 
+  const resultRow = document.createElement('tr'); 
 
-    
-    form.onsubmit=  handleSubmit(title, type, store, price, coh ).then((res) => { 
-    const item = res.at(-1); 
-  
-    
-      const title = item['title']; 
-      const category = item['category']; 
-      const store = item['store']; 
-      const price = item['price']; 
-      const cashOnHand = item['cashOnHand']; 
-      const affoardable = item['affoardable?']; 
-      const resultsTable = document.getElementById('resultsTable'); 
-      const resultRow = document.createElement('tr'); 
-
-
-      const resultTitle = document.createElement('td'); 
+  const resultTitle = document.createElement('td'); 
       resultTitle.innerHTML = title; 
       const resultCategory = document.createElement('td'); 
       resultCategory.innerHTML = category; 
@@ -94,8 +76,6 @@ window.onload =  function() {
       resultAffoardable.innerHTML = affoardable; 
       const editButton = document.createElement('button'); 
       editButton.innerHTML = 'update Item'; 
-      const deleteButton = document.getElementById('deleteButton');
-    
       resultRow.appendChild(resultTitle); 
       resultRow.appendChild(resultCategory); 
       resultRow.appendChild(resultStore)
@@ -104,34 +84,64 @@ window.onload =  function() {
       resultRow.appendChild(resultAffoardable); 
       resultRow.appendChild(editButton); 
       resultsTable.appendChild(resultRow); 
-      
-      editButton.onclick = () => { 
-     
-       
-        const modal = document.getElementById('deleteDialog'); 
-        modal.showModal();
-        
-        const buttonUpdate = document.getElementById('submitUpdates'); 
-        buttonUpdate.addEventListener('click', (event) => {
-          event.preventDefault();
+      editButton.addEventListener('click', handleEditClick); 
+}
+const handleEditClick = (event) => { 
+  event.preventDefault(); 
+  console.log('ee');
+  const modal = document.getElementById('deleteDialog'); 
+  const oldTitle = document.getElementById('updatetitle').value; 
+  console.log("the old title was", oldTitle); 
+  modal.showModal();
+  const buttonUpdate = document.getElementById('submitUpdates'); 
+  buttonUpdate.addEventListener('click', (event) => {
+  event.preventDefault();
           
-          const newtitle = document.getElementById('updatetitle').value; 
-          const newType = document.getElementById('updatetypes').value; 
-          const newStore =  document.getElementById('updatestore').value; 
-         const newPrice = document.getElementById('updateprice').value; 
-        const newCoh = document.getElementById('updatecoh').value; 
-          handleUpdate(oldTitle, newtitle, newType, newStore, newPrice, newCoh); 
-          modal.close(); 
-        })
+  const newtitle = document.getElementById('updatetitle').value; 
+  const newType = document.getElementById('updatetypes').value; 
+  const newStore =  document.getElementById('updatestore').value; 
+  const newPrice = document.getElementById('updateprice').value; 
+  const newCoh = document.getElementById('updatecoh').value; 
+  handleUpdate(oldTitle, newtitle, newType, newStore, newPrice, newCoh); 
+ 
+  modal.close(); 
+  }); 
+}
+
+
+
+window.onload =  function() {
+  //logic for creating a new item 
+   const form = document.getElementById('budgetForm'); 
+   form.addEventListener("submit", (event) => { 
+    event.preventDefault(); 
+    const title = document.getElementById('title').value; 
+    const type = document.getElementById('types').value; 
+    const store = document.getElementById('store').value; 
+    const price = document.getElementById('price').value; 
+    const coh = document.getElementById('coh').value; 
+
+    
+    form.onsubmit=  handleSubmit(title, type, store, price, coh ).then((res) => { 
+      buildTable(res); 
+
+
+      
+      
+      // editButton.onclick = () => { 
+     
+      //   const deleteButton = document.getElementById('deleteButton');
+
+
        
 
-      }
-      deleteButton.addEventListener('click', (event) => { 
-        console.log('dkkdkd'); 
+      // }
+      // deleteButton.addEventListener('click', (event) => { 
+      //   console.log('dkkdkd'); 
 
-        event.preventDefault();
-        handleDelete(title); 
-      }); 
+      //   event.preventDefault();
+      //   handleDelete(title); 
+      // }); 
   }); 
 
    }); 

@@ -18,6 +18,12 @@ const handleSubmit = async(title, type, store, price, coh) => {
   
   
 }
+const getAllItems = async () => {
+  const data = await fetch('/api/getResults', {
+    method: "GET"
+  }); 
+  return (await data.json()); 
+}
 
 const handleDelete = async (title) => {
   const body = JSON.stringify({
@@ -27,9 +33,6 @@ const handleDelete = async (title) => {
     method: 'POST', 
     body
   }); 
-
-
-
 }
 const handleUpdate = async (title, newTitle, newType, newStore, newPrice, newCoh) => { 
   const body = JSON.stringify({
@@ -60,6 +63,8 @@ const buildTable = (res) => {
   const cashOnHand = item['cashOnHand']; 
   const affoardable = item['affoardable?']; 
   const resultsTable = document.getElementById('resultsTable'); 
+  resultsTable.innerHTML = ''; 
+  
   const resultRow = document.createElement('tr'); 
 
   const resultTitle = document.createElement('td'); 
@@ -87,20 +92,14 @@ const buildTable = (res) => {
       editButton.addEventListener('click', (event) =>{
         console.log(resultTitle.innerHTML); 
         handleEditClick(event, resultTitle.innerHTML, resultCategory.innerHTML, resultStore.innerHTML, resultPrice.innerHTML, resultCOH.innerHTML);
+   
       }); 
+
 
 }
 const handleEditClick = (event, oldTitle, category, store, price, coh, ) => { 
   event.preventDefault(); 
   const modal = document.getElementById('deleteDialog'); 
-  const oldType = document.getElementById('types').value; 
-  const oldStore = document.getElementById('store').value; 
-  const oldPrice = document.getElementById('price').value; 
-  const oldCOH = document.getElementById('coh').value; 
-
-
-
-
   document.getElementById('updatetitle').value = oldTitle; 
   document.getElementById('updatetypes').value = category;
   document.getElementById('updatestore').value = store; 
@@ -118,6 +117,11 @@ const handleEditClick = (event, oldTitle, category, store, price, coh, ) => {
   const newPrice = document.getElementById('updateprice').value; 
   const newCoh = document.getElementById('updatecoh').value; 
   handleUpdate(oldTitle, newtitle, newType, newStore, newPrice, newCoh); 
+  const updatedArr = []; 
+  getAllItems().then((res) => {
+    buildTable(res); 
+
+  })
  
   modal.close(); 
   }); 

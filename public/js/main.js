@@ -161,6 +161,12 @@ const handleEditClick = (event, oldTitle, category, store, price, coh, ) => {
   document.getElementById('updatecoh').value = coh;  
   console.log("the old title was", oldTitle); 
   modal.showModal();
+  const deleteButton = document.getElementById('deletePurchase'); 
+  deleteButton.addEventListener('click', (event) => { 
+    event.preventDefault(); 
+    handleDelete(oldTitle); 
+    modal.close(); 
+  })
   const buttonUpdate = document.getElementById('submitUpdates'); 
   buttonUpdate.addEventListener('click', (event) => {
     console.log("Button go"); 

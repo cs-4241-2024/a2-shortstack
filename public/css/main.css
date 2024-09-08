@@ -2,6 +2,7 @@ body {
   background:white;
   color:black;
   font-family: poppins;
+  background-color: bisque;
 }
 #heroText{
   display:flex; 
@@ -84,7 +85,8 @@ tr, th{
   margin-right: 3rem;
 }
 table, th, td{ 
-  border: 1px solid black; 
+  border: 1px solid red; 
+
 }
 button{
   display: flex; 

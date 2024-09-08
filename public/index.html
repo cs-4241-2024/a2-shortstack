@@ -1,18 +1,59 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
-    <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
+
+<head>
+  <title>CS4241 Assignment 2</title>
+  <meta charset="utf-8">
+  <script src="js/main.js"></script>
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- get rid of favicon error -->
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+
+<body>
+  <form>
+    <!-- <input type="text" id="yourname" value="your name here"> -->
+    <ul class="form-list">
+      <li class="input-item">
+        <label for="task">Task:</label>
+        <input type="text" id="task" name="task" value="Task Name">
+      </li>
+      <li class="input-item">
+        <label for="startdate">Start Date:</label>
+        <input type="date" id="startdate" name="start_date" value="">
+      </li>
+      <li class="input-item">
+        <label for="duedate">Due Date:</label>
+        <input type="date" id="duedate" name="due_date" value="">
+      </li>
     
-    <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  </head>
-  <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
-    </form>
-  </body>
+      <li class="button-item">
+        <button type="submit">Send your message</button>
+        <button type="reset">Clear Form</button>
+      </li>
+    </ul>
+    
+    <!-- <button>submit</button> -->
+  </form>
+
+
+  <table id="data-table">
+    <thead>
+        <tr>
+            <th>Task</th>
+            <th>Start Date</th>
+            <th>Due Date</th>
+            <th>Days Available</th>
+            <th>Days Left</th>
+            <th>Save</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+</body>
+
 </html>

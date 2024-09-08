@@ -26,6 +26,9 @@ const getAllItems = async () => {
 }
 
 const handleDelete = async (title) => {
+  console.log("deleting..."); 
+  console.log("title is!", title); 
+  const modal = document.getElementById('deleteDialog'); 
   const body = JSON.stringify({
     "title": title
   }); 
@@ -33,6 +36,13 @@ const handleDelete = async (title) => {
     method: 'POST', 
     body
   }); 
+
+  getAllItems().then((res) => {
+    console.log("res is", res); 
+    buildTable(res, 'delete'); 
+
+  })
+  modal.close(); 
 }
 const handleUpdate = async (title, newTitle, newType, newStore, newPrice, newCoh) => { 
   const body = JSON.stringify({
@@ -54,8 +64,12 @@ const handleUpdate = async (title, newTitle, newType, newStore, newPrice, newCoh
 
 
 }
-const buildTable = (res) => { 
-  const item = res.at(-1); 
+const buildTable = (res, mode) => { 
+  resultsTable.innerHTML = ''; 
+  res.map((item) => {
+
+
+  
   const title = item['title']; 
   const category = item['category']; 
   const store = item['store']; 
@@ -63,7 +77,7 @@ const buildTable = (res) => {
   const cashOnHand = item['cashOnHand']; 
   const affoardable = item['affoardable?']; 
   const resultsTable = document.getElementById('resultsTable'); 
-  resultsTable.innerHTML = ''; 
+
   
   const resultRow = document.createElement('tr'); 
 
@@ -81,6 +95,8 @@ const buildTable = (res) => {
       resultAffoardable.innerHTML = affoardable; 
       const editButton = document.createElement('button'); 
       editButton.innerHTML = 'update Item'; 
+      const deleteButton = document.createElement('button');
+      deleteButton.innerHTML = 'delete item'; 
       resultRow.appendChild(resultTitle); 
       resultRow.appendChild(resultCategory); 
       resultRow.appendChild(resultStore)
@@ -88,12 +104,17 @@ const buildTable = (res) => {
       resultRow.appendChild(resultCOH)
       resultRow.appendChild(resultAffoardable); 
       resultRow.appendChild(editButton); 
+      resultRow.appendChild(deleteButton); 
       resultsTable.appendChild(resultRow); 
       editButton.addEventListener('click', (event) =>{
         console.log(resultTitle.innerHTML); 
         handleEditClick(event, resultTitle.innerHTML, resultCategory.innerHTML, resultStore.innerHTML, resultPrice.innerHTML, resultCOH.innerHTML);
-   
       }); 
+      deleteButton.addEventListener('click', () => {
+        handleDelete(resultTitle.innerHTML); 
+        
+      })
+    })
 
 
 }
@@ -119,7 +140,7 @@ const handleEditClick = (event, oldTitle, category, store, price, coh, ) => {
   handleUpdate(oldTitle, newtitle, newType, newStore, newPrice, newCoh); 
   const updatedArr = []; 
   getAllItems().then((res) => {
-    buildTable(res); 
+    buildTable(res, 'update'); 
 
   })
  
@@ -142,25 +163,7 @@ window.onload =  function() {
 
     
     form.onsubmit=  handleSubmit(title, type, store, price, coh ).then((res) => { 
-      buildTable(res); 
-
-
-      
-      
-      // editButton.onclick = () => { 
-     
-      //   const deleteButton = document.getElementById('deleteButton');
-
-
-       
-
-      // }
-      // deleteButton.addEventListener('click', (event) => { 
-      //   console.log('dkkdkd'); 
-
-      //   event.preventDefault();
-      //   handleDelete(title); 
-      // }); 
+      buildTable(res, 'create'); 
   }); 
 
    }); 

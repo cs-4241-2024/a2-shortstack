@@ -25,18 +25,31 @@ const submit = async function( event ) {
     const cookie = document.getElementById('cookie').value
     const icecream = document.getElementById('icecream').value
     const other = document.getElementById('other').value
-    const input = [name, cookie, icecream, other]
+    //const input = [name, cookie, icecream, other]
+    //const body = JSON.stringify( input )
 
     const dict = {'name': name, 'cookie': cookie, 'icecream': icecream, 'other': other}
     //window.globalVar.appendChild(dict)
     //console.log(input)
-    const response = await fetch('/submit',{
-        method: 'POST',
-        dict
-    })
+    // const response = await fetch('/submit',{
+    //     method: 'POST',
+    //     body
+    // })
+    const input = document.querySelector( "#name"),
+        json = { name: input.value },
+        body = JSON.stringify( json );
+
+    const responseData = await fetch('/data',{
+        method: 'GET',    })
+
+    // const response = await fetch( '/submit', {
+    //     method:'POST',
+    //     body
+    // });
     //const textPre = await response.text();
     //const text = JSON.parse(response);
-    fillTable(input)
+    //fillTable(input)
+    fillTable(responseData)
     //console.log('text:',text)
 }
 

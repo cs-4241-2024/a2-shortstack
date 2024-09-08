@@ -22,6 +22,10 @@ const server = http.createServer( request, response ) {
   }
 })
 
+const data = function(){
+  return appdata
+}
+
 const handleGet = function( request, response ) {
   const filename = dir + request.url.slice( 1 )
   if( request.url === '/' ) {
@@ -35,13 +39,15 @@ const handlePost = function( request, response ) {
   let dataString = ''
 
   request.on( 'data', function( data ) {
-      dataString += data 
+      dataString += data
+      console.log( dataString )
   })
-
   request.on( 'end', function() {
     console.log( JSON.parse( dataString ) )
+    //const data = JSON.parse( dataString )
     // ... do something with the data here!!!
-    appdata.push(response)
+    //appdata.push(response)
+    //appdata.push(data)
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end('test')

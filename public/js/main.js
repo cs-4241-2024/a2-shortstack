@@ -15,8 +15,6 @@ const submit = async function( event ) {
     // const input = document.querySelector('#testform'),
     //     json = {testform: input.value},
     //     body = JSON.stringify (json);
-
-
     // const input = document.querySelector( '#yourname' ),
     //     json = { yourname: input.value },
     //     body = JSON.stringify( json )

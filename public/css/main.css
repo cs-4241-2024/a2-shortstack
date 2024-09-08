@@ -13,18 +13,28 @@ body, html {
 
 h2 {
   text-align: center;
-  font-size: 40px;
+  font-size: 60px;
+}
+
+h3 {
+  text-align: center;
+  font-size: 30px;
+}
+
+h4 {
+  text-align: center;
+  font-size: 20px;
 }
 
 p {
   text-align: center;
 }
 
-.table-container {
+.table-container-1 {
   width: 100%;
-  max-width: 1200px; /* Maximum width to limit table's size */
-  margin: 0 auto; /* Center the table-container */
-  padding: 60px; /* Padding on the sides */
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 60px; 
   box-sizing: border-box;
   overflow-x: auto;
 }
@@ -41,26 +51,26 @@ th {
 }
 
 .quantity-container {
-  display: flex; /* Use flexbox to keep elements on the same line */
-  align-items: center; /* Align items vertically centered */
-  justify-content: flex-start; /* Align items to the start of the container */
-  gap: 10px; /* Space between the label and input */
-  padding: 10px; /* Add padding to the container if needed */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 10px;
 }
 
 .quantity-container label {
-  flex-shrink: 0; /* Prevent the label from shrinking */
-  font-weight: normal; 
+  flex-shrink: 0;
+  font-weight: normal;
 }
 
 .quantity-container input[type="number"] {
-  flex-shrink: 1; /* Allow the input to shrink if necessary */
-  width: 25px; /* Set a default width */
-  max-width: 100%; /* Ensure it doesn't overflow its container */
-  padding: 5px; /* Adjust padding inside the input */
-  font-size: 17px; /* Adjust font size */
-  border-radius: 5px; /* For rounded corners */
-  border: 1px solid #ccc; /* Border style */
+  flex-shrink: 1;
+  width: 25px;
+  max-width: 100%;
+  padding: 5px;
+  font-size: 17px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 
@@ -245,7 +255,7 @@ ul {
 button[type="submit"] {
   width: 100%; 
   padding: 10px 0;
-  background-color: #28a745; 
+  background-color: #e792d2; 
   color: white; 
   border: none; 
   border-radius: 5px; 
@@ -254,6 +264,55 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #218838; 
+  background-color: #b36ea2; 
 }
 
+
+.table-container {
+  max-width: 100%;
+  overflow-x: auto; 
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+}
+
+#orders-table th {
+  background-color: #f4f4f4;
+  color: #333;
+  font-weight: bold;
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+
+#orders-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  color: #555;
+}
+
+#orders-table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+#orders-table tbody tr:nth-child(even) {
+  background-color: #fff;
+}
+
+#orders-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+@media screen and (max-width: 768px) {
+  #orders-table th, #orders-table td {
+      font-size: 14px;
+  }
+}

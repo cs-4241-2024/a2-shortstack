@@ -20,21 +20,23 @@ const submit = async function( event ) {
     //     json = { yourname: input.value },
     //     body = JSON.stringify( json )
 
-    const input = document.querySelector('#name'),
-        json = {name: input.value},
-        body = JSON.stringify(json)
+    const name = document.getElementById('name').value
+    const cookie = document.getElementById('cookie').value
+    const icecream = document.getElementById('icecream').value
+    const other = document.getElementById('other').value
+    const input = [name, cookie, icecream, other]
     //console.log(input)
-    const response = await fetch('/submit',{
-        method: 'POST',
-        body
-    })
-    const textPre = await response.text();
-    const text = JSON.parse(textPre);
-    fillTable(text)
-    console.log('text:',text)
+    //const response = await fetch('/submit',{
+        //method: 'POST',
+        //body
+    //})
+    //const textPre = await response.text();
+    //const text = JSON.parse(response);
+    fillTable(input)
+    //console.log('text:',text)
 }
 
-const fillTable = function( text ) {
+const fillTable = function( array ) {
     /* I don't think you are doing this correctly */
 // I would look explore this https://stackoverflow.com/questions/46157018/dynamically-populate-data-into-table-using-javascript
 //This is similar to what the professor is suggesting
@@ -47,20 +49,33 @@ const fillTable = function( text ) {
         return td;
     }
 
-    text.forEach(function (item){
-        const row = table.insertRow();
-        addCell(row, item.name.value)
-        addCell(row, item.cookie.value)
-        addCell(row, item.icecream.value)
-        addCell(row, item.other.value)
-    })
+    const row = table.insertRow();
+    addCell(row, array[0])
+    addCell(row, array[1])
+    addCell(row, array[2])
+    addCell(row, array[3])
+
+
+    // //text.forEach(function (item){
+    //     const row = table.insertRow();
+    //     addCell(row, item.name.value)
+    //     addCell(row, item.cookie.value)
+    //     addCell(row, item.icecream.value)
+    //     addCell(row, item.other.value)
+    // //})
 }
 
 
 window.onload = function() {
     //This allows you to bind you button to the event handler function submit above
-    let button = document.getElementsByClassName("button");
-    button.onclick = submit
+    //let button = document.getElementsByClassName("button");
+    const buttonVariable = document.getElementById("button");
+    if(buttonVariable.addEventListener)
+        buttonVariable.addEventListener("click",submit,false);
+    else if(buttonVariable.attachEvent)
+        buttonVariable.attachEvent('onclick',submit)
+    //button.onclick = submit
+    //submit()
 
 }
 

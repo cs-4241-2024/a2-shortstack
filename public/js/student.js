@@ -184,36 +184,3 @@ export const handleAdd = async function (e) {
   }
   updateClassStats(res.stats);
 };
-
-/**
- * Handles the deletion of a student.
- *
- * @param {Event} e - The form submission event.
- * @returns {void}
- */
-export const handleDelete = async function (e) {
-  e.preventDefault();
-
-  const name = document.querySelector("#name"),
-    json = { name: name.value },
-    body = JSON.stringify(json);
-
-  if (name.value === "") {
-    alert("Please enter a name.");
-    return;
-  }
-
-  const response = await fetch("/delete", {
-    method: "POST",
-    body,
-  });
-  const res = await response.json();
-
-  if (response.status === 400) {
-    alert("Student not found");
-    return;
-  } else if (response.status == 200) {
-    removeFromTable(name.value);
-    updateClassStats(res.stats);
-  }
-};

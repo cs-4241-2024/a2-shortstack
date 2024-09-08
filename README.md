@@ -1,4 +1,6 @@
 ## Vivek Jagadeesh A2 - An aplication for managing purchases
+Deployment link - https://a2-vivekjag1.glitch.me/
+
 This application allows users to manage their purchases and keep track of their expendetures. 
 
 ## Base Requirements 

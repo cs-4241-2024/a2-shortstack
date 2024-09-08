@@ -1,18 +1,42 @@
-<!doctype html>
+<!DOCTYPE html>
+<style>
+  table,
+  th,
+  td {
+    border: 1px solid black;
+    font-size: 30px;
+  }
+
+  body {
+    background: rgb(118, 209, 91);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+</style>
 <html lang="en">
-  <head>
-    <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
-    <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    
-    <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  </head>
-  <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
-    </form>
-  </body>
+
+<head>
+  <title>CS4241 Assignment 2</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+</head>
+
+<body>
+  <center>
+    <label for="fname">Inserted Number:</label>
+    <input type="number" id="firstnum" name="fname"><br><br>
+    <label for="lname">Your Operation:</label>
+    <input type="text" id="lastnum" name="lname"><br><br>
+    <p id="KindsOfDivision">Only whole numbered integers are allowed in the first box (you can write negative ones)</p>
+    <p id="KindsOfDivision">Please note the only aceptable options for the second box are: Add, Sub, Mult, Div</p>
+    <button onclick="submit()">Submit</button>
+  </center>
+  <br></br>
+  <center>
+    <table id = "myTable"></table>
+  </center>
+  <p>Don't like your latest result? Press this button to remove the latest entry!</p>
+  <button onclick="kill()">Kill!</button>
+</body>
+
 </html>

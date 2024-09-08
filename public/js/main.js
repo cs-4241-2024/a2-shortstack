@@ -24,7 +24,7 @@ const submit = async function (event) {
 
   const text = await response.text();
 
-  console.log('text:', text);
+  console.log('text:', newData);
 }
 
 window.onload = function () {

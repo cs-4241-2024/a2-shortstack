@@ -46,11 +46,11 @@ const handlePost = function (request, response) {
       let newData = JSON.parse(dataString);
       console.log(newData.toString())
       console.log("MADe IT")
-      // appdata.push({
-      //   "classCode": classCode,
-      //   "className": className,
-      //   "assignment": assignment
-      // })
+      appdata.push({
+        'Code': newData[newData.length - 1].classCode,
+        'Name': newData[newData.length - 1].className,
+        'Assignment': newData[newData.length - 1].assignment
+      })
     }
     console.log(JSON.parse(dataString))
 

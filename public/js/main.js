@@ -11,10 +11,19 @@ const submit = async function( event ) {
     //     method:'POST',
     //     body
     // });
-    const input = document.querySelector('#testform'),
-        json = {testform: input.value},
-        body = JSON.stringify (json);
-    console.log(input)
+    // const input = document.querySelector('#testform'),
+    //     json = {testform: input.value},
+    //     body = JSON.stringify (json);
+
+
+    // const input = document.querySelector( '#yourname' ),
+    //     json = { yourname: input.value },
+    //     body = JSON.stringify( json )
+
+    const input = document.querySelector('#name'),
+        json = {name: input.value},
+        body = JSON.stringify(json)
+    //console.log(input)
     const response = await fetch('/submit',{
         method: 'POST',
         body

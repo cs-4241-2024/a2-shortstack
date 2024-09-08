@@ -10,11 +10,13 @@ const submit = async function (event) {
   const classCode = document.querySelector('#Code').value;
   const className = document.querySelector('#Name').value;
   const assignment = document.querySelector('#Assignment').value;
+  const daysLeft = document.querySelector('#Days').value;
 
   const newData = [{
     "classCode": classCode,
     "className": className,
-    "assignment": assignment
+    "assignment": assignment,
+    "daysLeft": daysLeft
   }];
 
   const response = await fetch('/submit', {

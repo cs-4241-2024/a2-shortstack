@@ -3,6 +3,8 @@ In this app, you can click on the big blue button to increase your score and sub
 
 To delete or alter data use the column **index** to type in the index of what row you want to delete or alter.
 
+Used flexbox to position everything.
+
 ## Technical Achievements
 - **Tech Achievement 1**: Created a single-page app that updates the table on the client and adds, deletes, and modifies data on the server
 - **Tech Achievement 2**: Added ability to modify data

@@ -66,7 +66,7 @@ const handleUpdate = async (title, newTitle, newType, newStore, newPrice, newCoh
 }
 const buildTable = (res, mode) => { 
   resultsTable.innerHTML = ''; 
-  res.map((item) => {
+  res.map((item, idx) => {
 
 
   
@@ -83,6 +83,35 @@ const buildTable = (res, mode) => {
 
   const resultTitle = document.createElement('td'); 
       resultTitle.innerHTML = title; 
+    if(idx === 0){
+
+  
+     const headers = document.createElement('tr'); 
+     const purchaseHeader = document.createElement('th'); 
+     purchaseHeader.innerHTML = 'Purchase Title'; 
+     const categoryHeader = document.createElement('th'); 
+     categoryHeader.innerHTML = 'Category'; 
+     const storeHeader = document.createElement('th'); 
+     storeHeader.innerHTML = 'Store'; 
+     const priceHeader = document.createElement('th'); 
+     priceHeader.innerHTML = 'Price'; 
+     
+     const cohHeader = document.createElement('th'); 
+     cohHeader.innerHTML = 'Cash On Hand'
+     const affoardableHeader=document.createElement('th'); 
+     affoardableHeader.innerHTML = 'Affoardable?'; 
+     const editHeader = document.createElement('th'); 
+     editHeader.innerHTML = 'edit/delete'
+     headers.appendChild(purchaseHeader); 
+     headers.appendChild(categoryHeader); 
+     headers.appendChild(storeHeader); 
+     headers.appendChild(priceHeader); 
+     headers.append(cohHeader); 
+     headers.append(affoardableHeader); 
+     headers.append(editHeader); 
+     resultsTable.appendChild(headers); 
+    }
+
       const resultCategory = document.createElement('td'); 
       resultCategory.innerHTML = category; 
       const resultStore = document.createElement('td'); 
@@ -97,6 +126,7 @@ const buildTable = (res, mode) => {
       editButton.innerHTML = 'update Item'; 
       const deleteButton = document.createElement('button');
       deleteButton.innerHTML = 'delete item'; 
+      
       resultRow.appendChild(resultTitle); 
       resultRow.appendChild(resultCategory); 
       resultRow.appendChild(resultStore)
@@ -105,6 +135,7 @@ const buildTable = (res, mode) => {
       resultRow.appendChild(resultAffoardable); 
       resultRow.appendChild(editButton); 
       resultRow.appendChild(deleteButton); 
+      
       resultsTable.appendChild(resultRow); 
       editButton.addEventListener('click', (event) =>{
         console.log(resultTitle.innerHTML); 

@@ -1,4 +1,3 @@
 ##Need to do 
-1. Form/entry - front-end 
-2. Modify entries functionality. 
-3. 
+1. repo read me 
+2. final tech review. 

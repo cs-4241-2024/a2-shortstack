@@ -9,9 +9,9 @@ const http = require( 'http' ),
     port = 3000
 
 let appdata =  [
-  { 'name': 'Piper', 'cookie':'chocolate chip cookie', 'icecream': 'vanilla', 'other':'' },
-  { 'name': 'James', 'cookie':'chocolate chip cookie', 'icecream': 'chocolate', 'other':''},
-  { 'name': 'Sky', 'cookie':'sugar', 'icecream': 'vanilla', 'other':'' }
+  { 'name': 'Piper', 'cookie':'chocolate chip cookie', 'icecream': 'vanilla', 'other':'', 'cake':'vanilla cake'},
+  { 'name': 'James', 'cookie':'chocolate chip cookie', 'icecream': 'chocolate', 'other':'', 'cake':'chocolate cake'},
+  { 'name': 'Sky', 'cookie':'sugar', 'icecream': 'vanilla', 'other':'', 'cake':'vanilla cake'}
 ]
 
 const server = http.createServer( function (request, response ) {
@@ -47,7 +47,7 @@ const handlePost = function( request, response ) {
   request.on( 'end', function() {
     //console.log( JSON.parse( dataString ) )
     const data = JSON.parse(dataString)
-    const tempDict = {'name':data[0], 'cookie':data[1], 'icecream':data[2], 'other':data[3]}
+    const tempDict = {'name':data[0], 'cookie':data[1], 'icecream':data[2], 'other':data[3], 'cake':data[4]}
     appdata = appdata.concat(tempDict)
 
     //const data = JSON.parse( dataString )

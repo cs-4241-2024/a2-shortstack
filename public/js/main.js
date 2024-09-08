@@ -25,10 +25,19 @@ const submit = async function( event ) {
     const cookie = document.getElementById('cookie').value
     const icecream = document.getElementById('icecream').value
     const other = document.getElementById('other').value
-    const input = [name, cookie, icecream, other]
+    const iceCreamLower = icecream.toLowerCase()
+    let cake = ''
+    if(iceCreamLower == 'vanilla'){
+        cake = 'vanilla cake'
+    }else if(iceCreamLower == 'chocolate'){
+        cake = 'chocolate cake'
+    }else{
+        cake = 'no cake!'
+    }
+    const input = [name, cookie, icecream, other, cake]
     const body = JSON.stringify( input )
 
-    const dict = {'name': name, 'cookie': cookie, 'icecream': icecream, 'other': other}
+    const dict = {'name': name, 'cookie': cookie, 'icecream': icecream, 'other': other, 'cake': cake}
     //window.globalVar.appendChild(dict)
     //console.log(input)
     // const response = await fetch('/submit',{
@@ -83,11 +92,13 @@ const fillTable = function( dict ) {
         const name = item["name"];
         const cookie = item["cookie"];
         const icecream = item["icecream"];
-        const other = item["other"]
+        const other = item["other"];
+        const cake = item["cake"];
         addCell(row, name)
         addCell(row, cookie)
         addCell(row, icecream)
         addCell(row, other)
+        addCell(row, cake)
     })
 }
 

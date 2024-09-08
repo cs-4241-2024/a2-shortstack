@@ -8,13 +8,13 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
+const appdata =  = [
   { 'name': 'Piper', 'cookie':'chocolate chip cookie', 'icecream': 'vanilla', 'other':'' },
   { 'name': 'James', 'cookie':'chocolate chip cookie', 'icecream': 'chocolate', 'other':''},
   { 'name': 'Sky', 'cookie':'sugar', 'icecream': 'vanilla', 'other':'' }
 ]
 
-const server = http.createServer( function( fillTable( text )) {
+const server = http.createServer( request, response ) {
   if( request.method === 'GET' ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){
@@ -41,7 +41,7 @@ const handlePost = function( request, response ) {
   request.on( 'end', function() {
     console.log( JSON.parse( dataString ) )
     // ... do something with the data here!!!
-    //and add it to appdata!
+    appdata.push(response)
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end('test')

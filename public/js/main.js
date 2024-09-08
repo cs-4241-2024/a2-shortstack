@@ -1,4 +1,5 @@
 // // FRONT-END (CLIENT) JAVASCRIPT HERE
+
 const submit = async function( event ) {
 
     event.preventDefault()
@@ -25,11 +26,14 @@ const submit = async function( event ) {
     const icecream = document.getElementById('icecream').value
     const other = document.getElementById('other').value
     const input = [name, cookie, icecream, other]
+
+    const dict = {'name': name, 'cookie': cookie, 'icecream': icecream, 'other': other}
+    //window.globalVar.appendChild(dict)
     //console.log(input)
-    //const response = await fetch('/submit',{
-        //method: 'POST',
-        //body
-    //})
+    const response = await fetch('/submit',{
+        method: 'POST',
+        dict
+    })
     //const textPre = await response.text();
     //const text = JSON.parse(response);
     fillTable(input)

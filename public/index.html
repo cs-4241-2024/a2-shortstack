@@ -1,18 +1,74 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    
+    <link rel="stylesheet" href="css/main.css" />
+
     <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
   </head>
   <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
+    <h1>Task Nest</h1>
+    <h2>Plan Your Schedule!</h2>
+    <!-- <form>
+      <input type="text" id="yourname" value="" />
       <button>submit</button>
+    </form> -->
+
+    <form id="taskForm">
+      <label for="task">Task:</label>
+      <input type="text" id="task" name="task" required />
+
+      <label for="description">Description:</label>
+      <textarea
+        id="description"
+        name="description"
+        rows="4"
+        cols="50"
+        required
+      ></textarea>
+
+      <label for="date">Due Date:</label>
+      <input type="date" id="date" name="date" required />
+
+      <label for="priority">Choose Level of Priority:</label>
+      <select name="priority" id="priority">
+        <option value="urgent">Urgent</option>
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+      </select>
+
+      <button type="submit">Submit</button>
+      <!-- Ensure type is 'submit' -->
     </form>
+
+    <div>
+      <h2>In Progress</h2>
+      <table id="inProgressTable">
+        <tr>
+          <th>Task</th>
+          <th>Description</th>
+          <th>Due Date</th>
+          <th>Importance</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </table>
+
+      <h2>Completed</h2>
+      <table id="completedTable">
+        <tr>
+          <th>Task</th>
+          <th>Description</th>
+          <th>Due Date</th>
+          <th>Importance</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </table>
+    </div>
   </body>
 </html>

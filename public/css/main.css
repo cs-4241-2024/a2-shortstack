@@ -1,4 +1,15 @@
 body {
-  background:black;
-  color:white;
+  background: black;
+  color: white;
+}
+
+table,
+th,
+td {
+  border: 1px solid;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
 }

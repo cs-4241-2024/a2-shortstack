@@ -12,9 +12,11 @@ let appdata = [];
 
 const server = http.createServer(function (request, response) {
   if (request.method === 'GET') {
-    handleGet(request, response)
+    handleGet(request, response);
   } else if (request.method === 'POST') {
-    handlePost(request, response)
+    handlePost(request, response);
+  } else if (request.method === 'DELETE') {
+    handleDelete(request, response);
   }
 })
 
@@ -47,14 +49,43 @@ const handlePost = function (request, response) {
     const className = newData[0].className;
     const assignment = newData[0].assignment;
     const daysLeft = newData[0].daysLeft;
-    //TODO: Make date calculations
+    let daysToAdd = parseInt(daysLeft);
+    if (isNaN(daysLeft)) {
+      //Is not a number
+      daysToAdd = 0;
+    }
+    if (daysToAdd === null) {
+      daysToAdd = 0;
+    }
+    let date = new Date();
+    date.setDate(date.getDate() + daysToAdd);
 
     appdata.push({
       'classCode': classCode,
       'className': className,
       'assignment': assignment,
-      'daysLeft': daysLeft
+      'daysLeft': daysLeft,
+      'dueDate': date.toDateString()
     });
+    console.log("appdata:", appdata)
+
+    response.writeHead(200, "OK", { 'Content-Type': 'text/plain' })
+    response.end(JSON.stringify(appdata))
+  })
+}
+
+handleDelete = function (request, response) {
+  let dataString = '';
+
+  request.on('data', function (data) {
+    dataString += data;
+  })
+
+  request.on('end', function () {
+    if (appdata.length > 0) {
+      appdata.pop();
+    }
+
     console.log("appdata:", appdata)
 
     response.writeHead(200, "OK", { 'Content-Type': 'text/plain' })

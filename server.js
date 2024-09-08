@@ -8,11 +8,17 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+const yarn_type_to_cost = {
+  "None": 0,
+  "Chenille": 10,
+  "Worsted Weight": 5,
+  "Acrylic": 7,
+  "Velvet": 15,
+  "Cashmere Wool": 20,
+  "Faux Fur": 12
+}
+
+const appdata = []
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
@@ -22,17 +28,26 @@ const server = http.createServer( function( request,response ) {
   }
 })
 
+const handleStartup = function( request, response ) {
+  response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+  response.end(JSON.stringify(appdata))
+}
+
 const handleGet = function( request, response ) {
   const filename = dir + request.url.slice( 1 ) 
-
+  
+  //console.log(filename)
+  
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
-  }else{
+  } else {
     sendFile( response, filename )
   }
 }
 
 const handlePost = function( request, response ) {
+  
+  
   let dataString = ''
 
   request.on( 'data', function( data ) {
@@ -40,12 +55,38 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+    
+    let item = JSON.parse( dataString )
+    
+    if(item.type === "remove") {
+      item = item.payload
+      for (let existing_item of appdata) {
+        if(existing_item['project_name'] == item['project_name']) {
+          appdata.splice(appdata.indexOf(existing_item), 1)
+          break
+        }
+      }
+    }
+    
+    if(item.type === "send") {
+      item = item.payload
+      item["total_cost"] = item["yarn_count"] * yarn_type_to_cost[item["yarn_type"]]
+      let should_add = true
+      for (let existing_item of appdata) {
+        if(existing_item['project_name'] == item['project_name']) {
+          appdata[appdata.indexOf(existing_item)] = item
+          should_add = false
+          break
+        }
+      }
 
-    // ... do something with the data here!!!
-
+      if(should_add) {
+        appdata.push(item)
+      }
+    }
+    
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end(JSON.stringify(appdata))
   })
 }
 

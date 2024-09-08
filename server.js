@@ -11,7 +11,10 @@ const port = 3000;
 // Data table for active laptop loans
 const activeLoans = 
 [
-  {"id": 0, "firstname": "test-first", "lastname": "test-last"}
+  {"id": 0, "firstname": "test-first0", "lastname": "test-last0"},
+  {"id": 1, "firstname": "test-first1", "lastname": "test-last1"},
+  {"id": 2, "firstname": "test-first2", "lastname": "test-last2"},
+  {"id": 3, "firstname": "test-first3", "lastname": "test-last3"},
 ]
 
 /**
@@ -64,8 +67,13 @@ const handleGet = function(request, response)
     sendFile(response, `${dir}/index.html`);
     break;
 
+  case "table":
+    response.writeHeader(200, {"Content-Type": "application/json"});
+    response.end(JSON.stringify(activeLoans));
+    break;
+
   default:
-    sendFile(response, `${dir}/${file}`)
+    sendFile(response, `${dir}${file}`)
   }
 }
 
@@ -88,13 +96,26 @@ const handlePost = function(request, response)
   // Process data from request
   request.on("end", function()
   {
-    const userText = JSON.parse(dataString).yourname;
-    console.log(formatLog("POST", `User input: ${userText}`));
+    const userData = JSON.parse(dataString);
+    const userDataText = `[ID: ${userData.id}, First Name: ${userData.firstname}, Last Name: ${userData.lastname}]`;
+    console.log(formatLog("POST", `Unprocessed user input: ${userDataText}`));
 
-    // ... do something with the data here!!!
+    const dataID = parseInt(userData.id);
+    if (isNaN(dataID) && dataID >= 0)
+    {
+      response.writeHead(422, "Invalid ID", {"Content-Type": "text/plain"});
+      response.end(`Error 422: Unprocessable Entity`);
+    }
+    else
+    {
+      // TODO: Check if ID already exists!
+      // TODO: General error handling of new data (ex: positive integers only)
+      // TODO: Even though negative numbers get err 422, they still appear in table!
+      activeLoans.push({"id": userData.id, "firstname": userData.firstname, "lastname": userData.lastname});
 
-    response.writeHead(200, "OK", {"Content-Type": "text/plain"});
-    response.end(`${userText}`);
+      response.writeHead(200, "OK", {"Content-Type": "text/plain"});
+      response.end(`${userDataText}`);
+    }
   });
 }
 

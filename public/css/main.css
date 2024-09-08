@@ -12,6 +12,15 @@ body {
   font-style: italic;
   font-family: "poppins";
 }
+#disclaimer{ 
+  display:flex; 
+  flex-direction: row;
+
+  justify-content: center; 
+  font-size: medium;
+  font-style: italic;
+  font-family: "poppins";
+}
 .inputArea{
   display: flex;
   justify-content: center;
@@ -110,7 +119,7 @@ button{
 
 
 
-/*Everything here is google fonts stuff*/ 
+/*Everything here is google fonts stuff for the poppins font*/ 
 .poppins-thin {
   font-family: "Poppins", sans-serif;
   font-weight: 100;

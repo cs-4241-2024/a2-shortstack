@@ -82,3 +82,6 @@ Include a very brief summary of your project here. Be sure to include the CSS po
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: 
+
+## Vivek Jagadeesh A2 - An aplication for managing purchases
+This application allows users to manage their purchases and keep track of their expendetures. 

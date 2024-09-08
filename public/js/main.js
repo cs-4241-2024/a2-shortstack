@@ -45,6 +45,7 @@ const handleDelete = async (title) => {
   modal.close(); 
 }
 const handleUpdate = async (title, newTitle, newType, newStore, newPrice, newCoh) => { 
+  console.log("Calling update function with a new title of", newTitle); 
   const body = JSON.stringify({
     "oldTitle": title, 
     "title": newTitle, 
@@ -139,6 +140,7 @@ const buildTable = (res, mode) => {
       resultsTable.appendChild(resultRow); 
       editButton.addEventListener('click', (event) =>{
         console.log(resultTitle.innerHTML); 
+        console.log('button clicked');  
         handleEditClick(event, resultTitle.innerHTML, resultCategory.innerHTML, resultStore.innerHTML, resultPrice.innerHTML, resultCOH.innerHTML);
       }); 
       deleteButton.addEventListener('click', () => {
@@ -161,6 +163,7 @@ const handleEditClick = (event, oldTitle, category, store, price, coh, ) => {
   modal.showModal();
   const buttonUpdate = document.getElementById('submitUpdates'); 
   buttonUpdate.addEventListener('click', (event) => {
+    console.log("Button go"); 
   event.preventDefault();
           
   const newtitle = document.getElementById('updatetitle').value; 
@@ -169,6 +172,7 @@ const handleEditClick = (event, oldTitle, category, store, price, coh, ) => {
   const newPrice = document.getElementById('updateprice').value; 
   const newCoh = document.getElementById('updatecoh').value; 
   handleUpdate(oldTitle, newtitle, newType, newStore, newPrice, newCoh); 
+  oldTitle = newtitle; 
   const updatedArr = []; 
   getAllItems().then((res) => {
     buildTable(res, 'update'); 

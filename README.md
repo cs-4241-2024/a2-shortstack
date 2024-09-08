@@ -22,3 +22,11 @@ The base requirements were met in the following ways
 ## Technical Achievements
 1. The application is a single page app and the table to the right updates dynamically as records are created and updated. 
 2. All fields of an item can be modified using the edit item button
+3. Tested user interface with C.Moore
+   - I have C.Moore create a purchase which was NOT affordable, then edit the purchase so it was affoardable, then edit the title before finally deleting the purchase via the form. 
+   - Problems the user had with my design: The user found entering a cash on hand and price value confusing because they were not number pickers and there were no directives to include decimal points or not 
+   - Suprising comments: I was suprised to learn that that my UI could be made more intuitive by adding some additional directives. 
+   - Things I would change: I would make all of the fields more clear (both in the table and in the forms) so that the user understands how to use the application. I would also liked to have made the form clear when a submission was processed. 
+   
+
+

@@ -84,13 +84,28 @@ const buildTable = (res) => {
       resultRow.appendChild(resultAffoardable); 
       resultRow.appendChild(editButton); 
       resultsTable.appendChild(resultRow); 
-      editButton.addEventListener('click', handleEditClick); 
+      editButton.addEventListener('click', (event) =>{
+        console.log(resultTitle.innerHTML); 
+        handleEditClick(event, resultTitle.innerHTML, resultCategory.innerHTML, resultStore.innerHTML, resultPrice.innerHTML, resultCOH.innerHTML);
+      }); 
+
 }
-const handleEditClick = (event) => { 
+const handleEditClick = (event, oldTitle, category, store, price, coh, ) => { 
   event.preventDefault(); 
-  console.log('ee');
   const modal = document.getElementById('deleteDialog'); 
-  const oldTitle = document.getElementById('updatetitle').value; 
+  const oldType = document.getElementById('types').value; 
+  const oldStore = document.getElementById('store').value; 
+  const oldPrice = document.getElementById('price').value; 
+  const oldCOH = document.getElementById('coh').value; 
+
+
+
+
+  document.getElementById('updatetitle').value = oldTitle; 
+  document.getElementById('updatetypes').value = category;
+  document.getElementById('updatestore').value = store; 
+  document.getElementById('updateprice').value = price; 
+  document.getElementById('updatecoh').value = coh;  
   console.log("the old title was", oldTitle); 
   modal.showModal();
   const buttonUpdate = document.getElementById('submitUpdates'); 

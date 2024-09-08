@@ -12,7 +12,7 @@ const submit = async function( event ) {
     //     body
     // });
     const input = document.querySelector('#testform'),
-        json = {name: name.value, cookie: cookie.value, icecream: icecream.value, other: other.value},
+        json = {testform: input.value},
         body = JSON.stringify (json);
     console.log(input)
     const response = await fetch('/submit',{
@@ -51,7 +51,7 @@ const fillTable = function( text ) {
 window.onload = function() {
     //This allows you to bind you button to the event handler function submit above
     let button = document.getElementsByClassName("button");
-    button.onclick = submit();
+    button.onclick = submit
 
 }
 

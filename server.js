@@ -1,31 +1,27 @@
 const http = require("http");
 const fs = require("fs");
-// IMPORTANT: you must run `npm install` in the directory for this assignment
-// to install the mime library if you're testing this on your local machine.
-// However, Glitch will install it automatically by looking in your package.json
-// file.
 const mime = require("mime");
 const dir = "public/";
 const port = 3000;
 
-let tasks = [];
-
-// const appdata = [
-//   {
-//     task: "Do the dishes",
-//     description: "Wash, dry, and put away the dishes",
-//     date: "2024-10-01",
-//     priority: "High",
-//   },
-// ];
+let tasks = []; // Store tasks here
 
 const server = http.createServer(function (request, response) {
   if (request.method === "GET") {
     handleGet(request, response);
   } else if (request.method === "POST") {
     handlePost(request, response);
+  } else if (request.method === "PUT") {
+    if (request.url.startsWith("/complete/")) {
+      handleComplete(request, response);
+    } else if (request.url.startsWith("/in-progress/")) {
+      handleInProgress(request, response);
+    } else {
+      handlePut(request, response);
+    }
+  } else if (request.method === "DELETE") {
+    handleDelete(request, response);
   } else {
-    // If the request method is something else (PUT, DELETE, etc.), return 405 Method Not Allowed
     response.writeHead(405, { "Content-Type": "text/plain" });
     response.end("Method Not Allowed");
   }
@@ -37,14 +33,14 @@ const handleGet = function (request, response) {
   if (request.url === "/" || request.url === "/index.html") {
     sendFile(response, "public/index.html", "text/html");
   } else if (request.url === "/tasks") {
-    // Serve the list of tasks as JSON
     response.writeHead(200, { "Content-Type": "application/json" });
-    response.end(JSON.stringify(tasks)); // Send back the tasks array
+    response.end(JSON.stringify(tasks));
   } else {
     sendFile(response, filename, mime.getType(filename));
   }
 };
 
+// Handle adding a new task
 const handlePost = function (request, response) {
   let dataString = "";
 
@@ -55,43 +51,95 @@ const handlePost = function (request, response) {
   request.on("end", function () {
     const parsedData = JSON.parse(dataString);
 
-    if (request.url === "/submit") {
-      const newTask = {
-        task: parsedData.task,
-        description: parsedData.description,
-        date: parsedData.date,
-        priority: parsedData.priority,
-        status: "In Progress", // Default status for new tasks
-      };
+    const creationDate = new Date().toISOString().split("T")[0];
 
-      tasks.push(newTask);
+    const newTask = {
+      task: parsedData.task,
+      description: parsedData.description,
+      dueDate: parsedData.dueDate,
+      creationDate: creationDate,
+      priority: parsedData.priority,
+      status: "In Progress",
+    };
 
-      // Respond with the updated task list
-      response.writeHead(200, { "Content-Type": "application/json" });
-      response.end(
-        JSON.stringify({ message: "Task added successfully!", tasks })
-      );
-    } else {
-      // If the route is not recognized for POST, return 404 Not Found
-      response.writeHead(404, { "Content-Type": "text/plain" });
-      response.end("Not Found");
-    }
+    tasks.push(newTask);
+
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.end(
+      JSON.stringify({ message: "Task added successfully!", tasks })
+    );
   });
 };
 
-const sendFile = function (response, filename) {
-  const type = mime.getType(filename);
+// Handle updating a task
+const handlePut = function (request, response) {
+  let dataString = "";
+  const taskIndex = parseInt(request.url.split("/")[2]);
 
+  request.on("data", function (data) {
+    dataString += data;
+  });
+
+  request.on("end", function () {
+    const parsedData = JSON.parse(dataString);
+
+    tasks[taskIndex] = {
+      ...tasks[taskIndex],
+      task: parsedData.task,
+      description: parsedData.description,
+      dueDate: parsedData.dueDate,
+      priority: parsedData.priority,
+      status: "In Progress",
+    };
+
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.end(
+      JSON.stringify({ message: "Task updated successfully!", tasks })
+    );
+  });
+};
+
+// Handle marking a task as completed
+const handleComplete = function (request, response) {
+  const taskIndex = parseInt(request.url.split("/")[2]);
+
+  tasks[taskIndex].status = "Completed"; // Mark the task as completed
+
+  response.writeHead(200, { "Content-Type": "application/json" });
+  response.end(JSON.stringify({ message: "Task marked as complete!", tasks }));
+};
+
+// Handle marking a completed task as "In Progress"
+const handleInProgress = function (request, response) {
+  const taskIndex = parseInt(request.url.split("/")[2]);
+
+  tasks[taskIndex].status = "In Progress"; // Mark the task back as "In Progress"
+
+  response.writeHead(200, { "Content-Type": "application/json" });
+  response.end(
+    JSON.stringify({ message: "Task marked as In Progress!", tasks })
+  );
+};
+
+// Handle deleting a task
+const handleDelete = function (request, response) {
+  const taskIndex = parseInt(request.url.split("/")[2]);
+  tasks.splice(taskIndex, 1); // Remove the task at the given index
+
+  response.writeHead(200, { "Content-Type": "application/json" });
+  response.end(
+    JSON.stringify({ message: "Task deleted successfully!", tasks })
+  );
+};
+
+const sendFile = function (response, filename, contentType) {
   fs.readFile(filename, function (err, content) {
-    // if the error = null, then we've loaded the file successfully
-    if (err === null) {
-      // status code: https://httpstatuses.com
-      response.writeHeader(200, { "Content-Type": type });
-      response.end(content);
-    } else {
-      // file not found, error code 404
-      response.writeHeader(404);
+    if (err) {
+      response.writeHead(404, { "Content-Type": "text/plain" });
       response.end("404 Error: File Not Found");
+    } else {
+      response.writeHead(200, { "Content-Type": contentType });
+      response.end(content);
     }
   });
 };

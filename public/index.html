@@ -10,12 +10,8 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
   </head>
   <body>
-    <h1>Task Nest</h1>
-    <h2>Plan Your Schedule!</h2>
-    <!-- <form>
-      <input type="text" id="yourname" value="" />
-      <button>submit</button>
-    </form> -->
+    <h1>Taskly</h1>
+    <h2>Plan Your Task!</h2>
 
     <form id="taskForm">
       <label for="task">Task:</label>
@@ -40,34 +36,44 @@
         <option value="medium">Medium</option>
         <option value="low">Low</option>
       </select>
-
       <button type="submit">Submit</button>
-      <!-- Ensure type is 'submit' -->
     </form>
 
     <div>
+      <!-- In Progress Tasks Table -->
       <h2>In Progress</h2>
       <table id="inProgressTable">
-        <tr>
-          <th>Task</th>
-          <th>Description</th>
-          <th>Due Date</th>
-          <th>Importance</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Description</th>
+            <th>Creation Date</th>
+            <th>Due Date</th>
+            <th>Days Left</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
       </table>
 
-      <h2>Completed</h2>
+      <!-- Completed Tasks Table -->
+      <h2 class="completed-heading">Completed</h2>
       <table id="completedTable">
-        <tr>
-          <th>Task</th>
-          <th>Description</th>
-          <th>Due Date</th>
-          <th>Importance</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Description</th>
+            <th>Creation Date</th>
+            <th>Due Date</th>
+            <th>Days Left</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
       </table>
     </div>
   </body>

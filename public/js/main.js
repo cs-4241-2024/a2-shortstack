@@ -1,30 +1,15 @@
-//-------------------------------------------------------------------------
-// FRONT-END (CLIENT) JAVASCRIPT HERE
 
-const submit = async function(event) {
-  event.preventDefault();
-  
-  const input = document.querySelector('#yourname'),
-        json = { yourname: input.value },
-        body = JSON.stringify(json);
-
-  const response = await fetch('/submit', {
-    method: 'POST',
-    body 
-  });
-
-  const text = await response.text();
-
-  console.log('text:', text);
-}
-
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   let cart = {};
+  let orderNumber = 1;
+  let cashTotal = 0;
+
+  let cumulativeItemTotal = 0;
 
   const addToCartForms = document.querySelectorAll(".add-to-cart-form");
 
   addToCartForms.forEach(form => {
-    form.addEventListener("submit", function(event) {
+    form.addEventListener("submit", function (event) {
       event.preventDefault();
 
       const productName = form.querySelector("input[name='product-name']").value;
@@ -69,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
       const name = document.getElementById('name').value;
@@ -95,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       const confirmPrice = document.getElementById('confirm-price');
       if (confirmPrice) {
+        cashTotal += totalPrice;
         confirmPrice.textContent = `$${totalPrice.toFixed(2)}`;
       }
 
@@ -108,9 +94,74 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
+  const addDataToServer = function (json) {
+    
+    const body = JSON.stringify(json)
+
+    fetch('/', {
+      method: 'POST',
+      body
+    })
+    .then(response => response.json())
+    .then(json => {
+      console.log(json, "json data after submitting the data");
+        getData();
+      })
+  }
+
+
+  const tableBody = document.querySelector("#orders-table tbody");
+  const displayData = ({ cart }) => {
+    console.log(cart, "display data");
+    tableBody.innerHTML = "";
+    if (cart.length > 0) {
+      cart.forEach(cartItem => {
+        const newRow = document.createElement("tr");
+
+        newRow.innerHTML = `
+          <td>${cartItem.name}</td>
+          <td>${cartItem.address}</td>
+          <td>${cartItem.orderNumber}</td>
+          <td>${cartItem.totalPrice}</td>
+          <td>${cartItem.cashTotal.toFixed(2)}</td>
+          <td>${cartItem.itemTotal}</td>
+        `;
+
+        tableBody.appendChild(newRow);
+      })
+
+    }
+  }
+
+  const getData = () => {
+    const json = {
+      action: "getCart"
+    }
+
+    fetch('/submit', {
+      method: 'POST',
+      body: JSON.stringify(json)
+    })
+      .then(response => response.json())
+      .then(json => {
+        displayData(json);
+
+        if (json.cashTotal !== undefined) {
+          cashTotal = json.cashTotal;
+        }
+    
+        if (json.cumulativeItemTotal !== undefined) {
+          cumulativeItemTotal = json.cumulativeItemTotal;
+        }
+      })
+
+  }
+
+  getData();
+
   const confirmForm = document.getElementById('confirmForm');
   if (confirmForm) {
-    confirmForm.addEventListener('submit', function(e) {
+    confirmForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
       const confirmedData = {
@@ -120,7 +171,23 @@ document.addEventListener("DOMContentLoaded", function() {
         instructions: document.getElementById('confirm-instructions').value,
         taxPrice: document.getElementById('confirm-tax').textContent,
         totalPrice: document.getElementById('confirm-price').textContent,
+        itemTotal: Object.entries(cart).map(([productName, item]) => item.quantity)
       };
+
+      let currentItemTotal = confirmedData.itemTotal.reduce((sum, quantity) => sum + quantity, 0);  // Calculate total items in the current order
+      cumulativeItemTotal += currentItemTotal;  // Add current order's total to cumulative total
+
+      console.log(cart, "cart");
+
+      let newData = {
+        orderNumber,
+        ...confirmedData,
+        cashTotal: cashTotal,
+        itemTotal: cumulativeItemTotal,
+        action: "addToCart"
+      }
+   
+      addDataToServer(newData);
 
       cart = {};
       updateCart();
@@ -132,10 +199,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
       alert('Your order has been placed successfully!');
 
-    this.reset();
+      this.reset();
 
     });
   }
 });
-
-

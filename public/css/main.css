@@ -3,7 +3,7 @@ body {
   color:black;
   font-family: poppins;
 }
-.heroText{
+#heroText{
   display:flex; 
   flex-direction: row;
 
@@ -97,7 +97,7 @@ button{
   font-family: "poppins";
 
 }
-.displayContainer{ 
+#displayContainer{ 
   display: flex;
   flex-direction: row;
   justify-content: center;

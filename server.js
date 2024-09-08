@@ -8,9 +8,7 @@ const http = require('http'),
   dir = 'public/',
   port = 3000
 
-let appdata = [
-  // { 'Code': 'b', 'Name': b, 'Assignment': b }
-];
+let appdata = [];
 
 const server = http.createServer(function (request, response) {
   if (request.method === 'GET') {
@@ -21,37 +19,36 @@ const server = http.createServer(function (request, response) {
 })
 
 const handleGet = function (request, response) {
-  const filename = dir + request.url.slice(1)
+  const filename = dir + request.url.slice(1);
   if (request.url === '/') {
-    sendFile(response, 'public/index.html')
+    sendFile(response, 'public/index.html');
   }
   else if (request.url === '/data') {
-    response.end(JSON.stringify(appdata))
+    response.end(JSON.stringify(appdata));
   }
   else {
-    sendFile(response, filename)
+    sendFile(response, filename);
   }
 }
 
 const handlePost = function (request, response) {
-  console.log("here");
-  let dataString = ''
+  let dataString = '';
+  console.log("In handlePost");
   //TODO: Finish me
   request.on('data', function (data) {
     dataString += data;
   })
 
   request.on('end', function () {
-    if (request.url === "/submit") {
-      let newData = JSON.parse(dataString);
-      console.log(newData.toString())
-      console.log("MADe IT")
-      appdata.push({
-        'Code': newData[newData.length - 1].classCode,
-        'Name': newData[newData.length - 1].className,
-        'Assignment': newData[newData.length - 1].assignment
-      })
-    }
+    const newData = JSON.parse(dataString);
+    const classCode = newData.classCode;
+    const className = newData.className;
+    const assignment = newData.assignment;
+    appdata.push({
+      'classCode': classCode,
+      'className': className,
+      'assignment': assignment
+    });
     console.log(JSON.parse(dataString))
 
     // ... do something with the data here!!!

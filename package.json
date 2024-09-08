@@ -1,12 +1,15 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "cs-4241-",
+  "version": "0.1.0",
+  "description": "WPI CS 4241 Second Assignment",
+  "author": "Edward Stump",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
     "mime": "^2.4.4"
+  },
+  "devDependencies": {
+    "@types/mime": "^4.0.0"
   }
 }

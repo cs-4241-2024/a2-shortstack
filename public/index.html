@@ -3,30 +3,20 @@
   <head>
     <title>CS4241 Assignment 2</title>
     <meta charset="utf-8" />
-    <script src="js/main.js"></script>
     <link rel="stylesheet" href="css/main.css" />
+    <script src="js/main.js"></script>
+    <script src="js/student.js" type="module"></script>
 
     <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
   </head>
-  <body>
-    <table>
-      <caption>Student Grades</caption>
-      <thead>
-        <tr>
-          <th scope="col">Student Name</th>
-          <th scope="col">Student Year/Type</th>
-          <th scope="col">Grade (Number)</th>
-          <th scope="col">Calculated Final Grade (Char)</th>
-        </tr>
-      </thead>
-      <tbody id="table-body">
-      </tbody>
-    </table>
+  <body style="visibility: hidden;">
+
+    <h1>Student Gradebook</h1>
 
     <form>
-      <input type="text" id="name" placeholder="Student Name" required/>
-      <select id="class" required>
+      <input type="text" id="name" placeholder="Student Name" />
+      <select id="class">
         <option value="">Select Student Year/Type</option>
         <option value="freshman">Freshman</option>
         <option value="sophomore">Sophomore</option>
@@ -35,14 +25,31 @@
         <option value="grad">Grad</option>
         <option value="part-time">Part-Time</option>
       </select>
-      <input type="number" id="grade" placeholder="Final Grade (Number)" required/>
+      <input type="number" id="grade" placeholder="Final Grade (Number)" />
       <button id="submit">Add/Update Student</button>
-      <button id="delete">Delete Student</button>
     </form>
+
+    <table>
+      <caption>
+        Student Grades
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Student Name</th>
+          <th scope="col">Student Year/Type</th>
+          <th scope="col">Grade (Number)</th>
+          <th scope="col">Final Grade (Char)</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
 
     <div id="stats">
       <table>
-        <caption>Class Statistics</caption>
+        <caption>
+          Class Statistics
+        </caption>
         <thead>
           <tr>
             <th scope="col">Student Year/Type</th>

@@ -79,7 +79,6 @@ const handleGet = function( request, response ) {
 }
 const deletePurchase = (aPurchase) => {
   purchases =  purchases.filter((item) => item.title != aPurchase.title); 
-  console.log("purchases is now", purchases); 
 }
 
 const updatePurchase = (aPurchase) => {
@@ -87,7 +86,6 @@ const updatePurchase = (aPurchase) => {
   //first make sure that a purchase with that title does not exist already 
   const findIndex = purchases.findIndex(purchase => purchase.title === aPurchase.title); 
   
-  console.log("foubd", findIndex, aPurchase); 
   if(findIndex != -1){
     return; 
   }
@@ -106,7 +104,6 @@ const updatePurchase = (aPurchase) => {
   } 
   purchases.push(newPurchase); 
 
-  console.log("updated", purchases); 
 
 }
 
@@ -129,7 +126,6 @@ const handlePost = function( request, response ) {
       deletePurchase(body); 
     }
     else if (request.url === '/api/updatePurchase'){
-      console.log("Here"); 
       updatePurchase(body); 
     }
 

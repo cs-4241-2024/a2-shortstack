@@ -26,8 +26,7 @@ const getAllItems = async () => {
 }
 
 const handleDelete = async (title) => {
-  console.log("deleting..."); 
-  console.log("title is!", title); 
+  
   const modal = document.getElementById('deleteDialog'); 
   const body = JSON.stringify({
     "title": title
@@ -38,14 +37,12 @@ const handleDelete = async (title) => {
   }); 
 
   getAllItems().then((res) => {
-    console.log("res is", res); 
     buildTable(res, 'delete'); 
 
   })
   modal.close(); 
 }
 const handleUpdate = async (title, newTitle, newType, newStore, newPrice, newCoh) => { 
-  console.log("Calling update function with a new title of", newTitle); 
   const body = JSON.stringify({
     "oldTitle": title, 
     "title": newTitle, 
@@ -139,8 +136,7 @@ const buildTable = (res, mode) => {
       
       resultsTable.appendChild(resultRow); 
       editButton.addEventListener('click', (event) =>{
-        console.log(resultTitle.innerHTML); 
-        console.log('button clicked');  
+       
         handleEditClick(event, resultTitle.innerHTML, resultCategory.innerHTML, resultStore.innerHTML, resultPrice.innerHTML, resultCOH.innerHTML);
       }); 
       deleteButton.addEventListener('click', () => {
@@ -159,7 +155,6 @@ const handleEditClick = (event, oldTitle, category, store, price, coh, ) => {
   document.getElementById('updatestore').value = store; 
   document.getElementById('updateprice').value = price; 
   document.getElementById('updatecoh').value = coh;  
-  console.log("the old title was", oldTitle); 
   modal.showModal();
   const deleteButton = document.getElementById('deletePurchase'); 
   deleteButton.addEventListener('click', (event) => { 
@@ -169,7 +164,6 @@ const handleEditClick = (event, oldTitle, category, store, price, coh, ) => {
   })
   const buttonUpdate = document.getElementById('submitUpdates'); 
   buttonUpdate.addEventListener('click', (event) => {
-    console.log("Button go"); 
   event.preventDefault();
           
   const newtitle = document.getElementById('updatetitle').value; 

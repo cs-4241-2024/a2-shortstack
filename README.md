@@ -94,11 +94,23 @@ Sample Readme (delete the above when you're ready to submit, and modify the belo
 Include a very brief summary of your project here. Be sure to include the CSS positioning technique you used, and any required instructions to use your application.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I have created a single page app for a restaurant service of ordering food. There is a form to submit food requests [full name, food option, food quantity]. The app stores the submitted food requests in the console log with inputted fields, sending back the data. The data is displayed along with the cumulative total price (calculated by the server)
+- **Tech Achievement 1**: I have created a single page app for a restaurant service of ordering food. There is a form to submit food requests [full name, food option, food quantity]. The app stores the submitted food requests in the console log with inputted fields [pushed into appdata], sending back the updated data array with all the orders. The data is displayed along with the cumulative total price (calculated by the server/front end) based opn your food option and food quantity. The food orders are also displayed on the right side of the app.
+- **Tech Achievement 2**: You can edit the orders on the right side of the app after submitting the food order. You can also delete the order. You do both actions by pressing the edit/delete button next to the order. This will also affect the cumulative total price of all food orders if you modify the orders.
+- **Validation**: The website is validated and receives no errors when validated. 
+- **Communication with server via fetch or similar methods**: Implemented the fetch method to input the food order submitted into the appdata array and returns the updated data array in the server. Sends the POST request to the server with the form data (json).
+- **Server Logic**: Client sends data such as name, food, quantity and cumulative total price, which is process by the server to generate additional/derived data. The client-side script will calculate the cumulative total price based on the quantity and price of the food item, serving as the derived data locally and then sent ot the server to be pushed into the server data (appdata).
+- **Results functionality to display entire dataset**: The renderOrderedItems() displays all the ordered items, which is the food orders. The function loops through the the orderedItemArray and displays each item on the list, which is seen on the right of side of the app. Console log also displays the data from the server as well.
+- **Adding entries**: The user can add food orders, choosing food options and quantity, which is then pushed into the appdata array on the server side.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1 [First Evaluation] **: Finished an evaluation for Stryder Crouse on the application.
-- **Design Achievement 2 [Second Evaluation] **: Finished an Evaluation for Jeremy Kurtz on the application.
+- **[First Evaluation]**: Finished an evaluation for Stryder Crouse on the application.
+- **[Second Evaluation]**: Finished an Evaluation for Jeremy Kurtz on the application.
+- **Flexbox/Grid**: Added a flexbox for the buttons in the list items to be horizontal and spaced evenly with the listed items. Added a grid layout for the form (display: grid) with spacing between the form elements. Grid layout in ordered list items (ul#orderedItemsList).
+- **HTML/CSS ID Selector**: Implemented #totalPriceField (ID = totalPriceField) and ul#orderedItemsList(ID = orderedItemsList) in the CSS stylesheet.
+- **HTML/CSS Class Selector**: implemented a class for the button input, class="submit-btn", and added styling in the CSS stylesheet via [.submit-btn].
+- **HTML/CSS Element Selector**: Implemented styling for element selectors such as: body, form, H1, ul, li.
+- **External Stylesheet**: All the CSS styling is in the external stylesheet (main.css) and is in [<link rel="stylesheet" href="css/main.css" />] on top of index.html.
+- 
 
 ### Testing
 - Last Name: Crouse
@@ -107,8 +119,8 @@ Include a very brief summary of your project here. Be sure to include the CSS po
 - Feedback: Make the ordered items into a table, so it doesn't pop out when ordering food items.
 
 - Last Name: Kurtz
-- Problems: Cancel Button doesn't work. No functionality
+- Problems: Cancel Button doesn't work. No functionality.
 - Comments: Color Scheme is good.
-- Feedback: Little disorienting when you add orders. Maybe make a table?
+- Feedback: Little disorienting when you add/edit orders. Maybe make a table?
 
 Glitch: https://ablaze-copper-hadrosaurus.glitch.me

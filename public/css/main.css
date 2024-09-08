@@ -19,6 +19,8 @@ form {
   width: 100%;
   margin: 0 auto;
   text-align: center;
+  display: grid;
+  gap: 20px; /* Adds space between form elements */
 }
 
 h1 {
@@ -44,9 +46,9 @@ label {
 input[type="text"],
 input[type="number"],
 select {
-  width: 90%;
+  width: 100%; /* Adjust to fit the container */
   padding: 10px;
-  margin: 10px 0;
+  margin: 0; /* Remove default margin */
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 1rem;
@@ -57,7 +59,7 @@ select {
   font-size: 1rem;
 }
 
-button {
+.submit-btn {
   background-color: #b85c38;
   color: #fff;
   border: none;
@@ -68,15 +70,20 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
+.submit-btn:hover {
   background-color: #7b3f00;
 }
 
 /* Styling the cumulative total price */
+#totalPriceField {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
 #totalPriceField h3 {
   font-size: 1.2rem;
   color: #7b3f00;
-  margin-top: 15px;
   font-weight: bold;
 }
 
@@ -87,13 +94,32 @@ ul#orderedItemsList {
   margin-top: 20px;
   font-size: 1rem;
   color: #333;
+  display: grid;
+  gap: 10px; /* Space between list items */
 }
 
 ul#orderedItemsList li {
   padding: 8px;
   background-color: #f9f3ec;
   border: 1px solid #ddd;
-  margin-bottom: 5px;
   border-radius: 8px;
   text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ul#orderedItemsList button {
+  background-color: #7b3f00;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+ul#orderedItemsList button:hover {
+  background-color: #b85c38;
 }

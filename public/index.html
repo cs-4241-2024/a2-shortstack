@@ -10,9 +10,99 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
   <body>
-    <form>
+    <!-- Title and Progress -->
+    <header>
+      <h1>Book Tracker</h1>
+      <div class="goal-progress">
+        <div class="status-bar">
+          <div class="bar-progress"></div>
+        </div>
+        <p>
+          <strong><span id="books-read">0</span> / <span>12</span> books </strong> read this year
+        </p>
+        <p>
+          <strong><span id="pages-read">0</span> pages</strong> read this year
+        </p>
+      </div>
+    </header>
+
+    <!-- Book table -->
+    <main>
+      <table id="book-table">
+        <tr>
+          <th id="head-title">Title</th>
+          <th id="head-author">Author</th>
+          <th id="head-pages">Pages</th>
+          <th id="head-started">Started</th>
+          <th id="head-finished">Finished</th>
+          <th id="head-average">Average Pages/Day</th>
+          <th id="head-status">Status</th>
+          <th id="head-delete"></th>
+        </tr>
+        <tbody>
+          <!-- <tr>
+            <td>Book 1</td>
+            <td>Author 1</td>
+            <td>100</td>
+            <td>08/04/2024</td>
+            <td>09/06/2024</td>
+            <td>Read</td>
+            <td>
+              <a class="delete-img-wrapper" onclick="deleteBook(this)">
+                <img src="images/delete.svg" alt="Delete Book">
+              </a>
+            </td>
+          </tr> -->
+        </tbody>
+      </table>
+      <button id="add-book">Add Book</button> <!-- Open new book dialog-->
+    </main>
+
+    <!-- Pop-up to add new book -->
+    <dialog id="book-form-dialog">
+      <form id="new-book-form">
+        <div class="form-layout">
+          <h3>
+            Add New Book
+          </h3>
+          <div class="form-row">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" required>
+          </div>
+          <div class="form-row">
+            <label for="author">Author</label>
+            <input type="text" id="author" name="author" required>
+          </div>
+          <div class="form-row">
+            <label for="pages">Pages</label>
+            <input type="number" id="pages" name="pages" required>
+          </div>
+          <div class="form-row">
+            <label for="started">Started</label>
+            <input type="date" id="started" name="started">
+          </div>
+          <div class="form-row">
+            <label for="finished">Finished</label>
+            <input type="date" id="finished" name="finished">
+          </div>
+          <div class="form-row">
+            <label for="status">Status</label>
+            <select id="status" name="status" required>
+              <option value="read">Read</option>
+              <option value="reading">Reading</option>
+              <option value="not-read">Not Read</option>
+            </select>
+          </div>
+          <div class="form-buttons">
+            <button onclick="closeBookForm()" id="cancel-button">Cancel</button>
+            <input type="submit" value="Add Book" class="submit-button"></input>
+          </div>
+        </div>
+      </form>
+    </dialog>
+    <!-- <form>
       <input type="text" id="yourname" value="your name here">
       <button>submit</button>
-    </form>
+    </form> -->
   </body>
 </html>

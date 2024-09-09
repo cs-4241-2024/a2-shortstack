@@ -1,4 +1,54 @@
 body {
-  background:black;
-  color:white;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  background-color: #758E81;
+  color: white;
+}
+
+h1 {
+  color: #6FE3A6;
+}
+
+#description {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+#gameContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+#box {
+  width: 300px;
+  height: 300px;
+  background-color: #A37D79;
+  position: relative;
+}
+
+#dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #E37B6F;
+  position: absolute;
+}
+
+#resultsTable {
+  margin-top: 20px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #25392E;
+  color: white;
+  border-collapse: collapse;
+}
+
+#resultsTable th, #resultsTable td {
+  border: 1px solid #6FE3A6;
+  padding: 8px;
 }

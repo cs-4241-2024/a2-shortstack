@@ -86,4 +86,10 @@ input {
   margin: 0 auto;
 }
 
-
+img {
+  object-fit: cover;
+  max-width: 150px;
+  height: auto;
+  display: block;
+  margin: auto;
+}

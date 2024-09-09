@@ -42,15 +42,30 @@ const displayCards = function(data) {
   const cardContainer = document.querySelector("#cardContainer");
   cardContainer.innerHTML = '';
 
-  data.forEach(entry => {
+  data.forEach(async entry => {
     const card = document.createElement('div');
     card.classList.add('card');  
+
+    const searchTerm = document.getElementById("showTitle");
+    let searchString = searchTerm.value;
+    //console.log(searchString);
+    let apiData = '';
+
+    try {
+      const res = await fetch(`https://api.jikan.moe/v4/anime?q=${entry['show title']}`);
+      apiData = await res.json();
+      console.log(apiData);
+    } catch (err) {
+      console.log(err);
+    }
 
     card.innerHTML = `
     <h3>${entry.username}</h3>
     <hr class="solidLine"> 
+    <img src="${apiData.data[0].images.jpg.large_image_url}" id="coverImage">
     <p><strong>Show Title:</strong> ${entry['show title']}</p>
     <p><strong>Last Episode Watched:</strong> ${entry['last ep watched']}</p>
+    <p><strong>Progress:</strong> ${entry['last ep watched']}/${apiData.data[0].episodes}</p>
     <p><strong>Date Logged:</strong> ${entry['date logged']}</p>
     <button class="delete-button">Delete</button>
     `;

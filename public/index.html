@@ -10,9 +10,21 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
   <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
-    </form>
+    <table id="table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Age (Days)</th>
+          <th>Time until due (Days)</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <!-- Table rows will be dynamically inserted here -->
+      </tbody>
+    </table>
+    <button id="addRow">Add Row</button>
+    <button id="saveTable">Save Changes</button>
   </body>
+
 </html>

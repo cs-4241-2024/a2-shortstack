@@ -1,4 +1,8 @@
 body {
-  background:black;
-  color:white;
+  background:white;
+  color:black;
+}
+
+table, th, td {
+  border:1px solid black;
 }

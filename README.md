@@ -1,3 +1,18 @@
+link: https://a2-laurapellowski.glitch.me/ 
+
+## Laura's Tea Log
+My website is designed to be a personal tea log. You can put in the type of tea, when you had it, and your rating, and the server will add a note based on the rating. 
+
+## Technical Achievements
+- **Tech Achievement 1**: I utilized a single-page app.
+
+### Design/Evaluation Achievements
+- **Design Achievement 1**: 
+
+
+
+
+
 Assignment 2 - Short Stack: Basic Two-tier Web Application using HTML/CSS/JS and Node.js  
 ===
 
@@ -90,11 +105,4 @@ You'll need to use sometype of collaborative software that will enable you both 
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
-My website is designed to be a personal tea log. You can put in the type of tea, when you had it, and your rating, and the server will add a note based on the rating. 
 
-## Technical Achievements
-- **Tech Achievement 1**: I utilized a single-page app.
-
-### Design/Evaluation Achievements
-- **Design Achievement 1**: 

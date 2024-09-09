@@ -16,8 +16,8 @@ I learned a lot from the TA/SA's as well as doing research online and that helpe
 
 The program is quite simple, although it helps display the back-end and the data that is stored in the server. Along with introducing the derived field : cake. 
 
-## Technical Achievements
-- Using a combination of form and JavaScript to post the results in a table. The user can enter data as well as see the data stored in the database.
+### Technical Achievements
+- Using a combination of HTML Form, JavaScript, and JSON methods to post the results in a table. The user can enter data as well as see the data stored in the database.
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: 

@@ -74,7 +74,7 @@ const handlePost = function( request, response ) {
 
       appdata.push(newHabit);
       try {
-        fs.writeFileSync(file, JSON.stringify( appdata, null, 2 ), 'utf8' ); // Save data to the file
+        fs.writeFileSync(file, JSON.stringify( appdata, null, 2 ), 'utf8' );
       } catch (err) {
         console.error('Error writing to data file:', err);
       }

@@ -95,7 +95,7 @@ document.getElementById('habit-form').addEventListener('submit', function (event
 });
 
 const deleteHabit = async function(habitName) {
-  console.log('deleteHabit function called for habit:', habitName);  // Check if this logs
+  console.log('deleteHabit function called for habit:', habitName);
   const response = await fetch(`/deleteHabit`, {
     method: 'DELETE',
     headers: {
@@ -105,6 +105,6 @@ const deleteHabit = async function(habitName) {
   });
 
   const newData = await response.json();
-  console.log('Updated data after deletion:', newData);  // Check if data is received
+  console.log('Updated data after deletion:', newData);
   loadTable(newData);
 }

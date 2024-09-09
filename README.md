@@ -21,7 +21,8 @@ automatically updates to reflect the request. All the forms and data is displaye
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1 & 2**
-People tested on: Kalavantis, Kapoor
+People tested on: Kalavantis, Kapoor.
+
     A couple of the problems the users had with my design was the formatting of the submit button. They thought it wasnt as strait foreward for how to submit a classmates info. One also mentioned the color scheme could be better, which was 
     supprising because I thought it looked nice and simple.
     Based on this feedback I would probably implement multiple submit boxes, so that all the info doesnt have to be inputted

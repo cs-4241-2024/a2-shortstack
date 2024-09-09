@@ -5,7 +5,7 @@ This web app allows you to track what anime you're watching and what you progres
 
 The CSS positioning technique that was used was a flexbox. 
 
-The `Derived Fields` in this project rely on the use of the Jikan API (an API that connects to myanimelist.net which hold a lot of information about various animes), which is what allows each card to have a cover image. This API is also used to show the user their progress, and it works by taking the number of the last episode watched and the show name to generate the actual progress value. As a bonus, the date the entry is created is also logged.
+The `Derived Fields` in this project rely on the use of the Jikan API [https://docs.api.jikan.moe/] (an API that connects to myanimelist.net which hold a lot of information about various animes), which is what allows each card to have a cover image. This API is also used to show the user their progress, and it works by taking the number of the last episode watched and the show name to generate the actual progress value. As a bonus, the date the entry is created is also logged.
 
 ## Technical Achievements
 - **Tech Achievement 1**: This webapp is a single page app where the contents of the server-side data are always displayed as long as they exist. The display also updates every time the submit button is pressed. To demonstrate this functionality, the code comes with one "hard coded" example.

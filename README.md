@@ -1,4 +1,4 @@
-Ian Poulsen
+Ian Poulsen https://a2-skypanther26.glitch.me
 Assignment 2 - Short Stack: Basic Two-tier Web Application using HTML/CSS/JS and Node.js  
 ---
 
@@ -11,9 +11,9 @@ the Roboto Mono font from Google Fonts.
 
 ## Technical Achievements
 - **Tech Achievement 1**:
-This is a single-page application that allows users to submit, view, and delete data all on one page.
-Using the forms and the REST API, the server and the client communicate to each other to process the 
-data while the server maintains the results table.
+This is a single-page application that allows users to submit, view, and delete data all in one place.
+Using a combination of forms and the REST API, the server and the client communicate to each other to 
+process the data while the server maintains the results table.
 
 - **Tech Achievement 2**:
 This application also gives the user the ability to modify existing data in the results table.

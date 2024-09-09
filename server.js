@@ -94,7 +94,6 @@ const handleDelete = function( request, response ) {
 
   request.on( 'end', function() {
     const {habitName} = JSON.parse( dataString );
-    console.log('Deleting habit with name:', habitName);
     //
     if (habitName === undefined) {
       console.error('Habit name is undefined');

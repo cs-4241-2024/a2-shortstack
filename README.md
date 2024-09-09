@@ -9,6 +9,3 @@ I used flexbox as my CSS styling technique for the website.
 - **Tech Achievement 1**: I created a single-page app that allows for the table to be changed and viewed from only one page.
 
 - **Tech Achievement 2**: I added the ability to edit some values by clicking on there square and changing them.
-
-### Design/Evaluation Achievements
-- **Design Achievement 1**: I created

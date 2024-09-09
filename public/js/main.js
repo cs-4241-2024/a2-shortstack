@@ -12,11 +12,11 @@ const submit = async function( event ) {
         body1 = JSON.stringify( json1 )
 
   const releaseYearInput = document.querySelector( '#yearOfRelease' ),
-      json2 = { yearOfRelease: releaseYearInput },
+      json2 = { yearOfRelease: releaseYearInput.value },
       body2 = JSON.stringify( json2 )
 
   const releaseCostInput = document.querySelector( '#releaseCost' ),
-      json3 = { releaseCost: releaseCostInput },
+      json3 = { releaseCost: releaseCostInput.value },
       body3 = JSON.stringify( json3 )
         
   const response = await fetch( '/submit', {
@@ -28,12 +28,32 @@ const submit = async function( event ) {
 
   const data = await response.json()
 
-  data.map( item => item.model)
-    .forEach(item => console.log(item))
+  // data.map( item => item.product)
+  //   .forEach(item => console.log(item))
+  // data.map( item => item.releaseYear)
+  //   .forEach(item => console.log(item))
+  // data.map( item => item.releaseCost)
+  //   .forEach(item => console.log(item))
+  // data.map( item => item.newCost)
+  //   .forEach(item => console.log(item))
 
-  //data.forEach(d => console.log(d))
+  /*
+  data.map( item => item.product)
+    .forEach(item => dataFunction(item))
+  // deriving new data field function
+  function dataFunction(item1) {
+    console.log(item1.newCost);
+    item1.newCost = item1.releaseCost;
+    const year = item1.yearOfRelease;
+    while (year < 2024) {
+      item1.newCost *= 1.0328;
+      console.log(item1.newCost);
+      year++;
+    }
+    console.log(item1.newCost);
+  }
+  */
 
-  //console.log( 'text:', text )
 }
 
 window.onload = function() {

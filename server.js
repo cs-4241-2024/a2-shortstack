@@ -8,11 +8,7 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'product': 'iPhone', 'releaseYear': 2007, 'releaseCost': 499 },
-  { 'product': 'airpods', 'releaseYear': 2016, 'releaseCost': 159 },
-  { 'product': 'scrub daddy', 'releaseYear': 2012, 'releaseCost': 2.8} 
-]
+const appdata = []
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
@@ -43,6 +39,7 @@ const handlePost = function( request, response ) {
     console.log( JSON.parse( dataString ) )
 
     // data gets processed - inflation function
+    
     
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })

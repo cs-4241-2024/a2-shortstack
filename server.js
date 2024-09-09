@@ -1,74 +1,61 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+// server.js
+const express = require('express');
+const path = require('path');
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+const app = express();
+const PORT = 3000;
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+// In-memory data store for todo items
+let todoList = [];
+
+app.use(express.json());
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Route to handle adding new tasks
+app.post('/add', (req, res) => {
+  const { taskName, dueDate, priority } = req.body;
+  const daysRemaining = calculateDaysRemaining(dueDate);
+
+  // Create a new task object with a derived field
+  const newTask = { taskName, dueDate, priority, daysRemaining };
+  todoList.push(newTask);
+  res.json(todoList);
+});
+
+// Route to handle deleting a task
+app.post('/delete', (req, res) => {
+  const { taskName } = req.body;
+  todoList = todoList.filter(task => task.taskName !== taskName);
+  res.json(todoList);
+});
+
+// Route to handle modifying a task
+app.post('/modify', (req, res) => {
+  const { oldTaskName, newTaskName, dueDate, priority } = req.body;
+  const daysRemaining = calculateDaysRemaining(dueDate);
+  const taskIndex = todoList.findIndex(task => task.taskName === oldTaskName);
+
+  if (taskIndex !== -1) {
+    todoList[taskIndex] = { taskName: newTaskName, dueDate, priority, daysRemaining };
   }
-})
+  res.json(todoList);
+});
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
+// Route to fetch all tasks
+app.get('/results', (req, res) => {
+  res.json(todoList);
+});
 
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
-  }
+// Function to calculate the number of days remaining days
+function calculateDaysRemaining(dueDate) {
+  const due = new Date(dueDate);
+  const today = new Date();
+  const timeDifference = due - today;
+  return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 }
 
-const handlePost = function( request, response ) {
-  let dataString = ''
-
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
-
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
-
-    // ... do something with the data here!!!
-
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
-
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
-
-   fs.readFile( filename, function( err, content ) {
-
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
-}
-
-server.listen( process.env.PORT || port )
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

@@ -67,7 +67,17 @@ const submit = function (e) {
   fetch( '/submit', { // fetch is where you specify the url/ resouce that you want to see
     method:'POST',
     body: "" // send body to server
-  })
+  }).then(  // when the rewsponse to the server comes, do this
+    function(  response ) { // this is the response from the server
+      console.log("SSSS")
+    // do something with the reponse 
+    // try putting the TABLE HERE
+    //  console.log( response )
+      // return response.json() // extracts json and returns it
+ 
+      return response.json() // converts ReadableStream to JSON array for appdata
+    }
+  )
  
   refreshTodoList(taskObj);
 };

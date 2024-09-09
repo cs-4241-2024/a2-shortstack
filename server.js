@@ -1,74 +1,45 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+const express = require("express");
+const app = express();
+const port = process.env.PORT || 3000;
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+let leaderboard = [];
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+app.use(express.static("public"));
+app.use(express.json());
+
+app.get("/leaderboard", (req, res) => {
+  res.json(leaderboard);
+});
+
+app.post("/leaderboard", (req, res) => {
+  const { name, score } = req.body;
+
+  if (!name || !score) {
+    return res.status(400).json({ error: "Name and score are required" });
   }
-})
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
+  const newEntry = {
+    name: name,
+    score: score,
+    date: new Date().toLocaleString(),
+  };
 
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
-  }
-}
+  leaderboard.push(newEntry);
+  res.json(leaderboard);
+});
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+app.delete("/leaderboard", (req, res) => {
+  const { name, score, date } = req.body;
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+  leaderboard = leaderboard.filter(
+    (entry) =>
+      !(entry.name === name && entry.score === score && entry.date === date)
+  );
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+  res.json(leaderboard);
+});
 
-    // ... do something with the data here!!!
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
-
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
-
-   fs.readFile( filename, function( err, content ) {
-
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
-}
-
-server.listen( process.env.PORT || port )

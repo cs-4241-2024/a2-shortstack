@@ -14,11 +14,11 @@ let activeLoans =
   {"id": -1, "firstname": "placeholder", "lastname": "placeholder", "dup":false},
 
   // Example loans
-  {"id": 2, "firstname": "John", "lastname": "Smith", "dup":false},
-  {"id": 9, "firstname": "Matthew", "lastname": "Stinson", "dup":false},
-  {"id": 14, "firstname": "Jess", "lastname": "Stairs", "dup":false},
-  {"id": 15, "firstname": "Austin", "lastname": "Murphy", "dup":false},
-  {"id": 20, "firstname": "matthew", "lastname": "stinson", "dup":false},
+  // {"id": 2, "firstname": "John", "lastname": "Smith", "dup":false},
+  // {"id": 9, "firstname": "Matthew", "lastname": "Stinson", "dup":false},
+  // {"id": 14, "firstname": "Jess", "lastname": "Stairs", "dup":false},
+  // {"id": 15, "firstname": "Austin", "lastname": "Murphy", "dup":false},
+  // {"id": 20, "firstname": "matthew", "lastname": "stinson", "dup":false},
 ]
 
 /**

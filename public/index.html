@@ -1,18 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    
+    <link rel="stylesheet" href="css/main.css" />
     <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
   </head>
   <body>
+    <p>
+    </p>
+    <h1 class="space">Create Your Own To-Do List!</h1>
+    <p></p>
     <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
+      <input type="text" id="item" value="Add an item to do!" />
+      <input type="text" id="priority" value="Priority" />
+      <input type="text" id="deadline" value="Deadline" />
+      <button id="submit">submit</button>
     </form>
+    <table class="tab">
+      <h2>
+        To-do:
+      </h2>
+      <tr><th>Item</th><th>Priority</th><th>Deadline</th></tr>
+      <tbody id="body">
+      </tbody>
+    </table>
   </body>
 </html>

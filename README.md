@@ -1,4 +1,4 @@
-Assignment 2: Sophia John
+Assignment 2: Sophia John - https://a2-sophiajohnn.glitch.me
 
 ## Daily Journal
 This project is a website where you are able to journal as often as you want. You are able to add and delete entries as well as display them. Based on how motivated or happy you are

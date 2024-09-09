@@ -1,74 +1,85 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+const http = require('http'),
+    fs   = require('fs'),
+    mime = require('mime'),
+    dir  = 'public/',
+    port = 3000;
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+let appdata = [
+  // Initial dummy data
+  { id: 1, type: 'work', details: { course: 'Math', ddl: '2024-09-10', expectedTime: '13:00', actualTime: '14:00' }},
+  { id: 2, type: 'entertainment', details: { entertainmentType: 'music' }},
+  { id: 3, type: 'sleep', details: { sleepDate: '2024-09-05', sleepTime: '23:00' }}
+];
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+// Create an incremental ID for new entries
+let idCounter = 4;
+
+const server = http.createServer(function (request, response) {
+  if (request.method === 'GET') {
+    handleGet(request, response);
+  } else if (request.method === 'POST') {
+    handlePost(request, response);
   }
-})
+});
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
+const handleGet = function (request, response) {
+  const filename = dir + request.url.slice(1);
 
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
+  if (request.url === '/') {
+    sendFile(response, 'public/index.html');
+  } else if (request.url === '/activities') {
+    // Handle GET request for the activities list
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(appdata));
+  } else {
+    sendFile(response, filename);
   }
-}
+};
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+const handlePost = function (request, response) {
+  let dataString = '';
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+  request.on('data', function (data) {
+    dataString += data;
+  });
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+  request.on('end', function () {
+    const parsedData = JSON.parse(dataString);
 
-    // ... do something with the data here!!!
+    if (parsedData.action === 'add') {
+      // Add new activity
+      const newActivity = { id: idCounter++, type: parsedData.type, details: parsedData.details };
+      appdata.push(newActivity);
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
+      response.writeHead(200, "OK", { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify({ message: 'Activity added', data: newActivity }));
+    } else if (parsedData.action === 'edit') {
+      // Edit existing activity
+      const index = appdata.findIndex(activity => activity.id === parsedData.id);
+      if (index !== -1) {
+        appdata[index].details = parsedData.details;
+        response.writeHead(200, "OK", { 'Content-Type': 'application/json' });
+        response.end(JSON.stringify({ message: 'Activity edited', data: appdata[index] }));
+      } else {
+        response.writeHead(404, "Not Found", { 'Content-Type': 'application/json' });
+        response.end(JSON.stringify({ message: 'Activity not found' }));
+      }
+    }
+  });
+};
 
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
+const sendFile = function (response, filename) {
+  const type = mime.getType(filename);
 
-   fs.readFile( filename, function( err, content ) {
+  fs.readFile(filename, function (err, content) {
+    if (err === null) {
+      response.writeHeader(200, { 'Content-Type': type });
+      response.end(content);
+    } else {
+      response.writeHeader(404);
+      response.end('404 Error: File Not Found');
+    }
+  });
+};
 
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
-}
-
-server.listen( process.env.PORT || port )
+server.listen(process.env.PORT || port);

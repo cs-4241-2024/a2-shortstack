@@ -1,4 +1,47 @@
 body {
-  background:black;
+  background:rgba(148, 193, 239, 0.836);
+  color:rgb(15, 26, 128);
+  margin: 0 auto;
+  max-width: 50em;
+  text-align: center;
+  font-family: "Yusei Magic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+button {
+  background:rgb(15, 26, 128);
   color:white;
+  border: 2px solid gold;
+  margin: 2px;
+  padding: 3px 20px;
+  font-family: "Yusei Magic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.smallhead {
+  color:rgb(15, 26, 128);
+  font-size: 50px;
+  margin: 5px;
+}
+
+table {
+  width: 100%;
+}
+
+table, th, td {
+  border:3px solid rgb(15, 26, 128);
+}
+
+#lrest {
+
+  padding: 15px 100px;
+  margin: 10px;
+  font-size: 25px;
+
+}
+
+.inl{
+  display:inline;
 }

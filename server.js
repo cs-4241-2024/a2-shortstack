@@ -27,10 +27,10 @@ const handleGet = function( request, response ) {
 
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
-  }else{
+  } else {
     sendFile( response, filename )
   }
-}
+} 
 
 const handlePost = function( request, response ) {
   let dataString = ''

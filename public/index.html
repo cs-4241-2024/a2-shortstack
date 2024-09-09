@@ -9,10 +9,26 @@
     <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
+
   <body>
     <form>
-      <input type="text" id="yourname" value="your name here">
+
+      <!-- Text Input: Enter Name-->
+       <h5>Enter Your Username:</h5>
+      <input type="text" id="yourname" name="username" value="your name here">
+      
+      <!-- Text Input: Enter the Show Title-->
+       <h5>Enter the Anime Title:</h5>
+      <input type="text" id="showTitle" name="showName" value="title of show here">
+      
+      <!-- Number Input: Enter number of last completed episode-->
+      <h5>Enter Number of Last Watched Episode:</h5>
+      <input type="number" id="lastWatched" name="lastViewed" value="number of last episode watched">
+
+      <!-- the additional data field should be date/time logged -->
       <button>submit</button>
+
     </form>
   </body>
+
 </html>

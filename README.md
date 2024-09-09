@@ -1,6 +1,7 @@
 Assignment 2 - Short Stack: Basic Two-tier Web Application using HTML/CSS/JS and Node.js  
 **Skyler Lin**
-Link: 
+
+Link: https://a2-skylerlin-submission.glitch.me
 
 ## Skyler's Sushi Bar
 This tool is for sending ordering information into a server's database. So, even refreshing the page will not clear the data as it has been stored. Using this tool would be useful to for a cashier who needs to grab and store info on every one of their customers. This would also be helpful for the cashier and manager to communicate on the income and profits made for the day at this resturant. Cash total adds up the previous orders' money made to form a sum total. Item total is also a sum of all items added and submitted in the cart. Thank you for stopping by!

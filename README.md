@@ -21,4 +21,5 @@ Task: Users were asked to submit a new entry then delete a record using the prov
 
 Each participant commented on how it was simple, but that was also a benifit. There were no struggles completeing the tasks, and only a little bit of trial and error to get a feel of the due-by-date weighting system. 
 
-#### Check out the hosted website on [glitch](https://a2-gibsonphillips.glitch.me/)
+#### Check out the hosted website on [glitch](https://a2-gibsonphillips.glitch.me/) or just run it locally with $ node server.js
+default port is 3000 :)

@@ -1,3 +1,6 @@
+Kenneth Smith a2 
+https://a2-kjavsmith.glitch.me
+
 # Simple Todo App
 
 This project is a **two-tier web application** that allows users to manage a list of tasks with varying priorities and deadlines. It features a fully interactive interface where users can add, edit, and delete tasks, and the data is dynamically updated and reflected on both the client and server sides. The project is built using **HTML, CSS, JavaScript (for the front end)** and **Node.js** (for the back end), demonstrating real-time communication between the server and client.

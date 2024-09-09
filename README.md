@@ -21,7 +21,7 @@ April Bollinger
 ## Technical Achievements
 
 - **Tech Achievement 1**: Created a single page app. When the form is submitted it automatically populates the page 
-with all of the data from the server including the most recently added one. The due date is calculated before it displays.
+with all of the data from the server including the most recently added one. The due date is calculated before it displays. It is possible to add and delete tasks.
 
 - **Tech Achievement 2**: Added details and required engine to package.json.
 
@@ -40,7 +40,5 @@ very useful for radio buttons.
 
 - **Design Achievement 3**: Created a color palatte ![color palatte](https://cdn.glitch.global/eb6f6330-e3b9-491f-bace-b835a9e64fde/e63959ba-725c-4530-9e42-855118edb4cf.image.png?v=1725866710112)
 
+- **Design Achievement 4**: Used flexbox to make the footer stick to the bottom of the screen.
 
-
-## Note
-  I could not figure our how to delete data from the database. I was not aware that we covered that in class. I thought we were waiting for DELETE.

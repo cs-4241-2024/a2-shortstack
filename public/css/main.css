@@ -1,10 +1,14 @@
+html {
+  height: 100%;
+}
+
 body {
   background: #302233;
   color: white;
   margin: auto;
   display: flex;
   flex-direction: column;
-  
+  min-height: 100%;
 }
 
 
@@ -22,6 +26,7 @@ header {
 
 main {
   margin: 10%;
+  flex: 1 0 auto;
 }
 
 #newtaskform {

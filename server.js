@@ -15,6 +15,8 @@ const server = http.createServer(function (request, response) {
     handleGet(request, response);
   } else if (request.method === "POST") {
     handlePost(request, response);
+  } else if (request.method == "DELETE") {
+    handleDel(request, response);
   }
 });
 
@@ -26,6 +28,22 @@ const handleGet = function (request, response) {
   } else {
     sendFile(response, filename);
   }
+};
+
+const handleDel = function (request, response) {
+  let string = "";
+  request.on("data", function (data) {
+    string += data;
+  });
+
+  request.on("end", function () {
+    const data = JSON.parse(string);
+
+    appdata.splice(data, 1);
+
+    response.writeHead(200, "OK", { "Content-Type": "text/plain" });
+    response.end(JSON.stringify(appdata));
+  });
 };
 
 const handlePost = function (request, response) {

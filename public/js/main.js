@@ -10,7 +10,7 @@ const submit = async function (event) {
   // Clear the form when submit is hit (with flicker)
   const form = document.querySelector("#tasklist");
   form.innerHTML = "";
-  
+
   const date = new Date();
 
   const input = document.querySelector("#newtask");
@@ -27,23 +27,53 @@ const submit = async function (event) {
     body,
   });
 
+  let count = 0;
   const data = await response.json();
   data
     .map((item) => item)
     .forEach((item) => {
       const element = document.createElement("div");
       element.innerHTML =
-        "<input type='checkbox' name='todos'/><label>" +
+        "<input type='checkbox' name='" +
+        `${count}` +
+        "' onclick='del(event)'/><label>" +
         `${item.task}` +
         " - Due: " +
         `${item.creationDate}` +
         "</label>";
       form.appendChild(element);
+      count++;
     });
-
- 
 };
 
+const del = async function (event) {
+  event.preventDefault();
+
+  const response = await fetch("/del", {
+    method: "DELETE",
+    body: event.target.getAttribute("name"),
+  });
+  const form = document.querySelector("#tasklist");
+  form.innerHTML = "";
+  const data = await response.json();
+
+  let count = 0;
+  data
+    .map((item) => item)
+    .forEach((item) => {
+      const element = document.createElement("div");
+      element.innerHTML =
+        "<input type='checkbox' name='" +
+        `${count}` +
+        "' onclick='del(event)'/><label>" +
+        `${item.task}` +
+        " - Due: " +
+        `${item.creationDate}` +
+        "</label>";
+      form.appendChild(element);
+      count++;
+    });
+};
 
 window.onload = function () {
   const button = document.querySelector("button");

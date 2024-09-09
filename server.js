@@ -8,11 +8,25 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+let appdata = [
+  { task: 'Complete assignment', priority: 1, created_at: '2024-09-08', deadline: '2024-09-09' },
+  { task: 'Buy groceries', priority: 2, created_at: '2024-09-08', deadline: '2024-09-10' }
 ]
+
+function computeDeadline(task) {
+  const creationDate = new Date(task.created_at);
+  let daysToAdd = 1; // Default is 1 day for highest priority
+
+  // More days for lower priority tasks
+  if (task.priority === 2) {
+    daysToAdd = 2;
+  } else if (task.priority === 3) {
+    daysToAdd = 3;
+  }
+
+  creationDate.setDate(creationDate.getDate() + daysToAdd);
+  task.deadline = creationDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+}
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
@@ -27,7 +41,9 @@ const handleGet = function( request, response ) {
 
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
-  }else{
+  }
+  else
+  {
     sendFile( response, filename )
   }
 }
@@ -40,12 +56,31 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+    
+    const parsedData = JSON.parse(dataString);
 
-    // ... do something with the data here!!!
-
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    if (parsedData.action === 'add') 
+    {
+      // Add new task and compute derived deadline
+      parsedData.created_at = new Date().toISOString().split('T')[0]; // Set current date
+      computeDeadline(parsedData);
+      appdata.push(parsedData);
+      response.writeHead(200, { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify({ status: 'success', appdata }));
+    } 
+    else if (parsedData.action === 'delete') 
+    {
+      // Delete task by task description
+      appdata = appdata.filter(item => item.task !== parsedData.task);
+      response.writeHead(200, { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify({ status: 'deleted', appdata }));
+    } 
+    else if (parsedData.action === 'get') 
+    {
+      // Return the task list when requested
+      response.writeHead(200, { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify(appdata));
+    }
   })
 }
 

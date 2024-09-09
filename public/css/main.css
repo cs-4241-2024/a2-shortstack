@@ -4,11 +4,26 @@
   font-style: normal;
 }
 
-
 body {
   font-family: "Ubuntu";
   background: rgb(124, 178, 133);
   color:white;
+}
+
+header {
+  background: linear-gradient(to bottom, rgb(13, 90, 26), rgb(18, 138, 38));
+  padding: 20px;
+  text-align: center;
+  color: black;
+  font-size: 30px;
+  font-weight: 1000;
+}
+
+p {
+  text-align: center;
+  font-size: 25px;
+  color: black;
+  font-style: bold;
 }
 
 form {
@@ -36,6 +51,8 @@ table {
 }
 
 th {
+  font-family: "Ubuntu";
+  text-align: center;
   padding-right: 50px;
 }
 

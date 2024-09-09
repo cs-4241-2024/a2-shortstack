@@ -3,7 +3,7 @@ http://a2-JustinS-23.glitch.me
 
 ## Your Web Application Title
 This webpage is an employee form that will take user input for an employee's ID, name, salary, and their ID registration date. It will then calculate the expiration
-date for their ID by adding 5 years to the inputted registration date. Used a flexbox for the CSS style.
+date for their ID by adding 5 years to the inputted registration date. Used a flexbox and the Ubuntu Google font for the CSS styling.
 Instructions: Input a 9-digit number for the ID, a first and last name, a yearly salary of at least 5 digits, and an ID year (YYYY). Afterwards, just click the submit
 button. You can also edit or delete a row by clicking the buttons to the right of the data.
 

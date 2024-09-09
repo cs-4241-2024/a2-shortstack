@@ -74,8 +74,6 @@ const handleEdit = function (request, response) {
 
   request.on('end', function () {
     const updatedData = JSON.parse(dataString);
-
-    // Update the corresponding entry in the appdata array
     appdata[index] = {
       employeeid: updatedData.employeeid,
       name: updatedData.name,
@@ -91,8 +89,6 @@ const handleEdit = function (request, response) {
 
 const handleDelete = function (request, response) {
   const index = parseInt(request.url.split('/')[2]);
-
-  // Remove the corresponding entry from the appdata array
   appdata.splice(index, 1);
 
   response.writeHead(200, { 'Content-Type': 'application/json' });

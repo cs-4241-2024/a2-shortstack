@@ -8,5 +8,8 @@
   },
   "dependencies": {
     "mime": "^2.4.4"
+  },
+  "devDependencies": {
+    "prettier": "3.3.3"
   }
 }

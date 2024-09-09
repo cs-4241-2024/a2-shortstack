@@ -1,3 +1,5 @@
+const { title } = require('process')
+
 const http = require( 'http' ),
       fs   = require( 'fs' ),
       // IMPORTANT: you must run `npm install` in the directory for this assignment
@@ -9,9 +11,7 @@ const http = require( 'http' ),
       port = 3000
 
 const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+  {} 
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -19,15 +19,71 @@ const server = http.createServer( function( request,response ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){
     handlePost( request, response ) 
+  } else if( request.method === 'DELETE' ) {
+    handleDelete( request, response )
+  }
+  else if( request.method === 'PUT' ) {
+    handleEdit( request, response )
   }
 })
+
+const handleEdit = function( request, response ) {
+  let dataString = ''
+
+  request.on( 'data', function( data ) {
+      dataString += data 
+  })
+
+  request.on( 'end', function() {
+    const titleToEdit = JSON.parse( dataString ).title
+
+    const indexToEdit = appdata.findIndex(record => record.title === titleToEdit)
+
+    if (indexToEdit !== -1) {
+      appdata[indexToEdit] = JSON.parse( dataString )
+      response.writeHead(200, "OK", {'Content-Type': 'text/plain'})
+      response.end('Record edited successfully')
+    } else {
+      response.writeHead(404, "Not Found", {'Content-Type': 'text/plain'})
+      response.end('Record not found')
+    }
+  })
+}
+
+const handleDelete = function( request, response ) {
+  let dataString = ''
+
+  request.on( 'data', function( data ) {
+      dataString += data 
+  })
+
+  request.on( 'end', function() {
+    const titleToDelete = JSON.parse( dataString ).title
+
+    const indexToDelete = appdata.findIndex(record => record.title === titleToDelete)
+
+    if (indexToDelete !== -1) {
+      appdata.splice(indexToDelete, 1)
+      response.writeHead(200, "OK", {'Content-Type': 'text/plain'})
+      response.end('Record deleted successfully')
+    } else {
+      response.writeHead(404, "Not Found", {'Content-Type': 'text/plain'})
+      response.end('Record not found')
+    }
+  })
+}
 
 const handleGet = function( request, response ) {
   const filename = dir + request.url.slice( 1 ) 
 
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
-  }else{
+  }
+  else if( request.url === '/posts' ) {
+    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+    response.end( JSON.stringify( appdata ) )
+  }  
+  else{
     sendFile( response, filename )
   }
 }
@@ -40,9 +96,11 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
-
-    // ... do something with the data here!!!
+    const newPost = JSON.parse( dataString )
+    newPost.publication_date = new Date()
+    newPost.wordCount = newPost.content.split(/\s+/).length;
+    appdata.push( newPost )
+    console.log( newPost )
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end('test')
@@ -72,3 +130,4 @@ const sendFile = function( response, filename ) {
 }
 
 server.listen( process.env.PORT || port )
+console.log('listening on 3000')

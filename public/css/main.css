@@ -87,7 +87,7 @@ h2 {
 }
 
 #resultsTable tbody tr:hover {
-    background: #444; /* Highlight row on hover */
+    background: #444;
 }
 
 /* Responsive adjustments */

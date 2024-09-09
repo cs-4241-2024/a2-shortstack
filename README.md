@@ -25,7 +25,7 @@ can have a distraction free workout.
 ## Running
 __Watch__:
 ```bash
-deno run --allow-net --allow-read --allow-write --watch server.ts
+deno run dev
 ```
 
 ## Roadmap

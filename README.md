@@ -1,4 +1,4 @@
-Glitch link: https://a2-rosestrobelwpi.glitch.me
+Glitch link: [https://a2-rosestrobelwpi.glitch.me](https://a2-rmstrobelwpi-rose-strobel.glitch.me)
 
 
 README.md

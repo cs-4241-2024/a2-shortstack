@@ -1,8 +1,8 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "TODO",
+  "version": "1.0.0",
+  "description": "A simple task manager app",
+  "author": "Gabriel",
   "scripts": {
     "start": "node server.js"
   },

@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch("/highscores")
     .then((response) => response.json())
     .then((highscores) => {
-      highscoreTable.innerHTML = ""; // Clear existing highscores
+      highscoreTable.innerHTML = "";
       highscores.forEach((score) => {
         updateHighscores(score.name, score.time);
       });

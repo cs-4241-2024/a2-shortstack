@@ -1,74 +1,179 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+const http = require('http'),
+      fs   = require('fs'),
+      mime = require('mime'),
+      port = 3000;
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
-
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+let tasks = [
+  {
+    id: 1,
+    description: 'A1',
+    priority: 'High',
+    dueDate: '2024-09-15',
+    urgency: 10
+  },
+  {
+    id: 2,
+    description: 'A2',
+    priority: 'Medium',
+    dueDate: '2024-09-20',
+    urgency: 6
+  },
+  {
+    id: 3,
+    description: 'A3',
+    priority: 'Low',
+    dueDate: '2024-09-25',
+    urgency: 2
   }
-})
+];
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
-
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
+const server = http.createServer(function(request, response) {
+  if (request.method === 'GET') {
+    handleGet(request, response);
+  } else if (request.method === 'POST') {
+    handlePost(request, response);
+  } else if (request.method === 'DELETE') {
+    handleDelete(request, response);
+  } else if (request.method === 'PUT') {
+    handlePut(request, response);
+  }else {
+    response.writeHead(405, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify({ success: false, message: 'Method Not Allowed' }));
   }
-}
+});
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+const handleGet = function(request, response) {
+  if (request.url === '/') {
+    sendFile(response, 'public/index.html');
+  } else if (request.url === '/tasks') {
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(tasks));
+  } else {
+    sendFile(response, 'public' + request.url);
+  }
+};
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+const calculateUrgencyForTask = (task) => {
+  let urgency = 0;
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+  if (task.priority === 'High') {
+    urgency += 5;
+  } else if (task.priority === 'Medium') {
+    urgency += 3;
+  } else if (task.priority === 'Low') {
+    urgency += 1;
+  }
 
-    // ... do something with the data here!!!
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
+  const currentDate = new Date();
+  const dueDate = new Date(task.dueDate);
+  
 
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
+  if (isNaN(dueDate.getTime())) {
+    throw new Error('Invalid dueDate format');
+  }
 
-   fs.readFile( filename, function( err, content ) {
 
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
+  const timeDiff = (dueDate - currentDate) / (1000 * 60 * 60 * 24);  
 
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
+  if (timeDiff <= 2) {
+    urgency += 5;  
+  } else if (timeDiff <= 7) {
+    urgency += 2;  
+  } else {
+    urgency += 1;  
+  }
 
-     }else{
+  return Number(urgency);
+};
 
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
 
-     }
-   })
-}
+const handlePost = function(request, response) {
+  let body = '';
 
-server.listen( process.env.PORT || port )
+  request.on('data', chunk => {
+    body += chunk.toString();
+  });
+
+  request.on('end', () => {
+    try {
+      const newTask = JSON.parse(body);
+
+
+      newTask.urgency = calculateUrgencyForTask(newTask);
+
+      newTask.id = tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1;
+      tasks.push(newTask);
+
+      response.writeHead(201, { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify(newTask));
+    } catch (error) {
+      response.writeHead(400, { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify({ success: false, message: 'Invalid JSON' }));
+    }
+  });
+};
+
+const handlePut = function(request, response) {
+  const taskId = parseInt(request.url.split('/').pop(), 10);  
+  let body = '';
+
+  request.on('data', chunk => {
+    body += chunk.toString();
+  });
+
+  request.on('end', () => {
+    const updatedTask = JSON.parse(body);  
+
+    const taskIndex = tasks.findIndex(task => task.id === taskId);  
+
+    if (taskIndex !== -1) {
+      // Update the task fields
+      tasks[taskIndex].description = updatedTask.description;
+      tasks[taskIndex].priority = updatedTask.priority;
+      tasks[taskIndex].dueDate = updatedTask.dueDate;
+
+      tasks[taskIndex].urgency = calculateUrgencyForTask(tasks[taskIndex]);
+
+      response.writeHead(200, { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify(tasks[taskIndex]));  
+    } else {
+      response.writeHead(404, { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify({ success: false, message: 'Task not found' }));
+    }
+  });
+};
+
+
+const handleDelete = function(request, response) {
+  const taskId = parseInt(request.url.split('/').pop(), 10);
+
+  const taskIndex = tasks.findIndex(task => task.id === taskId);
+
+  if (taskIndex !== -1) {
+    tasks.splice(taskIndex, 1);
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify({ success: true, tasks }));
+  } else {
+    response.writeHead(404, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify({ success: false, message: 'Task not found' }));
+  }
+};
+
+const sendFile = function(response, filename) {
+  const type = mime.getType(filename);
+
+  fs.readFile(filename, function(err, content) {
+    if (err === null) {
+      response.writeHead(200, { 'Content-Type': type });
+      response.end(content);
+    } else {
+      response.writeHead(404);
+      response.end('404 Error: File Not Found');
+    }
+  });
+};
+
+server.listen(process.env.PORT || port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
+});

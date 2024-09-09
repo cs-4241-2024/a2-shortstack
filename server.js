@@ -18,6 +18,8 @@ const server = http.createServer(function (request, response) {
     handlePost(request, response);
   } else if (request.method === "DELETE") {
     handleDelete(request, response);
+  } else if (request.method === "PUT") {
+    handlePut(request, response);
   }
 });
 
@@ -65,6 +67,24 @@ const handleDelete = function (request, response) {
   tab = tab.filter(entry => entry.id !== id);
   response.writeHead(200, "OK", { "Content-Type": "application/json" });
   response.end(JSON.stringify(tab));
+};
+
+const handlePut = function (request, response) {
+  const id = parseInt(request.url.split("/")[2], 10);
+  let dataString = "";
+
+  request.on("data", function (data) {
+    dataString += data;
+  });
+
+  request.on("end", function () {
+    const updatedEntry = JSON.parse(dataString);
+    const entryIndex = tab.findIndex(entry => entry.id === id);
+      tab[entryIndex] = { id, ...updatedEntry }; // Update the entry
+      console.log("Updated entry:", tab[entryIndex]);
+      response.writeHead(200, "OK", { "Content-Type": "application/json" });
+      response.end(JSON.stringify(tab));
+  });
 };
 
 const sendFile = function (response, filename) {

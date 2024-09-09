@@ -1,4 +1,45 @@
 // Front-end (client) JavaScript
+function openEditor(entry) {
+  document.querySelector("#editItem").value = entry.item;
+  document.querySelector("#editPriority").value = entry.priority;
+  document.querySelector("#editDeadline").value = entry.deadline;
+  document.querySelector("#editId").value = entry.id;
+  document.querySelector("#editor").style.display = "block";
+
+  document.querySelector("#editForm").onsubmit = async function (event) {
+    event.preventDefault();
+
+    const id = document.querySelector("#editId").value;
+    const updatedEntry = {
+      item: document.querySelector("#editItem").value,
+      priority: document.querySelector("#editPriority").value,
+      deadline: document.querySelector("#editDeadline").value,
+    };
+
+    try {
+      const response = await fetch(`/edit/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedEntry),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Updated data:", data);
+        displayTab(data);
+        closeEditor();
+      } else {
+        console.error("Failed to update entry.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+}
+
+function closeEditor() {
+  document.querySelector("#editor").style.display = "none";
+}
+
 const deleteEntry = async function (id) {
   console.log(`Attempting to delete entry with ID: ${id}`);
   try {
@@ -34,17 +75,16 @@ const displayTab = function (dataset) {
     deadlineCell.textContent = entry.deadline;
     row.appendChild(deadlineCell);
 
-
     const editButton = document.createElement("button");
     editButton.textContent = "Edit";
-    //editButton.onclick = () => handleEdit(entry);
+    editButton.onclick = () => openEditor(entry);
     row.appendChild(editButton);
 
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.onclick = () => deleteEntry(entry.id);
     row.appendChild(deleteButton);
-    
+
     tabBody.appendChild(row);
   }
 
@@ -61,18 +101,22 @@ const submit = async function (event) {
   };
   const body = JSON.stringify(entry);
 
-  const response = await fetch("/submit", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body,
-  });
+  try {
+    const response = await fetch("/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+    });
 
-  const data = await response.json();
-  if (response.ok) {
-    console.log("Received data:", data);
-    displayTab(data);
-  } else {
-    console.error("Failed to submit data.");
+    const data = await response.json();
+    if (response.ok) {
+      console.log("Received data:", data);
+      displayTab(data);
+    } else {
+      console.error("Failed to submit data.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
   }
 };
 

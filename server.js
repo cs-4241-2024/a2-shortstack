@@ -1,32 +1,28 @@
 const http = require( 'http' ),
       fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
       mime = require( 'mime' ),
       dir  = 'public/',
       port = 3000
 
-      // Characters from musicals
+    // Characters from musicals
       // name, musical name, song #
+      // derived: "position", if song > 3, character is a "lead" 
+      // if song 1-2 "secondary" / songs 0 "ensemble"
 
 
-const appdata = [
-  { 'name': 'Bobby Strong', 'musical': 'Urinetown', 'songs': 7 },
-  { 'name': 'Jane Doe', 'musical': 'Ride the Cyclone', 'songs': 3 },
-  { 'name': 'Johanna Barker', 'musical': 'Sweeney Todd', 'songs': 6 },
-  { 'name': 'Lydia Deetz', 'musical': 'Beetlejuice', 'songs': 4 },
-]
 
-// p1: a Server which not only serves files
-// also maintains a tabular dataset with 3 or more fields related to your application
+
+const appdata = []
+
+
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){
     handlePost( request, response ) 
+  } else if ( request.method === 'DELETE' ){
+    handleDelete ( request, response ) 
   }
 })
 
@@ -50,13 +46,50 @@ const handlePost = function( request, response ) {
   request.on( 'end', function() {
     const data = JSON.parse( dataString )
     
-    // ... do something with the data here!!!
-    // ... and then add it to appdata
-
+    appdata.push(data);
+    console.log(appdata);    
+  
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end( JSON.stringify( appdata ) )
   })
 }
+
+// new handle, for deletion: very similar to the others!
+
+const handleDelete = function(request, response) {
+  let dataString = '';
+
+  request.on('data', function(data) {
+    dataString += data;
+  });
+
+  request.on('end', function() {
+
+      const data = JSON.parse(dataString);
+      const { name } = data;
+
+      // Find delete index
+      const indexNum = appdata.findIndex(item => item.name === name);
+
+    // if the index exists, delete it
+      if (indexNum !== -1) {
+        appdata.splice(indexNum, 1);
+        
+        console.log("Current array:");
+        console.log(appdata);
+        
+        // same as handleget
+        response.writeHead(200, "OK", {'Content-Type': 'application/json'});
+        response.end(JSON.stringify(appdata));
+      } 
+  } 
+)};
+       
+
+    
+    
+    
+    
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 

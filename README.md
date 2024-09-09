@@ -1,4 +1,5 @@
 ## Anime Tracker Web App
+https://a2-ajayamoorthy.glitch.me 
 This web app allows you to track what anime you're watching and what you progress is in that show. The user just needs to enter a username, the show title, and what episode number they're on and the tracker generates a card display of their information. 
 
 The CSS positioning technique that was used was a flexbox. 
@@ -10,4 +11,4 @@ The `Derived Fields` in this project rely on the use of the Jikan API (an API th
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: 
-- **Design Achievement 2**: This isn't one of the achievement options but I was able to use a public API in order to improve the visuals of the app and that was a challenge that I wanted to bring attention to.
+- **Design Achievement 2**: This isn't one of the achievement options but I was able to use a public API in order to improve the visuals of the app and that was a challenge that I wanted to bring attention to. The code checks the value of the "showTitle" field and cross references myanimelist's database to get the cover image and total number of episodes, amongst other pieces of data. 

@@ -16,10 +16,6 @@ const submit = async function( event ) {
   const titleInput = document.querySelector('#showTitle').value;
   const episodeInput = document.querySelector('#lastWatched').value;
 
-  //console.log('Username: ', nameInput);
-  //console.log('Anime Title: ', titleInput);
-  //console.log('Last Watched Episode: ', episodeInput);
-
   const input = {
     username: nameInput,
     showName: titleInput,
@@ -38,9 +34,19 @@ const submit = async function( event ) {
   data.forEach( d => console.log(d) );
 
   //console.log( 'text:', text )
+  fetchAppData();
+}
+
+const fetchAppData = async function() {
+  const response = await fetch('/appdata');
+  const data = await response.json();
+  console.log(data);
 }
 
 window.onload = function() {
-   const button = document.querySelector("button");
+  const button = document.querySelector("button");
   button.onclick = submit;
+
+  fetchAppData();
 }
+

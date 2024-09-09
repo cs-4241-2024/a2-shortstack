@@ -25,6 +25,9 @@ const handleGet = function( request, response ) {
 
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
+  } else if (request.url === '/appdata') {
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(appdata));
   } else {
     sendFile( response, filename )
   }
@@ -42,7 +45,6 @@ const handlePost = function( request, response ) {
     const formData = JSON.parse(dataString);
 
     // ... do something with the data here!!!
-    //const inputArray = [];
 
     const newEntry = {
       'username': formData.username,
@@ -51,12 +53,6 @@ const handlePost = function( request, response ) {
       'date logged': getDate()
     };
 
-    // const userValue = formData.username;
-    // const showValue = formData.showName;
-    // const epNumValue = formData.lastViewed;
-    // const dateLogged = "9/9/2024"; 
-
-    //inputArray.push(userValue, showValue, epNumValue, dateLogged);
     appdata.push(newEntry);
 
     console.log(appdata);

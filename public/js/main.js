@@ -66,7 +66,7 @@ const submit = async function( event ) {
     let rowData = [];
 
     for (let j = 0; j < tableRow.cells.length - 2; j++) {
-      rowData.push(tableRow.cells[j].textContent);
+      rowData.push(tableRow.cells[j].innerText);
     }
 
     data.push(rowData);

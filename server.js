@@ -9,7 +9,7 @@ const http = require( 'http' ),
       port = 3000
 
 let appdata = [
-  ['a','a','a'], 
+  ['Webware HW','4','1'], 
 ]
 
 const server = http.createServer( function( request,response ) {

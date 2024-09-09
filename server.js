@@ -314,64 +314,64 @@ const resetfnc = function(level) {
 
   switch (level) {
     case 1:
-      appdata = structuredClone(lvl1)
+      appdata = JSON.parse(JSON.stringify(lvl1))
       break
     case 2:
-      appdata = structuredClone(lvl2)
+      appdata = JSON.parse(JSON.stringify(lvl2))
       break
     case 3:
-      appdata = structuredClone(lvl3)
+      appdata = JSON.parse(JSON.stringify(lvl3))
       break
     case 4:
-      appdata = structuredClone(lvl4)
+      appdata = JSON.parse(JSON.stringify(lvl4))
       break
     case 5:
-      appdata = structuredClone(lvl5)
+      appdata = JSON.parse(JSON.stringify(lvl5))
       break
     case 6:
-      appdata = structuredClone(lvl6)
+      appdata = JSON.parse(JSON.stringify(lvl6))
       break
     case 7:
-      appdata = structuredClone(lvl7)
+      appdata = JSON.parse(JSON.stringify(lvl7))
       break
     case 8:
-      appdata = structuredClone(lvl8)
+      appdata = JSON.parse(JSON.stringify(lvl8))
       break
     case 9:
-      appdata = structuredClone(lvl9)
+      appdata = JSON.parse(JSON.stringify(lvl9))
       break
     case 10:
-      appdata = structuredClone(lvl10)
+      appdata = JSON.parse(JSON.stringify(lvl10))
       break
     case 11:
-      appdata = structuredClone(lvl11)
+      appdata = JSON.parse(JSON.stringify(lvl11))
       break
     case 12:
-      appdata = structuredClone(lvl12)
+      appdata = JSON.parse(JSON.stringify(lvl12))
       break
     case 13:
-      appdata = structuredClone(lvl13)
+      appdata = JSON.parse(JSON.stringify(lvl13))
       break
     case 14:
-      appdata = structuredClone(lvl14)
+      appdata = JSON.parse(JSON.stringify(lvl14))
       break
     case 15:
-      appdata = structuredClone(lvl15)
+      appdata = JSON.parse(JSON.stringify(lvl15))
       break
     case 16:
-      appdata = structuredClone(lvl16)
+      appdata = JSON.parse(JSON.stringify(lvl16))
       break
     case 17:
-      appdata = structuredClone(lvl17)
+      appdata = JSON.parse(JSON.stringify(lvl17))
       break
     case 18:
-      appdata = structuredClone(lvl18)
+      appdata = JSON.parse(JSON.stringify(lvl18))
       break
     case 19:
-      appdata = structuredClone(lvl19)
+      appdata = JSON.parse(JSON.stringify(lvl19))
       break
     case 20:
-      appdata = structuredClone(lvl20)
+      appdata = JSON.parse(JSON.stringify(lvl20))
       break
     default:
       console.log("Something went wrong with the reset.")

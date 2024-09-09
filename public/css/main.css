@@ -67,15 +67,24 @@ thead {
 }
 #button
 {
+  background-color: white;
+  font-weight: bold;
   height: 25px;
 }
 #deleteButton
 {
+  background-color: white;
+  font-weight: bold;
   height: 25px;
 }
 #deleteDates
 {
   width: 210px;
+}
+#pastEntries
+{
+  background-color: white;
+  font-weight: bold;
 }
 
 

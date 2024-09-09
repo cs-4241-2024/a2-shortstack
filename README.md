@@ -12,7 +12,7 @@ I used CSS class selectors (examples field, message, box, result)
 I used CSS ID selectors (options)
 I used CSS Element selectors (header,h2,h3, p,input,button, table)
 There are fonts for all the texts displayed on the website
-I didn't do CSS grid or flexbox for layout because I already used table and it looked good in my opinion
+I did attempt to do flexbox for layout but I already used table and decided the table layout looked best.
 
 
 

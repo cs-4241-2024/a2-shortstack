@@ -4,7 +4,7 @@
   "description": "repo for assignment 2",
   "main": "server.ts",
   "scripts": {
-    "start": "npx deno-bin run --allow-net --allow-read --allow-write --watch server.ts"
+    "start": "curl -fsSL https://deno.land/x/install/install.sh | sh && /app/.deno/bin/deno run --allow-net --allow-read --allow-write --watch server.ts"
   },
   "dependencies": {
     "deno-bin": "^1.46.3"

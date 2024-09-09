@@ -102,12 +102,12 @@ const updateTable = function( books) {
     addBookToTable(book, newtbody);
     if (book.status === "read") {
       booksRead++;
-      pagesRead += book.pages;
+      pagesRead += Number(book.pages);
     }
   }
   table.children[1].replaceWith(newtbody);
   document.getElementById("books-read").innerHTML = booksRead > 12 ? 12 : booksRead;
-  document.getElementById("pages-read").innerHTML = pagesRead;
+  document.getElementById("pages-read").innerHTML = pagesRead.toString();
 
 }
 

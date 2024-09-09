@@ -1,4 +1,4 @@
-const { randomUUID } = require('crypto')
+const { uuid } = require('uuidv4')
 
 const http = require( 'http' ),
       fs   = require( 'fs' ),
@@ -53,7 +53,7 @@ const handlePost = function( request, response ) {
       const today = new Date().toLocaleDateString("en-us", {year: "numeric", month: "2-digit", day: "2-digit"});
       newBook["started"] = today;
     }
-    newBook["book-id"] = randomUUID();  // Set unique ID
+    newBook["book-id"] = uuid();  // Set unique ID
     newBook["avg-pages"] = null;
     try {
       if (newBook["started"] !== "" && newBook["finished"] !== "") { 

@@ -140,4 +140,5 @@ main {
 
 div p {
   margin: 0;
+  text-align: end;
 }

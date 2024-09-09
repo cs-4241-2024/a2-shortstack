@@ -45,8 +45,12 @@ const submit = async function( event ) {
   colorInput.value = '';
 };
 
-const deleteButton = async function( event ) {
-
+const deleteItem = async function( ) {
+  if (appdata.length > 0) {
+      appdata.pop(); 
+  } else {
+      alert('No items to delete');
+  }
 }
 
 window.onload = function() {

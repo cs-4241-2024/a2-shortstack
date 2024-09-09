@@ -1,6 +1,6 @@
-## Your Web Application Title
-Include a very brief summary of your project here. Be sure to include the CSS positioning technique you used, and any required instructions to use your application.
-My project is supposed to hold a list of 3 already stored video game characters that can be added to (and deleted from). 
+## CS4241 Assignment 2 Arayah Remillard
+
+My project is supposed to hold a list of 3 already stored video game characters that can be added to (and deleted from, but it doesnt work). 
 The information stored is the name, debut year, and a color the character may be associated with. 
 The fields are not strict with the input, so things do not need to be accurate to still be entered. 
 A good input example to match the theme of Sonic characters already stored would be: "Amy Rose"; "1993"; "Pink"

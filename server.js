@@ -1,7 +1,6 @@
 const http = require("http");
 const fs   = require("fs");
 const mime = require("mime");
-const { isUndefined } = require("util");
 
 // Local directory
 const dir  = "public/";

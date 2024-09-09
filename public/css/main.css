@@ -1,4 +1,12 @@
+.ubuntu-regular {
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+
 body {
+  font-family: "Ubuntu";
   background: rgb(124, 178, 133);
   color:white;
 }
@@ -9,11 +17,11 @@ form {
   justify-content: flex-start;
   flex-direction: column;
   justify-content: space-evenly;
-  border: 5px solid rgb(106, 4, 4);
+  border: 5px solid rgb(159, 23, 23);
 }
 
 table, th, td {
-  border: 5px solid rgb(106, 4, 4);
+  border: 5px solid rgb(159, 23, 23);
   border-collapse: collapse;
 }
 

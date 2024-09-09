@@ -1,74 +1,98 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
-      mime = require( 'mime' ),
+const http = require('http'),
+      fs   = require('fs'),
+      mime = require('mime'),
       dir  = 'public/',
-      port = 3000
+      port = 3000;
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+const appdata = []; // List to hold names with their lengths
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+// Create the server
+const server = http.createServer(function(request, response) {
+  if (request.method === 'GET') {
+    handleGet(request, response);
+  } else if (request.method === 'POST') {
+    handlePost(request, response);
+  } else if (request.method === 'DELETE'){
+    handleDelete(request, response);
   }
-})
+});
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
+// Handle GET requests
+const handleGet = function(request, response) {
+  const filename = dir + request.url.slice(1);
 
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
+  if (request.url === '/') {
+    // Serve the index.html file
+    sendFile(response, 'public/index.html');
+  } else if (request.url === '/data') {
+    // Respond with the appdata array as JSON, now including names and their lengths
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(appdata));  // Send appdata as JSON
+  } else {
+    // Serve static files like main.js, style.css, etc.
+    sendFile(response, filename);
   }
-}
+};
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+// Handle POST requests (e.g., adding a new name)
+const handlePost = function(request, response) {
+  let dataString = '';
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+  request.on('data', function(data) {
+    dataString += data;
+  });
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+  request.on('end', function() {
+    // Parse the incoming data
+    const receivedData = JSON.parse(dataString);
 
-    // ... do something with the data here!!!
+    // Add the new name and its length to appdata
+    if (receivedData.name) {
+      const name = receivedData.name;
+      const nameLength = name.length;
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
+      // Push an object with the name and its length into appdata
+      appdata.push({ name: name, length: nameLength });
+    }
 
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
+    // Respond with the updated appdata array
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify({ data: appdata }));
+  });
+};
 
-   fs.readFile( filename, function( err, content ) {
+// Handle DELETE requests
+const handleDelete = function(request, response) {
+  const id = parseInt(request.url.split('/').pop());
 
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
+  if (!isNaN(id) && id >= 0 && id < appdata.length) {
+    appdata.splice(id, 1); // Remove the name from appdata
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify({ data: appdata }));
+  } else {
+    response.writeHead(400, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify({ error: 'Invalid index' }));
+  }
+};
 
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
+// Serve static files like HTML, JS, and CSS
+const sendFile = function(response, filename) {
+  const type = mime.getType(filename);
 
-     }else{
+  fs.readFile(filename, function(err, content) {
+    if (err === null) {
+      // File loaded successfully
+      response.writeHeader(200, { 'Content-Type': type });
+      response.end(content);
+    } else {
+      // File not found, send 404 error
+      response.writeHeader(404);
+      response.end('404 Error: File Not Found');
+    }
+  });
+};
 
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
-}
-
-server.listen( process.env.PORT || port )
+// Start the server
+server.listen(process.env.PORT || port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
+});

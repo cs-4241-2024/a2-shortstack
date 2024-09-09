@@ -1,5 +1,6 @@
 ## Anime Tracker Web App
 https://a2-ajayamoorthy.glitch.me 
+
 This web app allows you to track what anime you're watching and what you progress is in that show. The user just needs to enter a username, the show title, and what episode number they're on and the tracker generates a card display of their information. 
 
 The CSS positioning technique that was used was a flexbox. 

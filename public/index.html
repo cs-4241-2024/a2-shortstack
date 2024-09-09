@@ -1,18 +1,58 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>CS4241 Assignment 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mingzat&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>To-do List</title>
     <meta charset="utf-8">
     <script src="js/main.js"></script>
     <link rel="stylesheet" href="css/main.css">
     
-    <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
   <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
+    <h1>Make your own To-do List!</h1>
+    
+    <!-- To-do List Form -->
+    <form id="addEvent">
+      <table>
+        <tr>
+          <td>Task: </td>
+          <td><input type="text" id="task" value="Your Task" required></td>
+        </tr>
+  
+        <tr>
+          <td>Priority: </td>
+          <td>
+            <select id="priority">
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
+          </td>
+        </tr>
+  
+        <tr>
+          <td>Creation Date: </td>
+          <td><input type="date" id="creationDate" required></td>
+        </tr>
+  
+        <tr>
+          <td>Deadline: </td>
+          <td><input type="date" id="dueDay" required></td>
+          <td><input type="time" id="dueTime" required></td>
+        </tr>
+
+        <tr>
+          <td></td>
+          <td><button id="submitButton">Submit</button></td>
+        </tr>
+
+      </table>
     </form>
+  
+    <!-- Section where the submitted to-do item will be displayed -->
+    <div id="submittedTodo"></div>
+  
   </body>
 </html>

@@ -41,6 +41,9 @@ const handlePost = function( request, response ) {
 
   request.on( 'end', function() {
     console.log( JSON.parse( dataString ) )
+    if( request.url === '/submit' ) {
+      console.log("Submit success")
+    }
 
     // ... do something with the data here!!!
 

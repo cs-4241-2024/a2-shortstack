@@ -1,4 +1,24 @@
 body {
-  background:black;
-  color:white;
+  min-height: 100vh;
+  background: linear-gradient(to right,#95D3D0, #C2D6BE, #D2AC8A);
+  font-family: 'Montserrat', Italic; 
 }
+
+input, button, textarea, select {
+  font-family: 'Montserrat', Italic; /* default font to all form elements */
+}
+
+h1 {
+  font-size: 40px;
+  text-align: center;
+}
+
+table {
+  text-align: left;
+  background-color: #C2D6BE;
+  border-radius: 15px;
+  padding: 1em;
+  color: black;
+  font-size: 32px;
+}
+

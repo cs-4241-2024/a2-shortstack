@@ -95,11 +95,11 @@ Include a very brief summary of your project here. Be sure to include the CSS po
 
 ## Technical Achievements
 - **Tech Achievement 1**: I have created a single page app for a restaurant service of ordering food. There is a form to submit food requests [full name, food option, food quantity]. The app stores the submitted food requests in the console log with inputted fields [pushed into appdata], sending back the updated data array with all the orders. The data is displayed along with the cumulative total price (calculated by the server/front end) based opn your food option and food quantity. The food orders are also displayed on the right side of the app.
-- **Tech Achievement 2**: You can edit the orders on the right side of the app after submitting the food order. You can also delete the order. You do both actions by pressing the edit/delete button next to the order. This will also affect the cumulative total price of all food orders if you modify the orders.
+- **Tech Achievement 2**: You can edit the orders on the right side of the app after submitting the food order. You can also delete the order. You do both actions by pressing the edit/delete button next to the order. This will also affect the cumulative total price of all food orders if you modify the orders. This also affect the server data if you edit/delete an order.
 - **Validation**: The website is validated and receives no errors when validated. 
 - **Communication with server via fetch or similar methods**: Implemented the fetch method to input the food order submitted into the appdata array and returns the updated data array in the server. Sends the POST request to the server with the form data (json).
 - **Server Logic**: Client sends data such as name, food, quantity and cumulative total price, which is process by the server to generate additional/derived data. The client-side script will calculate the cumulative total price based on the quantity and price of the food item, serving as the derived data locally and then sent ot the server to be pushed into the server data (appdata).
-- **Results functionality to display entire dataset**: The renderOrderedItems() displays all the ordered items, which is the food orders. The function loops through the the orderedItemArray and displays each item on the list, which is seen on the right of side of the app. Console log also displays the data from the server as well.
+- **Results functionality to display entire dataset**: The renderOrderedItems() displays all the ordered items, which is the food orders. The function loops through the orderedItemArray and displays each item on the list, which is seen on the right of side of the app. Console log also displays the data from the server as well. The orders are being pulled from the server side array (appdata).
 - **Adding entries**: The user can add food orders, choosing food options and quantity, which is then pushed into the appdata array on the server side.
 
 ### Design/Evaluation Achievements
@@ -110,7 +110,6 @@ Include a very brief summary of your project here. Be sure to include the CSS po
 - **HTML/CSS Class Selector**: implemented a class for the button input, class="submit-btn", and added styling in the CSS stylesheet via [.submit-btn].
 - **HTML/CSS Element Selector**: Implemented styling for element selectors such as: body, form, H1, ul, li.
 - **External Stylesheet**: All the CSS styling is in the external stylesheet (main.css) and is in [<link rel="stylesheet" href="css/main.css" />] on top of index.html.
-- 
 
 ### Testing
 - Last Name: Crouse
@@ -119,8 +118,8 @@ Include a very brief summary of your project here. Be sure to include the CSS po
 - Feedback: Make the ordered items into a table, so it doesn't pop out when ordering food items.
 
 - Last Name: Kurtz
-- Problems: Cancel Button doesn't work. No functionality.
+- Problems: Cancel Button doesn't work. No functionality. [Fixed]
 - Comments: Color Scheme is good.
 - Feedback: Little disorienting when you add/edit orders. Maybe make a table?
 
-Glitch: https://ablaze-copper-hadrosaurus.glitch.me
+Glitch: https://narrow-habitual-year.glitch.me

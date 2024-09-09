@@ -1,4 +1,65 @@
 body {
-  background:black;
-  color:white;
+  background: #302233;
+  color: white;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+
+.roboto-mono {
+  font-family: "Roboto Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 2em;
+  font-style: normal;
+}
+
+header {
+  background: #9b1db1;
+  padding: 2%;
+}
+
+main {
+  margin: 10%;
+}
+
+#newtaskform {
+  font-size: 1.5em;
+  background-color: #b900db;
+  padding: 1%;
+  flex-wrap: wrap;
+}
+
+button {
+  font-size: 0.7em;
+}
+
+#tasklist {
+  background-color: #b900db;
+  margin: 2%;
+  padding: 0%;
+}
+
+.checkboxes {
+  margin: 1%;
+  padding: 2%;
+  font-size: 1.2em;
+  border: 1px solid black;
+}
+
+#priorityBox p {
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+input {
+  font-size: 0.7em;
+}
+
+footer p {
+  background: #9b1db1;
+  margin: 0;
+  padding: 1%;
+  text-align: center;
 }

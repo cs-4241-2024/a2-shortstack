@@ -1,18 +1,68 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
   </head>
-  <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
-    </form>
+  <body class="roboto-mono">
+    <header>
+      <h1>Online To-Do List</h1>
+    </header>
+    <main>
+      <form id="newtaskform">
+        <div id="taskBox">
+          <label for="newtask">Create New Task:</label>
+          <input type="text" id="newtask" placeholder="Task" value="Task" />
+        </div>
+
+        <div id="priorityBox">
+          <p>Priority:</p>
+          <label for="high">High</label>
+          <input
+            type="radio"
+            id="high"
+            name="priority"
+            value="High"
+            class="radios"
+          />
+          <label for="med">Medium</label>
+          <input
+            type="radio"
+            id="med"
+            name="priority"
+            checked="checked"
+            value="Medium"
+            class="radios"
+          />
+          <label for="low">Low</label>
+          <input
+            type="radio"
+            id="low"
+            name="priority"
+            value="Low"
+            class="radios"
+          />
+        </div>
+
+        <button>submit</button>
+      </form>
+
+      <form id="tasklist"></form>
+    </main>
+
+    <footer>
+      <p>April Bollinger &copy; 2024</p>
+    </footer>
   </body>
 </html>

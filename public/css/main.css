@@ -1,4 +1,41 @@
 body {
   background:black;
   color:white;
+  font-family: Roboto, sans-serif;
+  color:rgb(217, 222, 225);
 }
+
+strong#Reg {
+  font-weight: 450;
+  font-style: normal;
+  color: white;
+}
+
+strong#Super {
+  font-weight: 950;
+  font-style: normal;
+  color: white;
+}
+
+p.Results {
+  display: flex;
+  justify-content: center;
+  margin-top: 5vh;
+}
+
+h1{
+  display: flex;
+  justify-content: center;
+}
+
+form.CheckForm {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+.Break {
+  flex-basis: 100%;
+  height: 5vh;
+}
+

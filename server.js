@@ -39,12 +39,13 @@ const handlePost = function( request, response ) {
 
   request.on( 'end', function() {
     const data = JSON.parse( dataString )
+    data.total = data.cost * 1 - data.tax;
     appdata.push(data);
-    console.log(appdata);
+    //console.log(appdata);
     // ... do something with the data here!!!
-    data.total = data.cost * 1.0625;
     
     
+    console.log("request = data");
 
     
     

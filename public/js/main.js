@@ -9,27 +9,19 @@ const submit = async function( event ) {
   
   const input = document.querySelector( '#item'),
   input2 = document.querySelector( '#description'),
-  input3 = document.querySelector( '#cost'),
-        json = { item: input.value, description: input2.value, cost: input3.value, total: cost.value * 1.0625 },
+  input3 = document.querySelector( '#cost'), input4 = document.querySelector('#tax'),
+        json = { item: input.value, description: input2.value, cost: input3.value, tax: input4.value, total: 0 },
         body = JSON.stringify( json )
- console.log(input)
-  const response = await fetch( '/submit', {
+ //console.log(input)
+  const response = await fetch( '/data', {
     method:'POST',
     body
   })
 
   const text = await response.json()
   
-  /*const element = document.createElement('p')
-  element.innerHTML = `<a href="http://wpi.edu"> ${text[0].year} </a>`
-  document.body.appendChild( element )*/
-  const table = document.querySelector('#list')
-  //table.innerHTML = `<tr><th>Item</th><th>Description</th><th>Cost</th><th>Total</th></tr>`
-  for (let i = 0; i < text.length; i++) {
-    table.innerHTML += `<tr><td>${text[i].item}</td><td>${text[i].description}</td><td>${text[i].cost}</td><td>${text[i].total}</td><th><button>Edit</button></th><th><button>Delete</button></th></tr>`
-  }
-  document.body.appendChild( table )
-  
+  const table = document.getElementById("list");
+  table.innerHTML += `<tr><td>${text.value}</td><td>${text.value}</td><td>${text.value}</td><td>${text.value}</td><td>${text.total}</td><td><button>Edit</button></td><td><button>Delete</button></td></tr>`;
   
   console.log( 'text:', JSON.stringify(text ));
 }

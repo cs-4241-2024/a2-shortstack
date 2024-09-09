@@ -3,7 +3,7 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    font-family: Verdana;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .Form {
     display:inline-block;

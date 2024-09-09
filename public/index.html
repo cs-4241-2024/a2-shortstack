@@ -1,18 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
-    <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    
-    <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  </head>
-  <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
-    </form>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+<!--   <link rel="stylesheet" href="/app/styles/style.css"> -->
+  <style>
+
+</style>
+</head>
+<body>
+  <h1>Task Manager</h1>
+  <form action="/add" method="POST">
+    <label for="task">Task:</label>
+    <input type="text" id="task" name="task" required>
+
+    <label for="priority">Priority:</label>
+    <select id="priority" name="priority">
+      <option value="High">High</option>
+      <option value="Medium">Medium</option>
+      <option value="Low">Low</option>
+    </select>
+
+    <button type="submit">Add Task</button>
+  </form>
+
+  <h2>Current Tasks</h2>
+  <table id="taskTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Task</th>
+        <th>Priority</th>
+        <th>Creation Date</th>
+        <th>Deadline</th>
+        <th>check-off</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="app/scripts/app.js">
+  
+  </script>
+  <script>
+  console.log("here");
+
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('/results')
+    .then(response => response.json())
+    .then(data => {
+      const tbody = document.querySelector('table tbody');
+      tbody.innerHTML = '';
+      data.forEach(task => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${task.id}</td>
+          <td>${task.task}</td>
+          <td>${task.priority}</td>
+          <td>${task.creation_date}</td>
+          <td>${task.deadline}</td>
+          <td>
+            <form action="/delete" method="POST">
+              <input type="hidden" name="id" value="${task.id}">
+              <button type="submit">Complete</button>
+            </form>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    });
+});
+
+  </script>
+</body>
 </html>

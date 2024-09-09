@@ -57,11 +57,12 @@ const submit = function (e) {
 
   // Create a task object
   let taskObj = {
-    task: "Finish Homework",
-    priority: "High",
-    creationDate: "2024-09-08",
-    dueDate: "2024-09-10 17:00",
-    daysLeft: 2
+    task: task,
+    priority: priority,
+    creationDate: creationDate,
+    dueDate: dueDay,
+    dueTime: dueTime,
+    daysLeft: 0
 };
 
 // Convert the object to a JSON string
@@ -73,28 +74,22 @@ let jsonTaskObj = JSON.stringify(taskObj);
   fetch( '/submit', { // fetch is where you specify the url/ resouce that you want to see
     method:'POST',
     body: jsonTaskObj,// send body to server
-  }).then(  // when the rewsponse to the server comes, do this
-    function(  response ) { // this is the response from the server
-      console.log(response)
+  }).then((response) => response.json())
+  .then((data) => {
+      // this is the response from the server
+      console.log(data)
     // do something with the reponse 
     // try putting the TABLE HERE
     //  console.log( response )
       // return response.json() // extracts json and returns it
- 
-      return response.json() // converts ReadableStream to JSON array for appdata
-    }
-  )
+     
+      //return response.json() // converts ReadableStream to JSON array for appdata
+    })
  
   refreshTodoList(taskObj);
 };
 
-function calculateDaysLeft(dueDay) {
-  let currentDate = new Date();
-  let dueDate = new Date(dueDay);
-  let timeDiff = dueDate.getTime() - currentDate.getTime();
-  let daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
-  return daysLeft > 0 ? daysLeft : 0;  // Return 0 if the due date has passed
-}
+
 
 function refreshTodoList(taskObj) {
   // Get the div where the tasks will be displayed

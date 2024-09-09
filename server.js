@@ -8,8 +8,8 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  {"Task":"Quiz", "Pirority":"Low", "Creation Date":"09/02/2024", "Deadline":"09/19/2024"},
+let appdata = [
+  {"task":"Quiz", "priority":"Low", "creationdate":"09/02/2024", "duedate":"09/19/2024", "dueTime" : "0"},
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -49,9 +49,18 @@ const handlePost = function( request, response ) {
     // ... do something with the data here!!!
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end(JSON.stringify(appdata))
   })
 }
+
+function calculateDaysLeft(dueDay) {
+  let currentDate = new Date();
+  let dueDate = new Date(dueDay);
+  let timeDiff = dueDate.getTime() - currentDate.getTime();
+  let daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  return daysLeft > 0 ? daysLeft : 0;  // Return 0 if the due date has passed
+}
+
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 

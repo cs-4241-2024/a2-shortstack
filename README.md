@@ -18,7 +18,7 @@ I did attempt to do flexbox for layout but I already used table and decided the 
 
 ## Technical Achievements
 - **Tech Achievement 1**:
-- Using a combination of coumication through server.js and main.js. I have the table updating when adding and deleting and when the page is loading. I made a function displayer which is called quite often in main.js.
+- Using a combination of communication through server.js and main.js. I have the table updating when adding and deleting and when the page is loading. I made a function displayer which is called quite often in main.js.
 - You can modify exsisting data by entering the row and column and new entry it should be. I made a function in main.js called "change" to achieve this
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: 

@@ -8,7 +8,7 @@ const http = require( 'http' ),
     dir  = 'public/',
     port = 3000
 
-const appdata =  [
+let appdata =  [
   { 'name': 'Piper', 'cookie':'chocolate chip', 'icecream': 'vanilla', 'other':'', 'cake':'vanilla cake'},
   { 'name': 'James', 'cookie':'oatmeal no raisin', 'icecream': 'chocolate', 'other':'', 'cake':'chocolate cake'},
   { 'name': 'Sky', 'cookie':'sugar', 'icecream': 'vanilla', 'other':'', 'cake':'vanilla cake'}
@@ -47,8 +47,8 @@ const handlePost = function( request, response ) {
     //console.log( JSON.parse( dataString ) )
     const data = JSON.parse(dataString)
     const tempDict = {'name':data[0], 'cookie':data[1], 'icecream':data[2], 'other':data[3], 'cake':data[4]}
-    //appdata = appdata.concat(tempDict)
-    appdata.push(tempDict)
+    appdata = appdata.concat(tempDict)
+    //appdata.push(tempDict)
 
     //const data = JSON.parse( dataString )
     // ... do something with the data here!!!
@@ -57,7 +57,7 @@ const handlePost = function( request, response ) {
     //appdata = appdata + response
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end(JSON.stringify(data))
   })
 }
 

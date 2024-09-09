@@ -4,6 +4,7 @@ const submit = async function( event ) {
 
     event.preventDefault()
 
+
     const name = document.getElementById('name').value
     const cookie = document.getElementById('cookie').value
     const icecream = document.getElementById('icecream').value
@@ -22,21 +23,56 @@ const submit = async function( event ) {
 
     const dict = {'name': name, 'cookie': cookie, 'icecream': icecream, 'other': other, 'cake': cake}
 
+
     const response = await fetch('/handlePost', {
         method:'POST',
         body
     })
 
-    const responseData = await fetch('/data',{
-        method: 'GET'
-    })
 
-    const textPre = await responseData.text();
+    const tableT = document.getElementById("target")
+
+    const textPre = await response.text();
+    console.log(textPre)
     const text = JSON.parse(textPre);
-
     console.log(text)
-    console.log(text[0].name.value)
-    fillTable(text)
+
+
+    function addCellTwo(tr, text){
+        const td = tr.insertCell();
+        td.innerHTML = text;
+        return td;
+    }
+
+    const row = tableT.insertRow();
+    const nameVar = text[0]
+    const cookieVar = text[1];
+    const icecreamVar = text[2];
+    const otherVar = text[3];
+    const cakeVar = text[4];
+    addCellTwo(row, nameVar)
+    addCellTwo(row, cookieVar)
+    addCellTwo(row, icecreamVar)
+    addCellTwo(row, otherVar)
+    addCellTwo(row, cakeVar)
+
+    console.log("row")
+
+
+
+    // const responseData = await fetch('/data',{
+    //     method: 'GET'
+    // })
+
+    //const textPre = await responseData.text();
+    //const text = JSON.parse(textPre);
+
+    //console.log(text)
+    //console.log(text[0].name.value)
+    //fillTable(text)
+    //fillTable(responseData)
+
+    //console.log('text:',text)
 }
 
 const fillTable = function( dict ) {
@@ -70,9 +106,17 @@ const fillTable = function( dict ) {
 
 
 window.onload = function() {
+    //This allows you to bind you button to the event handler function submit above
     const buttonVariable = document.getElementById("button");
     if(buttonVariable.addEventListener)
         buttonVariable.addEventListener("click",submit,false);
     else if(buttonVariable.attachEvent)
         buttonVariable.attachEvent('onclick',submit)
+
+    fetch('/data',{
+        method: 'GET'
+    }).then(response => response.json()).then(json=>{fillTable(json)})
+
+    //button.onclick = submit
+    //submit()
 }

@@ -1,12 +1,14 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "a2-json",
+  "description": "WPI CS 4241 A2",
+  "author": "April Bollinger",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
     "mime": "^2.4.4"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }

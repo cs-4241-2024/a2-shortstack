@@ -8,10 +8,10 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'ToDo': 'Webware HW', 'Priority': '1'},
-  { 'ToDo': 'PQP prep', 'Priority': '2'},
-  { 'ToDo': 'Ask WICS Chord question', 'Priority': '3'} 
+let appdata = [
+  { 'ToDo': 'MQP prototype', 'type': 'work', 'date': "9-11-2024", 'priority': '1'},
+  { 'ToDo': 'Webware HW', 'type': 'school', 'date': "9-9-2024", 'priority': '2'},
+  { 'ToDo': 'Ask WICS Chord question', 'type': 'personal', 'date': "9-20-2024", 'priority': '3'} 
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -19,6 +19,8 @@ const server = http.createServer( function( request,response ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){
     handlePost( request, response ) 
+  }else if( request.method === 'DELETE' ){
+    handleDelete( request, response )
   }
 })
 
@@ -40,10 +42,32 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log("hi")
-    //console.log( JSON.parse( dataString ) )
+ 
+    const parsedData = JSON.parse( dataString )
+    if ("ToDo" in parsedData) {
+      if (parsedData.type === 'work') {
+        parsedData.priority = 1;
+    } else if (parsedData.type === 'school') {
+        parsedData.priority = 2;
+    } else if (parsedData.type === 'personal') {
+        parsedData.priority = 3;
+    }
+      appdata.push(parsedData);
+      appdata.sort((a, b) => {
+        // First sort by type (work -> school -> personal)
+        const typeOrder = ['work', 'school', 'personal'];
+        if (a.type !== b.type) {
+            return typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type);
+        }
+        // If types are the same, sort by date
+        return new Date(a.date) - new Date(b.date);
+    });
 
-    appdata.push(JSON.parse( dataString ))
+    // Update priority to reflect the order starting from 1
+    appdata.forEach((task, index) => {
+        task.priority = index + 1;
+    });
+    }
     console.log(appdata)
 
     // ... do something with the data here!!!
@@ -52,6 +76,32 @@ const handlePost = function( request, response ) {
     response.write(JSON.stringify(appdata));
     response.end()
   })
+}
+
+// Handle DELETE requests
+const handleDelete = function(request, response) {
+  let dataString = '';
+
+  request.on('data', function(data) {
+    dataString += data;
+  });
+
+  request.on('end', function() {
+    const parsedData = JSON.parse(dataString);
+    const deleteId = parsedData.id; // assuming you pass an 'id' or index to delete
+
+    // Remove the item from the array
+    appdata.splice(deleteId, 1);
+
+    // Update priorities after deletion
+    appdata.forEach((task, index) => {
+      task.priority = index + 1;
+    });
+
+    response.writeHead(200, "OK", {'Content-Type': 'application/json'});
+    response.write(JSON.stringify(appdata));
+    response.end();
+  });
 }
 
 const sendFile = function( response, filename ) {

@@ -9,9 +9,7 @@ const http = require( 'http' ),
       port = 3000
 
 const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+  {"Task":"Quiz", "Pirority":"Low", "Creation Date":"09/02/2024", "Deadline":"09/19/2024"},
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -41,14 +39,17 @@ const handlePost = function( request, response ) {
 
   request.on( 'end', function() {
     console.log( JSON.parse( dataString ) )
-    if( request.url === '/submit' ) {
-      console.log("Submit success")
+    if ( request.url === "/submit"){
+   // console.log( JSON.parse( dataString ) )
+    // ... do something with the data here!!!
+    let dataJson = JSON.parse(dataString)
+    appdata.push(dataJson)
     }
 
     // ... do something with the data here!!!
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end(JSON.stringify(appdata))
   })
 }
 

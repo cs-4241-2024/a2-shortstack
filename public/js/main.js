@@ -57,16 +57,22 @@ const submit = function (e) {
 
   // Create a task object
   let taskObj = {
-      task: task,
-      priority: priority,
-      creationDate: creationDate,
-      dueDate: `${dueDay} ${dueTime}`,
-      daysLeft: calculateDaysLeft(dueDay)
-  };
+    task: "Finish Homework",
+    priority: "High",
+    creationDate: "2024-09-08",
+    dueDate: "2024-09-10 17:00",
+    daysLeft: 2
+};
+
+// Convert the object to a JSON string
+let jsonTaskObj = JSON.stringify(taskObj);
+
+
+
   // post
   fetch( '/submit', { // fetch is where you specify the url/ resouce that you want to see
     method:'POST',
-    body: "" // send body to server
+    body: jsonTaskObj,// send body to server
   }).then(  // when the rewsponse to the server comes, do this
     function(  response ) { // this is the response from the server
       console.log("SSSS")

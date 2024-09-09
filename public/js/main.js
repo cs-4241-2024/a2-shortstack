@@ -12,13 +12,13 @@ const submit = async function( event ) {
         json = { yourname: input.value },
         body = JSON.stringify( json )
   */
-  const nameInput = document.querySelector('#yourname').value;
+  const nameInput = document.querySelector('#yourName').value;
   const titleInput = document.querySelector('#showTitle').value;
   const episodeInput = document.querySelector('#lastWatched').value;
 
-  console.log('Username: ', nameInput);
-  console.log('Anime Title: ', titleInput);
-  console.log('Last Watched Episode: ', episodeInput);
+  //console.log('Username: ', nameInput);
+  //console.log('Anime Title: ', titleInput);
+  //console.log('Last Watched Episode: ', episodeInput);
 
   const input = {
     username: nameInput,
@@ -33,9 +33,11 @@ const submit = async function( event ) {
     body 
   });
 
-  const text = await response.text()
+  const data = await response.json()
 
-  console.log( 'text:', text )
+  data.forEach( d => console.log(d) );
+
+  //console.log( 'text:', text )
 }
 
 window.onload = function() {

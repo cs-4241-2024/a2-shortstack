@@ -9,9 +9,7 @@ const http = require( 'http' ),
       port = 3000
 
 const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+  { 'username': 'ananya', 'show title': "jujutsu kaisen", 'last ep watched': 12, 'date logged': '9/9/2024' },
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -40,13 +38,42 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+    //console.log( JSON.parse( dataString ) );
+    const formData = JSON.parse(dataString);
 
     // ... do something with the data here!!!
+    //const inputArray = [];
+
+    const newEntry = {
+      'username': formData.username,
+      'show title': formData.showName,
+      'last ep watched': Number(formData.lastViewed),
+      'date logged': getDate()
+    };
+
+    // const userValue = formData.username;
+    // const showValue = formData.showName;
+    // const epNumValue = formData.lastViewed;
+    // const dateLogged = "9/9/2024"; 
+
+    //inputArray.push(userValue, showValue, epNumValue, dateLogged);
+    appdata.push(newEntry);
+
+    console.log(appdata);
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end(JSON.stringify( appdata ));
   })
+}
+
+function getDate() {
+  const date = new Date();
+
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  return `${month}/${day}/${year}`;
 }
 
 const sendFile = function( response, filename ) {

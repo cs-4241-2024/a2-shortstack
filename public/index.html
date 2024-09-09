@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>CS4241 Assignment 2</title>
+    <title class="maintitle">CS4241 Assignment 2</title>
     <meta charset="utf-8">
     <script src="js/main.js"></script>
     <link rel="stylesheet" href="css/main.css">
@@ -10,13 +10,18 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
   <body>
+    <div class="flex-container">
+      <div>
     <form>
-      <input type="text" id="item" value="your name here">
-      <input type="text" id="description" value="item description">
-      <input type="number" id="cost" value="cost">
+      <input type="text" id="item" placeholder="item name">
+      <input type="text" id="description" value="item description" placeholder="item description">
+      <input type="number" id="cost" placeholder="price">
+      <input type="number" id="tax" placeholder="tax (percent)">
       <button>submit</button>
       <button>modify selected</button>
     </form>
+  </div>
+  <div> 
     <table id="list">
       <thead>
       <tr>
@@ -31,5 +36,8 @@
       <tbody>
       </tbody>
       </table>
+    </div>
+  </div>
+      
   </body>
 </html>

@@ -9,9 +9,7 @@ const http = require( 'http' ),
       port = 3000
 
 let appdata = [
-  { 'item': 'apple', 'subtotal': 1.99, 'total': 2.114375 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+  
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -44,8 +42,9 @@ const handlePost = function( request, response ) {
     appdata.push(data);
     console.log(appdata);
     // ... do something with the data here!!!
-    //const table = document.querySelector('#list tbody');
-
+    data.total = data.cost * 1.0625;
+    
+    
 
     
     

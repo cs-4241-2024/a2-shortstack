@@ -17,6 +17,8 @@ const server = http.createServer( function( request,response ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){
     handlePost( request, response ) 
+  } else if( request.method === 'DELETE') {
+    handleDelete(request, response);
   }
 })
 
@@ -57,6 +59,30 @@ const handlePost = function( request, response ) {
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end(JSON.stringify( appdata ));
   })
+}
+
+const handleDelete = function(request, response) {
+  let dataString = '';
+
+  request.on('data', function(data) {
+    dataString += data;
+  });
+
+  request.on('end', function() {
+    const formData = JSON.parse(dataString);
+    const { username, showTitle } = formData;
+
+    // Filter out the entry that matches the username and show title
+    const newAppData = appdata.filter(entry =>
+      !(entry.username === username && entry['show title'] === showTitle)
+    );
+
+    appdata.length = 0; // Clear the old data
+    appdata.push(...newAppData); // Add the filtered data
+
+    response.writeHead(200, "OK", {'Content-Type': 'application/json'});
+    response.end(JSON.stringify(appdata));
+  });
 }
 
 function getDate() {

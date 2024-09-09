@@ -48,17 +48,34 @@ const displayCards = function(data) {
 
     card.innerHTML = `
     <h3>${entry.username}</h3>
+    <hr class="solidLine"> 
     <p><strong>Show Title:</strong> ${entry['show title']}</p>
     <p><strong>Last Episode Watched:</strong> ${entry['last ep watched']}</p>
     <p><strong>Date Logged:</strong> ${entry['date logged']}</p>
-    <button class="delete-button" data-id="${entry.id}">Delete</button>
+    <button class="delete-button">Delete</button>
     `;
+
+    const deleteButton = card.querySelector('.delete-button');
+    deleteButton.addEventListener('click', deleteCard);
 
     cardContainer.appendChild(card); 
   })
 
-  
+}
 
+const deleteCard = async function(event) {
+  const button = event.target;
+  const card = button.closest('.card');
+  const username = card.querySelector('h3').textContent;
+  const showTitle = card.querySelector('p').textContent.split(': ')[1];
+
+  const response = await fetch('/submit', {
+    method: 'DELETE',
+    body: JSON.stringify({ username, showTitle })
+  });
+
+  const data = await response.json();
+  fetchAppData();
 }
 
 const fetchAppData = async function() {

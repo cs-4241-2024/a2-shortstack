@@ -11,12 +11,12 @@ My project allows the user to track their homework by filling in assignment deta
 
 ### Design Achievements
 - **Had my Site Tested by Another Student**:
-1. 
-2. What problems did the user have with your design?
-3. What comments did they make that surprised you?
-4. What would you change about the interface based on their feedback?
+1. Rothschild
+2. He said that it shouldn't allow negative values for dates and that there are no type constraints for the boxes. They also said that it wasn't odviios at first that it uses the current date to calculate the different values.
+3. They liked the color pink that I chose.
+4. I would make it so that all the entry fields have type constraints and maybe have instructions although I would keep the ability to have negative dates since you could hava an overdue assignment.
 - **Had my Site Tested by Another Student**:
-1. 
-2. What problems did the user have with your design?
-3. What comments did they make that surprised you?
-4. What would you change about the interface based on their feedback?
+1. Lewis
+2. He said that it shouldnn't allow blank entries to be submitted.
+3. They liked the colors on the site.
+4. I would make it so that there are checks for empty entries.

@@ -1,8 +1,8 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "a2-tanishkad21",
+  "version": "1.0.0",
+  "description": "A To-Do List application",
+  "author": "Tanishka Dalavi",
   "scripts": {
     "start": "node server.js"
   },

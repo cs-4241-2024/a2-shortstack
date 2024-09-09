@@ -17,6 +17,7 @@ Conducted user interface testing with peers to evaluate the usability of the app
 Test Details:
 
 Participants: Boothroyd, Kratman
+
 Task: Users were asked to submit a new entry then delete a record using the provided interface.
 
 Each participant commented on how it was simple, but that was also a benifit. There were no struggles completeing the tasks, and only a little bit of trial and error to get a feel of the due-by-date weighting system. 

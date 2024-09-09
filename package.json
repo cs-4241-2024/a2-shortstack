@@ -1,12 +1,18 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "mime": "^2.4.4"
+    "name": "simple-todo-app",
+    "version": "1.0.0",
+    "description": "A simple todo app for Assignment 2",
+    "author": "Kenneth Smith",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "express": "^4.18.2"
+    }
   }
-}
+  
+ 
+    
+    
+  

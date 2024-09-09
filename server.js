@@ -1,74 +1,125 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+const express = require('express');
+const app = express();
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
-  }
-})
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const PORT = process.env.PORT || 3000;
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
+const server = http.createServer(function (request, response) {
+    let filePath = '.' + request.url;
+    if (filePath === './') {
+      filePath = './index.html';
+    }
+  
+    const extname = String(path.extname(filePath)).toLowerCase();
+    const mimeTypes = {
+      '.html': 'text/html',
+      '.js': 'text/javascript',
+      '.css': 'text/css',
+      '.json': 'application/json',
+      '.png': 'image/png',
+      '.jpg': 'image/jpg',
+      '.gif': 'image/gif',
+      '.wav': 'audio/wav',
+      '.mp4': 'video/mp4',
+      '.woff': 'application/font-woff',
+      '.ttf': 'application/font-ttf',
+      '.eot': 'application/vnd.ms-fontobject',
+      '.otf': 'application/font-otf',
+      '.svg': 'application/image/svg+xml',
+    };
+  
+    const contentType = mimeTypes[extname] || 'application/octet-stream';
+  
+    fs.readFile(filePath, function (error, content) {
+      if (error) {
+        if (error.code == 'ENOENT') {
+          response.writeHead(404, { 'Content-Type': 'text/html' });
+          response.end('<h1>404 Not Found</h1>', 'utf-8');
+        } else {
+          response.writeHead(500);
+          response.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
+        }
+      } else {
+        response.writeHead(200, { 'Content-Type': contentType });
+        response.end(content, 'utf-8');
+      }
+    });
+  });
 
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
-  }
-}
 
-const handlePost = function( request, response ) {
-  let dataString = ''
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
 
-    // ... do something with the data here!!!
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
 
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
 
-   fs.readFile( filename, function( err, content ) {
 
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
 
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
 
-     }else{
 
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
 
-     }
-   })
-}
+app.use(express.json());
+app.use(express.static(__dirname + '/public'));
 
-server.listen( process.env.PORT || port )
+let todos = [];
+
+// Helper function to generate a deadline based on priority if not provided
+const generateDeadline = (priority) => {
+    const date = new Date();
+    date.setDate(date.getDate() + (priority * 2));
+    return date.toISOString().split('T')[0];
+};
+
+// Get all todos
+app.get('/todos', (req, res) => {
+    res.json(todos);
+});
+
+// Add a new todo
+app.post('/add', (req, res) => {
+    const { task, priority, deadline } = req.body;
+    const id = Date.now().toString();
+    const generatedDeadline = deadline || generateDeadline(priority);
+
+    const newTodo = { id, task, priority: parseInt(priority), deadline: generatedDeadline };
+    todos.push(newTodo);
+    todos = sortTodos(todos); // Sort after adding
+    res.json(todos); // Return updated todo list
+});
+
+// Delete a todo
+app.delete('/delete/:id', (req, res) => {
+    const { id } = req.params;
+    todos = todos.filter(todo => todo.id !== id);
+    todos = sortTodos(todos); // Sort after deletion
+    res.json(todos); // Return updated todo list
+});
+
+// Update an existing todo
+app.put('/update/:id', (req, res) => {
+    const { id } = req.params;
+    const { task, priority, deadline } = req.body;
+
+    todos = todos.map(todo => 
+        todo.id === id ? { ...todo, task, priority: parseInt(priority), deadline } : todo
+    );
+    todos = sortTodos(todos); // Sort after editing
+    res.json(todos); // Return updated todo list
+});
+
+// Function to sort todos based on priority and deadline
+const sortTodos = (todos) => {
+    return todos.sort((a, b) => {
+        if (a.priority !== b.priority) {
+            return b.priority - a.priority; // Higher priority first
+        }
+        return new Date(a.deadline) - new Date(b.deadline); // Earlier deadline first
+    });
+};
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});

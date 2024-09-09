@@ -1,12 +1,13 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "a2-kaylaa2003",
+  "version": "1.0.0",
+  "description": "This website allows you to track what homework assignments are due.",
+  "author": "Kayla Afonseca",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
+    "express": "^4.19.2",
     "mime": "^2.4.4"
   }
 }

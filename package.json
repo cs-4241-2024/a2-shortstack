@@ -1,8 +1,8 @@
 {
-  "name": "",
+  "name": "matchme",
   "version": "",
-  "description": "",
-  "author": "",
+  "description": "A simple web game that let's you match shapes to their corresponding colors.",
+  "author": "Hanna Trinh",
   "scripts": {
     "start": "node server.js"
   },

@@ -10,19 +10,29 @@ const submit = async function( event ) {
   const input = document.querySelector('#item'),
         json = { item: input.value },
         body = JSON.stringify( json )
-
+ 
   const response = await fetch( '/submit', { // fetch method to send it up to server
     method:'POST',
     body 
   })
 
-  const text = await response.json()
-  
-  const element = document.createElement('p');
-  element.innerHTML = text.obj
-  document.body.appendChild(element)
+  const data = await response.json()
 
-  console.log( 'text:', text )
+  const ul = document.querySelector('ul') 
+  ul.innerHTML = ""
+  
+  data.map(item => item.name)
+      .forEach(item => {
+        const li = document.createElement("li")
+        li.innerText = item
+        ul.appendChild(li)
+        console.log(item)
+      })
+
+  // const element = document.createElement('p');
+  // element.innerHTML = data.obj
+  // document.body.appendChild(element)
+  // console.log( 'data:', data )
 }
 
 window.onload = function() {

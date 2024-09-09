@@ -1,4 +1,12 @@
 body {
-  background:black;
-  color:white;
+  background:rgb(212, 155, 155);
+  color:rgb(28, 17, 17);
+}
+
+h1 {
+  text-align: center;
+}
+
+form {
+  text-align: center;
 }

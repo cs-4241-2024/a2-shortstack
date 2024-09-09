@@ -8,11 +8,11 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-// const appdata = [
-//   { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-//   { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-//   { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-// ]
+const appdata = [
+  { 'name': 'eggs', 'quantity': 12, 'price': 5.00 },
+  { 'name': 'carrots', 'quantity': 6, 'price': 0.60 },
+  { 'name': 'flour', 'quantity': 2, 'price': 3.50} 
+]
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
@@ -45,7 +45,7 @@ const handlePost = function( request, response ) {
     // ... do something with the data here!!!
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end( JSON.stringify({obj:dataString}))
+    response.end( JSON.stringify(appdata))
   })
 }
 

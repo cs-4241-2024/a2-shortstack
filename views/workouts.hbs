@@ -1,0 +1,14 @@
+
+<h1>Workouts</h1>
+{{#if empty}}
+  <p>No workouts yet</p>
+{{else}}
+  <ul>
+    {{#each workouts}}
+      <li><a href="/workout/{{@key}}">{{or this.name 'Unnamed'}} {{formatDate this.datetime}}</a></li>
+    {{/each}}
+  </ul>
+{{/if}}
+
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/workouts.js"></script>

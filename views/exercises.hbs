@@ -1,0 +1,35 @@
+
+<h1>Exercises</h1>
+{{#if empty}}
+  <p>No exercises yet</p>
+{{else}}
+  <ul class="nes-list is-circle">
+    {{#each exercises}}
+      <li>{{this.name}}</li>
+    {{/each}}
+  </ul>
+{{/if}}
+
+<h2>New Exercise</h2>
+<form id="new-exercise-form">
+  <div class="nes-field">
+    <label for="name">Name</label><br>
+    <input class="nes-input" autocomplete="off" type="text" id="name" name="name" placeholder="Bench Press (Barbell)"><br>
+  </div>
+
+  {{!-- <div class="nes-field"> --}}
+  {{!--   <label for="form_notes">Form Notes</label><br> --}}
+  {{!--   <input class="nes-input" autocomplete="off" type="text" id="form_notes" name="form_notes" placeholder="tuck sholder blades"><br> --}}
+  {{!-- </div> --}}
+  {{!----}}
+  {{!-- <div class="nes-field"> --}}
+  {{!--   <label for="setup_notes">Setup Notes</label><br> --}}
+  {{!--   <input class="nes-input" autocomplete="off" type="text" id="setup_notes" name="setup_notes" placeholder="pin 3"><br> --}}
+  {{!-- </div> --}}
+
+  <button type="submit" class="nes-btn is-success">Create</button>
+</form>
+
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/exercises.js"></script>
+

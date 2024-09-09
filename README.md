@@ -90,11 +90,11 @@ You'll need to use sometype of collaborative software that will enable you both 
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
-Include a very brief summary of your project here. Be sure to include the CSS positioning technique you used, and any required instructions to use your application.
+## Habit Tracker
+I created a tool track new habits. There is a form on the left side of the page to submit a new habit. Once submitted this form is added to the table and server, with an additional derived value of "consistency". Habits can be deleted by clicking the delete button of the corresponding habit. I did however run into a bug where sometimes you may need to refresh the page after adding a habit for the delete button to work properly.
 
-## Technical Achievements
-- **Tech Achievement 1**: Using a combination of...
 
-### Design/Evaluation Achievements
-- **Design Achievement 1**: 
+### Technical Achievements
+- **Tech Achievement 1**: Created a single page app displaying both the form and table, using flexbox styling.
+
+

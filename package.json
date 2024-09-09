@@ -7,6 +7,6 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "mime": "^4.0.4"
+    "mime": "^2.4.4"
   }
 }

@@ -14,9 +14,9 @@ th {
   border-style: solid;
   font-family: 'Roboto', sans-serif;
 }
-head.maintitle {
+h.maintitle {
   font-size: 30px;
-  color: blue;
+  color: purple;
   font-family: 'Roboto', sans-serif;
 }
 .flex-container {

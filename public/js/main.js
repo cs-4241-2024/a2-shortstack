@@ -10,7 +10,7 @@ const submit = async function( event ) {
   const input = document.querySelector( '#item'),
   input2 = document.querySelector( '#description'),
   input3 = document.querySelector( '#cost'), input4 = document.querySelector('#tax'),
-        json = { item: input.value, description: input2.value, cost: input3.value, tax: input4.value, total: 0 },
+        json = { item: input.value, description: input2.value, cost: input3.value, tax: input4.value, total: 0, id: 0 },
         body = JSON.stringify( json )
  //console.log(input)
   const response = await fetch( '/data', {
@@ -21,7 +21,7 @@ const submit = async function( event ) {
   const text = await response.json()
   
   const table = document.getElementById("list");
-  table.innerHTML += `<tr><td>${text.value}</td><td>${text.value}</td><td>${text.value}</td><td>${text.value}</td><td>${text.total}</td><td><button>Edit</button></td><td><button>Delete</button></td></tr>`;
+  table.innerHTML += `<tr><td>${text.item}</td><td>${text.description}</td><td>${text.cost}</td><td>${text.tax}</td><td>${text.total}</td><td><button>Edit</button></td><td><button>Delete</button></td></tr>`;
   
   console.log( 'text:', JSON.stringify(text ));
 }

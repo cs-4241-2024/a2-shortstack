@@ -6,14 +6,25 @@ const http = require( 'http' ),
       // file.
       mime = require( 'mime' ),
       dir  = 'public/',
-      port = 3000
+      port = 3000,
+    path = require( 'path' )
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+const file = path.join(__dirname, 'data.json');
+let appdata = [
+  {'habitName': 'Exercise', 'startDate': '2024-09-03', 'frequency': 'daily', 'consistency': 'In Progress'}
 ]
-
+//
+try {
+  if (fs.existsSync(file)) {
+    const fileContent = fs.readFileSync(file, 'utf8');
+    if (fileContent) {
+      appdata = JSON.parse(fileContent);
+    }
+  }
+} catch (err) {
+  console.error('Error reading data file:', err);
+}
+//
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
     handleGet( request, response )    
@@ -27,7 +38,10 @@ const handleGet = function( request, response ) {
 
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
-  }else{
+  } else if (request.url === '/getHabits') {
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify( appdata ) );
+  } else{
     sendFile( response, filename )
   }
 }
@@ -40,12 +54,34 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+    if(request.url === '/addHabit') {
+      const newHabit = JSON.parse( dataString );
+      const habitDate = new Date(newHabit.startDate);
+      const currentDate = new Date();
+      const msToDay = 1000 * 60 * 60 * 24;
 
-    // ... do something with the data here!!!
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+      if (habitDate < currentDate) {
+        console.log(Math.abs((currentDate - habitDate) / msToDay ));
+        newHabit.consistency = Math.floor((currentDate - habitDate) / msToDay ) + " days";
+      } else if (habitDate > currentDate) {
+        newHabit.consistency = "Not Started";
+      } else {
+        newHabit.consistency = "0 days"
+      }
+
+      appdata.push(newHabit);
+      try {
+        fs.writeFileSync(file, JSON.stringify( appdata, null, 2 ), 'utf8' ); // Save data to the file
+      } catch (err) {
+        console.error('Error writing to data file:', err);
+      }
+
+      console.log(appdata);
+
+      response.writeHead( 200, "OK", {'Content-Type': 'application/json' });
+      response.end(JSON.stringify(appdata));
+    }
   })
 }
 

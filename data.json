@@ -1,0 +1,56 @@
+[
+  {
+    "habitName": "Exercise",
+    "startDate": "2024-09-03",
+    "frequency": "daily",
+    "consistency": "In Progress"
+  },
+  {
+    "habitName": "eating",
+    "startDate": "2024-09-11",
+    "frequency": "daily",
+    "consistency": "In Progress"
+  },
+  {
+    "habitName": "Running",
+    "startDate": "2024-09-02",
+    "frequency": "daily",
+    "consistency": "In Progress"
+  },
+  {
+    "habitName": "Reading",
+    "startDate": "2024-09-03",
+    "frequency": "daily",
+    "consistency": "In Progress"
+  },
+  {
+    "habitName": "Journaling",
+    "startDate": "2024-09-04",
+    "frequency": "daily",
+    "consistency": "In Progress"
+  },
+  {
+    "habitName": "test",
+    "startDate": "2024-09-04",
+    "frequency": "daily",
+    "consistency": 5.513948402777777
+  },
+  {
+    "habitName": "test",
+    "startDate": "2024-09-08",
+    "frequency": "daily",
+    "consistency": "2 days"
+  },
+  {
+    "habitName": "test",
+    "startDate": "2024-09-09",
+    "frequency": "daily",
+    "consistency": "1 days"
+  },
+  {
+    "habitName": "test",
+    "startDate": "2024-09-13",
+    "frequency": "daily",
+    "consistency": "Not Started"
+  }
+]

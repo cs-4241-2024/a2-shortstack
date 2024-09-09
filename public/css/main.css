@@ -1,4 +1,69 @@
 body {
-  background:black;
-  color:white;
+  font-family: 'Segoe UI' sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #5ea2cf;
+}
+
+h1 {
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+form {
+  background: #a0cbf1;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+form label {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+form input {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+form button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #185ca5;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+form button:hover {
+  background-color: #007bff;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0 0;
+  width: 300px;
+}
+
+ul li {
+  background: #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

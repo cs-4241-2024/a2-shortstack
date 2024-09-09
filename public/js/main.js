@@ -1,27 +1,65 @@
-// FRONT-END (CLIENT) JAVASCRIPT HERE
+let startTime;
+let times = [];
+let round = 0;
 
-const submit = async function( event ) {
-  // stop form submission from trying to load
-  // a new .html page for displaying results...
-  // this was the original browser behavior and still
-  // remains to this day
-  event.preventDefault()
-  
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
-        body = JSON.stringify( json )
+document.getElementById("playerForm").addEventListener("submit", startGame);
 
-  const response = await fetch( '/submit', {
-    method:'POST',
-    body 
-  })
+function startGame(event) {
+  event.preventDefault();
+  const name = document.getElementById("playerName").value;
 
-  const text = await response.text()
-
-  console.log( 'text:', text )
+  round = 0;
+  times = [];
+  nextRound();
 }
 
-window.onload = function() {
-   const button = document.querySelector("button");
-  button.onclick = submit;
+function nextRound() {
+  if (round < 5) {
+    const dot = document.getElementById("dot");
+    dot.style.top = `${Math.random() * 270}px`;
+    dot.style.left = `${Math.random() * 270}px`;
+
+    dot.onclick = function () {
+      const endTime = new Date().getTime();
+      times.push((endTime - startTime) / 1000);
+      round++;
+      nextRound();
+    };
+
+    startTime = new Date().getTime();
+  } else {
+    submitData();
+  }
+}
+
+async function submitData() {
+  const name = document.getElementById("playerName").value;
+  const data = { name: name, times: times };
+
+  const response = await fetch("/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  const updatedData = await response.json();
+  updateTable(updatedData);
+}
+
+function updateTable(data) {
+  const tbody = document.getElementById("resultsBody");
+  tbody.innerHTML = "";
+
+  data.forEach((entry) => {
+    const row = `<tr>
+      <td>${entry.name}</td>
+      <td>${entry.times[0]}</td>
+      <td>${entry.times[1]}</td>
+      <td>${entry.times[2]}</td>
+      <td>${entry.times[3]}</td>
+      <td>${entry.times[4]}</td>
+      <td>${entry.averageTime}</td>
+    </tr>`;
+    tbody.innerHTML += row;
+  });
 }

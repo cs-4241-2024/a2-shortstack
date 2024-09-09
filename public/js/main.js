@@ -75,7 +75,7 @@ let jsonTaskObj = JSON.stringify(taskObj);
     body: jsonTaskObj,// send body to server
   }).then(  // when the rewsponse to the server comes, do this
     function(  response ) { // this is the response from the server
-      console.log("SSSS")
+      console.log(response)
     // do something with the reponse 
     // try putting the TABLE HERE
     //  console.log( response )

@@ -1,4 +1,82 @@
 body {
-  background:black;
+  background:#CEF5B5;
   color:white;
 }
+h1{
+  text-align: center;
+  color: darkgreen;
+  font-family: "Fascinate Inline", system-ui;
+  font-size: 300%;
+  
+}
+h2{
+  text-align: center;
+  color: green;
+  font-family: "Nerko One", cursive;
+  font-weight: 300;
+
+}
+.container
+{
+  display: flex;
+  flex-direction:column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 100px;
+}
+input {
+  width: 300px; /* Sets the width of the form */
+  height: auto; /* Adjusts height automatically based on content */
+  padding: 20px; /* Adds padding inside the form */
+  border: 1px solid #ccc; /* Optional: Adds a border around the form */
+  border-radius: 5px; /* Optional: Adds rounded corners */
+  box-sizing: border-box; /* Includes padding and border in the total width and height */
+}
+table
+{
+ color: black;
+ width: 100%;
+ border-collapse: collapse;
+}
+th, td {
+  border: 1px solid black; /* Adds border around cells */
+  padding: 10px; /* Adds space inside cells */
+  text-align: left; /* Aligns text to the left */
+  color: white
+}
+th {
+  background-color: darkgreen; /* Light grey background for header */
+}
+thead {
+  background-color: green; /* Slightly darker grey for table header */
+}
+#buttonSection
+{
+  display: flex;
+  background-color:darkgreen;
+  flex-direction:row;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  padding:20px;
+  border-style:solid;
+  border-color:white;
+  border-width: 5px;
+  height: 100px;
+  width: 350px;
+}
+#button
+{
+  height: 25px;
+}
+#deleteButton
+{
+  height: 25px;
+}
+#deleteDates
+{
+  width: 210px;
+}
+
+
+

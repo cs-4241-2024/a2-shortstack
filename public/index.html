@@ -1,18 +1,28 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>CS4241 Assignment 2</title>
+    <title>Car Tracker</title>
     <meta charset="utf-8">
     <script src="js/main.js"></script>
     <link rel="stylesheet" href="css/main.css">
-    
-    <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
-  <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
+  <body class="center">
+    <h1 class="center">Car Tracker</h1>
+    <p>Add a car to the list:</p>
+    <form id="car-form" method="POST">
+      <input type="text" id="model" placeholder="Car Model" required>
+      <input type="number" id="year" placeholder="Year" required>
+      <input type="number" id="mpg" placeholder="MPG" required>
+      <button type="submit">Submit</button>
     </form>
+    <table id="car-table">
+      <tr>
+        <th>Model</th>
+        <th>Year</th>
+        <th>MPG</th>
+        <th>Years Old</th>
+        <th>Actions</th>
+      </tr>
+    </table>
   </body>
 </html>

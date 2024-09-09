@@ -1,16 +1,18 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Noto Sans", serif;
   background-color: #f4f4f4;
   margin: 20px;
   color: #333;
 }
 
 h1 {
+  font-family: "Roboto Slab", serif;
   color: #001a9d;
   text-align: center;
   margin-bottom: 30px;
   font-size: 50px;
 }
+
 h2 {
   color: #025bf6;
   text-align: center;
@@ -62,6 +64,26 @@ form button:hover {
 
 /* Table Styling */
 
+/* General Layout */
+.container {
+  display: grid;
+  grid-template-columns: 1fr; /* Default to one column */
+  grid-gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Table Styling Inside the Grid */
+.table-container {
+  display: grid;
+  grid-template-rows: auto;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
 h2.completed-heading {
   color: #017b2a;
 }
@@ -72,9 +94,19 @@ h2.completed-heading {
   color: white;
 }
 
+h2.inProgress-heading {
+  color: #025bf6;
+}
+
+/* In-Progress Table Header - Blue */
+#inProgressTable thead {
+  background-color: #107af5; /* Blue background for In-Progress table */
+  color: white;
+}
+
 table {
-  width: 90%;
-  margin: 0 auto 20px;
+  width: 100%;
+  /* margin: 0 auto 20px; */
   border-collapse: collapse;
   background-color: #f9f9f9;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -99,6 +131,7 @@ td {
   border: 1px solid #ccc;
   text-align: left;
   word-wrap: break-word;
+  white-space: normal;
   overflow: hidden;
 }
 
@@ -110,8 +143,13 @@ td {
 /* Set specific width for the "Actions" column */
 th:last-child,
 td:last-child {
-  width: 300px;
+  width: 250px;
   text-align: center;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+  width: 180px;
 }
 
 /* tbody tr:nth-child(even) {
@@ -187,7 +225,6 @@ button.in-progress-btn:hover {
   background-color: #0069d9;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   table,
   form {
@@ -199,7 +236,7 @@ button.in-progress-btn:hover {
 @media screen and (max-width: 1200px) {
   table {
     width: 100%;
-    font-size: 11px;
+    font-size: 0.9rem;
   }
 
   th,
@@ -212,10 +249,10 @@ button.in-progress-btn:hover {
     width: 6rem;
   }
 
-  /* th:nth-child(2),
+  th:nth-child(2),
   td:nth-child(2) {
-    width: 180px;
-  } */
+    width: 6rem;
+  }
 
   button {
     padding: 6px 12px;
@@ -227,7 +264,7 @@ button.in-progress-btn:hover {
 @media screen and (max-width: 480px) {
   table {
     width: 100%;
-    font-size: 0.9em;
+    font-size: 0.9rem;
   }
 
   th,
@@ -237,7 +274,12 @@ button.in-progress-btn:hover {
 
   th:last-child,
   td:last-child {
-    width: 7rem;
+    width: 5rem;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 5rem;
   }
 
   button {

@@ -4,6 +4,12 @@
     <title>CS4241 Assignment 2</title>
     <meta charset="utf-8" />
     <script src="js/main.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/main.css" />
 
     <!-- get rid of favicon error -->
@@ -39,42 +45,46 @@
       <button type="submit">Submit</button>
     </form>
 
-    <div>
-      <!-- In Progress Tasks Table -->
-      <h2>In Progress</h2>
-      <table id="inProgressTable">
-        <thead>
-          <tr>
-            <th>Task</th>
-            <th>Description</th>
-            <th>Creation Date</th>
-            <th>Due Date</th>
-            <th>Days Left</th>
-            <th>Priority</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+    <div class="container">
+      <div class="table-container">
+        <!-- In Progress Tasks Table -->
+        <h2 class="inprogress-heading">In Progress</h2>
+        <table id="inProgressTable">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Description</th>
+              <th>Creation Date</th>
+              <th>Due Date</th>
+              <th>Days Left</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
-      <!-- Completed Tasks Table -->
-      <h2 class="completed-heading">Completed</h2>
-      <table id="completedTable">
-        <thead>
-          <tr>
-            <th>Task</th>
-            <th>Description</th>
-            <th>Creation Date</th>
-            <th>Due Date</th>
-            <th>Days Left</th>
-            <th>Priority</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <div class="table-container">
+        <!-- Completed Tasks Table -->
+        <h2 class="completed-heading">Completed</h2>
+        <table id="completedTable">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Description</th>
+              <th>Creation Date</th>
+              <th>Due Date</th>
+              <th>Days Left</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
   </body>
 </html>

@@ -30,6 +30,8 @@ const server = http.createServer( function( request,response ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){
     handlePost( request, response ) 
+  } else if( request.method === 'DELETE' ){
+    handleDelete(request, response)
   }
 })
 
@@ -77,11 +79,34 @@ const handlePost = function( request, response ) {
         console.error('Error writing to data file:', err);
       }
 
-      console.log(appdata);
 
       response.writeHead( 200, "OK", {'Content-Type': 'application/json' });
       response.end(JSON.stringify(appdata));
     }
+  })
+}
+
+const handleDelete = function( request, response ) {
+  let dataString = '';
+  request.on( 'data', function( data ) {
+    dataString += data;
+  });
+
+  request.on( 'end', function() {
+    const {habitName} = JSON.parse( dataString );
+    console.log('Deleting habit with name:', habitName);
+    //
+    if (habitName === undefined) {
+      console.error('Habit name is undefined');
+      response.writeHead(400, {'Content-Type': 'application/json'});
+      response.end(JSON.stringify({ error: 'Habit name is undefined' }));
+      return;
+    }
+    //
+    appdata = appdata.filter(habit => habit.habitName !== habitName);
+    fs.writeFileSync(file, JSON.stringify( appdata, null, 2 ) );
+    response.writeHead( 200, {'Content-Type': 'application/json' });
+    response.end(JSON.stringify(appdata));
   })
 }
 

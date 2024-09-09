@@ -23,21 +23,31 @@ const submit = async function( event ) {
 
 window.addEventListener('load', function() {
   fetch( '/getHabits' ).then( ( response ) => response.json() ).then(habits => {
-    const tableBody = document.getElementById('table-body');
-    tableBody.innerHTML = '';
+    loadTable(habits)}).catch( error => console.log(error) );
+});
 
-    habits.forEach( habit => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
+const loadTable = function(habits) {
+  const tableBody = document.getElementById('table-body');
+  tableBody.innerHTML = '';
+
+  habits.forEach( habit => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
         <td>${habit.habitName}</td>
         <td>${habit.startDate}</td>
         <td>${habit.frequency}</td>
         <td>${habit.consistency}</td>
+        <td><button class="delete-btn" data-habitname="${habit.habitName}">Delete</button></td>
       `;
-      tableBody.append(row);
-    })
-  }).catch( error => console.log(error) );
-});
+    tableBody.append(row);
+  });
+  document.querySelectorAll('.delete-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      const habitName = this.getAttribute('data-habitname');
+      deleteHabit(habitName);
+    });
+  });
+}
 
 window.onload = function() {
    const button = document.querySelector("button");
@@ -74,6 +84,7 @@ document.getElementById('habit-form').addEventListener('submit', function (event
         <td>${habit.startDate}</td>
         <td>${habit.frequency}</td>
         <td>${habit.consistency}</td>
+        <td><button class="delete-btn" data-habitname="${habit.habitName}">Delete</button></td>
       `;
 
       tableBody.append(row);
@@ -82,3 +93,18 @@ document.getElementById('habit-form').addEventListener('submit', function (event
     console.error(error);
   })
 });
+
+const deleteHabit = async function(habitName) {
+  console.log('deleteHabit function called for habit:', habitName);  // Check if this logs
+  const response = await fetch(`/deleteHabit`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({habitName})
+  });
+
+  const newData = await response.json();
+  console.log('Updated data after deletion:', newData);  // Check if data is received
+  loadTable(newData);
+}

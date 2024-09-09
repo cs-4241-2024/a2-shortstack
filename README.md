@@ -17,4 +17,5 @@ Match Me is a simple shape game where players match colored shapes to their silh
 ### Design/Evaluation Achievements
 - **Visual Design**: All shapes and sillohuettes are designed using CSS, including properties like border-radius, background-colour, and width/height to create different shapes. The website also utilizes "Comfortaa" cursive font.
 
-- **User Feedback**: Added hover effects on buttons for better visual interaction using CSS transitions. There's also an animation for error messages using keyframes to provide dynamic experience.
+- **User Feedback**: 
+- Kalavantis: The score was improperly displaying time which was not effective. I would definitely use a better approach to accurately display the play duration time.

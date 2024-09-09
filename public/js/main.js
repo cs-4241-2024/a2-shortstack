@@ -192,6 +192,10 @@ async function saveItem(index) {
       quantity: quantity,
     };
 
+    // Update the total price field in the UI
+    const totalPriceField = document.querySelector("#totalPriceField");
+    totalPriceField.innerHTML = `<h3>Cumulative Total Price: $${cumulativeTotalPrice}</h3>`;
+
     renderOrderedItems();
   }
 }

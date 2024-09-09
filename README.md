@@ -119,7 +119,7 @@ Include a very brief summary of your project here. Be sure to include the CSS po
 
 - Last Name: Kurtz
 - Problems: Cancel Button doesn't work. No functionality. [Fixed]
-- Comments: Color Scheme is good.
+- Comments: Color Scheme is good. It fits the vibe of a restaurant order app.
 - Feedback: Little disorienting when you add/edit orders. Maybe make a table?
 
 Glitch: https://narrow-habitual-year.glitch.me

@@ -121,7 +121,7 @@ const handlePut = function (request, response) {
     // Update the item at the given index
     appdata[index] = {
       name: orderData.name,
-      foodName: foodOptions[orderData.foodPrice],
+      foodName: orderData.foodName,
       foodPrice: orderData.foodPrice,
       quantity: orderData.quantity,
     };

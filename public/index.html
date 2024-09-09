@@ -3,16 +3,31 @@
   <head>
     <title>CS4241 Assignment 2</title>
     <meta charset="utf-8">
-    <script src="js/main.js"></script>
+    
     <link rel="stylesheet" href="css/main.css">
     
     <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
   <body>
-    <form>
+    <h1>Reaction Time Test</h1>
+    <div class="container">
+      <div class="click-area">
+        <div class="display-text">Click to start</div>
+      </div>
+    </div>
+
+    <h1 id="show-time"></h1>
+    <table id="highscore">
+      <tr>
+        <th>Name</th>
+        <th>Time</th>
+      </tr>
+    </table>
+    <!-- <form>
       <input type="text" id="yourname" value="your name here">
       <button>submit</button>
-    </form>
+    </form> -->
+    <script src="js/main.js"></script>
   </body>
 </html>

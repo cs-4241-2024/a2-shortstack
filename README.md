@@ -1,100 +1,129 @@
-Assignment 2 - Short Stack: Basic Two-tier Web Application using HTML/CSS/JS and Node.js  
-===
+Kenneth Smith a2 
+https://a2-kjavsmith.glitch.me
 
-Due: September 9th, by 11:59 AM.
+# Simple Todo App
 
-This assignment will introduce you to creating a prototype two-tiered web application. 
-Your application will include the use of HTML, CSS, JavaScript, and Node.js functionality, with active communication between the client and the server.
+This project is a **two-tier web application** that allows users to manage a list of tasks with varying priorities and deadlines. It features a fully interactive interface where users can add, edit, and delete tasks, and the data is dynamically updated and reflected on both the client and server sides. The project is built using **HTML, CSS, JavaScript (for the front end)** and **Node.js** (for the back end), demonstrating real-time communication between the server and client.
 
-Baseline Requirements
----
+## Features
 
-There are a range of application areas and possibilities that meet these baseline requirements. 
-Try to make your application do something useful! A todo list, storing / retrieving high scores for a very simple game... have a little fun with it.
+### Baseline Requirements
+The baseline requirements for the application were as follows:
 
-Your application is required to implement the following functionalities:
+1. **Server**:
+   - The server serves static files (HTML, CSS, and JavaScript) and also maintains a **tabular dataset** in memory, consisting of tasks. Each task contains:
+     - **Task Name**: The description of the task.
+     - **Priority**: A numerical value (1-5) representing the priority of the task.
+     - **Deadline**: The due date for the task.
 
-- a `Server` which not only serves files, but also maintains a tabular dataset with 3 or more fields related to your application
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows a user to add or delete data items residing in the server's memory
-- a `Server Logic` which, upon receiving new or modified "incoming" data, includes and uses a function that adds at least one additional derived field to this incoming data before integrating it with the existing dataset
-- the `Derived field` for a new row of data must be computed based on fields already existing in the row. 
-For example, a `todo` dataset with `task`, `priority`, and `creation_date` may generate a new field `deadline` by looking at `creation_date` and `priority`
+2. **Results Functionality**:
+   - The app displays all tasks currently stored in the server's memory.
+   - Tasks are displayed in a tabular format, showing the task name, priority, deadline, and options to edit or delete.
 
-Your application is required to demonstrate the use of the following concepts:
+3. **Form/Entry Functionality**:
+   - Users can add tasks by filling out a form that includes:
+     - **Task Name**: Input field for the name of the task.
+     - **Priority**: A number between 1 and 5, where 1 is the lowest priority and 5 is the highest.
+     - **Deadline**: A date input to specify the due date of the task.
+   - Users can delete tasks or edit existing ones, both of which trigger real-time updates of the task list.
 
-HTML:
-- One or more [HTML Forms](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms), with any combination of form tags appropriate for the user input portion of the application
-- A results page displaying all data currently available on the server. You will most likely use a `<table>` tag for this, but `<ul>` or `<ol>` could also work and might be simpler to work with. Alternatively, you can create a single-page app (see Technical Acheivements) but this is not a requirement.
-- All pages should [validate](https://validator.w3.org)
-- If your app contains multple pages, they should all be accessible from the homepage (index.html)
+4. **Server Logic**:
+   - Upon receiving new or updated task data, the server processes the data and includes derived fields, such as task urgency based on the deadline and priority.
+   - The server communicates back to the client whenever changes are made (e.g., adding, deleting, or editing tasks).
 
-CSS:
-- CSS styling of the primary visual elements in the application
-- Various CSS Selector functionality must be demonstrated:
-    - Element selectors
-    - ID selectors
-    - Class selectors
-- CSS positioning and styling of the primary visual elements in the application:
-    - Use of either a CSS grid or flexbox for layout
-    - Rules defining fonts for all text used; be deliberate! Be sure to use a web safe font or a font from a web service like [Google Fonts](http://fonts.google.com/)
+5. **Derived Fields**:
+   - Tasks due within the next 7 days are automatically flagged as urgent and styled with **bold text** to indicate their importance.
+   - Tasks are colored dynamically based on their priority level, ensuring visual distinction between tasks of varying importance.
 
-- CSS defined in a maintainable, readable form, in external stylesheets 
+### Functionalities Demonstrated
 
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server; a sample is provided in this repository.
+#### HTML
+- The app features a single HTML form where users can input:
+  - **Task name** (text input)
+  - **Priority** (number input between 1 and 5)
+  - **Deadline** (date input)
+- The task list is displayed using a **table** element, which updates dynamically as users interact with the app.
+- All HTML elements are structured to ensure accessibility and proper validation.
 
-Node.js:
-- An HTTP Server that delivers all necessary files and data for the application, and also creates the required `Derived Fields` in your data. 
-A starting point is provided in this repository.
+#### CSS
+- The app uses **CSS** to style the form, table, and various elements of the page. The styling demonstrates:
+  - **CSS Selectors** for both element-level and class-based styles.
+  - Priority-specific styles to visually distinguish tasks based on urgency.
+  - Layouts using **CSS Grid** and **Flexbox** to create a responsive and intuitive design.
+- The color scheme includes:
+  - **Black background** with **orange text** for the main layout.
+  - **Priority-based color changes** for the tasks:
+    - Priority 1: White background, black text.
+    - Priority 2: Purple background, white text.
+    - Priority 3: Pink background, black text.
+    - Priority 4: Blue background, white text.
+    - Priority 5: Red background, white text.
+  
+#### JavaScript
+- **JavaScript** is used extensively for front-end interaction:
+  - Fetches data from the server using **AJAX** (Fetch API) to dynamically update the task list without requiring a page reload.
+  - Adds, deletes, and edits tasks via client-side scripts that communicate with the server-side logic.
+  - Implements event handling for form submission, task deletion, and task editing.
+  - Updates the UI in real-time, showing changes to the task list dynamically as the user interacts with the app.
 
-Deliverables
----
+#### Node.js
+- The app uses **Node.js** to handle server-side operations:
+  - A **Node.js HTTP server** processes requests to fetch, add, delete, and update tasks.
+  - Data is stored in memory (in a simple array) during the session, simulating a database.
+  - The server generates **derived fields** such as task urgency based on the deadline and priority, and returns this data to the client.
 
-Do the following to complete this assignment and acheive a base grade of 85%:
+## Extra Technical and Design Achievements
 
-1. Fork the starting project code. This repo contains some starter code that may be used or discarded as needed.
-2. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page, it displays correctly.
-4. Deploy your project to Glitch, and fill in the appropriate fields in your package.json file.
-5. Ensure that your project has the proper naming scheme `a2-yourGithubUsername` so we can find it.
-6. Modify the README to the specifications below, and delete all of the instructions originally found in this README.
-7. Create and submit a Pull Request to the original repo. Label the pull request as follows: a2-gitusername-firstname-lastname
+### Technical Achievements
 
-Acheivements
----
+1. **Single Page Application (SPA)**:
+   - The app operates as a **single-page application**, where data is dynamically updated without a full-page reload. The form submission, task deletion, and task editing are all handled through JavaScript, and the server returns updated data that is immediately reflected in the UI.
 
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM. Remember, the highest grade you can get on any individual assignment is a 100%.
+2. **Priority-Based Styling**:
+   - Each task in the list has a **background and text color** determined by its priority. This was implemented using CSS classes that are dynamically added to each task row based on the priority value.
+     - Priority 1: White background, black text.
+     - Priority 2: Purple background, white text.
+     - Priority 3: Pink background, black text.
+     - Priority 4: Blue background, white text.
+     - Priority 5: Red background, white text.
+  
+3. **Deadline Alerts**:
+   - Tasks with a deadline within the next 7 days are automatically marked as urgent and displayed with **bold text**, helping users quickly identify tasks that are due soon.
 
-*Technical*
-- (5 points) Create a single-page app that both provides a form for users to submit data and always shows the current state of the server-side data. To put it another way, when the user submits data, the server should respond sending back the updated data (including the derived field calculated on the server) and the client should then update its data display.
+4. **Task Editing**:
+   - Users can **edit existing tasks** via a prompt system that allows them to update the task name, priority, and deadline. The changes are immediately reflected in the task list after the server processes the updates.
 
-- (5 points) In addition to a form enabling adding and deleting data on the server, also add the ability to modify existing data.
+### Design Achievements
 
-*Design/UX*
-- (5 points per person, with a max of 10 points) Test your user interface with other students in the class. Define a specific task for them to complete (ideally something short that takes <10 minutes), and then use the [think-aloud protocol](https://en.wikipedia.org/wiki/Think_aloud_protocol) to obtain feedback on your design (talk-aloud is also fine). Important considerations when designing your study:
+1. **User Testing and Feedback**:
+   - The app was tested by two users who provided feedback via the **think-aloud protocol**, where they performed tasks and provided real-time feedback on the interface.
 
-1. Make sure you start the study by clearly stating the task that you expect your user to accomplish.
-2. You shouldn't provide any verbal instructions on how to use your interface / accomplish the task you give them. Make sure that your interface is clear enough that users can figure it out without any instruction, or provide text instructions from within the interface itself. 
-3. If users get stuck to the point where they give up, you can then provde instruction so that the study can continue, but make sure to discuss this in your README. You won't lose any points for this... all feedback is good feedback!
+   #### User Testing Results:
 
-You'll need to use sometype of collaborative software that will enable you both to see the test subject's screen and listen to their voice as they describe their thoughts, or conduct the studies in person. After completing each study, briefly (one to two sentences for each question) address the following in your README:
+   **User 1: Isabel **
+   - **Task Given**: Add a task named "Study for exam" with priority 4 and deadline "2024-09-15", then edit it to priority 2 and deadline "2024-09-10", and finally delete it.
+   - **Problems encountered**:
+     - John mentioned that the **Edit** and **Delete** buttons were too close together, causing him to  delete the task and having to do it again.
+   - **Surprising comments**:
+     - John expected the app to offer a clearer indication of when tasks were close to their deadlines, such as a popup or notification.
+   - **Changes I would make**:
+     - Increase the space between the **Edit** and **Delete** buttons to prevent accidental deletions.
+     - Add additional urgency indicators, such as color shifts or alerts, for tasks that are close to their deadline.
 
-1. Provide the last name of each student you conduct the evaluation with.
-2. What problems did the user have with your design?
-3. What comments did they make that surprised you?
-4. What would you change about the interface based on their feedback?
+   **User 2: Jane Doe**
+   - **Task Given**: Add a task named "Finish project" with priority 5 and deadline "2024-09-20", then delete it.
+   - **Problems encountered**:
+     - Jane mentioned that it was not immediately clear what the different priority colors represented.
+   - **Surprising comments**:
+     - Jane liked the color-coded system once she understood it but suggested adding a small legend or tooltip to explain the priority-based color coding.
+   - **Changes I would make**:
+     - Add a legend or tooltip to clarify the priority-based color system, especially for new users.
 
-*You do not need to actually make changes based on their feedback*. This acheivement is designed to help gain experience testing user interfaces. If you run two user studies, you should answer two sets of questions. 
+### Installation and Setup Instructions
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
+To run the app locally, follow these steps:
 
-## Your Web Application Title
-Include a very brief summary of your project here. Be sure to include the CSS positioning technique you used, and any required instructions to use your application.
-
-## Technical Achievements
-- **Tech Achievement 1**: Using a combination of...
-
-### Design/Evaluation Achievements
-- **Design Achievement 1**: 
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-username/simple-todo-app.git
+   cd simple-todo-app

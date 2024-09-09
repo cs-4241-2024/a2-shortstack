@@ -48,6 +48,7 @@ const handlePost = function( request, response ) {
     console.log( JSON.parse( dataString ) )
 
     const newHighscore = JSON.parse(dataString);
+      let isNewHighscore = true;
     highscore = highscore.filter(entry => {
       if (entry.name === newHighscore.name) {
         if (newHighscore.time < entry.time) {

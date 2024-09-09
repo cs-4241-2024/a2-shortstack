@@ -8,10 +8,10 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+let appdata = [
+  { 'name': 'Andrew Cash', 'email': 'arcash@wpi.edu', 'phone': '7742496633', 'age': '21', 'grade': 'Senior'},
+  { 'name': 'Joe Michale', 'email': 'jmichael@wpi.edu', 'phone': '5082358865', 'age': '20', 'grade': 'Junior'},
+  { 'name': 'Jake Del', 'email': 'jdel@wpu.edu', 'phone': '8176789900', 'age': '19', 'grade': 'Sophmore'} 
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -27,27 +27,66 @@ const handleGet = function( request, response ) {
 
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
-  }else{
+  }
+  // End point to send data
+  else if(request.url === '/data'){
+    response.writeHead(200, { 'Content-Type': 'text/plain' });
+    response.end(JSON.stringify(appdata))
+  }
+  else{
     sendFile( response, filename )
   }
 }
 
-const handlePost = function( request, response ) {
-  let dataString = ''
-
-  request.on( 'data', function( data ) {
+  const handlePost = function( request, response ) {
+    let dataString = ''
+    request.on( 'data', function( data ) {
       dataString += data 
-  })
+    })
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+    request.on( 'end', function() {
+      if(request.url === '/submit') {
+        const data = JSON.parse(dataString)
+        let str = data.str
+      
+        let data_json = {}
+        const data_array = str.split(',')
+        for (let i = 0; i < data_array.length; i++){
+          if (i === 0) {
+            data_json.name = data_array[i]
+          }
+          else if (i === 1) {
+            data_json.email = data_array[i]
+          }
+          else if (i === 2){
+            data_json.phone = data_array[i]
+          }
+          else if (i === 3){
+            data_json.age = data_array[i]
+            // Dynamic attribute
+            if (parseInt(data_array[i]) < 19)
+              data_json.grade = 'Freshman'
+            else if (parseInt(data_array[i]) < 20)
+              data_json.grade = 'Sophomore'
+            else if (parseInt(data_array[i]) < 21)
+              data_json.grade = 'Junior'
+            else {
+              data_json.grade = 'Senior'
+            }
+          }   
+        }
+        appdata.push(data_json)
+      }
+      else if (request.url === '/delete'){
+        const data = JSON.parse(dataString)
+        let str = data.str
+        appdata = appdata.filter(o => o.name.toLowerCase() !== str.toLowerCase());
+      }
 
-    // ... do something with the data here!!!
-
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
+      response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+      response.end('test')
+    })
+  }
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 

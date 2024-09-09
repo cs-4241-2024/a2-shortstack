@@ -10,7 +10,7 @@ const http = require( 'http' ),
 
 let appdata =  [
   { 'name': 'Piper', 'cookie':'chocolate chip cookie', 'icecream': 'vanilla', 'other':'', 'cake':'vanilla cake'},
-  { 'name': 'James', 'cookie':'chocolate chip cookie', 'icecream': 'chocolate', 'other':'', 'cake':'chocolate cake'},
+  { 'name': 'James', 'cookie':'oatmeal no raisin', 'icecream': 'chocolate', 'other':'', 'cake':'chocolate cake'},
   { 'name': 'Sky', 'cookie':'sugar', 'icecream': 'vanilla', 'other':'', 'cake':'vanilla cake'}
 ]
 

@@ -187,12 +187,12 @@ const handlePost = function( request, response ) {
       // console.log(Number(data.newVal)!=NaN);
       // console.log(NaN!=NaN);
       if (data.col<5 && data.col>-1 && Number(data.newVal)>0) {
-        if (data.row==2) {
-          appdata[data.col].year = Number(data.newVal);
+        if (data.col==2) {
+          appdata[data.row].year = Number(data.newVal);
           change = 1;
 
-        } else if (data.row==4) {
-          appdata[data.col].ranking = Number(data.newVal);
+        } else if (data.col==4) {
+          appdata[data.row].ranking = Number(data.newVal);
           change = 1;
           //gotta do derivied part
       let arrayStars = [];
@@ -227,16 +227,16 @@ const handlePost = function( request, response ) {
         }
       } else if (data.col<5 && data.col>=0 && data.newVal != "") {
         console.log("here");
-        if (data.row==0) {
-          appdata[data.col].title = data.newVal;
+        if (data.col==0) {
+          appdata[data.row].title = data.newVal;
           change = 1;
 
-        } else if (data.row==1) {
-          appdata[data.col].author = data.newVal;
+        } else if (data.col==1) {
+          appdata[data.row].author = data.newVal;
           change = 1;
 
-        } else if (data.row==3) {
-          appdata[data.col].genre = data.newVal;
+        } else if (data.col==3) {
+          appdata[data.row].genre = data.newVal;
           change = 1;
 
         }

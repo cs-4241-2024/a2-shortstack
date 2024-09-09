@@ -12,18 +12,23 @@
   </head>
 
   <body>
-    <form>
-      <input type="text" id="id" value="ID">
-      <input type="text" id="firstname" value="First Name">
-      <input type="text" id="lastname" value="Last Name">
-      <button>Submit</button>
-    </form>
+    <div align="center">
+      <h1>Active Laptop Loans</h1>
+      <form>
+        <input type="text" id="id" value="ID">
+        <input type="text" id="firstname" value="First Name">
+        <input type="text" id="lastname" value="Last Name">
+        <button class="removebtn">Submit</button>
+      </form>
+    </div>
 
     <table id="laptops">
       <tr>
         <th>ID</th>
         <th>First Name</th>
         <th>Last Name</th>
+        <th>Duplicate Client?</th>
+        <th class="removecol"></th>
       </tr>
     </table>
   </body>

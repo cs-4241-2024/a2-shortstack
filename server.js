@@ -1,6 +1,7 @@
 const http = require("http");
 const fs   = require("fs");
 const mime = require("mime");
+const { isUndefined } = require("util");
 
 // Local directory
 const dir  = "public/";
@@ -9,12 +10,15 @@ const dir  = "public/";
 const port = 3000;
 
 // Data table for active laptop loans
-const activeLoans = 
+let activeLoans = 
 [
-  {"id": 0, "firstname": "test-first0", "lastname": "test-last0"},
-  {"id": 1, "firstname": "test-first1", "lastname": "test-last1"},
-  {"id": 2, "firstname": "test-first2", "lastname": "test-last2"},
-  {"id": 3, "firstname": "test-first3", "lastname": "test-last3"},
+  {"id": -1, "firstname": "placeholder", "lastname": "placeholder", "dup":false},
+
+  {"id": 2, "firstname": "John", "lastname": "Yakuza", "dup":false},
+  {"id": 9, "firstname": "Matthew", "lastname": "Stinson", "dup":false},
+  {"id": 14, "firstname": "Jess", "lastname": "Stairs", "dup":false},
+  {"id": 15, "firstname": "Austin", "lastname": "Murphy", "dup":false},
+  {"id": 20, "firstname": "Astro", "lastname": "Bottington", "dup":false},
 ]
 
 /**
@@ -27,6 +31,11 @@ const activeLoans =
 const formatLog = function(src, message)
 {
   return `[${src.toUpperCase()}] → ${message}`;
+}
+
+const deleteEntry = function(entry)
+{
+  console.log(entry.id);
 }
 
 /**
@@ -73,7 +82,8 @@ const handleGet = function(request, response)
     break;
 
   default:
-    sendFile(response, `${dir}${file}`)
+    sendFile(response, `${dir}${file}`);
+    break;
   }
 }
 
@@ -85,38 +95,101 @@ const handleGet = function(request, response)
  */
 const handlePost = function(request, response)
 {
-  let dataString;
+  const file = request.url.slice(1);
 
-  // Get data from request
-  request.on("data", function(data)
+  switch (file)
   {
-    dataString = data;
-  });
+  case "submit":
+    let dataString;
 
-  // Process data from request
-  request.on("end", function()
-  {
-    const userData = JSON.parse(dataString);
-    const userDataText = `[ID: ${userData.id}, First Name: ${userData.firstname}, Last Name: ${userData.lastname}]`;
-    console.log(formatLog("POST", `Unprocessed user input: ${userDataText}`));
+    // Get data from request
+    request.on("data", function(data)
+    {
+      dataString = data;
+    });
+  
+    // Process data from request
+    request.on("end", function()
+    {
+      const userData = JSON.parse(dataString);
+      const userDataText = `[ID: ${userData.id}, First Name: ${userData.firstname}, Last Name: ${userData.lastname}]`;
+      console.log(formatLog("POST", `Raw user input: ${userDataText}`));
+  
+      const dataID = parseInt(userData.id);
+      if (isNaN(dataID) || dataID < 0)
+      {
+        response.writeHead(422, "Invalid ID", {"Content-Type": "text/plain"});
+        response.end(`Error 422: Unprocessable Entity`);
+      }
+      else if (activeLoans.some(laptop => laptop.id === dataID))
+      {
+        response.writeHead(422, "Duplicate ID", {"Content-Type": "text/plain"});
+        response.end(`Error 422: Unprocessable Entity`);
+      }
+      else
+      {
+        activeLoans.push({"id": parseInt(userData.id), "firstname": userData.firstname, "lastname": userData.lastname, "dup": false});
+        
+        activeLoans.sort(function(a, b)
+        {
+          return (a.id > b.id) ? 1 : -1;
+        });
 
-    const dataID = parseInt(userData.id);
-    if (isNaN(dataID) && dataID >= 0)
+        checkForDups();
+
+        response.writeHead(200, "OK", {"Content-Type": "text/plain"});
+        response.end(`${userDataText}`);
+      }
+    });
+    break;
+
+  case "remove":
+
+    let laptopData;
+    request.on("data", function(data)
     {
-      response.writeHead(422, "Invalid ID", {"Content-Type": "text/plain"});
-      response.end(`Error 422: Unprocessable Entity`);
-    }
-    else
+      laptopData = JSON.parse(data);
+    });
+
+    request.on("end", function()
     {
-      // TODO: Check if ID already exists!
-      // TODO: General error handling of new data (ex: positive integers only)
-      // TODO: Even though negative numbers get err 422, they still appear in table!
-      activeLoans.push({"id": userData.id, "firstname": userData.firstname, "lastname": userData.lastname});
+      activeLoans = activeLoans.filter(laptop => laptop.id !== laptopData.id);
+
+      activeLoans.sort(function(a, b)
+      {
+        return (a.id > b.id) ? 1 : -1;
+      });
+      
+      checkForDups();
 
       response.writeHead(200, "OK", {"Content-Type": "text/plain"});
-      response.end(`${userDataText}`);
+      response.end(`Removed laptop ${laptopData}`);
+    });
+    break;
+
+  default:
+    response.writeHead(400, "Unknown client request", {"Content-Type": "text/plain"});
+    response.end(`Error 400: Bad Request`);
+    break;
+  }
+}
+
+const checkForDups = function()
+{
+  for (let baseRow = 1; baseRow < activeLoans.length - 1; baseRow++)
+  {
+    let result = false;
+    for (let checkRow = 1; checkRow < activeLoans.length - 1; checkRow++)
+    {
+      if (baseRow !== checkRow)
+      {
+        result |= (activeLoans[baseRow].firstname === activeLoans[checkRow].firstname &&
+                   activeLoans[baseRow].lastname === activeLoans[checkRow].lastname);
+      }
     }
-  });
+
+    activeLoans[baseRow].dup = (result === 1) ? true : false;
+  }
 }
 
 /**

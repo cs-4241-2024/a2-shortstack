@@ -35,6 +35,10 @@ const submit = async function(event)
   {
     refreshTable();
   }
+  else
+  {
+    window.alert(`ERROR: ${response.statusText}`);
+  }
 
   console.log(formatLog("SUBMIT", `User input: ${text}`));
 }
@@ -44,7 +48,7 @@ const tableID = function(id)
   switch (id)
   {
   case "id":
-    return "ID";
+    return "Laptop ID";
   
   case "firstname":
     return "First Name";
@@ -52,8 +56,28 @@ const tableID = function(id)
   case "lastname":
     return "Last Name";
 
+  case "dup":
+    return "Duplicate Client?"
+
   default:
     return "Unknown";
+  }
+}
+
+const btnFcn = async function(btn)
+{ 
+  let button = document.querySelector(`#${btn.currentTarget.id}`);
+  let row = button.parentNode.parentNode;
+  let laptopID = parseInt(row.cells[0].innerText);
+  
+  let json = {id: laptopID};
+  let body = JSON.stringify(json);
+
+  let response = await fetch("/remove", {method:"POST", body});
+
+  if (response.ok)
+  {
+    refreshTable();
   }
 }
 
@@ -70,10 +94,10 @@ const refreshTable = async function()
 
   // Reference: https://stackoverflow.com/questions/27594957/how-to-create-a-table-using-a-loop
   let newTable = document.createElement("table");
-  let tr, th, td, row, col;
+  let tr, th, td, row, col, btn;
 
-  let rowCount = tableData.length;
-  let colCount = Object.keys(tableData[0]).length;
+  let rowCount = tableData.length - 1;
+  let colCount = (rowCount > 0) ? (Object.keys(tableData[0]).length + 1) : 5;
 
   newTable.id = "laptops";
   
@@ -81,7 +105,14 @@ const refreshTable = async function()
   for (col = 0; col < colCount; col++)
   {
     th = document.createElement("th");
-    th.textContent = tableID(Object.keys(tableData[0])[col]);
+    if (col !== colCount - 1)
+    {
+      th.textContent = tableID(Object.keys(tableData[0])[col]);
+    }
+    else
+    {
+      th.className = "removecol";
+    }
     tr.appendChild(th);
   }
 
@@ -97,15 +128,29 @@ const refreshTable = async function()
       switch(col)
       {
       case 0:
-        td.textContent = tableData[row-1].id;
+        td.textContent = tableData[row].id;
         break;
 
       case 1:
-        td.textContent = tableData[row-1].firstname;
+        td.textContent = tableData[row].firstname;
         break;
 
       case 2:
-        td.textContent = tableData[row-1].lastname;
+        td.textContent = tableData[row].lastname;
+        break;
+
+      case 3:
+        td.textContent = (tableData[row].dup === true) ? "Yes" : "No";
+        break;
+
+      case 4:
+        btn = document.createElement("button");
+        btn.id = `removebtn-${row}`;
+        btn.textContent = "Remove";
+        btn.className = "removebtn";
+        btn.onclick = btnFcn;
+        td.className = "removecol";
+        td.appendChild(btn);
         break;
 
       default:

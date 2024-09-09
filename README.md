@@ -13,14 +13,14 @@ My application is a wishlist where a user can input a game, its genre, its cost,
 
 - **Tested User Interface**:
 
-1.
-2.
-3.
-4.
+1. Neuffer
+2. This user felt that the blue might be too bright, that the text boxes should clear after each input, and that some of the inputs like cost and discount should be limited to a certain type.
+3. The most surprising comment was that it would be cool to sort the table in different ways, since although I also thought it would be cool, it seemed out of my scope for this assignment.
+4. I would change my interface by trying to clear each input form box after the user clicks the submit button, which both makes sense and saves time by not having to backspace everything everytime.
 
 - **Tested User Interface**:
 
-1.
-2.
-3.
-4.
+1. Ficarra
+2. This user had problems with the size of the input text boxes and the fact that letters can be entered into the number columns which created null values.
+3. The most surprising comment was that the existing data wouldn't appear until the submit button was clicked, which was confusing to me because every test before and after this worked perfectly fine in that regard. This may have been a miscommunication or a rare bug.
+4. I would change my interface by having the cost and discount input boxes only accept integers and floats, which would eliminate the need for more specific instructions and prevent some values from not showing up in the table.

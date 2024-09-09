@@ -1,4 +1,44 @@
+* {
+  margin: 0;
+}
+
 body {
-  background:black;
-  color:white;
+  background-color: rgb(56, 54, 61);
+}
+
+h1 {
+  color: white;
+  font-size: 50px;
+  text-align: center;
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.click-area {
+  width: 200px;
+  height: 300px;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(157, 16, 16);
+  cursor: pointer;
+}
+
+.display-text {
+  padding: 30px;
+  width: 100%;
+  color: white;
+  text-align: center;
+  font-size: 26px;
+}
+
+#highscore {
+  width: 100px;
+  background-color: aqua;
 }

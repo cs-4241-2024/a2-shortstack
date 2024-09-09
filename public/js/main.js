@@ -7,11 +7,6 @@ const submit = async function( event ) {
   // remains to this day
   event.preventDefault()
   
-  /*
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
-        body = JSON.stringify( json )
-  */
   const nameInput = document.querySelector('#yourName').value;
   const titleInput = document.querySelector('#showTitle').value;
   const episodeInput = document.querySelector('#lastWatched').value;
@@ -45,10 +40,7 @@ const displayCards = function(data) {
   data.forEach(async entry => {
     const card = document.createElement('div');
     card.classList.add('card');  
-
-    const searchTerm = document.getElementById("showTitle");
-    let searchString = searchTerm.value;
-    //console.log(searchString);
+    
     let apiData = '';
 
     try {

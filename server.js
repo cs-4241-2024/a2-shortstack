@@ -9,7 +9,7 @@ const http = require( 'http' ),
       port = 3000
 
 const appdata = [
-  { 'username': 'ananya', 'show title': "jujutsu kaisen", 'last ep watched': 12, 'date logged': '9/9/2024' },
+  { 'username': 'Ananya', 'show title': "Jujutsu Kaisen", 'last ep watched': 12, 'date logged': '9/9/2024' },
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -72,13 +72,13 @@ const handleDelete = function(request, response) {
     const formData = JSON.parse(dataString);
     const { username, showTitle } = formData;
 
-    // Filter out the entry that matches the username and show title
+    //filter out the entry that matches the username and show title
     const newAppData = appdata.filter(entry =>
       !(entry.username === username && entry['show title'] === showTitle)
     );
 
-    appdata.length = 0; // Clear the old data
-    appdata.push(...newAppData); // Add the filtered data
+    appdata.length = 0; //clears the old data
+    appdata.push(...newAppData); 
 
     response.writeHead(200, "OK", {'Content-Type': 'application/json'});
     response.end(JSON.stringify(appdata));

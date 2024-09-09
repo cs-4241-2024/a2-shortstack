@@ -23,11 +23,15 @@ The students were tasked with:
 3. assigning the task as complete
 4. deleting the task
 
+<br>
+
 - **Design Achievement 1**:
 1. Caproni
 2. Overall, faced limited problems during the assigned tasks. Took a bit longer on the editing functionality but did eventually figured out how to use it without assistance. In the end, all the tasks were completed successfully. 
 3. Commented that spacing of the website was utilized well. It surprised me because I thought the layout of the website wasn't the best, and I still believe that it can be improved. Additionally, commented that the website was overall easy to navigate, very intuitive, and easy to use. I was glad to hear that as I thought my website would take longer for someone to understand because of the many different features and action buttons. 
 4. I would fix the edit functionality by providing a quick popup telling the user that the field is ready to be edited or something, as it took a couple seconds for the student to realize that he was in edit mode. Additionally, to go along with the red highlight on tasks that are almost due, I would add an additional identifier (exclamation mark, or something that tells you that is almost due).
+
+<br>
 
 - **Design Achievement 1**: 
 1. Le

@@ -197,11 +197,11 @@ const handlePost = function(request, response)
 const checkForDups = function()
 {
   // For each row...
-  for (let baseRow = 1; baseRow < activeLoans.length - 1; baseRow++)
+  for (let baseRow = 1; baseRow < activeLoans.length; baseRow++)
   {
     // Check all other rows...
     let result = false;
-    for (let checkRow = 1; checkRow < activeLoans.length - 1; checkRow++)
+    for (let checkRow = 1; checkRow < activeLoans.length; checkRow++)
     {
       if (baseRow !== checkRow)
       {

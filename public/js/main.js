@@ -1,7 +1,7 @@
 // Front-end (client) JavaScript
 function openEditor(entry) {
   document.querySelector("#editItem").value = entry.item;
-  document.querySelector("#editPriority").value = entry.priority;
+  document.querySelector("#editNotes").value = entry.notes;
   document.querySelector("#editDeadline").value = entry.deadline;
   document.querySelector("#editId").value = entry.id;
   document.querySelector("#editor").style.display = "block";
@@ -12,7 +12,7 @@ function openEditor(entry) {
     const id = document.querySelector("#editId").value;
     const updatedEntry = {
       item: document.querySelector("#editItem").value,
-      priority: document.querySelector("#editPriority").value,
+      notes: document.querySelector("#editNotes").value,
       deadline: document.querySelector("#editDeadline").value,
     };
 
@@ -67,13 +67,17 @@ const displayTab = function (dataset) {
     itemCell.textContent = entry.item;
     row.appendChild(itemCell);
 
-    const priorityCell = document.createElement("td");
-    priorityCell.textContent = entry.priority;
-    row.appendChild(priorityCell);
+    const notesCell = document.createElement("td");
+    notesCell.textContent = entry.notes;
+    row.appendChild(notesCell);
 
     const deadlineCell = document.createElement("td");
     deadlineCell.textContent = entry.deadline;
     row.appendChild(deadlineCell);
+    
+    const priorityCell = document.createElement("td");
+    priorityCell.textContent = entry.priority;
+    row.appendChild(priorityCell);
 
     const editButton = document.createElement("button");
     editButton.textContent = "Edit";
@@ -96,8 +100,8 @@ const submit = async function (event) {
 
   const entry = {
     item: document.querySelector("#item").value, // Item to do (string)
-    priority: document.querySelector("#priority").value, // Priority (string)
-    deadline: document.querySelector("#deadline").value, // Deadline (string)
+    notes: document.querySelector("#notes").value, // Notes (string)
+    deadline: document.querySelector("#deadline").value, // Deadline (date)
   };
   const body = JSON.stringify(entry);
 

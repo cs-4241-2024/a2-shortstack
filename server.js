@@ -51,9 +51,23 @@ const handlePost = function (request, response) {
     newEntry.id = nextId++;
     console.log(newEntry.id);
 
-    // ... do something with the data here!!!
+    const [year, month, day] = newEntry.deadline.split('-').map(Number);
+    const deadline = new Date(year, month - 1, day); // Date(year, month-1, day)
+    const today = new Date();
     
-    
+    console.log("Today's Date:", today);
+    console.log("Deadline Date:", deadline);
+
+    //calculate priority based on deadline and current date
+    if (deadline < today) {
+      newEntry.priority = "High";
+    } else if (deadline > today) {
+      newEntry.priority = "Low";
+    } else {
+      newEntry.priority = "Medium";
+    }
+    console.log(`Priority is ${newEntry.priority}`);
+
     tab.push(newEntry);
     response.writeHead(200, "OK", { "Content-Type": "text/plain" });
     response.end(JSON.stringify(tab));
@@ -63,8 +77,8 @@ const handlePost = function (request, response) {
 const handleDelete = function (request, response) {
   const id = parseInt(request.url.split("/")[2], 10);
   console.log(`Deleting entry with ID: ${id}`);
-  
-  tab = tab.filter(entry => entry.id !== id);
+
+  tab = tab.filter((entry) => entry.id !== id);
   response.writeHead(200, "OK", { "Content-Type": "application/json" });
   response.end(JSON.stringify(tab));
 };
@@ -79,11 +93,11 @@ const handlePut = function (request, response) {
 
   request.on("end", function () {
     const updatedEntry = JSON.parse(dataString);
-    const entryIndex = tab.findIndex(entry => entry.id === id);
-      tab[entryIndex] = { id, ...updatedEntry }; // Update the entry
-      console.log("Updated entry:", tab[entryIndex]);
-      response.writeHead(200, "OK", { "Content-Type": "application/json" });
-      response.end(JSON.stringify(tab));
+    const entryIndex = tab.findIndex((entry) => entry.id === id);
+    tab[entryIndex] = { id, ...updatedEntry }; // Update the entry
+    console.log("Updated entry:", tab[entryIndex]);
+    response.writeHead(200, "OK", { "Content-Type": "application/json" });
+    response.end(JSON.stringify(tab));
   });
 };
 

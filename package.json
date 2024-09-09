@@ -1,12 +1,18 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "cs4241-assignment2",
+  "version": "0.0.1",
+  "description": "repo for assignment 2",
+  "main": "server.ts",
   "scripts": {
-    "start": "node server.js"
+    "start": "curl -fsSL https://deno.land/x/install/install.sh | sh && /app/.deno/bin/deno run --allow-net --allow-read --allow-write --watch server.ts"
   },
   "dependencies": {
-    "mime": "^2.4.4"
-  }
+    "deno-bin": "^1.46.3"
+  },
+  "engines": {},
+  "repository": {
+    "url": "https://github.com/LiamSnow/cs4241-assignment2"
+  },
+  "license": "MIT",
+  "keywords": []
 }

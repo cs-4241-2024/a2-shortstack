@@ -1,0 +1,49 @@
+<form id="workout-form">
+  <h1>
+    <input class="workout-name" type="text" autocomplete="off" id="name" name="name" value="{{workout.name}}" placeholder="Workout Name"><br>
+  </h1>
+
+  <p>{{formatDate workout.datetime}}</p>
+
+  <fieldset id="exercises-container">
+    <legend>Exercises</legend>
+    {{#each workout.exercises}}
+      <fieldset class="exercise-entry nes-container is-centered is-rounded" id="exercise[{{@key}}]">
+
+        <div class="nes-select">
+          <select name="exercise[{{@key}}]-id" required autocomplete="off" >
+            <option value="" {{#unless this.exercise_id}}selected{{/unless}}></option>
+            {{#each ../exercises}}
+              <option value="{{@key}}" {{#if (eq @key ../this.exercise_id)}}selected{{/if}}>{{this.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+
+        <div class="nes-field">
+          <label for="exercise[{{@key}}]-sets">Sets</label>
+          <input autocomplete="off" class="nes-input" type="number" name="exercise[{{@key}}]-sets" required min="1" value="{{sets}}">
+        </div>
+
+        <div class="nes-field">
+          <label for="exercise[{{@key}}]-avg_reps">Average Reps</label>
+          <input autocomplete="off" class="nes-input" type="number" name="exercise[{{@key}}]-avg_reps" required min="1" value="{{avg_reps}}">
+        </div>
+
+        <div class="nes-field">
+          <label for="exercise[{{@key}}]-avg_weight">Average Weight (lbs)</label>
+          <input autocomplete="off" class="nes-input" type="number" name="exercise[{{@key}}]-avg_weight" required min="0" value="{{avg_weight}}">
+        </div>
+
+        <button class="workout-remove-exercise nes-btn is-error" type="button" onclick="removeExercise(event, {{@key}})">-</button>
+      </fieldset>
+    {{/each}}
+  </fieldset>
+
+  <div id="workout-buttons">
+    <button class="nes-btn" id="add-exercise" type="button" onclick="addExercise(event)">+</button>
+    <button class="nes-btn is-success" type="submit" name="action">Save</button>
+  </div>
+</form>
+
+<script type="text/javascript" src="../js/main.js"></script>
+<script type="text/javascript" src="../js/workout.js"></script>

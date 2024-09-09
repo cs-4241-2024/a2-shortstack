@@ -11,13 +11,19 @@ const http = require( 'http' ),
 let appdata = [
   
 ]
+ let newId = 0;
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){
     handlePost( request, response ) 
+  }else if (request.method === 'DELETE'){
+    handleDelete(request, response)
+  }else if (request.method === 'PUT'){
+    handlePut(request, response)
   }
+
 })
 
 const handleGet = function( request, response ) {
@@ -39,7 +45,8 @@ const handlePost = function( request, response ) {
 
   request.on( 'end', function() {
     const data = JSON.parse( dataString )
-    data.total = data.cost * 1 - data.tax;
+    data.tag = newId;
+    data.total = data.cost * (1 - data.tax);
     appdata.push(data);
     //console.log(appdata);
     // ... do something with the data here!!!
@@ -52,6 +59,36 @@ const handlePost = function( request, response ) {
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end( JSON.stringify( appdata ) )
+  })
+}
+const handleDelete = function(request, response){
+  let dataString = ''
+  request.on('data', function(data){
+    dataString += data
+  })
+  request.on('end', function(){
+    const data = JSON.parse(dataString)
+    appdata = appdata.filter(item => item.tag !== data.tag)
+    response.writeHead(200, "OK", {'Content-Type': 'text/plain'})
+    response.end(JSON.stringify(appdata))
+  })
+}
+
+const handlePut = function(request, response){
+  let dataString = ''
+  request.on('data', function(data){
+    dataString += data
+  })
+  request.on('end', function(){
+    const data = JSON.parse(dataString)
+    appdata = appdata.map(item => {
+      if(item.tag === data.tag){
+        return data
+      }
+      return item
+    })
+    response.writeHead(200, "OK", {'Content-Type': 'text/plain'})
+    response.end(JSON.stringify(appdata))
   })
 }
 

@@ -33,13 +33,38 @@ const submit = async function( event ) {
 
   data.forEach( d => console.log(d) );
 
-  //console.log( 'text:', text )
   fetchAppData();
+}
+
+
+const displayCards = function(data) {
+
+  const cardContainer = document.querySelector("#cardContainer");
+  cardContainer.innerHTML = '';
+
+  data.forEach(entry => {
+    const card = document.createElement('div');
+    card.classList.add('card');  
+
+    card.innerHTML = `
+    <h3>${entry.username}</h3>
+    <p><strong>Show Title:</strong> ${entry['show title']}</p>
+    <p><strong>Last Episode Watched:</strong> ${entry['last ep watched']}</p>
+    <p><strong>Date Logged:</strong> ${entry['date logged']}</p>
+    <button class="delete-button" data-id="${entry.id}">Delete</button>
+    `;
+
+    cardContainer.appendChild(card); 
+  })
+
+  
+
 }
 
 const fetchAppData = async function() {
   const response = await fetch('/appdata');
   const data = await response.json();
+  displayCards(data);
   console.log(data);
 }
 

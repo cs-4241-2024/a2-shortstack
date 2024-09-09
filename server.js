@@ -30,7 +30,7 @@ const handleGet = function( request, response ) {
     response.end(JSON.stringify(appdata));
   } else {
     sendFile( response, filename )
-  }
+  } 
 } 
 
 const handlePost = function( request, response ) {
@@ -41,10 +41,7 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    //console.log( JSON.parse( dataString ) );
     const formData = JSON.parse(dataString);
-
-    // ... do something with the data here!!!
 
     const newEntry = {
       'username': formData.username,
@@ -84,7 +81,7 @@ const sendFile = function( response, filename ) {
        response.writeHeader( 200, { 'Content-Type': type })
        response.end( content )
 
-     }else{
+     } else{
 
        // file not found, error code 404
        response.writeHeader( 404 )

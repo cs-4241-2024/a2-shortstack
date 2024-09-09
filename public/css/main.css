@@ -1,5 +1,5 @@
 body {
-  background:darkgray;
+  background: rgb(124, 178, 133);
   color:white;
 }
 
@@ -9,10 +9,11 @@ form {
   justify-content: flex-start;
   flex-direction: column;
   justify-content: space-evenly;
+  border: 5px solid rgb(106, 4, 4);
 }
 
 table, th, td {
-  border: 5px solid black;
+  border: 5px solid rgb(106, 4, 4);
   border-collapse: collapse;
 }
 

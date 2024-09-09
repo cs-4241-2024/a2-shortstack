@@ -94,7 +94,8 @@ Sample Readme (delete the above when you're ready to submit, and modify the belo
 Include a very brief summary of your project here. Be sure to include the CSS positioning technique you used, and any required instructions to use your application.
 
 ## Technical Achievements
-- **Tech Achievement 1**: Using a combination of...
+- **Single-page app**: Both the submission form and the data table are displayed on the same page.
+- **Edit Table Rows**: The viewer of the page is able to edit any data in any row of the displayed table.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: 
+- **Think-aloud**: No think-alouds were performed for this assignment.

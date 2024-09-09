@@ -5,13 +5,12 @@ const http = require('http'),
     port = 3000;
 
 let appdata = [
-  // Initial dummy data
   { id: 1, type: 'work', details: { course: 'Math', ddl: '2024-09-10', expectedTime: '13:00', actualTime: '14:00' }},
   { id: 2, type: 'entertainment', details: { entertainmentType: 'music' }},
   { id: 3, type: 'sleep', details: { sleepDate: '2024-09-05', sleepTime: '23:00' }}
 ];
 
-// Create an incremental ID for new entries
+
 let idCounter = 4;
 
 const server = http.createServer(function (request, response) {
@@ -28,7 +27,6 @@ const handleGet = function (request, response) {
   if (request.url === '/') {
     sendFile(response, 'public/index.html');
   } else if (request.url === '/activities') {
-    // Handle GET request for the activities list
     response.writeHead(200, { 'Content-Type': 'application/json' });
     response.end(JSON.stringify(appdata));
   } else {

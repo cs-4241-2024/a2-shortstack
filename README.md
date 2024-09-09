@@ -1,5 +1,6 @@
 
 ## CS4241 Assignment 2
+Jake Olsen https://a2-olsen463.glitch.me/
 In this project I created a To do list that determines when you should complete a task by the priority you give it. Tasks with higher priority should be completed before tasks with lower priority. Priority level 1 being the highest and 3 being the lowest. Users are able to both delete and add to the list and have it update live in front of them.
 
 ## Technical Achievements

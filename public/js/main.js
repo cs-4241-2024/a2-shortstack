@@ -50,6 +50,9 @@ function buildTable(text){
     const setsCell = document.createElement('td')
     setsCell.textContent = rowData.sets
 
+    const totalCell = document.createElement('td')
+    totalCell.textContent = rowData.total
+
     const editCell = document.createElement('td')
     const editButton = document.createElement('button')
     editButton.textContent = 'Edit';
@@ -57,6 +60,8 @@ function buildTable(text){
 
     const deleteCell = document.createElement('td')
     const deleteButton = document.createElement('button')
+    deleteButton.textContent = 'Delete';
+    deleteButton.className = 'btn-red'; 
     deleteButton.textContent = 'Delete';
     
     
@@ -68,6 +73,7 @@ function buildTable(text){
     row.appendChild(exerciseCell)
     row.appendChild(repsCell)
     row.appendChild(setsCell)
+    row.appendChild(totalCell)
     editCell.appendChild(editButton)
     deleteCell.appendChild(deleteButton)
     row.appendChild(editCell)

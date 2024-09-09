@@ -10,24 +10,29 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
   <body>
-    <h1>Workout Log</h1>
-    <!--<form>
-      <input type="text" id="yourname" value="enter your exercise">
-      <button>submit</button>
-    </form> -->
-    <form> 
-      <label>Exercise:</label>
-      <input type="text" id = "exercise"> 
-      <label>Repetitions:</label>
-      <input type = "text" id ="reps">
-      <Label>Sets:</Label>
-      <input type = "text" id = "sets">
-      <button id="submit">Submit</button>
+    <div class="container">
+      <h1>Workout Log</h1>
+      <form class="form-group"> 
+        <label>Exercise:</label>
+        <input type="text" id="exercise" class="input-field"> 
+        <label>Repetitions:</label>
+        <input type="text" id="reps" class="input-field">
+        <label>Sets:</label>
+        <input type="text" id="sets" class="input-field">
+        <button id="submit" class="btn">Submit</button>
       </form>
-      <button id = "clear">
-        Clear Workout
-      </button>
-    <table id = "results">
-    </table>
+      <button id="clear" >Clear Workout</button>
+      <table><thead>
+        <tr>
+          <th>Exercise</th>
+          <th>Reps</th>
+          <th>Sets</th>
+          <th>Total Weight</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead></table>
+      <table id="results"></table>
+    </div>
   </body>
 </html>

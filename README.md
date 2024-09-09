@@ -94,7 +94,7 @@ Sample Readme (delete the above when you're ready to submit, and modify the belo
 Include a very brief summary of your project here. Be sure to include the CSS positioning technique you used, and any required instructions to use your application.
 
 ## Technical Achievements
-- **Tech Achievement 1**: Using a combination of...
+- **Single Page App**: My application is one page and updates everytime a workout is added or deleted
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: 

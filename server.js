@@ -30,50 +30,6 @@ const handleGet = function( request, response ) {
 }
 
 
-// const handlePost = function( request, response ) {
-//   console.log('post request made');
-  
-//   let dataString = '';
-
-//   request.on('data', function(data) {
-//     dataString += data;
-//   });
-
-//   request.on('end', function() {
-//     let parsed;
-
-//     try {
-//       parsed = JSON.parse(dataString);
-//     } catch (error) {
-//       response.writeHead(400, 'Bad Request', { 'Content-Type': 'text/plain' });
-//       response.end('Invalid JSON');
-//       return;
-//     }
-
-//     if (request.url === '/submit') {
-//       appdata.push(parsed);
-//       response.writeHead(200, 'OK', { 'Content-Type': 'application/json' });
-//       response.end(JSON.stringify({ data: appdata }));
-
-//     } else if (request.url === '/clear') {
-//       // Clear all data
-//       appdata.length = 0;
-//       response.writeHead(200, 'OK', { 'Content-Type': 'application/json' });
-//       response.end(JSON.stringify({ data: appdata }));
-
-//     } else if (request.url === '/delete') {
-//       console.log('Index to delete:', parsed.Row);
-//       appdata.splice(parsed.Row, 1); // Correctly remove the row
-//       response.writeHead(200, 'OK', { 'Content-Type': 'application/json' });
-//       response.end(JSON.stringify({ data: appdata }));
-
-//     } else {
-//       response.writeHead(404, 'Not Found', { 'Content-Type': 'text/plain' });
-//       response.end('Invalid request');
-//     }
-//   });
-// };
-
 //Handles all post requests
 const handlePost = function( request, response ) {
   console.log('post request made')
@@ -88,6 +44,7 @@ const handlePost = function( request, response ) {
 
     console.log('This is the data string' + dataString)
     let parsed = JSON.parse( dataString )
+    parsed.total = parsed.sets * parsed.reps
     console.log( 'This is the parsed' + parsed )
 
     if (request.url === '/submit'){
@@ -112,8 +69,6 @@ const handlePost = function( request, response ) {
         }
       }
     }
-    //console.log('This is the appdata' + appdata)
-    // ... do something with the data here!!!
   })
 }
 

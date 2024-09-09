@@ -5,7 +5,9 @@ const http = require('http'),
       port = 3000
 
 const appdata = [
-  { 'employeeid': '123456789', 'name': 'John Doe', 'salary': 50000, 'regdate': 2018, 'expdate': 2023 }
+  { 'employeeid': '123456789', 'name': 'John Doe', 'salary': 57000, 'regdate': 2021, 'expdate': 2026 },
+  { 'employeeid': '987563409', 'name': 'Jack Smith', 'salary': 75000, 'regdate': 2019, 'expdate': 2024 },
+  { 'employeeid': '456891237', 'name': 'Jane Lee', 'salary': 90000, 'regdate': 2020, 'expdate': 2025 }
 ];
 
 const server = http.createServer(function (request, response) {

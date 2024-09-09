@@ -15,7 +15,7 @@ CSS:
     - Class selector: main labels
 
 ## Technical Achievements
-- **Tech Achievement 1**: Created a single-page app that provides a form to submit workout logs. The client side displays the current state of the server-side data and also derives a field to show the total time. 
+- **Tech Achievement 1**: Created a single-page app that provides a form to submit workout logs. The client side displays the current state of the server-side data and also derives a field to show the total time. The client updates the data table when a new log is added or a log is deleted. 
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: 

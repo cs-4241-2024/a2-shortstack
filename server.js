@@ -1,17 +1,13 @@
 const http = require( 'http' ),
       fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
       mime = require( 'mime' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+let appdata = [
+  { 'date': '8/26/2024', 'entry': 'Today I was sad.', happiness: 2, motivation: 1, 'goodDay': 'no'},
+  { 'date': '8/31/2024', 'entry': 'I saw a turtle today.', happiness: 4, motivation: 3, 'goodDay': 'yes'},
+  { 'date': '9/1/2024', 'entry': 'I need to go to the gym', happiness: 3, motivation: 3, 'goodDay': 'yes'} 
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -40,12 +36,32 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
-
-    // ... do something with the data here!!!
+    const data = JSON.parse( dataString )
+    if(data.task==="add")
+    {
+      newData = 
+      {
+        date: data.date,
+        entry: data.entry,
+        happiness: data.happiness,
+        motivation: data.motivation,
+        goodDay: data.goodDay
+      }
+      appdata.push(newData)
+      // console.log(appdata)
+    }
+    else if(data.task==="leave")
+    {
+      // console.log(appdata)
+    }
+    else if(data.task==="delete")
+    {
+      appdata = appdata.filter(item => item.date !== data.deleteDate);
+      // console.log(appdata)
+    }
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end(JSON.stringify(appdata));
   })
 }
 
@@ -59,7 +75,7 @@ const sendFile = function( response, filename ) {
 
        // status code: https://httpstatuses.com
        response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
+       response.end(content)
 
      }else{
 
@@ -72,3 +88,4 @@ const sendFile = function( response, filename ) {
 }
 
 server.listen( process.env.PORT || port )
+// populate a paragraph or a tabular

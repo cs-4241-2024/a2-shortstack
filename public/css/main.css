@@ -1,4 +1,93 @@
 body {
-  background:black;
+  background:#CEF5B5;
   color:white;
 }
+h1{
+  text-align: center;
+  color: darkgreen;
+  font-family: "Fascinate Inline", system-ui;
+  font-size: 300%;
+  
+}
+h2{
+  text-align: center;
+  color: green;
+  font-family: "Nerko One", cursive;
+  font-weight: 300;
+
+}
+.container
+{
+  display: flex;
+  flex-direction:column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 100px;
+}
+input {
+  width: 300px; 
+  height: auto; 
+  padding: 20px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  box-sizing: border-box; 
+}
+table
+{
+ color: black;
+ border-collapse: collapse;
+}
+th, td {
+  border: 1px solid black; 
+  padding: 10px; 
+  text-align: left; 
+  color: white
+}
+th {
+  background-color: darkgreen; 
+}
+thead {
+  background-color: green; 
+}
+#buttonSection
+{
+  display: flex;
+  background-color:darkgreen;
+  flex-direction:row;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  padding:20px;
+  border-style:solid;
+  border-color:white;
+  border-width: 5px;
+  height: 70px;
+  width: 350px;
+}
+#button
+{
+  background-color: white;
+  font-weight: bold;
+  height: 25px;
+}
+#deleteButton
+{
+  background-color: white;
+  font-weight: bold;
+  height: 25px;
+}
+#deleteDates
+{
+  width: 210px;
+}
+#pastEntries
+{
+  background-color: white;
+  font-weight: bold;
+  height: 50px;
+  width: 200px;
+}
+
+
+
+

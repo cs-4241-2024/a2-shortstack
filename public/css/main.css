@@ -1,4 +1,133 @@
 body {
-  background:black;
-  color:white;
+  font-family: "Playfair Display", serif;
+  background-color: #2b2b2b;
+  color: #f5f5f5;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+h1 {
+  color: #e07a5f;
+  font-size: 2.8em;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input,
+select {
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #3a3a3a;
+  color: #f5f5f5;
+  font-size: 1em;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input::placeholder {
+  color: #b2b2b2;
+}
+
+input:focus,
+select:focus {
+  border-color: #e07a5f;
+  box-shadow: 0 0 5px rgba(224, 122, 95, 0.5);
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #e07a5f;
+  color: white;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #81b29a;
+}
+
+table {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border: 1px solid #444;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #1c1c1c;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+th,
+td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #333;
+  font-size: 1em;
+}
+
+th {
+  font-weight: bold;
+  color: #f4f1de;
+  background-color: #3d405b;
+}
+
+th:nth-child(1) {
+  background-color: #e07a5f;
+}
+
+th:nth-child(2) {
+  background-color: #f2cc8f;
+}
+
+th:nth-child(3) {
+  background-color: #81b29a;
+}
+
+th:nth-child(4) {
+  background-color: #f4a261;
+}
+
+th:nth-child(5) {
+  background-color: #e07a5f;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #2e2e2e;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #242424;
+}
+
+td {
+  background-color: rgba(30, 30, 30, 0.8);
+}
+
+td button {
+  background-color: #e07a5f;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+td button:hover {
+  background-color: #f4a261;
 }

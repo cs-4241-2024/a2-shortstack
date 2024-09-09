@@ -2,7 +2,7 @@
 
 This project is a web application designed to manage student data, including adding, updating, and deleting student records. The application uses a two-tier architecture with a Node.js server and a client-side interface built with HTML, CSS, and JavaScript. The server maintains a dataset of student records and computes derived fields such as grade letters and class statistics.
 
-Link to Glitch project: <a2-aldencutler.glitch.me>
+Link to Glitch project: [https://a2-aldencutler.glitch.me/](https://a2-aldencutler.glitch.me/)
 
 CSS Positioning Technique:
 

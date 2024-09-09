@@ -1,8 +1,8 @@
 {
-  "name": "",
+  "name": "Webware-A2",
   "version": "",
-  "description": "",
-  "author": "",
+  "description": "Simple Task Logging",
+  "author": "Owen Rago",
   "scripts": {
     "start": "node server.js"
   },

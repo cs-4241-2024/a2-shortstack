@@ -7,8 +7,12 @@ const submit = async function( event ) {
   // remains to this day
   event.preventDefault()
   
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
+  const inputType = document.querySelector( '#type' ),
+        inputDay = document.querySelector( '#day' ),
+        inputRating = document.querySelector( '#rating' )
+        json = { type: inputType.value,
+                 day: inputDay.value,
+                 rating: inputRating.value },
         body = JSON.stringify( json )
 
   const response = await fetch( '/submit', {
@@ -16,12 +20,32 @@ const submit = async function( event ) {
     body 
   })
 
-  const text = await response.text()
+  const data = await response.json()
 
-  console.log( 'text:', text )
+  const table = document.querySelector('table') 
+  table.innerHTML = ''
+
+  data.forEach ( item => {
+        const tr = document.createElement('tr') 
+        const td1 = document.createElement('td')
+        const td2 = document.createElement('td')
+        const td3 = document.createElement('td')
+        const td4 = document.createElement('td')
+
+        td1.innerText = item.type
+        tr.appendChild(td1)
+        td2.innerText = item.day
+        tr.appendChild(td2)
+        td3.innerText = item.rating
+        tr.appendChild(td3)
+        td4.innerText = item.meaning
+        tr.appendChild(td4)
+
+        table.appendChild (tr)
+      })
 }
 
 window.onload = function() {
-   const button = document.querySelector("button");
+  const button = document.querySelector("button");
   button.onclick = submit;
 }

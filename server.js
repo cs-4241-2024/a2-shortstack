@@ -9,9 +9,7 @@ const http = require( 'http' ),
       port = 3000
 
 const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+  { 'type': 'green', 'day': 'sunday', 'rating': '8', 'meaning': 'very good! will drink often!' },
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -21,6 +19,7 @@ const server = http.createServer( function( request,response ) {
     handlePost( request, response ) 
   }
 })
+
 
 const handleGet = function( request, response ) {
   const filename = dir + request.url.slice( 1 ) 
@@ -32,6 +31,25 @@ const handleGet = function( request, response ) {
   }
 }
 
+const deriveField = function(dataParse) {
+  //logic for determining meaning from the rating
+  let meaning = 'default'
+  if (dataParse.rating <= 2) {
+    meaning = 'BAD, do not drink again'
+  } else if (dataParse.rating > 2 && dataParse.rating <5) {
+    meaning = 'not very good, probably will not drink again'
+  } else if (dataParse.rating >= 5 && dataParse.rating <=7) {
+    meaning = 'pretty averge, maybe drink once in a while'
+  } else if (dataParse.rating > 7 && dataParse.rating <=9) {
+    meaning = 'very good! will drink often!'
+  } else if (dataParse.rating == 10) {
+    meaning = 'my favorite!!'
+  } else {
+    meaning = 'rating does not compute'
+  }
+  return meaning;
+}
+
 const handlePost = function( request, response ) {
   let dataString = ''
 
@@ -40,12 +58,16 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+    
+    dataParse = JSON.parse( dataString )
 
-    // ... do something with the data here!!!
+    const meaning = deriveField(dataParse)
+    dataParse.meaning = meaning;
+    console.log(dataParse)
+    appdata.push(dataParse)
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end( JSON.stringify (appdata))
   })
 }
 

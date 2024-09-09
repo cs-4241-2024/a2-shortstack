@@ -1,4 +1,36 @@
 body {
-  background:black;
-  color:white;
+  background-color: #6A7C53;
+  color: #2D1F00;
+  font-family: "Space Mono", monospace;
+}
+
+h1 {
+  text-align: center;
+}
+
+table {
+  background-color: wheat;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td, th {
+  border: 1px solid #8F881A;
+  text-align: center;
+  padding: 15px 15px 15px 15px;
+  background-color: wheat;
+}
+
+button {
+  background-color: wheat;
+  font-family: "Space Mono", monospace;
+}
+
+form {
+  text-align:center;
+}
+
+input {
+  background-color: wheat;
+  font-family: "Space Mono", monospace;
 }

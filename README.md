@@ -91,10 +91,10 @@ Sample Readme (delete the above when you're ready to submit, and modify the belo
 ---
 
 ## Your Web Application Title
-Include a very brief summary of your project here. Be sure to include the CSS positioning technique you used, and any required instructions to use your application.
+My website is designed to be a personal tea log. You can put in the type of tea, when you had it, and your rating, and the server will add a note based on the rating. 
 
 ## Technical Achievements
-- **Tech Achievement 1**: Using a combination of...
+- **Tech Achievement 1**: I utilized a single-page app.
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: 

@@ -8,11 +8,28 @@
     
     <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   </head>
   <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
-    </form>
+    <table id="table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Age (Days)</th>
+          <th>Time until due (Days)</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <!-- Table rows will be dynamically inserted here -->
+      </tbody>
+    </table>
+    <div class="buttons">
+      <button id="addRow">Add Row</button>
+      <button id="saveTable">Save Changes</button>
+    </div>
   </body>
+
 </html>

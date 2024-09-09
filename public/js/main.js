@@ -4,6 +4,7 @@
   let selected;
   let score = 0;
   let isGameStarted = false;
+  let startTime, endTime;
   const dropZones = document.querySelectorAll(".drop");
   const startGameBtn = document.querySelector(".play-btn");
   const endGamebtn = document.querySelector(".end-btn");
@@ -17,6 +18,27 @@
     });
   };
 
+  const resetGame = () => {
+    // Reset the score and the display
+    score = 0;
+    scoreDisplay.innerText = score;
+
+    // Re-enable dragging and drop zones
+    enableDragAndDrop();
+
+    // Re-enable the start and end buttons
+    startGameBtn.style.display = "none";
+    endGamebtn.style.display = "inline";
+    nameInput.value = "";
+    checkIfNameExists();
+
+    // Reset shapes by moving them back to the drag section (or re-shuffling)
+    shuffle();
+
+    // Allow the game to start again
+    isGameStarted = false;
+  };
+
   const enableDragAndDrop = () => {
     document.querySelectorAll('.drag-section div').forEach((item) => {
       item.setAttribute('draggable', true);
@@ -25,17 +47,18 @@
 
   const startGame = () => {
     window.location.reload();
+    startTime = new Date();
+    sessionStorage.setItem("startTime", startTime.toISOString());
     isGameStarted = true;
     enableDragAndDrop();
-    // window.location.reload();
   };
 
   const checkIfNameExists = () => {
     const playerName = nameInput.value.trim();
 
     if (!playerName) {
-      errorMsg.style.display = "inline";
       errorMsg.style.opacity = 100;
+      errorMsg.style.display = "inline";
       errorMsg.innerText = "Please enter your name";
       return;
     }
@@ -58,18 +81,35 @@
   }
 
   const endGame = () => {
-    errorMsg.style.display = "none";
-    startGameBtn.style.display = "inline";
-    addScore();
-    endGamebtn.style.display = "none";
-    isGameStarted = false;
-    disableDragAndDrop();
+    // if (sessionStorage.getItem("startTime")) {
+    startTime = new Date(sessionStorage.getItem("startTime")); // Retrieve start time
+    endTime = new Date(); // Record end time
+    const gameDuration = (endTime - startTime) / 1000; // Calculate duration in seconds
+    addScore(gameDuration); // Pass the game duration
+    sessionStorage.removeItem("startTime");
+    // } else {
+    console.error('Error: startTime is not set.');
+    // }
+
+    if (nameInput.value.trim() === "") {
+      errorMsg.style.opacity = 100;
+      errorMsg.style.display = "inline";
+      errorMsg.innerText = "Please enter your name";
+      return;
+    } else {
+      errorMsg.style.display = "none";
+      startGameBtn.style.display = "inline";
+      // addScore(gameTime);
+      endGamebtn.style.display = "none";
+      isGameStarted = false;
+      disableDragAndDrop();
+    }
+    //resetGame();
   };
 
-  const addScore = () => {
+  const addScore = (gameTime) => {
     let num = score;
     document.querySelector('#score').innerText = score; // Update the score display
-
     let name = document.querySelector("#name").value;
 
     fetch('/save-score', {
@@ -77,7 +117,7 @@
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ score: num, name: name })
+      body: JSON.stringify({ score: num, name: name, duration: gameTime })
     }).then(response => response.json())
       .then(data => {
         console.log('Success:', data);
@@ -148,6 +188,7 @@
     } else if (score === 0) {
       // Condition to not get a negative score
       errorMsg.innerText = "Wrong shape!";
+      errorMsg.style.display = "inline";
       errorMsg.style.opacity = 100; // Shows the error message
       return;
     }
@@ -184,8 +225,9 @@
         ul.innerHTML = "";
         console.log('Success:', data);
         const scores = data.scores;
+
         scores.forEach((entry, index) => {
-          $(".List").append('<li>' + "[Game " + index + "] : " + entry.name + " - " + entry.score + '</li>');
+          $(".List").append('<li>' + "[Game " + index + "] : " + entry.name + " - " + entry.score + " points in " + entry.time + ' seconds</li>');
         });
       })
       .catch((error) => {
@@ -222,6 +264,8 @@
     }).then(response => response.json())
       .then(data => {
         console.log('Success:', data);
+        const ul = document.querySelector("ul");
+        ul.innerHTML = "";  // Clear the scores list on the page
       })
       .catch((error) => {
         console.error('Error:', error);

@@ -62,7 +62,8 @@ const saveScore = (response, dataString) => {
   const data = JSON.parse(dataString);
   const score = data.score;
   const name = data.name;
-  scores.push({ name: name, score: score });
+  const duration = data.duration;
+  scores.push({ name: name, score: score, time: duration });
 
   response.writeHead(200, "OK", { 'Content-Type': 'text/plain' });
   response.end(JSON.stringify({ message: 'Score saved successfully', scores: scores }));

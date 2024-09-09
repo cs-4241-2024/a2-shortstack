@@ -52,6 +52,7 @@ form {
 }
 
 #error {
+  display: inline;
   color: #A30B37;
   font-weight: bold;
   font-size: 20px;
@@ -104,7 +105,7 @@ form {
 
 div {
   margin: 15px;
-  border: 2px solid rgb(183, 156, 237);
+  border: 2px solid #9788F0;
   border-radius: 3px;
 }
 
@@ -115,7 +116,7 @@ div {
 
 #reset {
   border-radius: 5px;
-  border: 2px solid rgb(149, 127, 239);
+  border: 2px solid #9788F0;
 }
 
 .listscore {

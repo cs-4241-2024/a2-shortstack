@@ -8,11 +8,17 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
+
+const derivedExistence = function(debut) {
+  return new Date().getFullYear() - debut;
+  };       
+
+//video game character data     
 const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+  {'name': 'Sonic The Hedgehog', 'debut': 1991, 'color': 'blue', 'existence':  derivedExistence(1991) },
+  { 'name': 'Shadow The Hedgehog', 'debut': 2001, 'color': 'black', 'existence':  derivedExistence(2001) },
+  {'name': 'Rouge The Bat', 'debut': 2001, 'color': 'red', 'existence':  derivedExistence(2001)}
+ ]; 
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
@@ -20,7 +26,7 @@ const server = http.createServer( function( request,response ) {
   }else if( request.method === 'POST' ){
     handlePost( request, response ) 
   }
-})
+});
 
 const handleGet = function( request, response ) {
   const filename = dir + request.url.slice( 1 ) 
@@ -30,7 +36,7 @@ const handleGet = function( request, response ) {
   }else{
     sendFile( response, filename )
   }
-}
+};
 
 const handlePost = function( request, response ) {
   let dataString = ''
@@ -44,10 +50,16 @@ const handlePost = function( request, response ) {
 
     // ... do something with the data here!!!
 
+    const newdata = JSON.parse(dataString);
+
+    newdata.existence = derivedExistence(newdata.debut);
+    appdata.push(newdata);
+    //console.log(appdata);
+
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end( JSON.stringify( appdata ))
   })
-}
+};
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 
@@ -69,6 +81,6 @@ const sendFile = function( response, filename ) {
 
      }
    })
-}
+};
 
 server.listen( process.env.PORT || port )

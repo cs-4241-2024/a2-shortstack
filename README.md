@@ -2,7 +2,8 @@ Assignment 2 - Short Stack: Basic Two-tier Web Application using HTML/CSS/JS and
 ---
 
 ## Taskly
-Include a very brief summary of your project here. Be sure to include the CSS positioning technique you used, and any required instructions to use your application.
+
+Aaron Zhang
 
 Link: https://a2-azzhang3.glitch.me
 

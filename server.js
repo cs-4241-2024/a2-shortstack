@@ -35,9 +35,6 @@ const handlePost = function( request, response ) {
       dataString += data 
   })
 
-  // console.log(appdata)
-  // console.log("hi")
-
   request.on( 'end', function() {
     const data = JSON.parse( dataString )
     if(data.task==="add")
@@ -51,16 +48,16 @@ const handlePost = function( request, response ) {
         goodDay: data.goodDay
       }
       appdata.push(newData)
-      console.log(appdata)
+      // console.log(appdata)
     }
     else if(data.task==="leave")
     {
-      console.log(appdata)
+      // console.log(appdata)
     }
     else if(data.task==="delete")
     {
       appdata = appdata.filter(item => item.date !== data.deleteDate);
-      console.log(appdata)
+      // console.log(appdata)
     }
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })

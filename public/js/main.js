@@ -32,6 +32,7 @@ const submit = async function( event ) {
   })
 
   text = await response.json()
+  showData()
 
 }
 
@@ -42,8 +43,6 @@ window.onload = function() {
   button.onclick = submit;
   const thirdButton = document.querySelector('#deleteButton');
   thirdButton.onclick = deleteTask;
-
-  // button.click(); 
 }
 
 const beforeSubmit = async function( event ) 
@@ -83,6 +82,7 @@ const deleteTask = async function( event )
     }
   )
   text = await response.json()
+  showData()
 }
 
 
@@ -148,10 +148,3 @@ function goodDay()
     }
     return goodDay
   }
-
-
-  
-// element sections
-//css elements
-//css styles
-//

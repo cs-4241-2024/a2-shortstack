@@ -25,30 +25,29 @@ h2{
   gap: 100px;
 }
 input {
-  width: 300px; /* Sets the width of the form */
-  height: auto; /* Adjusts height automatically based on content */
-  padding: 20px; /* Adds padding inside the form */
-  border: 1px solid #ccc; /* Optional: Adds a border around the form */
-  border-radius: 5px; /* Optional: Adds rounded corners */
-  box-sizing: border-box; /* Includes padding and border in the total width and height */
+  width: 300px; 
+  height: auto; 
+  padding: 20px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  box-sizing: border-box; 
 }
 table
 {
  color: black;
- width: 100%;
  border-collapse: collapse;
 }
 th, td {
-  border: 1px solid black; /* Adds border around cells */
-  padding: 10px; /* Adds space inside cells */
-  text-align: left; /* Aligns text to the left */
+  border: 1px solid black; 
+  padding: 10px; 
+  text-align: left; 
   color: white
 }
 th {
-  background-color: darkgreen; /* Light grey background for header */
+  background-color: darkgreen; 
 }
 thead {
-  background-color: green; /* Slightly darker grey for table header */
+  background-color: green; 
 }
 #buttonSection
 {
@@ -62,7 +61,7 @@ thead {
   border-style:solid;
   border-color:white;
   border-width: 5px;
-  height: 100px;
+  height: 70px;
   width: 350px;
 }
 #button
@@ -85,7 +84,10 @@ thead {
 {
   background-color: white;
   font-weight: bold;
+  height: 50px;
+  width: 200px;
 }
+
 
 
 

@@ -1,27 +1,27 @@
-// FRONT-END (CLIENT) JAVASCRIPT HERE
+  console.log("here");
 
-const submit = async function( event ) {
-  // stop form submission from trying to load
-  // a new .html page for displaying results...
-  // this was the original browser behavior and still
-  // remains to this day
-  event.preventDefault()
-  
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
-        body = JSON.stringify( json )
-
-  const response = await fetch( '/submit', {
-    method:'POST',
-    body 
-  })
-
-  const text = await response.text()
-
-  console.log( 'text:', text )
-}
-
-window.onload = function() {
-   const button = document.querySelector("button");
-  button.onclick = submit;
-}
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('/results')
+    .then(response => response.json())
+    .then(data => {
+      const tbody = document.querySelector('table tbody');
+      tbody.innerHTML = '';
+      data.forEach(task => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${task.id}</td>
+          <td>${task.task}</td>
+          <td>${task.priority}</td>
+          <td>${task.creation_date}</td>
+          <td>${task.deadline}</td>
+          <td>
+            <form action="/delete" method="POST">
+              <input type="hidden" name="id" value="${task.id}">
+              <button type="submit">Complete</button>
+            </form>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    });
+});

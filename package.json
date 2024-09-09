@@ -1,8 +1,8 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "cr-2024-laptop-form",
+  "version": "1.0",
+  "description": "WPI CS 4241 Assignment 2",
+  "author": "Christian Rua",
   "scripts": {
     "start": "node server.js"
   },

@@ -19,7 +19,7 @@ let activeLoans =
   {"id": 9, "firstname": "Matthew", "lastname": "Stinson", "dup":false},
   {"id": 14, "firstname": "Jess", "lastname": "Stairs", "dup":false},
   {"id": 15, "firstname": "Austin", "lastname": "Murphy", "dup":false},
-  {"id": 20, "firstname": "Astro", "lastname": "Greene", "dup":false},
+  {"id": 20, "firstname": "matthew", "lastname": "stinson", "dup":false},
 ]
 
 /**
@@ -206,8 +206,8 @@ const checkForDups = function()
       if (baseRow !== checkRow)
       {
         // And mark true if a name is a perfect match
-        result |= (activeLoans[baseRow].firstname === activeLoans[checkRow].firstname &&
-                   activeLoans[baseRow].lastname === activeLoans[checkRow].lastname);
+        result |= (activeLoans[baseRow].firstname.toLowerCase() === activeLoans[checkRow].firstname.toLowerCase() &&
+                   activeLoans[baseRow].lastname.toLowerCase() === activeLoans[checkRow].lastname.toLowerCase());
       }
     }
 
@@ -241,6 +241,9 @@ const sendFile = function(response, filename)
     }
   });
 }
+
+// Quick duplicates check in table
+checkForDups();
 
 // Start server on port
 server.listen( process.env.PORT || port )

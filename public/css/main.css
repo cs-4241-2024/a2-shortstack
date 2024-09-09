@@ -13,10 +13,7 @@ h1
 
 table, th, td
 {
-  margin-top: 2rem;
-  margin-left: auto;
-  margin-right: auto;
-
+  margin: 1.2rem;
   border: 0.1rem solid #F5AF84;
 }
 
@@ -47,7 +44,7 @@ td
 .removebtn
 {
   background-color: #F5714E;
-  /* border: 0.2rem solid black; */
+
   padding: 0.4rem 0.7rem;
   text-align: center;
 
@@ -63,7 +60,7 @@ td
 
 form
 {
-  margin-top: 2rem;
+  margin: 1.2rem;
 }
 
 input
@@ -80,11 +77,10 @@ input
 .refreshbtn
 {
   background-color: #F5714E;
-  /* border: 0.2rem solid black; */
   padding: 0.4rem 0.7rem;
   text-align: center;
 
-  margin-top: 2rem;
+  margin: 1.2rem;
 
   border-radius: 1rem;
   font-size: 1rem;
@@ -94,4 +90,13 @@ input
 .refreshbtn:hover
 {
   background-color: #F5AB4E;
+}
+
+.block
+{
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
 }

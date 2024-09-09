@@ -12,27 +12,25 @@
   </head>
 
   <body>
-    <div align="center">
+    <div class="block">
       <h1>Active Laptop Loans</h1>
       <form>
-        <input type="text" id="id" value="ID">
+        <input type="text" id="id" value="Laptop ID">
         <input type="text" id="firstname" value="First Name">
         <input type="text" id="lastname" value="Last Name">
         <button class="removebtn">Submit</button>
       </form>
-    </div>
 
-    <table id="laptops">
-      <tr>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Duplicate Client?</th>
-        <th class="removecol"></th>
-      </tr>
-    </table>
+      <table id="laptops">
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Duplicate Client?</th>
+          <th class="removecol"></th>
+        </tr>
+      </table>
 
-    <div align="center">
       <button id="rfrsh" class="refreshbtn">Pull from Server</button>
     </div>
     

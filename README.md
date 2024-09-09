@@ -13,3 +13,5 @@ The `Derived Fields` in this project rely on the use of the Jikan API (an API th
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: 
 - **Design Achievement 2**: This isn't one of the achievement options but I was able to use a public API in order to improve the visuals of the app and that was a challenge that I wanted to bring attention to. The code checks the value of the "showTitle" field and cross references myanimelist's database to get the cover image and total number of episodes, amongst other pieces of data. 
+
+GIF Background Credit: https://i.pinimg.com/originals/11/7b/ea/117bea6777b5ad4e03bb63a154f1603d.gif 

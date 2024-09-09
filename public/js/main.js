@@ -1,27 +1,19 @@
-// FRONT-END (CLIENT) JAVASCRIPT HERE
+window.onload = async function () {
+  const handleAdd = await import("./student.js").then((module) => module.handleAdd);
+  const addStudentToTable = await import("./student.js").then((module) => module.addStudentToTable);
+  const updateClassStats = await import("./student.js").then((module) => module.updateClassStats);
 
-const submit = async function( event ) {
-  // stop form submission from trying to load
-  // a new .html page for displaying results...
-  // this was the original browser behavior and still
-  // remains to this day
-  event.preventDefault()
-  
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
-        body = JSON.stringify( json )
+  const submitButton = document.getElementById("submit");
+  submitButton.onclick = handleAdd;
 
-  const response = await fetch( '/submit', {
-    method:'POST',
-    body 
-  })
+  // populate the table with the existing students (if any)
+  const response = await fetch("/students", { method: "GET" });
+  const res = await response.json();
+  if (res.students) {
+    res.students.forEach((student) => addStudentToTable(student));
+  }
+  updateClassStats(res.stats);
 
-  const text = await response.text()
-
-  console.log( 'text:', text )
-}
-
-window.onload = function() {
-   const button = document.querySelector("button");
-  button.onclick = submit;
-}
+  // Display body when DOM is loaded
+  document.body.style.visibility = 'visible';
+};

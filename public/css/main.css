@@ -34,3 +34,8 @@ h.maintitle {
   line-height: 75px;
   font-size: 30px;
 }
+button.modify{
+  justify-content: right;
+  size: 25px;
+  
+}

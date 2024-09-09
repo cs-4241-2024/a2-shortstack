@@ -76,3 +76,22 @@ input
   border-radius: 0.3rem;
   font-size: 1rem;
 }
+
+.refreshbtn
+{
+  background-color: #F5714E;
+  /* border: 0.2rem solid black; */
+  padding: 0.4rem 0.7rem;
+  text-align: center;
+
+  margin-top: 2rem;
+
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.refreshbtn:hover
+{
+  background-color: #F5AB4E;
+}

@@ -14,11 +14,12 @@ let activeLoans =
 [
   {"id": -1, "firstname": "placeholder", "lastname": "placeholder", "dup":false},
 
-  {"id": 2, "firstname": "John", "lastname": "Yakuza", "dup":false},
+  // Example loans
+  {"id": 2, "firstname": "John", "lastname": "Smith", "dup":false},
   {"id": 9, "firstname": "Matthew", "lastname": "Stinson", "dup":false},
   {"id": 14, "firstname": "Jess", "lastname": "Stairs", "dup":false},
   {"id": 15, "firstname": "Austin", "lastname": "Murphy", "dup":false},
-  {"id": 20, "firstname": "Astro", "lastname": "Bottington", "dup":false},
+  {"id": 20, "firstname": "Astro", "lastname": "Greene", "dup":false},
 ]
 
 /**
@@ -31,11 +32,6 @@ let activeLoans =
 const formatLog = function(src, message)
 {
   return `[${src.toUpperCase()}] → ${message}`;
-}
-
-const deleteEntry = function(entry)
-{
-  console.log(entry.id);
 }
 
 /**
@@ -76,6 +72,7 @@ const handleGet = function(request, response)
     sendFile(response, `${dir}/index.html`);
     break;
 
+  // Client requests data from active loans table
   case "table":
     response.writeHeader(200, {"Content-Type": "application/json"});
     response.end(JSON.stringify(activeLoans));
@@ -111,32 +108,44 @@ const handlePost = function(request, response)
     // Process data from request
     request.on("end", function()
     {
+      // Parse user data
       const userData = JSON.parse(dataString);
       const userDataText = `[ID: ${userData.id}, First Name: ${userData.firstname}, Last Name: ${userData.lastname}]`;
-      console.log(formatLog("POST", `Raw user input: ${userDataText}`));
+      
+      // DEBUG: Log raw user input
+      // console.log(formatLog("POST", `Raw user input: ${userDataText}`));
   
+      // Check if input ID is a positive integer (rounds decimals down)
       const dataID = parseInt(userData.id);
       if (isNaN(dataID) || dataID < 0)
       {
         response.writeHead(422, "Invalid ID", {"Content-Type": "text/plain"});
         response.end(`Error 422: Unprocessable Entity`);
       }
+
+      // Check for duplicate ID
       else if (activeLoans.some(laptop => laptop.id === dataID))
       {
         response.writeHead(422, "Duplicate ID", {"Content-Type": "text/plain"});
         response.end(`Error 422: Unprocessable Entity`);
       }
+
+      // Data is good!
       else
       {
+        // Add data to active loans table
         activeLoans.push({"id": parseInt(userData.id), "firstname": userData.firstname, "lastname": userData.lastname, "dup": false});
         
+        // Sort data by ID
         activeLoans.sort(function(a, b)
         {
           return (a.id > b.id) ? 1 : -1;
         });
 
+        // Check for duplicate names (allowed, but flagged)
         checkForDups();
 
+        // Send response
         response.writeHead(200, "OK", {"Content-Type": "text/plain"});
         response.end(`${userDataText}`);
       }
@@ -144,29 +153,37 @@ const handlePost = function(request, response)
     break;
 
   case "remove":
-
     let laptopData;
+
+    // Get data from request
     request.on("data", function(data)
     {
+      // Parse user data
       laptopData = JSON.parse(data);
     });
 
+    // Get data from request
     request.on("end", function()
     {
+      // Remove requested entry
       activeLoans = activeLoans.filter(laptop => laptop.id !== laptopData.id);
 
+      // Sort remaining entries
       activeLoans.sort(function(a, b)
       {
         return (a.id > b.id) ? 1 : -1;
       });
       
+      // Check for duplicate names (allowed, but flagged)
       checkForDups();
 
+      // Send response
       response.writeHead(200, "OK", {"Content-Type": "text/plain"});
       response.end(`Removed laptop ${laptopData}`);
     });
     break;
 
+  // Unknown POST request
   default:
     response.writeHead(400, "Unknown client request", {"Content-Type": "text/plain"});
     response.end(`Error 400: Bad Request`);
@@ -174,20 +191,27 @@ const handlePost = function(request, response)
   }
 }
 
+/**
+ * Modifies table, flagging all duplicate names (first AND last must match).
+ */
 const checkForDups = function()
 {
+  // For each row...
   for (let baseRow = 1; baseRow < activeLoans.length - 1; baseRow++)
   {
+    // Check all other rows...
     let result = false;
     for (let checkRow = 1; checkRow < activeLoans.length - 1; checkRow++)
     {
       if (baseRow !== checkRow)
       {
+        // And mark true if a name is a perfect match
         result |= (activeLoans[baseRow].firstname === activeLoans[checkRow].firstname &&
                    activeLoans[baseRow].lastname === activeLoans[checkRow].lastname);
       }
     }
 
+    // Save result in base row
     activeLoans[baseRow].dup = (result === 1) ? true : false;
   }
 }

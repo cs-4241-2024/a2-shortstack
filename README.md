@@ -2,6 +2,8 @@
 
 This project is a web application designed to manage student data, including adding, updating, and deleting student records. The application uses a two-tier architecture with a Node.js server and a client-side interface built with HTML, CSS, and JavaScript. The server maintains a dataset of student records and computes derived fields such as grade letters and class statistics.
 
+Link to Glitch project: [a2-aldencutler.glitch.me]
+
 CSS Positioning Technique:
 
 - The application uses CSS Flexbox for layout management of the submission form. Flexbox is utilized to create a responsive and flexible layout for the form and table elements, ensuring that the interface is user-friendly and visually appealing across different screen sizes.

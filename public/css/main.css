@@ -4,12 +4,12 @@ body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f7f7f7;
+  background-color: #121212;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  color: #333;
+  color: #e0e0e0;
 }
 
 .container {
@@ -22,7 +22,7 @@ body {
 
 h1 {
   text-align: center;
-  color: #4CAF50;
+  color: #90caf9;
   margin-bottom: 20px;
   font-size: 2.5em;
 }
@@ -40,7 +40,9 @@ label {
 
 .input-field {
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #424242;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
   border-radius: 5px;
   font-size: 1em;
   width: 100%;
@@ -48,8 +50,8 @@ label {
 
 .btn {
   padding: 10px;
-  background-color: #4CAF50;
-  color: white;
+  background-color: #90caf9;
+  color: #121212;
   border: none;
   border-radius: 5px;
   font-size: 1em;
@@ -57,12 +59,12 @@ label {
 }
 
 .btn:hover {
-  background-color: #45a049;
+  background-color: #64b5f6;
 }
 
 .btn-red {
-  background-color: #f44336;
-  color: white;
+  background-color: #ef5350;
+  color: #121212;
   border: none;
   border-radius: 5px;
   padding: 10px;
@@ -71,33 +73,34 @@ label {
 }
 
 .btn-red:hover {
-  background-color: #e53935;
+  background-color: #e57373;
 }
 
 table {
   margin-top: 20px;
   border-collapse: collapse;
   width: 100%;
-  background-color: #fff;
+  background-color: #1e1e1e;
 }
 
 table, th, td {
-  border: 1px solid #ddd;
+  border: 1px solid #424242;
 }
 
 th, td {
   padding: 12px;
   text-align: left;
+  color: #e0e0e0;
 }
 
 th {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #90caf9;
+  color: #121212;
 }
 
 #clear {
-  background-color: #f44336;
-  color: white;
+  background-color: #ef5350;
+  color: #121212;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -107,6 +110,19 @@ th {
 }
 
 #clear:hover {
-  background-color: #e53935;
+  background-color: #e57373;
 }
 
+.blue-button {
+  background-color: #42a5f5;
+  color: #121212;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.blue-button:hover {
+  background-color: #1e88e5;
+}

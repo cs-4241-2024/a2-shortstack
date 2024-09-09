@@ -30,47 +30,54 @@ const handleGet = function( request, response ) {
 }
 
 
-//Handles all post requests
-const handlePost = function( request, response ) {
-  console.log('post request made')
+// Handles all POST requests
+const handlePost = function(request, response) {
+  console.log('Post request made');
   
-    let dataString = ''
+  let dataString = '';
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+  request.on('data', function(data) {
+    dataString += data;
+  });
 
-  request.on( 'end', function() {
+  request.on('end', function() {
+    console.log('Data string: ' + dataString);
+    
+    let parsed = JSON.parse(dataString);
+    parsed.total = parsed.sets * parsed.reps;
+    console.log('Parsed data: ', parsed);
 
-    console.log('This is the data string' + dataString)
-    let parsed = JSON.parse( dataString )
-    parsed.total = parsed.sets * parsed.reps
-    console.log( 'This is the parsed' + parsed )
+    switch (request.url) {
+      case '/submit':
+        appdata.push(parsed);
+        response.writeHead(200, "OK", { 'Content-Type': 'text/plain' });
+        response.end(JSON.stringify({ data: appdata }));
+        break;
 
-    if (request.url === '/submit'){
-      appdata.push( parsed)
-      response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-      response.end(JSON.stringify({'data': appdata}))
-    } else {
-      if (request.url ==='/clear'){
-        //This is the clear all function
+      case '/clear':
         appdata.length = 0;
-        response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-        response.end(JSON.stringify({'data': appdata}))
-      } else {
-        if (request.url === '/delete'){
-          console.log('Index to delete ' + parsed.index)
-          appdata.splice(parsed.index, 1)
-  
-          response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-          response.end(JSON.stringify({'data': appdata}))
-        } else {
-          response.writeHead(404, "BAD", {'Content-Type': 'text/plain' })
-        }
-      }
+        response.writeHead(200, "OK", { 'Content-Type': 'text/plain' });
+        response.end(JSON.stringify({ data: appdata }));
+        break;
+
+      case '/delete':
+        console.log('Index to delete: ' + parsed.index);
+        appdata.splice(parsed.index, 1);
+        response.writeHead(200, "OK", { 'Content-Type': 'text/plain' });
+        response.end(JSON.stringify({ data: appdata }));
+        break;
+      case '/onLoad':
+        response.writeHead(200, "OK", { 'Content-Type': 'text/plain' });
+        response.end(JSON.stringify({data: appdata}));
+        break;
+      default:
+        response.writeHead(404, "BAD", { 'Content-Type': 'text/plain' });
+        response.end();
+        break;
     }
-  })
-}
+  });
+};
+
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 

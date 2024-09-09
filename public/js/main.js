@@ -38,6 +38,18 @@ function buildTable(text){
     table.removeChild(table.firstChild)
   }
   
+  const thead = document.createElement('thead');
+  const row = document.createElement('tr');
+
+  const headers = ['Exercise', 'Reps', 'Sets', 'Total Weight', 'Edit', 'Delete'];
+  headers.forEach(headerText => {
+  const th = document.createElement('th');
+  th.textContent = headerText;
+  row.appendChild(th);
+  });
+
+thead.appendChild(row);
+table.appendChild(thead);
   text.data.forEach((rowData, index) =>{
     const row = document.createElement('tr');
     
@@ -56,6 +68,7 @@ function buildTable(text){
     const editCell = document.createElement('td')
     const editButton = document.createElement('button')
     editButton.textContent = 'Edit';
+    editButton.classList.add('blue-button')
     //editButton.onclick = edit
 
     const deleteCell = document.createElement('td')
@@ -116,10 +129,19 @@ const clearPage = async function(event){
 }
 
 //sets the button functions onload and focuses on the first box
-window.onload = function() {
+window.onload = async function() {
   const submitButton = document.getElementById("submit")
   submitButton.onclick = submit;
   const clearButton = document.getElementById("clear")
   clearButton.onclick = clearPage;
   document.getElementById('exercise').focus();
+
+  const response = await fetch( '/onLoad', {
+    method:'POST',
+    body: JSON.stringify({obj: 1})
+  })
+
+  const text = await response.json()
+
+  buildTable(text);
 }

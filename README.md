@@ -1,5 +1,7 @@
 # Reaction Time Game
 
+GLitch link: https://a2-jjcool1128.glitch.me
+
 This project is a reaction time game built with HTML, CSS, and JavaScript. The game involves clicking a randomly appearing dot as fast as possible for 5 rounds. The reaction times for each round and the average time are recorded and displayed in a table.
 
 ## Technical Achievements

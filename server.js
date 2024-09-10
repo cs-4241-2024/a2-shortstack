@@ -47,7 +47,7 @@ const handlePost = function( request, response ) {
       let dataJson = JSON.parse(dataString);
       let taskToDelete = dataJson.task;
 
-      appdata = appdata.filter(item => item.task !== taskToDelete);
+      appdata = [];
     }
 
     // ... do something with the data here!!!

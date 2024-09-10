@@ -56,14 +56,14 @@ async function deleteItem(evt) {
 }
 
 function updateTable(data) {
- // const data = await response.json();
+
   const table = document.getElementById("list");
 
   table.innerHTML = `<tr><th>Item</th><th>Description</th><th>Cost</th><th>Tax</th><th>Total</th><th>Delete</th><th>Edit</th></tr>`;
   let tbody = document.createElement('tbody');
 
   data.forEach(item => {
-    //get the index and apply it to the edit button and tr or td tag
+   
    let tr = document.createElement('tr');
 
    tr.setAttribute('id', item.tag);

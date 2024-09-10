@@ -44,17 +44,6 @@ const handlePost = function( request, response ) {
 
   request.on( 'end', function() {
     const data = JSON.parse( dataString )
-    //if(data.tag <= newId){
-      /*appdata = appdata.map(item => {
-        if(item.tag === data.tag){
-          return data
-        }
-        return item
-      })
-      response.writeHead(200, "OK", {'Content-Type': 'text/plain'})
-      response.end(JSON.stringify(appdata))
-    *///}
-    //else{
     console.log(data);
     if (data.tag === -1){
       data.total = data.cost * (1 + data.tax);

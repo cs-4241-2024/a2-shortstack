@@ -21,9 +21,7 @@ window.onload = function () {
       console.log(data)
       for (i = 0; i < data.length; i++){
         refreshTodoList(data[i]);
-        console.log(data[i]);
       }
-      console.log(taskObj)
     })
  
 

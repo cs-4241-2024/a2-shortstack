@@ -43,13 +43,14 @@ const handlePost = function( request, response ) {
     // ... do something with the data here!!!
     let dataJson = JSON.parse(dataString)
     appdata.push(dataJson)
-    } else {
+    } else if (request.url === "/delete") {
       let dataJson = JSON.parse(dataString);
       let taskToDelete = dataJson.task;
 
-      appdata = [];
+      appdata = [appdata.filter(item => item.task !== taskToDelete)];
     }
 
+    appdata = [];
     // ... do something with the data here!!!
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })

@@ -38,7 +38,6 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
     if ( request.url === "/submit"){
    // console.log( JSON.parse( dataString ) )
     // ... do something with the data here!!!
@@ -48,7 +47,7 @@ const handlePost = function( request, response ) {
       let dataJson = JSON.parse(dataString);
       let taskToDelete = dataJson.task;
 
-      appdata = appdata.filter(task => task.task !== taskToDelete);
+      appdata = appdata.filter(item => item.task !== taskToDelete);
     }
 
     // ... do something with the data here!!!

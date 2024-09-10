@@ -85,6 +85,10 @@ const submit = function (e) {
 let jsonTaskObj = JSON.stringify(taskObj);
 
 
+let table = todoListDiv.querySelector("table");
+if (table) {
+  table.remove();
+}
 
   // post
   fetch( '/submit', { // fetch is where you specify the url/ resouce that you want to see

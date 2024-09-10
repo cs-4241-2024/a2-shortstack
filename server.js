@@ -38,7 +38,9 @@ const handleGet = function( request, response ) {
 const deriveField = function(dataParse) {
   //logic for determining meaning from the rating
   let meaning = 'default'
-  if (dataParse.rating <= 2) {
+  if (dataParse.rating < -10) {
+    meaning = 'EGGTTOMMESWFTCEP'
+  } else if (dataParse.rating <= 2) {
     meaning = 'BAD, do not drink again'
   } else if (dataParse.rating > 2 && dataParse.rating <5) {
     meaning = 'not very good, probably will not drink again'
@@ -85,10 +87,11 @@ const handleDelete = function(request, response) {
     
     dataParse = JSON.parse( dataString )
 
-    if (dataParse.row-1 < 0 || dataParse.row-1 > appdata.length) {
+    const index = dataParse.row-1
+    if (index < 0 || index > appdata.length) {
       console.log("Row doesn't exist. Please enter a valid row number")
     } else {
-      appdata.splice(dataParse.row-1, 1);
+      appdata.splice(index, 1);
       console.log("APPDATA", appdata)
     }
 
@@ -107,6 +110,29 @@ const handlePatch = function(request, response) {
   request.on( 'end', function() {
     
     dataParse = JSON.parse( dataString )
+    const index = dataParse.row-1
+
+    console.log("DATA", appdata)
+    console.log("LENGTH", appdata.length)
+    if (index < 0 || index > appdata.length-1) {
+      console.log("Row doesn't exist. Please enter a valid row number")
+    } else {
+      let obj = appdata[index]
+      if (dataParse.type !== "") {
+        obj.type = dataParse.type
+      }
+      if (dataParse.day !== "") {
+        obj.day = dataParse.day
+      }
+      if (dataParse.rating !== "") {
+        obj.rating = dataParse.rating
+        obj.meaning = deriveField(dataParse)
+      }
+    }
+
+    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+    response.end( JSON.stringify (appdata))
+
 
   })
 }

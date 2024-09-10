@@ -66,10 +66,29 @@ const deleteRow = async function( event ) {
   })
 
   const data = await response.json()
-  console.log("DATA", data)
   showTable(data)
+}
 
-  //document.getElementById('table').deleteRow(1)
+const update = async function( event ) {
+  event.preventDefault()
+
+  const inputRow = document.querySelector( '#rowEdit' ),
+        inputType = document.querySelector( '#typeEdit' ),
+        inputDay = document.querySelector( '#dayEdit' ),
+        inputRating = document.querySelector( '#ratingEdit' ),
+        json = { row: inputRow.value,
+                 type: inputType.value,
+                 day: inputDay.value,
+                 rating: inputRating.value },
+        body = JSON.stringify( json )
+
+  const response = await fetch( '/patch', {
+    method:'PATCH',
+    body 
+  })
+
+  const data = await response.json()
+  showTable(data)
 }
 
 window.onload = function() {
@@ -78,4 +97,7 @@ window.onload = function() {
 
   const button2 = document.querySelector("#delete");
   button2.onclick = deleteRow;
+
+  const button3 = document.querySelector("#update");
+  button3.onclick = update;
 }

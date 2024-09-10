@@ -166,8 +166,29 @@ function refreshTodoList(taskObj) {
   let deleteBtn = document.createElement("button");
   deleteBtn.innerHTML = "Delete";
   deleteBtn.onclick = function () {
+    let taskToDelete = {
+      task: taskObj.task
+    };
+  
+    let jsonTaskToDelete = JSON.stringify(taskToDelete);
+  
+    fetch('/delete', {
+      method: 'POST',
+      body: jsonTaskToDelete,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
       tr.remove();
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
   };
+  
   tdActions.appendChild(deleteBtn);
 
   // Append the table to the div

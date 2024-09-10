@@ -44,9 +44,11 @@ const handlePost = function( request, response ) {
     // ... do something with the data here!!!
     let dataJson = JSON.parse(dataString)
     appdata.push(dataJson)
-    }
-    else if(request.url === "/"){
-      
+    } else if (request.url === "/delete") {
+      let dataJson = JSON.parse(dataString);
+      let taskToDelete = dataJson.task;
+
+      appdata = appdata.filter(task => task.task !== taskToDelete);
     }
 
     // ... do something with the data here!!!

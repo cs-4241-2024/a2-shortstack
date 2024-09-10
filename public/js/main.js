@@ -60,14 +60,14 @@ const displayTab = function (dataset) { // adds entries to the table, along with
     const tdItem = document.createElement("td");
     tdItem.textContent = entry.name;
     tr.appendChild(tdItem);
-
-    const tdQuantity = document.createElement("td");
-    tdQuantity.textContent = entry.quantity;
-    tr.appendChild(tdQuantity);
-
+ 
     const tdPrice = document.createElement("td");
     tdPrice.textContent = entry.price;
     tr.appendChild(tdPrice);
+    
+    const tdQuantity = document.createElement("td");
+    tdQuantity.textContent = entry.quantity;
+    tr.appendChild(tdQuantity);
 
     const tdTotal = document.createElement("td");
     tdTotal.textContent = entry.total;

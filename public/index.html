@@ -19,7 +19,7 @@
       <input type="number" id="price" placeholder="Price:" min="0">
       <input type="number" id="quantity" placeholder="Quantity:" min="1">
       <p></p>
-      <button id="submit">add</button>
+      <button onclick="document.getElementById('name').value = ''" id="submit">add</button>
     </form>
 
     <table class="tab">
@@ -43,13 +43,13 @@
       <form id="editForm">
         <label for="editItem">Item:</label>
         <input type="text" id="editItem" name="name" required /><br />
-        <label for="editNotes">Notes:</label>
-        <input type="text" id="editNotes" name="notes" required /><br />
-        <label for="editDeadline">Deadline:</label>
-        <input type="date" id="editDeadline" name="deadline" required /><br />
+        <label for="editPrice">Price:</label>
+        <input type="text" id="editPrice" name="price" required /><br />
+        <label for="editQuantity">Quantity:</label>
+        <input type="date" id="editQuantity" name="quantity" required /><br />
         <input type="hidden" id="editId" />
-        <button type="submit">Save Changes</button>
-        <button type="button" onclick="closeEditor()">Cancel</button>
+        <button type="submit">save</button>
+        <button type="button" onclick="closeEditor()">cancel</button>
       </form>
     </div>
     

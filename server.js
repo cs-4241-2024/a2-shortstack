@@ -62,7 +62,7 @@ const handlePost = function(request, response) { // function for handling POST r
     newEntry.id = nextId++;
     console.log(newEntry.id);
 
-    newEntry.total = newEntry.quantity * newEntry.price; // calculate total cost
+    newEntry.total = newEntry.price * newEntry.quantity; // calculate total cost
     
     appdata.push(newEntry); // add to array
 

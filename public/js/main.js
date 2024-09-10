@@ -176,9 +176,6 @@ function refreshTodoList(taskObj) {
     fetch('/delete', {
       method: 'POST',
       body: jsonTaskToDelete,
-      headers: {
-        'Content-Type': 'application/json'
-      }
     })
     .then((response) => response.json())
     .then((data) => {

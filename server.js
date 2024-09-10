@@ -6,69 +6,117 @@ const http = require( 'http' ),
       // file.
       mime = require( 'mime' ),
       dir  = 'public/',
-      port = 3000
+      port = 3000;
 
-const appdata = [
-  { 'name': 'eggs', 'quantity': 12, 'price': 5.00 },
-  { 'name': 'carrots', 'quantity': 6, 'price': 0.60 },
-  { 'name': 'flour', 'quantity': 2, 'price': 3.50} 
+let appdata = [ // name price quantity total
+  {"name": "apple", "price": "1.00", "quantity": "5", "total": "5.00"}
+  
 ]
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+const server = http.createServer(function(request, response) { // basic server
+  if(request.method === 'GET') { // receiving data from client
+    handleGet(request, response)    
+  }
+  else if( request.method === 'POST') { // sending data back to client
+    handlePost(request, response) 
+  }
+  else if (request.method === "DELETE") { // case for deleting data
+    handleDelete(request, response);
+  } 
+  else if (request.method === "PUT") { // case for editing data
+    handlePut(request, response);
   }
 })
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
+const handleGet = function(request, response) { // function for handling GET request
+  const filename = dir + request.url.slice(1) 
 
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
+  if(request.url === "/") {
+    sendFile( response, "public/index.html")
+  }
+  else if (request.url === "/results.html") {
+    console.log("sending results.html");
+    response.end(JSON.stringify(appdata));
+    console.log(appdata);
+    sendFile(response, "public/results.html");
+    console.log("results sent");
+  }
+  else {
+    sendFile(response, filename)
   }
 }
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+let nextId = 1;
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+const handlePost = function(request, response) { // function for handling POST request
+  let dataString = "" // empty string of data to send to client
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+  request.on("data", function(data) {
+      dataString += data // add to datastring
+  });
 
-    // ... do something with the data here!!!
+  request.on("end", function() {
+    console.log(JSON.parse(dataString))
+
+    let newEntry = JSON.parse(dataString); // converts string into JSON format
+    newEntry.id = nextId++;
+    console.log(newEntry.id);
+
+    newEntry.total = newEntry.quantity * newEntry.price; // calculate total cost
+    
+    appdata.push(newEntry); // add to array
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end( JSON.stringify(appdata))
-  })
-}
+    response.end(JSON.stringify(appdata))
+  });
+};
 
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
+const handleDelete = function (request, response) { // function for handling DELETE request
+  const id = parseInt(request.url.split("/")[2], 10); // splits url to get path
+  console.log(`Deleting entry with ID: ${id}`);
 
-   fs.readFile( filename, function( err, content ) {
+  appdata = appdata.filter((entry) => entry.id !== id);
+  response.writeHead(200, "OK", { "Content-Type": "application/json" });
+  response.end(JSON.stringify(appdata));
+};
+
+const handlePut = function(request, response) { // function for handling PUT request
+  const id = parseInt(request.url.split("/")[2], 10);
+  let dataString = "";
+
+  request.on("data", function(data) {
+    dataString += data;
+  });
+  
+  request.on("end", function() { // update table info
+    const updatedEntry = JSON.parse(dataString); // parse new received datastring
+    const entryIndex = appdata.findIndex((entry) => entry.id === id);
+    appdata[entryIndex] = { id, ...updatedEntry }; // update the table entry
+    console.log("Updated entry:", appdata[entryIndex]);
+    response.writeHead(200, "OK", {"Content-Type": "application/json"});
+    response.end(JSON.stringify(appdata));
+  });
+};
+
+const sendFile = function(response, filename) {
+   const type = mime.getType(filename);
+
+   fs.readFile( filename, function(err, content) {
 
      // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
+     if(err === null) {
 
        // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
+       response.writeHeader(200, {"Content-Type": type});
+       response.end(content);
 
      }else{
 
        // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
+       response.writeHeader(404);
+       response.end("404 Error: File Not Found");
      }
    })
 }
 
-server.listen( process.env.PORT || port )
+server.listen( process.env.PORT || port );

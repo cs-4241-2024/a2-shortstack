@@ -1,12 +1,46 @@
 body {
   background:rgb(212, 155, 155);
-  color:rgb(28, 17, 17);
+  color:rgb(65, 31, 31);
+  font-family: "Kanit", sans-serif;
 }
 
 h1 {
   text-align: center;
 }
 
+h2 {
+  color: rgb(193, 52, 20);
+  text-align: center;
+}
+
+table {
+  text-align: center;
+  align-content: center;
+  border: solid 2px rgb(193, 52, 20);
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+} 
+
+th, td {
+  text-align: center;
+  align-content: center;
+  border: solid 1px rgb(193, 52, 20);
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 form {
   text-align: center;
+}
+
+#editor {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }

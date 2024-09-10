@@ -25,10 +25,13 @@ Click delete button next to red apple item
 Item deleted from list
 
 Aaron was confused since the tax field said percent, but the field has to be entered as a decimal point
+I was surprised to hear about the tax field.
 He also suggested a lighter CS color scheme.
 
 ## Technical Achievements
 **Tech Achievement 1**: Using a combination of...
-
+Form updates submitted data to a table from the server.
+Form has the ability to edit and modify existing items.
 ### Design/Evaluation Achievements
 **Design Achievement 1**: 
+Used

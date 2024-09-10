@@ -169,6 +169,7 @@ function refreshTodoList(taskObj) {
     let taskToDelete = {
       task: taskObj.task
     };
+    console.log(taskObj.task);
   
     let jsonTaskToDelete = JSON.stringify(taskToDelete);
   

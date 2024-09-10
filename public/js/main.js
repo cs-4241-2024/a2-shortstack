@@ -11,6 +11,22 @@ window.onload = function () {
   errorMessage.innerHTML = "Check your date!";
   submitButton.parentNode.insertBefore(errorMessage, submitButton);  // Insert before submit button
 
+    // post
+  fetch( '/submit', { // fetch is where you specify the url/ resouce that you want to see
+    method:'POST',
+    body: jsonTaskObj,// send body to server
+  }).then((response) => response.json())
+  .then((data) => {
+      // this is the response from the server
+      console.log(data)
+      for (i = 0; i < data.length; i++){
+        refreshTodoList(data[i]);
+        console.log(data[i]);
+      }
+      console.log(taskObj)
+    })
+ 
+
   // Add event listener to the due date input
   dueDayInput.addEventListener('input', function () {
       validateDates();

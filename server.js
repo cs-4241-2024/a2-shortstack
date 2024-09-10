@@ -42,8 +42,10 @@ const handlePost = function( request, response ) {
     if ( request.url === "/submit"){
    // console.log( JSON.parse( dataString ) )
     // ... do something with the data here!!!
-    let dataJson = JSON.parse(dataString)
-    appdata.push(dataJson)
+    if(dataString!=""){
+      let dataJson = JSON.parse(dataString)
+      appdata.push(dataJson)
+    }
     }
 
     // ... do something with the data here!!!

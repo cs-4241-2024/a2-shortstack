@@ -9,14 +9,18 @@ const http = require( 'http' ),
       port = 3000
 
 const appdata = [
-  { 'type': 'green', 'day': 'sunday', 'rating': '8', 'meaning': 'very good! will drink often!' },
-]
+        //{ 'type': 'green', 'day': 'sunday', 'rating': '8', 'meaning': 'very good! will drink often!' },
+      ]
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){
     handlePost( request, response ) 
+  }else if(request.method === 'DELETE'){
+    handleDelete(request, response)
+  }else if(request.method === 'PATCH') {
+    handlePatch(request, response)
   }
 })
 
@@ -63,11 +67,47 @@ const handlePost = function( request, response ) {
 
     const meaning = deriveField(dataParse)
     dataParse.meaning = meaning;
-    console.log(dataParse)
     appdata.push(dataParse)
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end( JSON.stringify (appdata))
+  })
+}
+
+const handleDelete = function(request, response) {
+  let dataString = ''
+
+  request.on( 'data', function( data ) {
+      dataString += data 
+  })
+
+  request.on( 'end', function() {
+    
+    dataParse = JSON.parse( dataString )
+
+    if (dataParse.row-1 < 0 || dataParse.row-1 > appdata.length) {
+      console.log("Row doesn't exist. Please enter a valid row number")
+    } else {
+      appdata.splice(dataParse.row-1, 1);
+      console.log("APPDATA", appdata)
+    }
+
+    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+    response.end( JSON.stringify (appdata))
+  })
+}
+
+const handlePatch = function(request, response) {
+  let dataString = ''
+
+  request.on( 'data', function( data ) {
+      dataString += data 
+  })
+
+  request.on( 'end', function() {
+    
+    dataParse = JSON.parse( dataString )
+
   })
 }
 

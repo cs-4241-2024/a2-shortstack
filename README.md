@@ -1,3 +1,5 @@
+NOTE: Prof. Roberts approved my extension for this assignment
+
 link: https://a2-laurapellowski.glitch.me/ 
 
 ## Laura's Tea Log

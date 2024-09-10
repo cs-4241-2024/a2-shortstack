@@ -12,7 +12,7 @@ window.onload = function () {
   submitButton.parentNode.insertBefore(errorMessage, submitButton);  // Insert before submit button
 
   let taskObj = {};
-  fetch( '/submit', { // fetch is where you specify the url/ resouce that you want to see
+  fetch( '/', { // fetch is where you specify the url/ resouce that you want to see
     method:'POST',
     body: JSON.stringify(taskObj),// send body to server
   }).then((response) => response.json())

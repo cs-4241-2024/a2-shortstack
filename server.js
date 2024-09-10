@@ -1,3 +1,5 @@
+const { parse } = require('path');
+
 let newId = -1;
 const http = require( 'http' ),
       fs   = require( 'fs' ),
@@ -44,10 +46,13 @@ const handlePost = function( request, response ) {
 
   request.on( 'end', function() {
     const data = JSON.parse( dataString )
+    let newTotal = (data.cost * (1 + parseFloat(data.tax)));
     console.log(data);
     if (data.tag === -1){
-      data.total = data.cost * (1 + data.tax);
+      console.log(data.cost);
+      data.total = newTotal;
       data.tag = appdata.length;
+      newTotal = 0;
       appdata.push(data);
     } else {
       appdata = appdata.map(item => {
@@ -56,8 +61,10 @@ const handlePost = function( request, response ) {
           item.description = data.description;
           item.cost = data.cost;
           item.tax = data.tax;
-          item.total = data.cost * (1 + data.tax);
+          item.total = newTotal;
+          console.log('Text:', item.total);
         }
+        newTotal = 0;
         return item;
       });
     }

@@ -59,7 +59,7 @@ function updateTable(data) {
 
   const table = document.getElementById("list");
 
-  table.innerHTML = `<tr><th>Item</th><th>Description</th><th>Cost</th><th>Tax</th><th>Total</th><th>Delete</th><th>Edit</th></tr>`;
+  table.innerHTML = `<tr><th>Item</th><th>Description</th><th>Cost</th><th>Tax</th><th>Total</th><th>Edit</th><th>Delete</th></tr>`;
   let tbody = document.createElement('tbody');
 
   data.forEach(item => {

@@ -14,7 +14,7 @@ window.onload = function () {
     // post
   fetch( '/submit', { // fetch is where you specify the url/ resouce that you want to see
     method:'POST',
-    body: jsonTaskObj,// send body to server
+    body: "",// send body to server
   }).then((response) => response.json())
   .then((data) => {
       // this is the response from the server

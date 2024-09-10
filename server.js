@@ -47,6 +47,7 @@ const handlePost = function( request, response ) {
   request.on( 'end', function() {
     const data = JSON.parse( dataString )
     let newTotal = (data.cost * (1 + parseFloat(data.tax)));
+    newTotal = newTotal.toFixed(2);
     console.log(data);
     if (data.tag === -1){
       console.log(data.cost);

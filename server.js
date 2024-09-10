@@ -1,4 +1,4 @@
-let newId = 0;
+let newId = -1;
 const http = require( 'http' ),
       fs   = require( 'fs' ),
       // IMPORTANT: you must run `npm install` in the directory for this assignment
@@ -9,9 +9,7 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-let appdata = [
-  
-]
+let appdata = []
 
 
 const server = http.createServer( function( request,response ) {
@@ -46,10 +44,37 @@ const handlePost = function( request, response ) {
 
   request.on( 'end', function() {
     const data = JSON.parse( dataString )
-    data.tag = newId;
-    newId++;
-    data.total = data.cost * (1 + data.tax);
-    appdata.push(data);
+    //if(data.tag <= newId){
+      /*appdata = appdata.map(item => {
+        if(item.tag === data.tag){
+          return data
+        }
+        return item
+      })
+      response.writeHead(200, "OK", {'Content-Type': 'text/plain'})
+      response.end(JSON.stringify(appdata))
+    *///}
+    //else{
+    console.log(data);
+    if (data.tag === -1){
+      data.total = data.cost * (1 + data.tax);
+      data.tag = appdata.length;
+      appdata.push(data);
+    } else {
+      appdata = appdata.map(item => {
+        if (item.tag === data.tag){
+          item.item = data.item;
+          item.description = data.description;
+          item.cost = data.cost;
+          item.tax = data.tax;
+          item.total = data.cost * (1 + data.tax);
+        }
+        return item;
+      });
+    }
+    
+    //data.total = data.cost * (1 + data.tax);
+    //appdata.push(data);
     //console.log(appdata);
     // ... do something with the data here!!!
     
@@ -61,6 +86,7 @@ const handlePost = function( request, response ) {
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end( JSON.stringify( appdata ) )
+    //}
   })
 }
 const handleDelete = function(request, response) {
@@ -72,6 +98,7 @@ const handleDelete = function(request, response) {
     const data = JSON.parse(dataString);
     const tagToDelete = Number(data.tag);
     appdata = appdata.filter(item => item.tag !== tagToDelete);
+    console.log(appdata);
     response.writeHead(200, "OK", {'Content-Type': 'text/plain'});
     response.end(JSON.stringify(appdata));
   });

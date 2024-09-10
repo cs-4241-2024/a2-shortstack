@@ -84,7 +84,7 @@ const submit = function (e) {
 // Convert the object to a JSON string
 let jsonTaskObj = JSON.stringify(taskObj);
 
-
+let todoListDiv = document.getElementById("submittedTodo");
 let table = todoListDiv.querySelector("table");
 if (table) {
   table.remove();

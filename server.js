@@ -45,7 +45,7 @@ const deriveField = function(dataParse) {
   } else if (dataParse.rating > 2 && dataParse.rating <5) {
     meaning = 'not very good, probably will not drink again'
   } else if (dataParse.rating >= 5 && dataParse.rating <=7) {
-    meaning = 'pretty averge, maybe drink once in a while'
+    meaning = 'pretty average, maybe drink once in a while'
   } else if (dataParse.rating > 7 && dataParse.rating <=9) {
     meaning = 'very good! will drink often!'
   } else if (dataParse.rating == 10) {

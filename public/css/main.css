@@ -6,7 +6,7 @@ body {
   margin-right: 15%;
 }
 
-h1 {
+h1, h2 {
   text-align: center;
 }
 
@@ -48,3 +48,14 @@ input {
   flex-direction: column;
 }
 
+#deleteFromLog {
+  text-decoration: wavy underline;
+}
+
+#addToLog {
+  text-decoration: underline;
+}
+
+#editLogEntry {
+  text-decoration: dotted underline;
+}

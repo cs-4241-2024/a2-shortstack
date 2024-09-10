@@ -30,33 +30,37 @@ const handleGet = function( request, response ) {
   }
 }
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+const handlePost = function(request, response) {
+  let dataString = '';
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+  request.on('data', function(data) {
+    dataString += data;
+  });
 
-  request.on( 'end', function() {
-    if ( request.url === "/submit"){
-   // console.log( JSON.parse( dataString ) )
-    // ... do something with the data here!!!
-    let dataJson = JSON.parse(dataString)
-    appdata.push(dataJson)
+  request.on('end', function() {
+    if (request.url === "/submit") {
+      // Handle task submission
+      let dataJson = JSON.parse(dataString);
+      appdata.push(dataJson); // Add task to appdata
+      console.log('After submit:', appdata);
     } else if (request.url === "/delete") {
+      // Handle task deletion
       let dataJson = JSON.parse(dataString);
       let taskToDelete = dataJson.task;
-
-      appdata = [appdata.filter(item => item.task !== taskToDelete)];
+      appdata = appdata.filter(item => item.task !== taskToDelete); // Remove task
+      console.log('After delete:', appdata);
     }
 
-    appdata = [];
-    // ... do something with the data here!!!
+    // Empty appdata after processing the request
+    appdata = []; 
+    console.log('appdata emptied:', appdata);
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end(JSON.stringify(appdata))
-  })
-}
+    // Send response with the (now empty) appdata
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(appdata));
+  });
+};
+
 
 function calculateDaysLeft(dueDay) {
   let currentDate = new Date();

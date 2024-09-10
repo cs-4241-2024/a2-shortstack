@@ -78,8 +78,11 @@ let jsonTaskObj = JSON.stringify(taskObj);
   .then((data) => {
       // this is the response from the server
       console.log(data)
+      for (i = 0; i<length(data);i++){
+        refreshTodoList(data[i]);
+        console.log(data[i]);
+      }
       console.log(taskObj)
-      refreshTodoList(data);
     })
  
 };

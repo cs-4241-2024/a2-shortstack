@@ -11,10 +11,10 @@ window.onload = function () {
   errorMessage.innerHTML = "Check your date!";
   submitButton.parentNode.insertBefore(errorMessage, submitButton);  // Insert before submit button
 
-    // post
+  let taskObj = {};
   fetch( '/submit', { // fetch is where you specify the url/ resouce that you want to see
     method:'POST',
-    body: "",// send body to server
+    body: JSON.stringify(taskObj),// send body to server
   }).then((response) => response.json())
   .then((data) => {
       // this is the response from the server

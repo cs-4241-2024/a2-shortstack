@@ -51,10 +51,6 @@ const handlePost = function(request, response) {
       console.log('After delete:', appdata);
     }
 
-    // Empty appdata after processing the request
-    appdata = []; 
-    console.log('appdata emptied:', appdata);
-
     // Send response with the (now empty) appdata
     response.writeHead(200, { 'Content-Type': 'application/json' });
     response.end(JSON.stringify(appdata));

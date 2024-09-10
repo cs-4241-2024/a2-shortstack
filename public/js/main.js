@@ -29,6 +29,26 @@ const showTable = function(data) {
   const table = document.querySelector('table') 
   table.innerHTML = ''
 
+  //for recreating the column titles
+  const tr = document.createElement('tr') 
+  const th0 = document.createElement('th')
+  const th1 = document.createElement('th')
+  const th2 = document.createElement('th')
+  const th3 = document.createElement('th')
+  const th4 = document.createElement('th')
+  th0.innerText = "Row"
+  tr.appendChild(th0)
+  th1.innerText = "Tea Type"
+  tr.appendChild(th1)
+  th2.innerText = "Day Consumed"
+  tr.appendChild(th2)
+  th3.innerText = "Rating"
+  tr.appendChild(th3)
+  th4.innerText = "Meaning"
+  tr.appendChild(th4)
+  table.appendChild(tr)
+
+  //filling in the data
   data.forEach ( item => {
         const tr = document.createElement('tr') 
         const td0 = document.createElement('td')
@@ -37,7 +57,8 @@ const showTable = function(data) {
         const td3 = document.createElement('td')
         const td4 = document.createElement('td')
         
-        td0.innerText = table.rows.length + 1
+        //don't need the plus 1 bc we added the header row
+        td0.innerText = table.rows.length
         tr.appendChild(td0)
         td1.innerText = item.type
         tr.appendChild(td1)
@@ -92,6 +113,7 @@ const update = async function( event ) {
 }
 
 window.onload = function() {
+
   const button = document.querySelector("#submit");
   button.onclick = submit;
 

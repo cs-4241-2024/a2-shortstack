@@ -67,9 +67,12 @@ const handlePost = function( request, response ) {
     
     dataParse = JSON.parse( dataString )
 
-    const meaning = deriveField(dataParse)
-    dataParse.meaning = meaning;
-    appdata.push(dataParse)
+    //only push data if at least one of the textboxes was filled with data
+    if (dataParse.type !== "" || dataParse.day !== "" || dataParse.rating !== "") {
+      const meaning = deriveField(dataParse)
+      dataParse.meaning = meaning;
+      appdata.push(dataParse)
+    }
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end( JSON.stringify (appdata))
@@ -88,11 +91,10 @@ const handleDelete = function(request, response) {
     dataParse = JSON.parse( dataString )
 
     const index = dataParse.row-1
-    if (index < 0 || index > appdata.length) {
+    if (index < 0 || index > appdata.length-1) {
       console.log("Row doesn't exist. Please enter a valid row number")
     } else {
       appdata.splice(index, 1);
-      console.log("APPDATA", appdata)
     }
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
@@ -112,8 +114,6 @@ const handlePatch = function(request, response) {
     dataParse = JSON.parse( dataString )
     const index = dataParse.row-1
 
-    console.log("DATA", appdata)
-    console.log("LENGTH", appdata.length)
     if (index < 0 || index > appdata.length-1) {
       console.log("Row doesn't exist. Please enter a valid row number")
     } else {
@@ -132,8 +132,6 @@ const handlePatch = function(request, response) {
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end( JSON.stringify (appdata))
-
-
   })
 }
 

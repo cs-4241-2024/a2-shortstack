@@ -16,48 +16,88 @@
   </head>
   <body>
       <h1>Laura's Tea Log</h1>
-      <form>  
-        <label for="type">Type:</label>
-        <input type="text" id="type" value="black"/>
-    
-        <label for="day">Day:</label>
-        <input type="text" id="day" value="tuesday"/>
-        
-        <label for="rating">Rating:</label>
-        <input type="text" id="rating" value="10"/>
+      <p>Welcome! Here you can keep track of the cups of tea you have dranken. Just enter the type (ex. Black, Green, Earl Grey), the date (ex. Sunday, 9/8/24), and your rating (0-10). The server then generates a meaning based on the rating.</p>
+      
+      <div class="flex-container">
+        <div class="submit-flex-container">
+          <form>
+            <div>
+              <h2>Add To Log:</h2>
+            </div>
+            <div>
+              <label for="type">Type:</label>
+              <input type="text" id="type"/>
+            </div>
+            <div>
+              <label for="day">Day:</label>
+              <input type="text" id="day"/>
+            </div>
+            <div>
+              <label for="rating">Rating:</label>
+              <input type="text" id="rating"/>
+            </div>
+            <div> 
+              <button id="submit">submit / show results</button>  
+            </div>
+          </form>
+        </div>
 
-        <button id="submit">submit</button>  
-      </form>
-      <br>
-      <form>
-        <label for="row">Enter row number to delete:</label>
-        <input type="text" id="row" value="">
+        <br>
 
-        <button id="delete">delete</button>
-      </form>
-      <br>
-      <form>
-        <label for="rowEdit">Row to edit:</label>
-        <input type="text" id="rowEdit" >
+        <div class="delete-flex-container">
+          <form>
+            <div>
+              <h2>Delete from Log:</h2>
+            </div>
+            <div> 
+              <label for="row">Row to Delete:</label>
+              <input type="text" id="row">
+            </div>
+            <div>
+              <button id="delete">delete</button>
+            </div>
+          </form>
+        </div>
 
-        <label for="typeEdit">Updated Type:</label>
-        <input type="text" id="typeEdit" >
+        <br>
 
-        <label for="dayEdit">Updated Day:</label>
-        <input type="text" id="dayEdit" >
-
-        <label for="ratingEdit">Updated Rating:</label>
-        <input type="text" id="ratingEdit" >
-
-        <button id="update">update</button>
-      </form>
+        <div class="edit-flex-container"> 
+          <form>
+            <div>
+              <h2>Edit Log Entry:</h2>
+            </div>
+            <div>
+              <label for="rowEdit">Row to edit:</label>
+              <input type="text" id="rowEdit" >
+            </div>
+            <div>
+              <label for="typeEdit">Updated Type:</label>
+              <input type="text" id="typeEdit" >
+            </div>
+            <div>
+              <label for="dayEdit">Updated Day:</label>
+              <input type="text" id="dayEdit" >
+            </div>
+            <div>
+              <label for="ratingEdit">Updated Rating:</label>
+              <input type="text" id="ratingEdit" >
+            </div>
+            <div>
+              <button id="update">update</button>
+            </div>
+          </form>
+        </div>
+      </div>
       <br>
       <table id="table">
-        <!-- <tr>
+        <tr>
+          <!-- on load, these display -->
+          <th>Row</th>
           <th>Tea Type</th>
           <th>Day Consumed</th>
           <th>Rating</th>
-        </tr> -->
+          <th>Meaning</th>
+        </tr>
       </table>
   </body>
 </html>

@@ -78,15 +78,9 @@ let jsonTaskObj = JSON.stringify(taskObj);
   .then((data) => {
       // this is the response from the server
       console.log(data)
-    // do something with the reponse 
-    // try putting the TABLE HERE
-    //  console.log( response )
-      // return response.json() // extracts json and returns it
-     
-      //return response.json() // converts ReadableStream to JSON array for appdata
     })
  
-  refreshTodoList(taskObj);
+  refreshTodoList(data);
 };
 
 

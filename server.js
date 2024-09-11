@@ -9,7 +9,7 @@ const http = require( 'http' ),
       port = 3000;
 
 let appdata = [ // name price quantity total
-  {"name": "apple", "price": "1.00", "quantity": "5", "total": "5.00"}
+  //{"name": "apple", "price": "1.00", "quantity": "5", "total": "5.00", "id":"0"}
   
 ]
 
@@ -70,10 +70,11 @@ const handlePost = function(request, response) { // function for handling POST r
     console.log(JSON.parse(dataString))
 
     let newEntry = JSON.parse(dataString); // converts string into JSON format
-    newEntry.id = nextId++;
-    console.log(newEntry.id);
-
     newEntry.total = newEntry.price * newEntry.quantity; // calculate total cost
+    newEntry.id = nextId++;
+    
+    JSON.stringify(newEntry);
+    console.log(newEntry.id);
     
     appdata.push(newEntry); // add to array
 
@@ -102,7 +103,9 @@ const handlePut = function(request, response) { // function for handling PUT req
   request.on("end", function() { // update table info
     const updatedEntry = JSON.parse(dataString); // parse new received datastring
     const entryIndex = appdata.findIndex((entry) => entry.id === id);
-    appdata[entryIndex] = {id, ...updatedEntry }; // update the table entry
+    updatedEntry.total = updatedEntry.price * updatedEntry.quantity; // calculate total cost
+    
+    appdata[entryIndex] = {id, ...updatedEntry}; // update the table entry
     console.log("Updated entry:", appdata[entryIndex]);
     response.writeHead(200, "OK", {"Content-Type": "application/json"});
     response.end(JSON.stringify(appdata));

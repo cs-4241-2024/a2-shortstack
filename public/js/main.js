@@ -118,7 +118,7 @@ const deleteRow = async function(id) {
 };
 
 function editRow(entry) {
-  document.querySelector("#editItem").value = entry.item;
+  document.querySelector("#editItem").value = entry.name;
   document.querySelector("#editPrice").value = entry.price;
   document.querySelector("#editQuantity").value = entry.quantity;
   document.querySelector("#editId").value = entry.id;
@@ -129,7 +129,7 @@ function editRow(entry) {
 
     const id = document.querySelector("#editId").value;
     const updatedEntry = {
-      item: document.querySelector("#editItem").value,
+      name: document.querySelector("#editItem").value,
       price: document.querySelector("#editPrice").value,
       quantity: document.querySelector("#editQuantity").value,
     };

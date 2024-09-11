@@ -1,6 +1,9 @@
 body {
   background:rgb(255, 170, 190);
   color:rgb(65, 31, 31);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   font-family: "Kanit", sans-serif;
 }
 

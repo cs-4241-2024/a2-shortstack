@@ -20,13 +20,21 @@ const server = http.createServer(function(request, response) { // basic server
   else if( request.method === 'POST') { // sending data back to client
     handlePost(request, response) 
   }
-  else if (request.method === "DELETE") { // case for deleting data
-    handleDelete(request, response);
-  } 
   else if (request.method === "PUT") { // case for editing data
     handlePut(request, response);
   }
+  else if (request.method === "DELETE") { // case for deleting data
+    handleDelete(request, response);
+  } 
 })
+
+function validateForm(x) { // severside function for handling invalid (blank) data
+  //var x = document.forms["myForm"]["fname"].value;
+  if (x.name == null || x.name == "") {
+      alert("Name must be filled out");
+      return false;
+  }
+}
 
 const handleGet = function(request, response) { // function for handling GET request
   const filename = dir + request.url.slice(1) 
@@ -38,6 +46,9 @@ const handleGet = function(request, response) { // function for handling GET req
     console.log("sending results.html");
     response.end(JSON.stringify(appdata));
     console.log(appdata);
+
+    validateForm(appdata.id);
+
     sendFile(response, "public/results.html");
     console.log("results sent");
   }
@@ -91,7 +102,7 @@ const handlePut = function(request, response) { // function for handling PUT req
   request.on("end", function() { // update table info
     const updatedEntry = JSON.parse(dataString); // parse new received datastring
     const entryIndex = appdata.findIndex((entry) => entry.id === id);
-    appdata[entryIndex] = { id, ...updatedEntry }; // update the table entry
+    appdata[entryIndex] = {id, ...updatedEntry }; // update the table entry
     console.log("Updated entry:", appdata[entryIndex]);
     response.writeHead(200, "OK", {"Content-Type": "application/json"});
     response.end(JSON.stringify(appdata));

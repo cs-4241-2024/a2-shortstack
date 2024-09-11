@@ -1,4 +1,40 @@
+/*color pallet: #F4B16B #F59B6C #F5C66C #756D65*/
 body {
-  background:black;
-  color:white;
+    font-family: "Trirong", serif;
+    background-color: #756D65;
+    color: #F5C66C;
+}
+
+p {
+  text-align: center;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+}
+
+
+table, th, td{
+  border: 1px solid;
+  border-collapse: collapse;
+}
+
+h1 {
+  color: #F59B6C;
+  text-align: center;
+}
+
+h2 {
+  color: #F4B16B;
+  text-align: center;
+}
+
+form {
+  text-align: center;
 }

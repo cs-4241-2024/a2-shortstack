@@ -10,6 +10,8 @@ let toggle = () => {
   }
 }
 
+
+
 const updateTable = function (jsonData) {
   //console.log("MADE IT" + JSON.stringify(jsonData);)
   const table = document.getElementById("myTable");
@@ -24,16 +26,43 @@ const updateTable = function (jsonData) {
 }
 
 async function submit() {
+  const postdata = {
+    "firstnum": document.getElementById("firstnum").value,
+    "lastnum": document.getElementById("lastnum").value,
+  }
+  //console.log(postdata);
+  if (postdata.lastnum == "Add" ||postdata.lastnum == "Sub" ||
+    postdata.lastnum == "Div" || postdata.lastnum == "Mult") {
+    fetch('/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }})
+      //body: JSON.stringify(postdata)})
+        .then(response => response.json())
+        .then(json => console.log(json));
+      fetch("/data", { method: 'GET', })
+        .then(responce => responce.json())
+        .then(json => { updateTable(json) })
+  }
+  else
+  {
+    alert("Inncorrect calculation identifier. Please retype.")
+  }
+    
+};
+/*  //console.log("wowzqa");
   const postdata = [{
     "firstnum": document.getElementById("firstnum").value,
     "lastnum": document.getElementById("lastnum").value,
   }]
   if (document.getElementById("lastnum").value == "Add" || document.getElementById("lastnum").value == "Sub"
     || document.getElementById("lastnum").value == "Mult" || document.getElementById("lastnum").value == "Div") {
-    const responce = await fetch("/submit",
+      //console.log(JSON.stringify(postdata));
+      const responce = await fetch("/submit",
       {
         method: "POST",
+        header: {'Content-Type': 'application/json'},
         body: JSON.stringify(postdata)
+        
       }
     );
     updateTable(postdata);
@@ -44,11 +73,12 @@ async function submit() {
   else {
     alert("Inncorrect wording for calculation in the second box. Please retype.")
   }
-}
+}*/
 
 async function kill() {
   //console.log("in kill scriopt");
-    const responce = await fetch("/kill",
+  /*
+  const responce = await fetch("/kill",
     {
       method: "POST"
     }
@@ -56,7 +86,15 @@ async function kill() {
     fetch("/data", { method: 'GET', })
       .then(responce => responce.json())
       .then(json => { updateTable(json) })
-  });
+  });*/
+  fetch('/kill', {
+    method: 'POST'
+  })
+      .then(response => response.json())
+      .then(json => console.log(json));
+    fetch("/data", { method: 'GET', })
+      .then(responce => responce.json())
+      .then(json => { updateTable(json) })
 }
 
 

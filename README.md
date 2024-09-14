@@ -1,6 +1,5 @@
 
 ## Make Your Own To-do List!
-Glitch: https://trapezoidal-surf-bear.glitch.me
 This application allows users to create, view, and manage a to-do list. Users can add tasks with priorities, set deadlines, and also delete tasks once completed. The app supports adding tasks to a dynamic table and deleting them both on the client side and on the server.
 
 ## Features

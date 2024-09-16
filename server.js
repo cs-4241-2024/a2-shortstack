@@ -26,7 +26,7 @@ app.use(express.json());
 console.log(process.env.MONGO_URI)
       
 const uri = process.env.MONGO_URI, 
-      client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      client = new MongoClient(uri);
 
 let collection = null;
 async function connectToMongo() {
@@ -147,98 +147,98 @@ app.post('/post', async (req, res) => {
 
 
 
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+// const http = require( 'http' ),
+//       fs   = require( 'fs' ),
+//       // IMPORTANT: you must run `npm install` in the directory for this assignment
+//       // to install the mime library if you're testing this on your local machine.
+//       // However, Glitch will install it automatically by looking in your package.json
+//       // file.
+//       mime = require( 'mime' ),
+//       dir  = 'public/',
+//       port = 3000
 
-const appdata = [
-  {} 
-]
+// const appdata = [
+//   {} 
+// ]
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
-  } else if( request.method === 'DELETE' ) {
-    handleDelete( request, response )
-  }
-  else if( request.method === 'PUT' ) {
-    handleEdit( request, response )
-  }
-})
+// const server = http.createServer( function( request,response ) {
+//   if( request.method === 'GET' ) {
+//     handleGet( request, response )    
+//   }else if( request.method === 'POST' ){
+//     handlePost( request, response ) 
+//   } else if( request.method === 'DELETE' ) {
+//     handleDelete( request, response )
+//   }
+//   else if( request.method === 'PUT' ) {
+//     handleEdit( request, response )
+//   }
+// })
 
-const handleEdit = function( request, response ) {
-  let dataString = ''
+// const handleEdit = function( request, response ) {
+//   let dataString = ''
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+//   request.on( 'data', function( data ) {
+//       dataString += data 
+//   })
 
-  request.on( 'end', function() {
-    const titleToEdit = JSON.parse( dataString ).title
+//   request.on( 'end', function() {
+//     const titleToEdit = JSON.parse( dataString ).title
 
-    const indexToEdit = appdata.findIndex(record => record.title === titleToEdit)
+//     const indexToEdit = appdata.findIndex(record => record.title === titleToEdit)
 
-    if (indexToEdit !== -1) {
-      appdata[indexToEdit] = JSON.parse( dataString )
-      response.writeHead(200, "OK", {'Content-Type': 'text/plain'})
-      response.end('Record edited successfully')
-    } else {
-      response.writeHead(404, "Not Found", {'Content-Type': 'text/plain'})
-      response.end('Record not found')
-    }
-  })
-}
+//     if (indexToEdit !== -1) {
+//       appdata[indexToEdit] = JSON.parse( dataString )
+//       response.writeHead(200, "OK", {'Content-Type': 'text/plain'})
+//       response.end('Record edited successfully')
+//     } else {
+//       response.writeHead(404, "Not Found", {'Content-Type': 'text/plain'})
+//       response.end('Record not found')
+//     }
+//   })
+// }
 
-const handleDelete = function( request, response ) {
-  let dataString = ''
+// const handleDelete = function( request, response ) {
+//   let dataString = ''
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+//   request.on( 'data', function( data ) {
+//       dataString += data 
+//   })
 
-  request.on( 'end', function() {
-    const titleToDelete = JSON.parse( dataString ).title
+//   request.on( 'end', function() {
+//     const titleToDelete = JSON.parse( dataString ).title
 
-    const indexToDelete = appdata.findIndex(record => record.title === titleToDelete)
+//     const indexToDelete = appdata.findIndex(record => record.title === titleToDelete)
 
-    if (indexToDelete !== -1) {
-      appdata.splice(indexToDelete, 1)
-      response.writeHead(200, "OK", {'Content-Type': 'text/plain'})
-      response.end('Record deleted successfully')
-    } else {
-      response.writeHead(404, "Not Found", {'Content-Type': 'text/plain'})
-      response.end('Record not found')
-    }
-  })
-}
+//     if (indexToDelete !== -1) {
+//       appdata.splice(indexToDelete, 1)
+//       response.writeHead(200, "OK", {'Content-Type': 'text/plain'})
+//       response.end('Record deleted successfully')
+//     } else {
+//       response.writeHead(404, "Not Found", {'Content-Type': 'text/plain'})
+//       response.end('Record not found')
+//     }
+//   })
+// }
 
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+// const handlePost = function( request, response ) {
+//   let dataString = ''
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+//   request.on( 'data', function( data ) {
+//       dataString += data 
+//   })
 
-  request.on( 'end', function() {
-    const newPost = JSON.parse( dataString )
-    newPost.publication_date = new Date()
-    newPost.wordCount = newPost.content.split(/\s+/).length;
-    appdata.push( newPost )
-    console.log( newPost )
+//   request.on( 'end', function() {
+//     const newPost = JSON.parse( dataString )
+//     newPost.publication_date = new Date()
+//     newPost.wordCount = newPost.content.split(/\s+/).length;
+//     appdata.push( newPost )
+//     console.log( newPost )
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
+//     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+//     response.end('test')
+//   })
+// }
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 

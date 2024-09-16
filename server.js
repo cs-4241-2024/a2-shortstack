@@ -1,5 +1,115 @@
 const { title } = require('process')
 
+const express = require('express'),
+       app = express(),
+       path = require('path'),
+       cookie = require('cookie-session'),
+       MongoClient = require('mongodb').MongoClient,
+       cookieParser = require('cookie-parser'),
+       { OctoKit } = require('@octokit/rest'),
+       axios = require('axios')
+       ;
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+}
+
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(session({
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+}));
+
+app.use(express.json())
+console.log(process.env.MONGO_URI)
+      
+const uri = process.env.MONGO_URI, 
+      client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+let collection = null;
+async function connectToMongo() {
+  try {
+    await client.connect();
+    collection = client.db('webware').collection('a3');
+
+    console.log('Connected to MongoDB');
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+connectToMongo();
+
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  if (collection != null) {
+    next();
+  } else {
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.use(express.static('public'));
+      
+app.get('/collections', async (req, res) => {
+  if (collection != null) {
+    const docs = await collection.find({
+      user: req.cookies.user,
+    }).toArray();
+    res.json(docs);
+  }
+})
+
+app.get('/auth/git', async (req, res) => {
+  try {
+    const tokenResponse = await axios.post(
+      'https://github.com/login/oauth/access_token',
+      {
+        client_id: process.env.CLIENT_ID,
+        client_secret: process.env.CLIENT_SECRET,
+        code: req.query.code,
+      },
+      {
+        headers: {
+          Accept: 'application/json',
+        },
+      }
+    );
+
+    const access_token = tokenResponse.data.access_token;
+    if (!access_token) {
+      return res.status(500).send('Failed to obtain access token.');
+    }
+
+    const octokit = new Octokit({
+      auth: `token ${access_token}`,
+    });
+
+    const { data: user } = await octokit.users.getAuthenticated();
+
+    const user_login = user.login;
+    req.session.user = user_login;
+    res.cookie('access_token', access_token, { httpOnly: true, secure: true });
+    res.cookie('user', user_login, { httpOnly: true, secure: true });
+    console.log(user_login);
+    res.redirect('/main.html');
+
+  } catch (error) {
+    console.error('Error:', error.message);
+    if (error.response) {
+      console.error('Error details:', error.response.data);
+    }
+    return res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
+
 const http = require( 'http' ),
       fs   = require( 'fs' ),
       // IMPORTANT: you must run `npm install` in the directory for this assignment

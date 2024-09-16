@@ -8,6 +8,8 @@ const express = require('express'),
        cookieParser = require('cookie-parser'),
         bodyParser = require('body-parser'),
        { OctoKit } = require('@octokit/rest'),
+       session = require('express-session'),
+
        axios = require('axios')
        ;
 
@@ -20,15 +22,27 @@ app.use(cookie({
   name: 'session',
   keys: ['key1', 'key2']
 }))
+app.use(session({ secret: process.env.COOKIE_SECRET, resave: false, saveUninitialized: true }));
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 console.log(process.env.MONGO_URI)
-      
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'main.html'));
+}); 
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'main.html'));
+});
+   
 const uri = process.env.MONGO_URI, 
       client = new MongoClient(uri);
 
 let collection = null;
+
+//connect to mongo
 async function connectToMongo() {
   try {
     await client.connect();
@@ -43,7 +57,6 @@ async function connectToMongo() {
 
 connectToMongo();
 
-// checks for authernticated user
 function checkAuth(req, res, next) {
   if (req.cookies.user) {
     next();
@@ -62,7 +75,7 @@ app.use((req, res, next) => {
 });
 
 
-app.get('/posts', async (req, res) => {
+app.get('/posts', checkAuth, async (req, res) => {
   if (collection != null) {
     const posts = await collection.find({
       user: req.session.user,
@@ -76,9 +89,7 @@ app.get('/index.html', checkAuth, (req, res) => {
 });
 
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'main.html'));
-});
+
 
 app.get('/login', (req, res) => {
   const client_id = process.env.CLIENT_ID;
@@ -251,27 +262,27 @@ app.listen((process.env.PORT || 3000), function () {
 //   })
 // }
 
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
+// const sendFile = function( response, filename ) {
+//    const type = mime.getType( filename ) 
 
-   fs.readFile( filename, function( err, content ) {
+//    fs.readFile( filename, function( err, content ) {
 
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
+//      // if the error = null, then we've loaded the file successfully
+//      if( err === null ) {
 
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
+//        // status code: https://httpstatuses.com
+//        response.writeHeader( 200, { 'Content-Type': type })
+//        response.end( content )
 
-     }else{
+//      }else{
 
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
+//        // file not found, error code 404
+//        response.writeHeader( 404 )
+//        response.end( '404 Error: File Not Found' )
 
-     }
-   })
-}
+//      }
+//    })
+// }
 
 
 console.log('listening on 3000')

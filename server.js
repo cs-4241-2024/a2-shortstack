@@ -43,21 +43,22 @@ async function connectToMongo() {
 connectToMongo();
 
 function checkAuth(req, res, next) {
-  if (req.cookies.user) {
-    return res.redirect('/main.html'); 
+  console.log('Cookies:', req.cookies);
+  console.log('User: this user is ', req.session.user);
+  if (req.cookies.user === undefined || !req.session.user || !req.cookies.user) {
+    return res.redirect('/');
+
   }
-  next(); 
+  next();
 }
 
-app.get('/', checkAuth, (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.get('/main.html', (req, res) => {
-  if (req.cookies.user) {
-    return res.sendFile(path.join(__dirname, 'public', 'main.html'));
-  }
-  res.redirect('/');
+app.get('/main.html', checkAuth, (req, res) => {
+  console.log(' today is:', req.session.user);
+  res.sendFile(path.join(__dirname, 'public', 'main.html'));
 });
 
 app.get('/auth/git', (req, res) => {
@@ -121,7 +122,7 @@ app.get('/posts', async (req, res) => {
 });
 
 // make post
-app.post('/post', async (req, res) => {
+app.post('/submit', async (req, res) => {
   try {
     const newPost = req.body;
     newPost.publication_date = new Date();

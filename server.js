@@ -1,74 +1,150 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+const express = require('express'),
+      path = require('path'),
+      cookie = require('cookie-session'),
+      MongoClient = require('mongodb').MongoClient,
+      cookieParser = require('cookie-parser'),
+      bodyParser = require('body-parser'),
+      { Octokit } = require('@octokit/rest'),
+      session = require('express-session'),
+      axios = require('axios');
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+const app = express();
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+}
+
+// Middleware setup
+app.use(bodyParser.json());
+app.use(cookieParser()); 
+app.use(cookie({
+  name: 'session',
+  keys: ['key1', 'key2']
+}));
+app.use(session({ secret: process.env.COOKIE_SECRET, resave: false, saveUninitialized: true }));
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
+
+const uri = process.env.MONGO_URI;
+const client = new MongoClient(uri);
+let collection = null;
+
+async function connectToMongo() {
+  try {
+    await client.connect();
+    collection = client.db('webware').collection('a3');
+    console.log('Connected to MongoDB');
+  } catch (e) {
+    console.error('Error connecting to MongoDB:', e);
   }
-})
+}
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
+connectToMongo();
 
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
+function checkAuth(req, res, next) {
+  console.log('Cookies:', req.cookies);
+  console.log('User: this user is ', req.session.user);
+  if (req.cookies.user === undefined || !req.session.user || !req.cookies.user) {
+    return res.redirect('/');
+
   }
+  next();
 }
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+app.get('/main.html', checkAuth, (req, res) => {
+  console.log(' today is:', req.session.user);
+  res.sendFile(path.join(__dirname, 'public', 'main.html'));
+});
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+app.get('/auth/git', (req, res) => {
+  const clientId = process.env.CLIENT_ID;
+  const redirectUri = 'https://webware-a3-7443f86eaef6.herokuapp.com/auth/git/callback';
+  const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`;
+  res.redirect(githubAuthUrl);
+});
 
-    // ... do something with the data here!!!
+app.get('/auth/git/callback', async (req, res) => {
+  const code = req.query.code;
+  if (!code) {
+    return res.status(400).send('Code is missing');
+  }
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
+  try {
+    const tokenResponse = await axios.post(
+      'https://github.com/login/oauth/access_token',
+      {
+        client_id: process.env.CLIENT_ID,
+        client_secret: process.env.CLIENT_SECRET,
+        code: code,
+      },
+      {
+        headers: {
+          Accept: 'application/json',
+        },
+      }
+    );
 
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
+    const accessToken = tokenResponse.data.access_token;
+    if (!accessToken) {
+      return res.status(400).send('Failed to obtain access token');
+    }
 
-   fs.readFile( filename, function( err, content ) {
+    const userResponse = await axios.get('https://api.github.com/user', {
+      headers: {
+        Authorization: `token ${accessToken}`,
+      },
+    });
 
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
+    const user = userResponse.data;
+    req.session.user = user;
+    res.cookie('user', user.login, { maxAge: 900000, httpOnly: true });
+    res.redirect('/main.html');
+  } catch (error) {
+    console.error('Error during GitHub OAuth:', error);
+    res.status(500).send('Authentication failed');
+  }
 
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
+});
 
-     }else{
+app.get('/posts', async (req, res) => {
+  console.log('User:', req.session.user); 
+  if (collection != null) {
+    const posts = await collection.find({
+      user: req.session.user,
+    }).toArray();
+    res.json(posts);
+  }
+});
 
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
+// make post
+app.post('/submit', async (req, res) => {
+  try {
+    const newPost = req.body;
+    newPost.publication_date = new Date();
+    newPost.wordCount = newPost.content.split(/\s+/).length;
 
-     }
-   })
-}
+    const result = await collection.insertOne(newPost);
+    console.log('New post inserted:', result.ops[0]);
 
-server.listen( process.env.PORT || port )
+    res.status(200).json({ message: 'Post created successfully', post: result.ops[0] });
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+// allow cors header
+app.all('/*', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
+
+// start the server
+app.listen((process.env.PORT || 3000), function () {
+  console.log('Node app is running on port', process.env.PORT || 3000);
+});

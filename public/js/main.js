@@ -1,27 +1,194 @@
-// FRONT-END (CLIENT) JAVASCRIPT HERE
+const submit = async function(event) {
+  event.preventDefault();
 
-const submit = async function( event ) {
-  // stop form submission from trying to load
-  // a new .html page for displaying results...
-  // this was the original browser behavior and still
-  // remains to this day
-  event.preventDefault()
-  
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
-        body = JSON.stringify( json )
+  const form = document.getElementById('blogform');
+  const formData = new FormData(form);
 
-  const response = await fetch( '/submit', {
-    method:'POST',
-    body 
+  const blogMetaData = {
+    yourname: formData.get('yourname'),
+    title: formData.get('title'),
+    content: formData.get('content'),
+    wordCount: formData.get('content').split(' ').length,
+    publication_date: new Date().toLocaleString(),
+  };
+
+  const response = await fetch('/submit', {
+    method: 'POST',
+    body: JSON.stringify(blogMetaData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    console.error('response:', response);
+    return;
+  }
+
+  addPostToTable(blogMetaData);
+
+  form.reset();
+};
+
+const fetchPosts = async function() { // for when user reloads page
+  const response = await fetch('/posts', {
+    method: 'GET',
+  });
+
+  if (!response.ok) {
+    console.error('response:', response);
+    return;
+  }
+
+  const posts = await response.json();
+  const postTableBody = document.getElementById('postTableBody');
+  postTableBody.innerHTML = '';
+
+  posts.forEach(post => addPostToTable(post));
+};
+
+const addPostToTable = function(post) {
+
+  if (!post || !post.yourname || !post.title || !post.content) {
+    return; 
+  }
+  const postTableBody = document.getElementById('postTableBody');
+  const row = document.createElement('tr');
+  row.setAttribute('data-title', post.title);
+
+  const nameCell = document.createElement('td');
+  nameCell.textContent = post.yourname;
+  row.appendChild(nameCell);
+
+  const titleCell = document.createElement('td');
+  titleCell.textContent = post.title;
+  row.appendChild(titleCell);
+
+  const contentCell = document.createElement('td');
+  contentCell.textContent = post.content;
+  row.appendChild(contentCell);
+
+  const wordCountCell = document.createElement('td');
+  wordCountCell.textContent = post.wordCount;
+  row.appendChild(wordCountCell);
+
+  const dateCell = document.createElement('td');
+  dateCell.textContent = post.publication_date;
+  row.appendChild(dateCell);
+
+  const deleteCell = document.createElement('td');
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = '🗑️';
+  deleteButton.classList.add('delete-btn');
+  deleteButton.onclick = handleDelete; 
+  deleteCell.appendChild(deleteButton);
+  row.appendChild(deleteCell);
+
+  const editCell = document.createElement('td');
+  const editButton = document.createElement('button');
+  editButton.textContent = 'Edit';
+  editButton.classList.add('edit-btn');
+  editButton.onclick = handleEdit; 
+  editCell.appendChild(editButton);
+  row.appendChild(editCell);
+
+
+  postTableBody.appendChild(row);
+};
+
+const handleDelete = function(event) {
+  const row = event.target.closest('tr');
+  const dataId = row.getAttribute('data-title');
+
+  row.remove(); 
+
+  fetch('/delete', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ title: dataId }),
   })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Data deleted successfully:', data);
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
+};
 
-  const text = await response.text()
+const handleEdit = (event) => {
+  const row = event.target.closest('tr');
+  const cells = row.querySelectorAll('td');
 
-  console.log( 'text:', text )
-}
+  cells.forEach((cell, index) => {
+    if (index < 5 && !cell.querySelector('input')) { 
+      const input = document.createElement('input');
+      input.value = cell.textContent;
+      cell.innerHTML = ''; 
+      cell.appendChild(input);
+    }
+  });
+
+  const editButton = row.querySelector('.edit-btn');
+  editButton.textContent = 'Save';
+  editButton.onclick = handleSave; 
+};
+
+const handleSave = async (event) => {
+  const row = event.target.closest('tr');
+  const cells = row.querySelectorAll('td');
+
+  const yournameInput = cells[0].querySelector('input');
+  const titleInput = cells[1].querySelector('input');
+  const contentInput = cells[2].querySelector('input');
+
+  if (!yournameInput || !titleInput || !contentInput) {
+    console.error('Input fields not found');
+    return;
+  }
+
+  const updatedData = {
+    yourname: yournameInput.value,
+    title: titleInput.value,
+    content: contentInput.value,
+    wordCount: contentInput.value.split(' ').length,
+    publication_date: new Date().toLocaleString(),
+  };
+
+  const response = await fetch('/update', {
+    method: 'PUT',
+    body: JSON.stringify(updatedData),
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  if (response.ok) {
+    cells.forEach((cell, index) => {
+      if (index < 5) {
+        cell.textContent = Object.values(updatedData)[index];
+      }
+    });
+
+    event.target.textContent = 'Edit'; 
+    event.target.onclick = handleEdit; 
+  } else {
+    console.error('Failed to save updated data');
+  }
+};
 
 window.onload = function() {
-   const button = document.querySelector("button");
+  const button = document.querySelector("button");
   button.onclick = submit;
-}
+  fetchPosts(); 
+
+  const editButtons = document.querySelectorAll('.edit-btn');
+  editButtons.forEach(editButton => {
+    editButton.onclick = handleEdit;
+  });
+};

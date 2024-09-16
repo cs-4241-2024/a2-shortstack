@@ -13,13 +13,12 @@ const express = require('express'),
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 }
-
+app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(cookie({
   name: 'session',
   keys: ['key1', 'key2']
 }))
-
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -43,6 +42,14 @@ async function connectToMongo() {
 
 connectToMongo();
 
+// checks for authernticated user
+function checkAuth(req, res, next) {
+  if (req.cookies.user) {
+    next();
+  } else {
+    res.redirect('/');
+  }
+}
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -53,7 +60,6 @@ app.use((req, res, next) => {
   }
 });
 
-app.use(express.static(__dirname + '/public'));
 
 app.get('/posts', async (req, res) => {
   if (collection != null) {
@@ -64,20 +70,14 @@ app.get('/posts', async (req, res) => {
     }
 });
 
-app.get('/index.html', (req, res) => {
-  if (req.session.user_id === undefined) {
-    res.redirect("/main.html");
-  }
+app.get('/index.html', checkAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 
-app.get('/', async (req, res) => {
-  if (req.session.user_id === undefined) {
-    res.sendFile(path.join(__dirname, 'public', 'main.html'));
-  } else 
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-}
-);
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'main.html'));
+});
 
 app.get('/login', (req, res) => {
   const client_id = process.env.CLIENT_ID;

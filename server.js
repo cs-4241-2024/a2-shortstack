@@ -36,6 +36,7 @@ async function connectToMongo() {
 
     console.log('Connected to MongoDB');
   } catch (e) {
+    console.error('Error connecting to MongoDB');
     console.error(e);
   }
 }
@@ -142,6 +143,15 @@ app.post('/post', async (req, res) => {
     console.error('Error:', error.message);
     res.status(500).json({ message: 'Internal Server Error' });
   }
+});
+
+app.all('/*', function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
+
+app.listen((process.env.PORT || 3000), function () {
+  console.log('Node app is running on port', app.get('port'));
 });
 
 
@@ -262,5 +272,5 @@ const sendFile = function( response, filename ) {
    })
 }
 
-server.listen( process.env.PORT || port )
+
 console.log('listening on 3000')

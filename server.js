@@ -23,7 +23,7 @@ app.use(session({
   },
 }));
 
-app.use(express.json())
+app.use(express.static(path.join(__dirname, 'public')));
 console.log(process.env.MONGO_URI)
       
 const uri = process.env.MONGO_URI, 
@@ -53,16 +53,38 @@ app.use((req, res, next) => {
   }
 });
 
-app.use(express.static('public'));
-      
-app.get('/collections', async (req, res) => {
+app.use(express.static(__dirname + '/public'));
+
+app.get('/posts', async (req, res) => {
   if (collection != null) {
-    const docs = await collection.find({
-      user: req.cookies.user,
+    const posts = await collection.find({
+      user: req.session.user,
     }).toArray();
-    res.json(docs);
+    res.json(posts);
+    }
+});
+
+app.get('/index.html', (req, res) => {
+  if (req.session.user_id === undefined) {
+    res.redirect("/main.html");
   }
-})
+});
+
+
+app.get('/', async (req, res) => {
+  if (req.session.user_id === undefined) {
+    res.sendFile(path.join(__dirname, 'public', 'main.html'));
+  } else 
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+}
+);
+
+app.get('/login', (req, res) => {
+  const client_id = process.env.CLIENT_ID;
+  const redirect_uri = '/auth/git';
+  const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`
+  res.redirect(githubAuthUrl);
+});
 
 app.get('/auth/git', async (req, res) => {
   try {
@@ -104,6 +126,22 @@ app.get('/auth/git', async (req, res) => {
       console.error('Error details:', error.response.data);
     }
     return res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/post', async (req, res) => {
+  try {
+    const newPost = req.body;
+    newPost.publication_date = new Date();
+    newPost.wordCount = newPost.content.split(/\s+/).length;
+
+    const result = await collection.insertOne(newPost);
+    console.log('New post inserted:', result.ops[0]);
+
+    res.status(200).json({ message: 'Post created successfully', post: result.ops[0] });
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
@@ -183,20 +221,6 @@ const handleDelete = function( request, response ) {
   })
 }
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
-
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }
-  else if( request.url === '/posts' ) {
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end( JSON.stringify( appdata ) )
-  }  
-  else{
-    sendFile( response, filename )
-  }
-}
 
 const handlePost = function( request, response ) {
   let dataString = ''

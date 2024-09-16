@@ -3,7 +3,6 @@ const { title } = require('process')
 const express = require('express'),
        app = express(),
        path = require('path'),
-       cookie = require('cookie-session'),
        MongoClient = require('mongodb').MongoClient,
        cookieParser = require('cookie-parser'),
        { OctoKit } = require('@octokit/rest'),
@@ -111,8 +110,8 @@ app.get('/auth/git', async (req, res) => {
       auth: `token ${access_token}`,
     });
 
-    const { data: user } = await octokit.users.getAuthenticated();
-
+    const response = await octokit.users.getAuthenticated();
+    const user = response.data;
     const user_login = user.login;
     req.session.user = user_login;
     res.cookie('access_token', access_token, { httpOnly: true, secure: true });

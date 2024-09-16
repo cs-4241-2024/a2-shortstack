@@ -14,15 +14,14 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(session({
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-  },
-}));
+app.use(cookie({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
+
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 console.log(process.env.MONGO_URI)
       
 const uri = process.env.MONGO_URI, 

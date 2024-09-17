@@ -54,8 +54,6 @@ const fetchPosts = async function() { // for when user reloads page
   }
 };
 
-document.querySelector('#blogform').addEventListener('submit', submit);
-
 const addPostToTable = function(post) {
 
   if (!post || !post.title || !post.content) {

@@ -42,12 +42,17 @@ async function connectToMongo() {
 
 connectToMongo();
 
-function checkAuth(req, res, next) {
-  console.log('Cookies:', req.cookies);
-  console.log('User: this user is ', req.session.user);
-  if (req.cookies.user === undefined || !req.session.user || !req.cookies.user) {
-    return res.redirect('/');
+app.get('/check-auth', (req, res) => {
+  if (req.session && req.session.user) {
+    res.json({ loggedIn: true, user: req.session.user });
+  } else {
+    res.json({ loggedIn: false });
+  }
+});
 
+function checkAuth(req, res, next) {
+  if (!req.cookies.user || !req.session.user) {
+    return res.redirect('/');
   }
   next();
 }
@@ -57,7 +62,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/main.html', checkAuth, (req, res) => {
-  console.log(' today is:', req.session.user);
   res.sendFile(path.join(__dirname, 'public', 'main.html'));
 });
 
@@ -112,26 +116,29 @@ app.get('/auth/git/callback', async (req, res) => {
 });
 
 app.get('/posts', async (req, res) => {
-  console.log('User:', req.session.user); 
   if (collection != null) {
     const posts = await collection.find({
-      user: req.session.user,
+      yourname: req.session.user,
     }).toArray();
     res.json(posts);
   }
 });
 
 // make post
-app.post('/submit', async (req, res) => {
+app.post('/submit', checkAuth, async (req, res) => {
+  const post = req.body;
+  if (!post || !post.content) {
+    return res.status(400).send('Post content is missing');
+  }
   try {
-    const newPost = req.body;
-    newPost.publication_date = new Date();
-    newPost.wordCount = newPost.content.split(/\s+/).length;
+    post.publication_date = new Date();
+    post.wordCount = newPost.content.split(/\s+/).length;
+    post.yourname = req.session.user;
 
-    const result = await collection.insertOne(newPost);
-    console.log('New post inserted:', result.ops[0]);
+    const result = await collection.insertOne(post);
+    console.log('New post inserted:', result);
 
-    res.status(200).json({ message: 'Post created successfully', post: result.ops[0] });
+    res.status(200).json({ message: 'Post created successfully'});
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json({ message: 'Internal Server Error' });

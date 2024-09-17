@@ -182,7 +182,15 @@ const handleSave = async (event) => {
   }
 };
 
-window.onload = function() {
+window.onload = async function() {
+  const authResponse = await fetch('/check-auth');
+  const authData = await authResponse.json();
+
+  if (!authData.loggedIn) {
+    window.location.href = 'index.html';
+    return;
+  }
+
   const button = document.querySelector("button");
   button.onclick = submit;
   fetchPosts(); 

@@ -3,14 +3,23 @@
 }
 
 body {
-  background-color: rgb(56, 54, 61);
+  background-color: rgb(59, 57, 65);
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: normal;
 }
 
 h1 {
   color: white;
   font-size: 50px;
   text-align: center;
-  padding: 20px;
+  padding: 20px 0px 10px 0px;
+}
+
+p {
+  color: white;
+  text-align: center;
+  padding-bottom: 20px;
 }
 
 .container {
@@ -38,7 +47,24 @@ h1 {
   font-size: 26px;
 }
 
+.highscore-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+}
+
+
+
 #highscore {
-  width: 100px;
-  background-color: aqua;
+  font-size: 20px;
+  border: solid 2px;
+  color: white;
+  min-width: 80%;
+  min-height: 80%;
+}
+
+table th, td{
+  border: 1px solid white;
+  padding: 5px;
 }

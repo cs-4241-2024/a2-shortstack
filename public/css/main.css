@@ -7,7 +7,7 @@ body {
 }
 
 h2 {
-  color: #4a90e2;
+  color: #2d5786;
   text-align: center;
   margin-top: 20px;
 }
@@ -74,7 +74,7 @@ table td {
 }
 
 table th {
-  background-color: #4a90e2;
+  background-color: #2d5786;
   color: #fff;
 }
 
@@ -87,7 +87,7 @@ table tr:hover {
 }
 
 .edit-btn {
-  background-color: #4a90e2;
+  background-color: #2d5786;
   color: #fff;
   border: none;
   padding: 5px 10px;

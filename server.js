@@ -152,7 +152,7 @@ app.put('/update', checkAuth, async (req, res) => {
   }
   try {
     post.publication_date = new Date();
-    post.wordCount = newPost.content.split(/\s+/).length;
+    post.wordCount = post.content.split(/\s+/).length;
     post.yourname = req.session.user;
 
     const result = await collection.updateOne({ title : post.title }, { $set: post });
@@ -161,7 +161,7 @@ app.put('/update', checkAuth, async (req, res) => {
     res.status(200).json({ message: 'Post updated successfully'});
   } catch (error) {
     console.error('Error:', error.message);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'This faild: Internal Server Error' });
   }
 });
 

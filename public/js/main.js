@@ -55,9 +55,8 @@ const fetchPosts = async function() { // for when user reloads page
 };
 
 const addPostToTable = function(post) {
-
   if (!post || !post.title || !post.content) {
-    return; 
+    return;
   }
   const postTableBody = document.getElementById('postTableBody');
   const row = document.createElement('tr');
@@ -83,7 +82,7 @@ const addPostToTable = function(post) {
   const deleteButton = document.createElement('button');
   deleteButton.textContent = '🗑️';
   deleteButton.classList.add('delete-btn');
-  deleteButton.onclick = handleDelete; 
+  deleteButton.onclick = handleDelete;
   deleteCell.appendChild(deleteButton);
   row.appendChild(deleteCell);
 
@@ -91,10 +90,9 @@ const addPostToTable = function(post) {
   const editButton = document.createElement('button');
   editButton.textContent = 'Edit';
   editButton.classList.add('edit-btn');
-  editButton.onclick = handleEdit; 
+  editButton.onclick = handleEdit;
   editCell.appendChild(editButton);
   row.appendChild(editCell);
-
 
   postTableBody.appendChild(row);
 };

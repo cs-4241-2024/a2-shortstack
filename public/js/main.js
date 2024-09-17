@@ -5,20 +5,30 @@ const submit = async function(event) {
   const formData = new FormData(form);
 
   const blogMetaData = {
-    yourname: '',
+    yourname: null,
     title: formData.get('title'),
     content: formData.get('content'),
     wordCount: formData.get('content').split(' ').length,
     publication_date: new Date().toLocaleString(),
   };
 
-  const response = await fetch('/submit', {
-    method: 'POST',
-    body: JSON.stringify(blogMetaData),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  try {
+    const response = await fetch('/submit', {
+      method: 'POST',
+      body: JSON.stringify(blogMetaData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      console.error('response:', response);
+      return;
+    }
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+    return;
+  }
 
   if (!response.ok) {
     console.error('response:', response);

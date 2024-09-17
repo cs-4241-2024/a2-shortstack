@@ -132,7 +132,7 @@ app.post('/submit', checkAuth, async (req, res) => {
   }
   try {
     post.publication_date = new Date();
-    post.wordCount = newPost.content.split(/\s+/).length;
+    post.wordCount = post.content.split(/\s+/).length;
     post.yourname = req.session.user;
 
     const result = await collection.insertOne(post);

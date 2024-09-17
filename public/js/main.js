@@ -11,9 +11,10 @@ const submit = async function(event) {
     wordCount: formData.get('content').split(' ').length,
     publication_date: new Date().toLocaleString(),
   };
+  let response;
 
   try {
-    const response = await fetch('/submit', {
+     response = await fetch('/submit', {
       method: 'POST',
       body: JSON.stringify(blogMetaData),
       headers: {
@@ -45,17 +46,15 @@ const fetchPosts = async function() { // for when user reloads page
     method: 'GET',
   });
 
-  if (!response.ok) {
-    console.error('response:', response);
-    return;
+  if (response.ok) {
+    const posts = await response.json();
+    posts.forEach(post => addPostToTable(post));
+  } else {
+    console.error('Failed to fetch posts:', response);
   }
-
-  const posts = await response.json();
-  const postTableBody = document.getElementById('postTableBody');
-  postTableBody.innerHTML = '';
-
-  posts.forEach(post => addPostToTable(post));
 };
+
+document.querySelector('form').addEventListener('submit', submit);
 
 const addPostToTable = function(post) {
 

@@ -145,6 +145,26 @@ app.post('/submit', checkAuth, async (req, res) => {
   }
 });
 
+app.put('/update', checkAuth, async (req, res) => {
+  const post = req.body;
+  if (!post || !post.content) {
+    return res.status(400).send('Post content is missing');
+  }
+  try {
+    post.publication_date = new Date();
+    post.wordCount = newPost.content.split(/\s+/).length;
+    post.yourname = req.session.user;
+
+    const result = await collection.updateOne({ title : post.title }, { $set: post });
+    console.log('Post updated:', result);
+
+    res.status(200).json({ message: 'Post updated successfully'});
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 // allow cors header
 app.all('/*', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');

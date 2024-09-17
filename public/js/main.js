@@ -5,7 +5,7 @@ const submit = async function(event) {
   const formData = new FormData(form);
 
   const blogMetaData = {
-    yourname: formData.get('yourname'),
+    yourname: '',
     title: formData.get('title'),
     content: formData.get('content'),
     wordCount: formData.get('content').split(' ').length,
@@ -49,16 +49,12 @@ const fetchPosts = async function() { // for when user reloads page
 
 const addPostToTable = function(post) {
 
-  if (!post || !post.yourname || !post.title || !post.content) {
+  if (!post || !post.title || !post.content) {
     return; 
   }
   const postTableBody = document.getElementById('postTableBody');
   const row = document.createElement('tr');
   row.setAttribute('data-title', post.title);
-
-  const nameCell = document.createElement('td');
-  nameCell.textContent = post.yourname;
-  row.appendChild(nameCell);
 
   const titleCell = document.createElement('td');
   titleCell.textContent = post.title;
@@ -145,17 +141,15 @@ const handleSave = async (event) => {
   const row = event.target.closest('tr');
   const cells = row.querySelectorAll('td');
 
-  const yournameInput = cells[0].querySelector('input');
   const titleInput = cells[1].querySelector('input');
   const contentInput = cells[2].querySelector('input');
 
-  if (!yournameInput || !titleInput || !contentInput) {
+  if (!titleInput || !contentInput) {
     console.error('Input fields not found');
     return;
   }
 
   const updatedData = {
-    yourname: yournameInput.value,
     title: titleInput.value,
     content: contentInput.value,
     wordCount: contentInput.value.split(' ').length,

@@ -14,6 +14,6 @@ I used a flexbox column for my UI positioning as well as colors from an Adobe co
 
 - **Displaying Current State of Data**: Unless there is an error (duplicate or bad ID), the table of loaned laptops will always refresh itself to reflect the current state of the server when a submission is made OR a row is removed (using the 'remove' button alongside each). There are two additional processing steps that also occur: rows are sorted by laptop ID (descending) and a check is done to flag any duplicate names in the table.
 
-### Design/Evaluation Achievements
+## Design/Evaluation Achievements
 
 None

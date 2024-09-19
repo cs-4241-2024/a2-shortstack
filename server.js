@@ -1,74 +1,179 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+require('dotenv').config();
+const express = require("express"),
+  { MongoClient, ObjectId } = require("mongodb");
+const path = require('path');
+const { auth } = require('express-openid-connect');
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: process.env.SECRET,
+  baseURL: process.env.BASE_URL,
+  clientID: process.env.CLIENT_ID,
+  issuerBaseURL: process.env.ISSUER
+};
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+app = express()
+const dir = 'public/';
+const port = 3000;
+app.use(express.json());
+app.use(express.static(dir));
+app.use(auth(config));
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+const uri = `mongodb+srv://${process.env.USERNAME}:${process.env.PASS}@${process.env.HOST}`
+const client = new MongoClient(uri)
+let collection = null
+
+async function run() {
+  try {
+    await client.connect()
+    collection = await client.db("cs4241").collection("assignment3")
+  } catch (e) {
+    console.error(`Error connecting to MongoDB: ${e}`)
+  }
+}
+run()
+
+app.get('/', (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  } else {
+    res.redirect('/login');  // Redirect to login if not authenticated
+  }
+});
+
+// route to get all docs
+app.get("/docs", async (req, res) => {
+  try {
+    if (collection !== null) {
+      const docs = await collection.find({}).toArray();
+      res.json(docs);
+    } else {
+      res.status(500).json({ message: "No collection available" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch documents" });
   }
 })
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
-
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
+app.post('/add', async (req, res) => {
+  try {
+    const result = await collection.insertOne(req.body);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to add document" });
   }
-}
+})
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+app.get('/login', (req, res) => {
+  res.oidc.login({
+    returnTo: '/',  // Redirect users to home after login
+    authorizationParams: {
+      screen_hint: 'login'  // Force the login screen
+    }
+  });
+});
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+app.get('/logout', (req, res) => {
+  res.oidc.logout({
+    returnTo: '/'  // Redirect users to the home page after logout
+  });
+});
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+app.get('/auth-check', (req, res) => {
+  const isAuthenticated = req.oidc.isAuthenticated();
+  const user = req.oidc.user || null;  // Return user if authenticated, otherwise null
+  if (user) {
+    console.log(user);
+  }
+  res.json({ isAuthenticated, user });
+});
 
-    // ... do something with the data here!!!
+app.get('/scores', async (req, res) => {
+  try {
+    if (collection !== null) {
+      const docs = await collection.find({}).toArray();
+      res.json({ scores: docs });
+    } else {
+      res.status(500).json({ message: "No collection available" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch documents" });
+  }
+});
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
+app.post('/reset-score', async (req, res) => {
+  try {
+    await collection.deleteMany({});
+    res.status(200).json({ message: 'Score reset successfully' });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to reset scores" });
+  }
+});
 
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
+app.post('/save-score', async (req, res) => {
+  const { name, score, duration } = req.body;
+  try {
+    const result = await collection.insertOne({ name, score, time: duration });
+    console.log(result)
+    res.status(200).json({ message: 'Score saved successfully' });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to add document" });
+  }
+});
 
-   fs.readFile( filename, function( err, content ) {
+app.put('/update-name/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
 
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
+  try {
+    const result = await collection.updateOne(
+      { _id: new ObjectId(id) }, // Find the document by ID
+      { $set: { name: name } }   // Update only the name field
+    );
 
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
+    if (result.modifiedCount > 0) {
+      res.status(200).json({ message: 'Name updated successfully' });
+    } else {
+      res.status(404).json({ message: 'No document found with that ID' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update name' });
+  }
+});
 
-     }else{
+app.delete('/delete-score/:id', async (req, res) => {
+  const { id } = req.params;
 
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
+  try {
+    const result = await collection.deleteOne({ _id: new ObjectId(id) });
 
-     }
-   })
-}
+    if (result.deletedCount > 0) {
+      res.status(200).json({ message: 'Score deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'No document found with that ID' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete score' });
+  }
+});
 
-server.listen( process.env.PORT || port )
+app.post('/save-name', (req, res) => {
+  const data = req.body;
+  const name = data.name;
+
+  res.status(200).json({ message: 'Name saved successfully' });
+});
+
+app.use((req, res) => {
+  res.status(404).send('Page not found');
+});
+
+app.listen(process.env.PORT || port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+process.on('SIGINT', async () => {
+  await client.close();
+  console.log("MongoDB connection closed");
+  process.exit(0);
+});

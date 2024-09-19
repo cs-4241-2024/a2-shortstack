@@ -1,100 +1,24 @@
-Assignment 2 - Short Stack: Basic Two-tier Web Application using HTML/CSS/JS and Node.js  
-===
 
-Due: September 9th, by 11:59 AM.
+https://a3-ron1tk.glitch.me/
 
-This assignment will introduce you to creating a prototype two-tiered web application. 
-Your application will include the use of HTML, CSS, JavaScript, and Node.js functionality, with active communication between the client and the server.
+I have developed a clicking game that saves your scores. Users can also edit and delete scores as well. A challenge I faced was setting up the connection to my databse. I realized I had a small typo after lots of debugging was able to fix it. I used local-authentication with passport-local. I used boostrap because it is easy to use. 
 
-Baseline Requirements
----
+Technical Acheivements:
+I have acheived a 100 on all 4 categories for the lighthouse for desktop. 
+5 middleware:
+passport, passport-local, bycryptjs, express-session, mongoose.
 
-There are a range of application areas and possibilities that meet these baseline requirements. 
-Try to make your application do something useful! A todo list, storing / retrieving high scores for a very simple game... have a little fun with it.
+Design Acheievements:
 
-Your application is required to implement the following functionalities:
+CRAP:
+Contrast: I used contrast to help make my elements pop out. I used a light background to help make my buttons and text pop out. For example, I have buttons of birght color like green and red and I have that against a white background so that the buttons can stand out as much as possible. Furthermore, I have black text displaying things like the title and other stuff like the scores which is good against a white background so that it makes it extremeely easy for users to see. FInally I have made register and login in a bold font and made it large. This shows that importane of the words because they are the title of the page. ALl these parts help my application stand out. 
 
-- a `Server` which not only serves files, but also maintains a tabular dataset with 3 or more fields related to your application
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows a user to add or delete data items residing in the server's memory
-- a `Server Logic` which, upon receiving new or modified "incoming" data, includes and uses a function that adds at least one additional derived field to this incoming data before integrating it with the existing dataset
-- the `Derived field` for a new row of data must be computed based on fields already existing in the row. 
-For example, a `todo` dataset with `task`, `priority`, and `creation_date` may generate a new field `deadline` by looking at `creation_date` and `priority`
+Repetition: 
 
-Your application is required to demonstrate the use of the following concepts:
+For repetition I made a similar design all throughout the application. For example, I made a similar font that I used throughout the application because using the same font helps maintain a theme that looks better and makes the overall application higher quality. Furthermore, I used the same background as the color of white for simplicity and kept it the same so that it adds to the theme of the application. I made the layout repetitive for logging in and registering so that it makes it as easy to use for new users or players that want to try this game. If I were to have different designs all throughout the game, my game would be very hard to use because everything is super different.
 
-HTML:
-- One or more [HTML Forms](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms), with any combination of form tags appropriate for the user input portion of the application
-- A results page displaying all data currently available on the server. You will most likely use a `<table>` tag for this, but `<ul>` or `<ol>` could also work and might be simpler to work with. Alternatively, you can create a single-page app (see Technical Acheivements) but this is not a requirement.
-- All pages should [validate](https://validator.w3.org)
-- If your app contains multple pages, they should all be accessible from the homepage (index.html)
+Alignment: 
+I used alignment to help make my application easy to use and make it look better. For example, all my content is aligned to the center to give the application a clearn look. Some input forms are aligned to the left to help for readability. Furthermore, logout and start game are next to each other to help mainain a good alignment acorss my application. This is important because if I used a bad alignment, I would have to figure out how to make the website easy to use because without alignment, it would be very difficult for users to find what they are looking for, and would overall decrease the quality of my website. The list of scores is aligned to help the user find all their scores which they can then edit and delete. 
 
-CSS:
-- CSS styling of the primary visual elements in the application
-- Various CSS Selector functionality must be demonstrated:
-    - Element selectors
-    - ID selectors
-    - Class selectors
-- CSS positioning and styling of the primary visual elements in the application:
-    - Use of either a CSS grid or flexbox for layout
-    - Rules defining fonts for all text used; be deliberate! Be sure to use a web safe font or a font from a web service like [Google Fonts](http://fonts.google.com/)
-
-- CSS defined in a maintainable, readable form, in external stylesheets 
-
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server; a sample is provided in this repository.
-
-Node.js:
-- An HTTP Server that delivers all necessary files and data for the application, and also creates the required `Derived Fields` in your data. 
-A starting point is provided in this repository.
-
-Deliverables
----
-
-Do the following to complete this assignment and acheive a base grade of 85%:
-
-1. Fork the starting project code. This repo contains some starter code that may be used or discarded as needed.
-2. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page, it displays correctly.
-4. Deploy your project to Glitch, and fill in the appropriate fields in your package.json file.
-5. Ensure that your project has the proper naming scheme `a2-yourGithubUsername` so we can find it.
-6. Modify the README to the specifications below, and delete all of the instructions originally found in this README.
-7. Create and submit a Pull Request to the original repo. Label the pull request as follows: a2-gitusername-firstname-lastname
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM. Remember, the highest grade you can get on any individual assignment is a 100%.
-
-*Technical*
-- (5 points) Create a single-page app that both provides a form for users to submit data and always shows the current state of the server-side data. To put it another way, when the user submits data, the server should respond sending back the updated data (including the derived field calculated on the server) and the client should then update its data display.
-
-- (5 points) In addition to a form enabling adding and deleting data on the server, also add the ability to modify existing data.
-
-*Design/UX*
-- (5 points per person, with a max of 10 points) Test your user interface with other students in the class. Define a specific task for them to complete (ideally something short that takes <10 minutes), and then use the [think-aloud protocol](https://en.wikipedia.org/wiki/Think_aloud_protocol) to obtain feedback on your design (talk-aloud is also fine). Important considerations when designing your study:
-
-1. Make sure you start the study by clearly stating the task that you expect your user to accomplish.
-2. You shouldn't provide any verbal instructions on how to use your interface / accomplish the task you give them. Make sure that your interface is clear enough that users can figure it out without any instruction, or provide text instructions from within the interface itself. 
-3. If users get stuck to the point where they give up, you can then provde instruction so that the study can continue, but make sure to discuss this in your README. You won't lose any points for this... all feedback is good feedback!
-
-You'll need to use sometype of collaborative software that will enable you both to see the test subject's screen and listen to their voice as they describe their thoughts, or conduct the studies in person. After completing each study, briefly (one to two sentences for each question) address the following in your README:
-
-1. Provide the last name of each student you conduct the evaluation with.
-2. What problems did the user have with your design?
-3. What comments did they make that surprised you?
-4. What would you change about the interface based on their feedback?
-
-*You do not need to actually make changes based on their feedback*. This acheivement is designed to help gain experience testing user interfaces. If you run two user studies, you should answer two sets of questions. 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-Include a very brief summary of your project here. Be sure to include the CSS positioning technique you used, and any required instructions to use your application.
-
-## Technical Achievements
-- **Tech Achievement 1**: Using a combination of...
-
-### Design/Evaluation Achievements
-- **Design Achievement 1**: 
+Proximity:
+I used proximity to help group related elements together. This improves the visual aspect of the game and makes it extremely user firendly. For example, the username and password fields on the login and registration forms are placed right above one another which makes it easy to find. If I didn't have proximity, users would have to be looking all around the page to find the necessary funcitonalty, which would decrease overall user satifciation of the game. Furthermore, I have the edit and delete buttons right next to each on the score so that users can find the right button they want to use depending on their purposes for each score. By organizing this content together, it makes the game extremely easy abd simple to play. 

@@ -1,62 +1,81 @@
 // FRONT-END (CLIENT) JAVASCRIPT HERE
 
-const submit = async function( event ) {
-  // stop form submission from trying to load
-  // a new .html page for displaying results...
-  // this was the original browser behavior and still
-  // remains to this day
-  event.preventDefault()
-  
-  const productInput = document.querySelector( '#product' ),
-        json1 = { product: productInput.value },
-        body1 = JSON.stringify( json1 )
 
-  const releaseYearInput = document.querySelector( '#yearOfRelease' ),
-      json2 = { yearOfRelease: releaseYearInput.value },
-      body2 = JSON.stringify( json2 )
-
-  const releaseCostInput = document.querySelector( '#releaseCost' ),
-      json3 = { releaseCost: releaseCostInput.value },
-      body3 = JSON.stringify( json3 )
-        
-  const response = await fetch( '/submit', {
-    method:'POST',
-    body1,
-    body2,
-    body3 
+const updateTable = async function() {
+  const response = await fetch('/submit', {
+    method: 'POST',
+    body: JSON.stringify({ action: 'get' }),
+    headers: { 'Content-Type': 'application/json' }
   })
-
   const data = await response.json()
 
-  // data.map( item => item.product)
-  //   .forEach(item => console.log(item))
-  // data.map( item => item.releaseYear)
-  //   .forEach(item => console.log(item))
-  // data.map( item => item.releaseCost)
-  //   .forEach(item => console.log(item))
-  // data.map( item => item.newCost)
-  //   .forEach(item => console.log(item))
-
-  /*
-  data.map( item => item.product)
-    .forEach(item => dataFunction(item))
-  // deriving new data field function
-  function dataFunction(item1) {
-    console.log(item1.newCost);
-    item1.newCost = item1.releaseCost;
-    const year = item1.yearOfRelease;
-    while (year < 2024) {
-      item1.newCost *= 1.0328;
-      console.log(item1.newCost);
-      year++;
-    }
-    console.log(item1.newCost);
-  }
-  */
-
+  const tableBody = document.querySelector('#productsTable tbody')
+  tableBody.innerHTML = '' // Clear the table
+  data.forEach(p => {
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+      <td>${p.product}</td>
+      <td>${p.releaseYear}</td>
+      <td>${p.releaseCost}</td>
+      <td>${p.currentCost}</td>
+    `;
+    tableBody.appendChild(newRow);
+  });
 }
 
-window.onload = function() {
-   const button = document.querySelector("button");
-  button.onclick = submit;
-}
+const addProduct = async function (event) {
+  event.preventDefault();
+
+  const product = document.querySelector('#product').value;
+  const releaseYear = document.querySelector('#releaseYear').value;
+  const releaseCost = document.querySelector('#releaseCost').value;
+  const currentCost = 0;
+
+  const data = {
+    action: 'add',
+    product,
+    releaseYear: parseInt(releaseYear),
+    releaseCost: parseInt(releaseCost),
+    currentCost: parseInt(currentCost)
+  };
+
+  const response = await fetch('/submit', {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  await updateTable();
+};
+
+const deleteProduct = async function (event) {
+  event.preventDefault();
+
+  const product = document.querySelector('#productName').value;
+
+  const data = {
+    action: 'delete',
+    product
+  };
+
+  const response = await fetch('/submit', {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  await updateTable();
+};
+
+window.onload = function () {
+  updateTable();
+
+  const addProductForm = document.querySelector('.Form');
+  const deleteProductForm = document.querySelector('#deleteForm');
+  addProductForm.onsubmit = addProduct;
+  deleteProductForm.onsubmit = deleteProduct;
+
+
+  // const deleteProductForm = document.querySelector('#deleteProductForm');
+  // deleteProductForm.onsubmit = deleteProduct;
+};

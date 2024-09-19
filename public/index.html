@@ -37,14 +37,30 @@
           <button id="submitButton">Submit</button>
         </ul>
       </form>
-      <table class="Table">
-        <tr>
-          <th>Product</th>
-          <th>Cost at Release</th>
-          <th>Projected Cost Today</th>
-          <th>Year of Release</th>
-        </tr>
+      <table id=productsTable class="Table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Year of Release</th>
+            <th>Price at Release</th>
+            <th>Projected Price Today</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Products will be entered here -->
+        </tbody>
       </table>
+    </div>
+    <div class="Wrap2">
+      <form id="deleteForm" class="Form" method="post">
+        <ul>
+          <label for="product">Product:</label>
+          <input type="text" id="productName">
+        </ul>
+        <ul>
+          <button id="deleteButton">Remove Product</button>
+        </ul>
+      </form>
     </div>
     <div class="Footer">
       <footer>

@@ -6,7 +6,12 @@
   "scripts": {
     "start": "node server.js"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "dependencies": {
-    "mime": "^2.4.4"
+    "express": "^4.21.0",
+    "mongodb": "^6.8.1"
   }
 }
+

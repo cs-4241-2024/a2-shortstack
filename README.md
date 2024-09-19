@@ -1,22 +1,14 @@
 ## Match Me!
 Glitch: https://a2-hannatrinh.glitch.me
-Match Me is a simple shape game where players match colored shapes to their silhouettes. Each turn, the game shuffles the shapes to increase difficulty and keep the game engaging. The project is written in JavaScript and run using Node.js.
+Match Me is a simple shape game where players match colored shapes to their silhouettes. Each turn, the game shuffles the shapes to increase difficulty and keep the game engaging. The project is written in JavaScript and run using Node.js. The app utilized MongoDB as the backend which stores player name, score, and time.
 
 ## Technical Achievements
-- **Single-Page Application**: The game is built as a single-page app where users can match shapes and the server keeps track of the game's current state. The interface updates in real-time, displaying the current score and a list of scores of all the games played.
+- **Implementing Auth0**: I used Auth0 through the Github strategy and also a youtubeb video that gave a tutorial on how to implement it without passport.js
+-- **Dummy Account**
+- User: test@gmail.com
+- Pass: cs4241_test!
 
-- **Data Management**: Players submit their name in the form section that gets processed on the server and reflected after the user finished the game.
-
-- **Data Management 2**: The game stores name, score, and time.
-
-- **CSS Design with Flexbox**: Used Flexbox for positioning buttons, shapes and sillohuettes, ensuring responsive design. Animations such as button hover effects and error message transitions improve user interaction.
-
-- **Dynamic Difficulty**: The game shuffles the shapes after each correct match to maintain challenge and unpredictability. The algorithm used to shuffle the shapes was from Fisher Yate's Algorithm.
-
-- **Enabling Deletion Data**: The game offers the users to reset the scores with a button and the result displayed immediately, this sends a request to the server side which empties the array which is how the list of scores are being stored.
+- **Middleware**: Used Express.json, Express.static, and Express-OpenID-connect middleware
 
 ### Design/Evaluation Achievements
-- **Visual Design**: All shapes and sillohuettes are designed using CSS, including properties like border-radius, background-colour, and width/height to create different shapes. The website also utilizes "Comfortaa" cursive font.
-
-- **User Feedback**: 
-- Kalavantis: The score was improperly displaying time which was not effective. I would definitely use a better approach to accurately display the play duration time.
+- **CRAP Principles**: I used a lot of contrast with the colours which were a mix of cream, pink, and purple to keep all elements easily identifable. Repetition was the use of div elements which was repeated throughout the page. Additionally, I used alignment by keeping everything center, even the whole game itself is centered and made so smaller, which made it a simple game. Finally, I used proximity with the shapes and scores to keep elements easily identifiable.

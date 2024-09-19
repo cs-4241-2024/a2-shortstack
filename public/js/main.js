@@ -1,5 +1,3 @@
-// FRONT-END (CLIENT) JAVASCRIPT HERE
-
 (function () {
   let selected;
   let score = 0;
@@ -81,16 +79,6 @@
   }
 
   const endGame = () => {
-    // if (sessionStorage.getItem("startTime")) {
-    startTime = new Date(sessionStorage.getItem("startTime")); // Retrieve start time
-    endTime = new Date(); // Record end time
-    const gameDuration = (endTime - startTime) / 1000; // Calculate duration in seconds
-    addScore(gameDuration); // Pass the game duration
-    sessionStorage.removeItem("startTime");
-    // } else {
-    console.error('Error: startTime is not set.');
-    // }
-
     if (nameInput.value.trim() === "") {
       errorMsg.style.opacity = 100;
       errorMsg.style.display = "inline";
@@ -104,6 +92,13 @@
       isGameStarted = false;
       disableDragAndDrop();
     }
+    startTime = new Date(sessionStorage.getItem("startTime")); // Retrieve start time
+    endTime = new Date(); // Record end time
+    showScore();
+    const gameDuration = (endTime - startTime) / 1000; // Calculate duration in seconds
+    addScore(gameDuration); // Pass the game duration
+    sessionStorage.removeItem("startTime");
+    console.error('Error: startTime is not set.');
     //resetGame();
   };
 
@@ -226,13 +221,76 @@
         console.log('Success:', data);
         const scores = data.scores;
 
+
         scores.forEach((entry, index) => {
-          $(".List").append('<li>' + "[Game " + index + "] : " + entry.name + " - " + entry.score + " points in " + entry.time + ' seconds</li>');
+          $(".List").append(`
+            <li class="flex justify-between items-center px-0 py-2.5 border-b-[#ccc] border-[none] border-b border-solid">
+              <div class="grow mr-5 border-[none]">
+                [Game ${index}] : ${entry.name} - ${entry.score} points in ${entry.time} seconds
+              </div>
+              <div class="flex gap-2.5 border-[none]">
+                <button class="text-[#EEA1A6] border px-2.5 py-[5px] rounded-[5px] border-solid border-[#EEA1A6]" data-id="${entry._id}">&#9998</button>
+                <button class="text-[#A30B37] border px-2.5 py-[5px] rounded-[5px] border-solid border-[#A30B37]" data-id="${entry._id}">&#128465</button>
+              </div>
+            </li>
+          `);
         });
+        document.querySelectorAll('.edit-btn').forEach(button => {
+          button.addEventListener('click', handleEdit);
+        });
+
+        document.querySelectorAll('.delete-btn').forEach(button => {
+          button.addEventListener('click', handleDelete);
+        });
+
+        if (scores.length === 0) {
+          $(".List").append(`
+          <li class="flex justify-between items-center">
+            <div class="grow mr-5 border-[none]">
+              No scores yet
+            </div>
+          </li>
+        `);
+        }
       })
       .catch((error) => {
         console.error('Error:', error);
       });
+  };
+
+  const handleEdit = (event) => {
+    const id = event.target.dataset.id; // Get the ID of the document to edit
+    const newName = prompt("Enter a new name:"); // Prompt user for new name
+
+    if (newName) {
+      fetch(`/update-name/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: newName })
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+          showScore(); // Refresh the scores list
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  };
+
+  const handleDelete = (event) => {
+    const id = event.target.dataset.id; // Get the ID of the document to delete
+
+    fetch(`/delete-score/${id}`, {
+      method: 'DELETE'
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Deleted successfully:', data);
+        showScore(); // Refresh the scores list
+      })
+      .catch(error => console.error('Error:', error));
   };
 
   document.addEventListener('dragstart', (e) => handleDragStart(e));
@@ -273,6 +331,31 @@
   });
 
   $(document).ready(function (e) {
+    // Check if the user is authenticated
+    fetch('/auth-check')
+      .then(response => response.json())
+      .then(data => {
+        const authBtn = document.getElementById('auth-btn');
+        const profilePic = document.getElementById('profile-pic');
+        const profileName = document.getElementById('profile-name');
+        const profileEmail = document.getElementById('profile-email');
+        if (!data.isAuthenticated) {
+          window.location.href = '/login';
+        } else {
+          authBtn.innerText = 'Logout';
+          profileName.innerText = data.user.nickname;
+          profileEmail.innerText = data.user.email;
+          profilePic.src = data.user.picture;
+
+          authBtn.addEventListener('click', () => {
+            window.location.href = '/logout';
+          });
+        }
+      })
+      .catch(error => {
+        console.error('Error checking authentication status:', error);
+      });
+
     shuffle();
     showScore();
     checkIfNameExists();

@@ -101,6 +101,17 @@ const btnFcn = async function(btn)
   }
 }
 
+const btnFcnTEST = async function(btn)
+{ 
+  // Send POST request
+  let response = await fetch("/test", {method:"POST"});
+
+  if (response.ok)
+  {
+    console.log("test post response ok");
+  }
+}
+
 /**
  * Refresh active loan table (replace with version most up-to-date with server).
  */
@@ -208,6 +219,10 @@ window.onload = function()
   // Set refresh function
   const refreshBtn = document.getElementById("rfrsh");
   refreshBtn.onclick = refreshTable;
+
+  // Set test function
+  const testBtn = document.getElementById("testbtn");
+  testBtn.onclick = btnFcnTEST;
 
   // Init table
   refreshTable();

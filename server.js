@@ -2,6 +2,8 @@ const http = require("http");
 const fs   = require("fs");
 const mime = require("mime");
 
+const {DB_CreateDocument, DB_UpdateDocument, DB_DeleteDocument} = require("./public/js/database.js");
+
 // Local directory
 const dir  = "public/";
 
@@ -14,11 +16,11 @@ let activeLoans =
   {"id": -1, "firstname": "placeholder", "lastname": "placeholder", "dup":false},
 
   // Example loans
-  // {"id": 2, "firstname": "John", "lastname": "Smith", "dup":false},
-  // {"id": 9, "firstname": "Matthew", "lastname": "Stinson", "dup":false},
-  // {"id": 14, "firstname": "Jess", "lastname": "Stairs", "dup":false},
-  // {"id": 15, "firstname": "Austin", "lastname": "Murphy", "dup":false},
-  // {"id": 20, "firstname": "matthew", "lastname": "stinson", "dup":false},
+  {"id": 2, "firstname": "John", "lastname": "Smith", "dup":false},
+  {"id": 9, "firstname": "Matthew", "lastname": "Stinson", "dup":false},
+  {"id": 14, "firstname": "Jess", "lastname": "Stairs", "dup":false},
+  {"id": 15, "firstname": "Austin", "lastname": "Murphy", "dup":false},
+  {"id": 20, "firstname": "matthew", "lastname": "stinson", "dup":false},
 ]
 
 /**
@@ -180,6 +182,14 @@ const handlePost = function(request, response)
       response.writeHead(200, "OK", {"Content-Type": "text/plain"});
       response.end(`Removed laptop ${laptopData}`);
     });
+    break;
+
+  case "test":
+    DB_DeleteDocument(activeLoans[1], "test-user");
+
+    // Send response
+    response.writeHead(200, "OK", {"Content-Type": "text/plain"});
+    response.end(`good, methinks`);
     break;
 
   // Unknown POST request

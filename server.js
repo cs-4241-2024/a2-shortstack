@@ -4,6 +4,7 @@ const express = require('express'),
       MongoClient = require('mongodb').MongoClient,
       cookieParser = require('cookie-parser'),
       bodyParser = require('body-parser'),
+      morgan = require('morgan'),
       { Octokit } = require('@octokit/rest'),
       session = require('express-session'),
       axios = require('axios');

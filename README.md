@@ -1,31 +1,23 @@
-Assignment 2 - Short Stack: Basic Two-tier Web Application using HTML/CSS/JS and Node.js  
-===
-https://a2-atitcombe.glitch.me
----
-This application has the following functionalities:
+## article publisher
 
-a Server which not only serves files, but also maintains a tabular dataset with 4 fields of the blogs
-a Results functionality which shows the entire dataset residing in the server's memory asa table
-a Form/Entry functionality which allows a user to add or delete their blogs
-a Server Logic which, upon receiving new or modified "incoming" data, includes and uses a function that adds an additional derived field called word count
-the Derived field word count computes the number of words in the content
-Acheivements
-Technical Achievement 1 Have the front page that users can submit a new blog post. It always shows the state and has a listener for when CRUD operations are applied. It also calculates the word count in the server side
+Anthony Titcombe
+https://webware-a3-7443f86eaef6.herokuapp.com/
 
-Achievement 2 Users can edit and delete their blog post
+The article website allows users to publish the article on their mind and see the ones they have already published. they can create, read, edit, and delete their favorite articles. They can only access this features if they are a logged in user. else they will be redirected to the index page. The challenges i faced where with implementing the oauth because I was misunderstanding the redirect uri and also integrating it with the cookies. I choise the github oauth strategy because you said it was the hardest. I like challenges. I used native CSS because it worked good for my use case with tables and simple user experience.
 
-Design/UX
+Technical achievement 1
+I used Girhub oauth for authentication and users. I used their username to associate their data and register the users.
 
-(5 points per person, with a max of 10 points) Test your user interface with other students in the class. Define a specific task for them to complete (ideally something short that takes <10 minutes), and then use the think-aloud protocol to obtain feedback on your design (talk-aloud is also fine). Important considerations when designing your study:
-Achievement 1:
+Technical 2:
+I hosted the website on heroku rather than glitch. What I like about heroku is the support for scaling and abstracting a lot of enginerring work like logging. Makes a little sense why it's paid instead of the free tier at Glitch. It had a lot of different envornments, supported staging, auto deployment from github, etc.
 
-Soofi
-User thought the styling was inconsistent and looked a little all over the place
-They said it felt more like an answer submission than somewhere they could write a long post to express themselves
-I would have standard themes and font sizes
-Achievement 2:
+Technical 3:
+I also scored a 100% on the light house tests. Attach image to repository
 
-Cuccovia
-User liked the blue color, but said he'd like to receive more feedback if he performs deleting or updating or creating
-He would like current posts to have been at the side. And have key details. Also to make it clickable to view everything
-I would make the containers clickable, have intuitive brief details for key identification and include it at the side.
+Technical 4:
+The 5 middleware packages: 
+body parser: I used it to parse the body of the http request I sent
+cookie parser: I used it for parsing the cookie header and adding coodkie data
+Cookie session: used it for session management for the cookie
+morgan: i used morgan while developing for logigin the requests and errors
+express session: used it as well for creating and managing sessions.

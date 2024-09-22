@@ -1,18 +1,72 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>CS4241 Assignment 2</title>
+    <title>A2 rcwright03</title>
     <meta charset="utf-8">
     <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/styles.css">
     
     <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
   <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
-    </form>
+    <div class="Headers">
+      <h1>
+        Inflation* Over Time
+      </h1>
+      <header>
+        Enter the name of a product, its year of release, and how much it cost when it was released,
+        and the program will tell you approximately how much it should cost today after inflation.
+      </header>
+    </div>
+    <div class="Wrap">
+      <form class="Form" method="post">
+        <ul>
+          <label for="product">Product:</label>
+          <input type="text" id="product">
+        </ul>
+        <ul>
+          <label for="releaseYear">Year of release:</label>
+          <input type="number" id="releaseYear">
+        </ul>
+        <ul>
+          <label for="releaseCost">Cost at release:</label>
+          <input type="number" id="releaseCost">
+        </ul>
+        <ul>
+          <button id="submitButton">Submit</button>
+        </ul>
+      </form>
+      <table id=productsTable class="Table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Year of Release</th>
+            <th>Price at Release</th>
+            <th>Projected Price Today</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Products will be entered here -->
+        </tbody>
+      </table>
+    </div>
+    <div class="Wrap2">
+      <form id="deleteForm" class="Form" method="post">
+        <ul>
+          <label for="product">Product:</label>
+          <input type="text" id="productName">
+        </ul>
+        <ul>
+          <button id="deleteButton">Remove Product</button>
+        </ul>
+      </form>
+    </div>
+    <div class="Footer">
+      <footer>
+        *I don't actually know how to calculate inflation so I'm just using 3.28% as the
+        inflation rate, which is the long term average inflation rate in the US
+      </footer>
+    </div>
   </body>
 </html>

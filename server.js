@@ -1,31 +1,66 @@
+
+
+
+
+// ======
+
+
 const express = require( 'express' ),
       cookie  = require( 'cookie-session' ),
       hbs     = require( 'express-handlebars' ).engine,
       app     = express()
+      { MongoClient, ObjectId } = require('mongodb');
 
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
 app.use( express.urlencoded({ extended:true }) )
-//app.use( express.json() )
+app.use(express.static("./") )
+app.use(express.json() )
+const uri = `mongodb+srv://tester:${process.env.password}@cluster0.f9zkh.mongodb.net/`
+const client = new MongoClient( uri )
 
-// we're going to use handlebars, but really all the template
-// engines are equally painful. choose your own poison at:
-// http://expressjs.com/en/guide/using-template-engines.html
+
+
+// handlebars
 app.engine( 'handlebars',  hbs() )
 app.set(    'view engine', 'handlebars' )
 app.set(    'views',       './views' )
 
-// cookie middleware! The keys are used for encryption and should be changed
 app.use( cookie({
   name: 'session',
-  keys: ['key1', 'key2']
+  keys: ['secretKey01', 'secretKey02']
 }))
 
+const url - 'mongodb://localhost:3000'
+const client = new MongoClient(url);
+
+let collection = null
+
+async function run() {
+  await client.connect()
+  collection = await client.db("datatest6").collection("test")
+}
+run()
+
+
+
+
+app.post( '/add', async (req,res) => {
+  const result = await collection.insertOne( req.body )
+  res.json( result )
+})
+ 
+
 app.post( '/login', (req,res)=> {
-  // express.urlencoded will put your key value pairs 
-  // into an object, where the key is the name of each
-  // form field and the value is whatever the user entered
+
   console.log( req.body )
+  const username = req.body.username
+  console.log(username);
+
+  const password = req.body.password
+  console.log(password);
+  
+
   
   // below is *just a simple authentication example* 
   // for A3, you should check username / password combos in your database
@@ -47,6 +82,15 @@ app.post( '/login', (req,res)=> {
   }
 })
 
+
+// route to get all docs
+app.get("/docs", async (req, res) => {
+  if (collection !== null) {
+    const docs = await collection.find({}).toArray()
+    res.json( docs )
+  }
+})
+
 app.get( '/', (req,res) => {
   res.render( 'index', { msg:'', layout:false })
 })
@@ -62,5 +106,7 @@ app.use( function( req,res,next) {
 app.get( '/main.html', ( req, res) => {
     res.render( 'main', { msg:'success you have logged in', layout:false })
 })
+
+
 
 app.listen( process.env.PORT || 3000 )

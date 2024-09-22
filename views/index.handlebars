@@ -4,26 +4,29 @@
   <head>
     <title>Laptop Loan Tracker</title>
     <meta charset="utf-8">
-    <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
+    <script src="../public/js/main.js"></script>
+    <link rel="stylesheet" href="../public/css/main.css">
     
     <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
 
   <body>
+    <!-- Attempt to fix Firefox flashing bug -->
+    <script>0</script>
+
     <div class="block">
       <h1>Active Laptop Loans</h1>
       <form>
         <input type="text" id="id" value="Laptop ID">
         <input type="text" id="firstname" value="First Name">
         <input type="text" id="lastname" value="Last Name">
-        <button class="removebtn">Submit</button>
+        <button id="submitbtn" class="removebtn">Submit</button>
       </form>
 
       <table id="laptops">
         <tr>
-          <th>ID</th>
+          <th>Laptop ID</th>
           <th>First Name</th>
           <th>Last Name</th>
           <th>Duplicate Client?</th>
@@ -33,6 +36,14 @@
 
       <button id="rfrsh" class="refreshbtn">Pull from Server</button>
       <button id="testbtn" class="refreshbtn">Big TEST Button</button>
+
+      {{{loginmsg}}}
+
+      <form>
+        <input type="text" id="login-user" value="Username">
+        <input type="text" id="login-pass" value="Password">
+        <button id="loginbtn" class="removebtn">Login</button>
+      </form>
     </div>
     
   </body>

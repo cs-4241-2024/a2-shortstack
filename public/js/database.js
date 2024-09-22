@@ -1,6 +1,8 @@
 const {MongoClient, ServerApiVersion} = require("mongodb");
 const {uri} = require("./private.js");
 
+const debug = false;
+
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient
 (
@@ -36,7 +38,10 @@ const DB_CreateDocument = async function(document, collection, database = "lapto
 
     const result = await mongoCollection.insertOne(document);
 
-    console.log(formatLog("DB", `Document successfully inserted with ID ${result.insertedId}`));
+    if (debug)
+    {
+      console.log(formatLog("DB", `Document successfully inserted with ID ${result.insertedId}`));
+    }
   }
   catch
   {
@@ -66,7 +71,10 @@ const DB_UpdateDocument = async function(document, collection, database = "lapto
 
     const result = await mongoCollection.updateOne(filter, update, options);
 
-    console.log(formatLog("DB", `${result.modifiedCount} documents successfully updated`));
+    if (debug)
+    {
+      console.log(formatLog("DB", `${result.modifiedCount} documents updated, ${result.upsertedCount} documents upserted`));
+    }
   }
   catch
   {
@@ -81,15 +89,52 @@ const DB_DeleteDocument = async function(document, collection, database = "lapto
     const mongoDatabase = client.db(database);
     const mongoCollection = mongoDatabase.collection(collection);
 
-    const filter = {id: document.id};
+    const filter = {"id": document.id};
 
     const result = await mongoCollection.deleteOne(filter);
 
-    console.log(formatLog("DB", `${result.deletedCount} documents successfully deleted`));
+    if (debug)
+    {
+      console.log(formatLog("DB", `${result.deletedCount} documents successfully deleted`));
+    }
   }
   catch
   {
     console.log(formatLog("DB", `ERROR deleting document in ${database}.${collection}`));
+  }
+}
+
+const DB_FindDocuments = async function(filter, collection, database = "laptop-loans")
+{
+  try
+  {
+    const mongoDatabase = client.db(database);
+    const mongoCollection = mongoDatabase.collection(collection);
+
+    const options = 
+    {
+      projection: {"_id": 0, "id": 1, "firstname": 1, "lastname": 1, "dup": 1}
+    }
+
+    const result = await mongoCollection.find(filter, options).toArray();
+
+    // Sorting like this because strings are, in fact, not integers
+    // Still needed?
+    result.sort(function(a, b)
+    {
+      return (parseInt(a.id) > parseInt(b.id)) ? 1 : -1;
+    });
+
+    if (debug)
+    {
+      console.log(formatLog("DB", `Found ${result.length} documents`));
+    }
+
+    return result;
+  }
+  catch (e)
+  {
+    console.log(formatLog("DB", `ERROR finding documents in ${database}.${collection}: ${e.message}`));
   }
 }
 
@@ -98,4 +143,11 @@ const DB_Close = async function()
   await client.close();
 }
 
-module.exports = {DB_CreateDocument, DB_UpdateDocument, DB_DeleteDocument, DB_Close};
+module.exports =
+{
+  DB_CreateDocument,
+  DB_UpdateDocument,
+  DB_DeleteDocument,
+  DB_FindDocuments,
+  DB_Close
+};

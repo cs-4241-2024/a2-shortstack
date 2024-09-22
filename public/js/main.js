@@ -1,3 +1,4 @@
+
 /**
  * Formats a log message to include message source.
  * 
@@ -30,7 +31,7 @@ const submit = async function(event)
   const body = JSON.stringify(json);
   
   // Send POST request
-  const response = await fetch("/submit", {method:"POST", body});
+  const response = await fetch("/submit", {method:"POST", headers: {"Content-Type": "application/json"}, body});
   const text     = await response.text();
 
   if (response.ok)
@@ -41,7 +42,7 @@ const submit = async function(event)
   else
   {
     // Alert window if error
-    window.alert(`ERROR: ${response.statusText}`);
+    window.alert(`ERROR: ${text}`);
   }
 
   // DEBUG: Log user input
@@ -80,7 +81,7 @@ const tableID = function(id)
  * 
  * @param {*} btn Button object.
  */
-const btnFcn = async function(btn)
+const removeRow = async function(btn)
 { 
   // Get corresponding laptop ID
   let button = document.querySelector(`#${btn.currentTarget.id}`);
@@ -92,7 +93,7 @@ const btnFcn = async function(btn)
   let body = JSON.stringify(json);
 
   // Send POST request
-  let response = await fetch("/remove", {method:"POST", body});
+  let response = await fetch("/remove", {method:"POST", headers: {"Content-Type": "application/json"}, body});
 
   if (response.ok)
   {
@@ -124,7 +125,6 @@ const refreshTable = async function()
   await fetch("/table").then(response => response.json()).then(data =>
     {
       tableData = data;
-      // console.log(tableData);
     }
   );
 
@@ -143,21 +143,40 @@ const refreshTable = async function()
   for (col = 0; col < colCount; col++)
   {
     th = document.createElement("th");
-    if (col !== colCount - 1)
+    switch (col)
     {
-      th.textContent = tableID(Object.keys(tableData[0])[col]);
+      case 0:
+        th.textContent = tableID("id");
+        break;
+
+      case 1:
+        th.textContent = tableID("firstname");
+        break;
+
+      case 2:
+        th.textContent = tableID("lastname");
+        break;
+
+      case 3:
+        th.textContent = tableID("dup");
+        break;
+
+      case 4:
+        th.className = "removecol";
+        break;
+
+      default:
+        th.textContent = "This Column Should Not Exist ¯\\_(ツ)_/¯";
+        break;
     }
-    else
-    {
-      th.className = "removecol";
-    }
+
     tr.appendChild(th);
   }
 
   newTable.appendChild(tr);
 
   // Build new data rows
-  for (row = 1; row <= rowCount; row++)
+  for (row = 0; row <= rowCount; row++)
   {
     tr = document.createElement("tr");
     for (col = 0; col < colCount; col++)
@@ -188,7 +207,7 @@ const refreshTable = async function()
         btn.id = `removebtn-${row}`;
         btn.textContent = "Remove";
         btn.className = "removebtn";
-        btn.onclick = btnFcn;
+        btn.onclick = removeRow;
         td.className = "removecol";
         td.appendChild(btn);
         break;
@@ -207,15 +226,24 @@ const refreshTable = async function()
   document.querySelector("#laptops").replaceWith(newTable);
 }
 
+const loginFcn = function()
+{
+  console.log("login attempt");
+}
+
 /**
  * Set button click action to submit function.
  */
 window.onload = function()
 {
   // Set submit function
-  const button = document.querySelector("button");
+  const button = document.getElementById("submitbtn");
   button.onclick = submit;
 
+  // Set submit function
+  const loginBtn = document.getElementById("loginbtn");
+  loginBtn.onclick = loginFcn;
+  
   // Set refresh function
   const refreshBtn = document.getElementById("rfrsh");
   refreshBtn.onclick = refreshTable;

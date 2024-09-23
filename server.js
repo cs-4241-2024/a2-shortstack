@@ -8,11 +8,12 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+const highscoreFile = 'highscores.json';
+
+let highscore = [];
+if (fs.existsSync(highscoreFile)) {
+  highscore = JSON.parse(fs.readFileSync(highscoreFile));
+}
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
@@ -27,7 +28,11 @@ const handleGet = function( request, response ) {
 
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
-  }else{
+  } else if (request.url === '/highscores') {
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(highscore));
+  }
+  else{
     sendFile( response, filename )
   }
 }
@@ -42,12 +47,28 @@ const handlePost = function( request, response ) {
   request.on( 'end', function() {
     console.log( JSON.parse( dataString ) )
 
-    // ... do something with the data here!!!
+    const newHighscore = JSON.parse(dataString);
+      let isNewHighscore = true;
+    highscore = highscore.filter(entry => {
+      if (entry.name === newHighscore.name) {
+        if (newHighscore.time < entry.time) {
+          return false;
+        }
+        isNewHighscore = false;
+        return true;
+      }
+      return true;
+    });
+    if (isNewHighscore) {
+      highscore.push(newHighscore);
+      highscore.sort((a, b) => a.time - b.time); // Sort highscore list
+      fs.writeFileSync(highscoreFile, JSON.stringify(highscore)); // Save to file
+    }
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
+    response.writeHead(200, { 'Content-Type': 'text/plain' });
+    response.end('Highscore updated');
+  });
+};
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 
@@ -56,7 +77,8 @@ const sendFile = function( response, filename ) {
 
      // if the error = null, then we've loaded the file successfully
      if( err === null ) {
-
+      response.writeHead(200, { 'Content-Type': type });
+      response.end(content);
        // status code: https://httpstatuses.com
        response.writeHeader( 200, { 'Content-Type': type })
        response.end( content )

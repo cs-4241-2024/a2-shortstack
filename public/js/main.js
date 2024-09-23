@@ -226,9 +226,37 @@ const refreshTable = async function()
   document.querySelector("#laptops").replaceWith(newTable);
 }
 
-const loginFcn = function()
+const loginFcn = async function(event)
 {
-  console.log("login attempt");
+  // Prevent browser from loading a new page
+  event.preventDefault();
+
+  // Get data from form
+  const login_user = document.querySelector("#login-user");
+  const login_pass = document.querySelector("#login-pass");
+
+  // Convert data to JSON
+  const json = {user: login_user.value, pass: login_pass.value};
+  const body = JSON.stringify(json);
+  
+  // Send POST request
+  const response = await fetch("/login", {method:"POST", headers: {"Content-Type": "application/json"}, body});
+  const text     = await response.text();
+
+  if (response.ok)
+  {
+    document.querySelector("#loginmsg").innerText = `Login success.`;
+
+    // Refresh table if OK
+    refreshTable();
+  }
+  else
+  {
+    document.querySelector("#loginmsg").innerText = `Login failed.`;
+
+    // Alert window if error
+    window.alert(`ERROR: ${text}`);
+  }
 }
 
 /**
@@ -251,6 +279,8 @@ window.onload = function()
   // Set test function
   const testBtn = document.getElementById("testbtn");
   testBtn.onclick = btnFcnTEST;
+
+  // TODO: Check if user is logged in HERE!
 
   // Init table
   refreshTable();

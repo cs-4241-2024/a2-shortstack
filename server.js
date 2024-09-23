@@ -35,7 +35,8 @@ app.use
   cookie
   ({
     name: 'session',
-    keys: [cookieKey1, cookieKey2]
+    keys: [cookieKey1, cookieKey2],
+    SameSite: "None"
   })
 );
 
@@ -64,10 +65,84 @@ const formatLog = function(src, message)
   return `[${src.toUpperCase()}] → ${message}`;
 }
 
+// POST login handler
+app.post("/login", async (request, response) =>
+{
+  const result = await DB_FindDocuments({user: request.body.user}, "logins");
+
+  if (result.length === 0)
+  {
+    if (request.body.user === "logins")
+    {
+      request.session.login = false;
+      request.session.username = "--";
+  
+      response.status(422).send("Illegal Username");
+      return;
+    }
+
+    await DB_UpdateDocument({user: request.body.user, pass: request.body.pass}, "logins");
+
+    request.session.login = true;
+    request.session.username = request.body.user;
+
+    response.end();
+  }
+  else if (result.length === 1)
+  {
+    if (request.body.user === "logins")
+    {
+      request.session.login = false;
+      request.session.username = "--";
+  
+      response.status(422).send("Illegal Username");
+      return;
+    }
+
+    if (result[0].pass === request.body.pass)
+    {
+      request.session.login = true;
+      request.session.username = request.body.user;
+
+      // response.render("index", {loginmsg: `Logged in as ${request.body.user}`, layout: false});
+      response.end();
+      console.log(formatLog("SERVER", `Logged in as ${request.body.user}`));
+    }
+    else
+    {
+      request.session.login = false;
+      request.session.username = "--";
+
+      response.status(422).send("Invalid Password");
+    }
+  }
+  else if (result.length > 1)
+  {
+    request.session.login = false;
+    request.session.username = "--";
+
+    response.status(423).send("Multiple Users Exist in System");
+  }
+});
+
+// Send unauthenticated user to login
+app.use(function(request, response, next)
+{
+  if (request.session.login === true)
+  {
+    next();
+  }
+  else
+  {
+    console.log("NOT LOGGED IN :(");
+    response.render("index", {layout:false});
+  }
+});
+
 // General GET request handler
 app.get("/", (request, response) =>
 {
-  response.render("index");
+  response.render("index", {layout: false});
 });
 
 // GET table handler
@@ -101,26 +176,13 @@ app.post("/submit", async (request, response) =>
 
 // POST submit handler
 app.post("/remove", async (request, response) =>
-  {
-    const laptopID = parseInt(request.body.id);
-
-    // TODO: Get user from login session
-    await DB_DeleteDocument(request.body, "test-user");
-    await duplicatesCheck();
-    response.end("Yippee");
-  });
-
-// Send unauthenticated user to login
-app.use(function(request, response, next)
 {
-  // if (request.session.login === true)
-  // {
-  //   next();
-  // }
-  // else
-  // {
-  //   response.render("index", {msg:"LOGIN FAILED OH NO", layout:false});
-  // }
+  const laptopID = parseInt(request.body.id);
+
+  // TODO: Get user from login session
+  await DB_DeleteDocument(request.body, "test-user");
+  await duplicatesCheck();
+  response.end("Yippee");
 });
 
 const duplicatesCheck = async function()

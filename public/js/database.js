@@ -56,17 +56,41 @@ const DB_UpdateDocument = async function(document, collection, database = "lapto
     const mongoDatabase = client.db(database);
     const mongoCollection = mongoDatabase.collection(collection);
 
-    const filter = {id: document.id};
-    const options = {upsert: true};
+    let filter, options, update;
 
-    const update =
+    switch (collection)
     {
-      $set:
+    case "logins":
+
+      filter = {user: document.user};
+      options = {upsert: true};
+
+      update =
       {
-        firstname: document.firstname,
-        lastname: document.lastname,
-        dup: document.dup
+        $set:
+        {
+          pass: document.pass
+        }
       }
+
+      break;
+
+    default:
+
+      filter = {id: document.id};
+      options = {upsert: true};
+
+      update =
+      {
+        $set:
+        {
+          firstname: document.firstname,
+          lastname: document.lastname,
+          dup: document.dup
+        }
+      }
+
+      break;
     }
 
     const result = await mongoCollection.updateOne(filter, update, options);
@@ -111,9 +135,25 @@ const DB_FindDocuments = async function(filter, collection, database = "laptop-l
     const mongoDatabase = client.db(database);
     const mongoCollection = mongoDatabase.collection(collection);
 
-    const options = 
+    let options;
+
+    switch (collection)
     {
-      projection: {"_id": 0, "id": 1, "firstname": 1, "lastname": 1, "dup": 1}
+    case "logins":
+
+      options = 
+      {
+        projection: {"_id": 0, "user": 1, "pass": 1}
+      }
+      break;
+
+    default:
+
+      options = 
+      {
+        projection: {"_id": 0, "id": 1, "firstname": 1, "lastname": 1, "dup": 1}
+      }
+      break;
     }
 
     const result = await mongoCollection.find(filter, options).toArray();

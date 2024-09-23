@@ -1,70 +1,113 @@
 const express = require('express'),
-    parser = require('body-parser'),
+    MongoClient = require('mongodb').MongoClient,
     fs = require('fs'),
     path = require('path'),
     app = express(),
     port = process.env.PORT || 3000,
     key = 'secretkey',
-    uri = 'put-mongo-db-key-here',
-    client = new MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology: true});
-const bodyParser = require("body-parser");
-const jwt = require("jsonwebtoken");
+    uri = 'mongodb://localhost:27017/habit-tracker',
+    bcrypt = require('bcrypt'),
+    client = new MongoClient(uri),
+    jwt = require("jsonwebtoken");
+
+app.use(express.json());
+app.use(express.static('public'));
+
 
 let habitList;
 let usersList;
 
 // connect to db
 client.connect(err => {
-  if (err) throw err;
+  if (err) {
+    console.error('Error connecting to MongoDB:', err);
+    return;
+  }
   console.log('Connected to MongoDB');
   const db = client.db("habit-tracker");
   habitList = db.collection('habits');
   usersList = db.collection('users');
-});
 
-app.use(bodyParser.json());
-app.use(express.static('public'));
+  habitList.countDocuments({}, (err, count) => {
+    if (err) {
+      console.error('Error counting documents:', err);
+    } else {
+      console.log(`Number of habits in the database: ${count}`);
+    }
+  });
+});
 
 // index page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 })
 
-// add registration if time needed
+// add registration if time allows
 // login
 app.post('/login', async (req, res, next) => {
-  const {username, password} = req.body;
-  const user = await usersList.findOne({username});
+  const { username, password } = req.body;
 
-  if (user && await bcrypt.compare(password, user.password)) {
-    const token = jwt.sign({username}, key, {expiresIn: '1h'});
-    res.json({token});
-  } else {
-    res.status(401).send('Invalid Username or Password');
+  try {
+    const user = await usersList.findOne({username});
+    if(!user) {
+      return res.status(401).send('Invalid credentials');
+    }
+
+    const passwordValid = await bcrypt.compare(password, user.password);
+    if(!passwordValid) {
+      return res.status(401).send('Invalid credentials');
+    }
+
+    const token = jwt.sign({userID: user._id}, key, {expiresIn: '1h'});
+    res.status(200).json({token});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error logging in');
+  }
+})
+
+app.get('/register', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'register.html'));
+});
+
+app.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const hash = await bcrypt.hash(password, 10);
+
+    const newUser = {
+      username,
+      password: hash
+    };
+
+    await usersList.insertOne(newUser);
+    res.status(201).send('User registered successfully');
+  } catch (error) {
+    res.status(500).send('Error registering user');
   }
 })
 
 // authenticate user
 const authenticate = (req, res, next) => {
   const token = req.headers['authorization'];
-  if(token) {
-    jwt.verify(token, key, (err, decoded) => {
-      if (err) {
-        return res.status(401).send('Invalid Token');
-      } else {
-        req.user = decoded;
-        next();
-      }
-    });
-  } else {
-    res.status(401).send('Token Not Found');
+
+  if (!token) {
+    return res.status(401).send('Access denied');
+  }
+
+  try {
+    req.user = jwt.verify(token, key);
+    next();
+  } catch (error) {
+    res.status(400).send('Invalid token');
   }
 };
 
 // get habits
 app.get('/getHabits', authenticate, async (req, res) => {
   try {
-    const habits = await habitList.find({username: req.user.username}).toArray();
+    const habits = await habitList.find({userID: req.user.userID}).toArray();
     res.json(habits);
   } catch (err) {
     res.status(500).send('Error getting habits');
@@ -73,12 +116,31 @@ app.get('/getHabits', authenticate, async (req, res) => {
 
 // add habit
 app.post('/addHabit', authenticate, async (req, res) => {
-  const newHabit = req.body;
-  newHabit.username = req.user.username;
+  const {habitName, startDate, frequency} = req.body;
+  const habitDate = new Date(startDate);
+  const currentDate = new Date();
+  const msToDay = 1000 * 60 * 60 * 24;
+  let consistency = '';
+
+  if (habitDate < currentDate) {
+    consistency = Math.floor((currentDate - habitDate) / msToDay ) + " days";
+  } else if (habitDate > currentDate) {
+        consistency = "Not Started";
+  } else {
+        consistency = "0 days"
+  }
+
+  const newHabit = {
+    habitName,
+    startDate,
+    frequency,
+    consistency,
+    userID: req.user.userID
+  };
 
   try {
     await habitList.insertOne(newHabit);
-    const updatedHabits = await habitList.find({username: req.user.username}).toArray();
+    const updatedHabits = await habitList.find({userID: req.user.userID}).toArray();
     res.json(updatedHabits);
   } catch (err) {
     res.status(500).send('Error adding habit');
@@ -90,8 +152,8 @@ app.delete('/deleteHabit', authenticate, async (req, res) => {
   const {habitName} = req.body;
 
   try {
-    await habitList.deleteOne({habitName, username: req.user.username});
-    const updatedHabits = await habitList.find({username: req.user.username}).toArray();
+    await habitList.deleteOne({habitName, userID: req.user.userID});
+    const updatedHabits = await habitList.find({userID: req.user.userID}).toArray();
     res.json(updatedHabits);
   } catch (err) {
     res.status(500).send('Error deleting habit');

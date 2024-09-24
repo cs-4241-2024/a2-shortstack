@@ -1,4 +1,3 @@
-
 /**
  * Formats a log message to include message source.
  * 
@@ -9,6 +8,33 @@
 const formatLog = function(src, message)
 {
   return `[${src.toUpperCase()}] → ${message}`;
+}
+
+/**
+ * Translates table header ids to text to use as titles.
+ * 
+ * @param {string} id Table header id.
+ * @returns Interpreted table header.
+ */
+const translateHeaderID = function(id)
+{
+  switch (id)
+  {
+  case "id":
+    return "Laptop ID";
+  
+  case "firstname":
+    return "First Name";
+  
+  case "lastname":
+    return "Last Name";
+
+  case "dup":
+    return "Duplicate Client?"
+
+  default:
+    return "Unknown";
+  }
 }
 
 /**
@@ -50,33 +76,6 @@ const submit = async function(event)
 }
 
 /**
- * Translates table header ids to text to use as titles.
- * 
- * @param {string} id Table header id.
- * @returns Interpreted table header.
- */
-const tableID = function(id)
-{
-  switch (id)
-  {
-  case "id":
-    return "Laptop ID";
-  
-  case "firstname":
-    return "First Name";
-  
-  case "lastname":
-    return "Last Name";
-
-  case "dup":
-    return "Duplicate Client?"
-
-  default:
-    return "Unknown";
-  }
-}
-
-/**
  * To trigger on a button click, removes the corresponding table.
  * 
  * @param {*} btn Button object.
@@ -99,17 +98,6 @@ const removeRow = async function(btn)
   {
     // Refresh table if OK
     refreshTable();
-  }
-}
-
-const btnFcnTEST = async function(btn)
-{ 
-  // Send POST request
-  let response = await fetch("/test", {method:"POST"});
-
-  if (response.ok)
-  {
-    console.log("test post response ok");
   }
 }
 
@@ -146,19 +134,19 @@ const refreshTable = async function()
     switch (col)
     {
       case 0:
-        th.textContent = tableID("id");
+        th.textContent = translateHeaderID("id");
         break;
 
       case 1:
-        th.textContent = tableID("firstname");
+        th.textContent = translateHeaderID("firstname");
         break;
 
       case 2:
-        th.textContent = tableID("lastname");
+        th.textContent = translateHeaderID("lastname");
         break;
 
       case 3:
-        th.textContent = tableID("dup");
+        th.textContent = translateHeaderID("dup");
         break;
 
       case 4:
@@ -226,39 +214,6 @@ const refreshTable = async function()
   document.querySelector("#laptops").replaceWith(newTable);
 }
 
-const loginFcn = async function(event)
-{
-  // Prevent browser from loading a new page
-  event.preventDefault();
-
-  // Get data from form
-  const login_user = document.querySelector("#login-user");
-  const login_pass = document.querySelector("#login-pass");
-
-  // Convert data to JSON
-  const json = {user: login_user.value, pass: login_pass.value};
-  const body = JSON.stringify(json);
-  
-  // Send POST request
-  const response = await fetch("/login", {method:"POST", headers: {"Content-Type": "application/json"}, body});
-  const text     = await response.text();
-
-  if (response.ok)
-  {
-    document.querySelector("#loginmsg").innerText = `Login success.`;
-
-    // Refresh table if OK
-    refreshTable();
-  }
-  else
-  {
-    document.querySelector("#loginmsg").innerText = `Login failed.`;
-
-    // Alert window if error
-    window.alert(`ERROR: ${text}`);
-  }
-}
-
 /**
  * Set button click action to submit function.
  */
@@ -267,21 +222,13 @@ window.onload = function()
   // Set submit function
   const button = document.getElementById("submitbtn");
   button.onclick = submit;
-
-  // Set submit function
-  const loginBtn = document.getElementById("loginbtn");
-  loginBtn.onclick = loginFcn;
   
   // Set refresh function
   const refreshBtn = document.getElementById("rfrsh");
   refreshBtn.onclick = refreshTable;
 
-  // Set test function
-  const testBtn = document.getElementById("testbtn");
-  testBtn.onclick = btnFcnTEST;
-
-  // TODO: Check if user is logged in HERE!
-
   // Init table
   refreshTable();
+
+  console.log("LOADED MAIN.JS");
 }

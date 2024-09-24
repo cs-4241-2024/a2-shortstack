@@ -23,8 +23,12 @@ const port = 3000;
 
 // Setup express
 const app = express();
-app.engine("handlebars", handlebars());
-app.use(express.static("./"));
+app.engine("handlebars", handlebars(
+  {
+    layoutsDir: "./views/layouts"
+  })
+);
+app.use(express.static("public"));
 app.use(express.json());
 app.set("view engine", "handlebars");
 app.set("views", "./views");
@@ -86,7 +90,7 @@ app.post("/login", async (request, response) =>
     request.session.login = true;
     request.session.username = request.body.user;
 
-    response.end();
+    response.render("main", {layout: "index", bodyscript: "main.js"});
   }
   else if (result.length === 1)
   {
@@ -105,8 +109,8 @@ app.post("/login", async (request, response) =>
       request.session.username = request.body.user;
 
       // response.render("index", {loginmsg: `Logged in as ${request.body.user}`, layout: false});
-      response.end();
       console.log(formatLog("SERVER", `Logged in as ${request.body.user}`));
+      response.render("main", {layout: "index", bodyscript: "main.js"});
     }
     else
     {
@@ -135,14 +139,21 @@ app.use(function(request, response, next)
   else
   {
     console.log("NOT LOGGED IN :(");
-    response.render("index", {layout:false});
+    response.render("login", {layout: "index", bodyscript: "login.js"});
   }
 });
 
 // General GET request handler
 app.get("/", (request, response) =>
 {
-  response.render("index", {layout: false});
+  if (request.session.login === true)
+  {
+    response.render("main", {layout: "index", bodyscript: "main.js"});
+  }
+  else
+  {
+    response.render("login", {layout: "index", bodyscript: "login.js"});
+  }
 });
 
 // GET table handler
@@ -183,6 +194,12 @@ app.post("/remove", async (request, response) =>
   await DB_DeleteDocument(request.body, "test-user");
   await duplicatesCheck();
   response.end("Yippee");
+});
+
+app.use((error, request, response, next) =>
+{
+  console.error(error.stack);
+  response.status(500).send('Error :/');
 });
 
 const duplicatesCheck = async function()

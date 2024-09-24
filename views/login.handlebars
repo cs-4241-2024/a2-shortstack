@@ -1,0 +1,18 @@
+<html lang="en">
+  <head>
+    <style>input { display:block }</style>
+  </head>
+  <body>
+    <p>Please enter your username and password.</p>
+    
+    <form action="/login" method="POST">
+      name: <input type="text" name="username" />
+
+      password:<input type="password" name="password" value="password" />
+      <input id="submit" type="submit" value="login" />
+    </form>
+    
+    {{{msg}}}
+    
+  </body>
+</html>

@@ -1,10 +1,3 @@
-
-
-
-
-// ======
-
-
 const express = require( 'express' ),
       cookie  = require( 'cookie-session' ),
       hbs     = require( 'express-handlebars' ).engine,
@@ -31,14 +24,15 @@ app.use( cookie({
   keys: ['secretKey01', 'secretKey02']
 }))
 
-const url - 'mongodb://localhost:3000'
-const client = new MongoClient(url);
+const url = 'mongodb://localhost:3000'
 
-let collection = null
+// create variable collection
+let collection = null;
 
 async function run() {
   await client.connect()
   collection = await client.db("datatest6").collection("test")
+  //collect the data
 }
 run()
 
@@ -64,21 +58,24 @@ app.post( '/login', (req,res)=> {
   
   // below is *just a simple authentication example* 
   // for A3, you should check username / password combos in your database
-  if( req.body.password === 'test' ) {
-    // define a variable that we can check in other middleware
-    // the session object is added to our requests by the cookie-session middleware
+
+  if( req.body.password === password){
     req.session.login = true
+  
+
+
+  // if( req.body.password === 'test' ) {
+  //   // define a variable that we can check in other middleware
+  //   // the session object is added to our requests by the cookie-session middleware
+  //   req.session.login = true
     
-    // since login was successful, send the user to the main content
-    // use redirect to avoid authentication problems when refreshing
-    // the page or using the back button, for details see:
-    // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
     res.redirect( 'main.html' )
+
   }else{
-    // cancel session login in case it was previously set to true
+    // cancel session login in case if it's true
     req.session.login = false
-    // password incorrect, send back to login page
-    res.render('index', { msg:'login failed, please try again', layout:false })
+    // go back to login
+    res.render('index', { msg:'Login has failed; try again!', layout:false })
   }
 })
 
@@ -104,7 +101,7 @@ app.use( function( req,res,next) {
 })
 
 app.get( '/main.html', ( req, res) => {
-    res.render( 'main', { msg:'success you have logged in', layout:false })
+    res.render( 'main', { msg:'Success! You are now logged in!', layout:false })
 })
 
 

@@ -33,7 +33,10 @@ const DB_CreateCollection = async function(collection, database = "laptop-loans"
 {
   try
   {
+    const mongoDatabase = client.db(database);
+    const result = await mongoDatabase.createCollection(collection);
 
+    console.log(formatLog("DB", `Collection created: ${result.collectionName}`));
   }
   catch
   {

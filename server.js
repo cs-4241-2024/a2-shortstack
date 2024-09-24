@@ -87,6 +87,7 @@ app.post("/login", async (request, response) =>
     }
 
     await DB_UpdateDocument({user: request.body.user, pass: request.body.pass}, "logins");
+    await DB_CreateCollection(request.body.user);
 
     request.session.login = true;
     request.session.username = request.body.user;
@@ -164,7 +165,7 @@ app.get("/table", async (request, response) =>
   // TODO: DB_GetCollection
   // response.send(activeLoans);
 
-  const table = await DB_FindDocuments({}, "test-user");
+  const table = await DB_FindDocuments({}, request.session.username);
   response.send(table);
 });
 
@@ -180,8 +181,8 @@ app.post("/submit", async (request, response) =>
   {
     // TODO: Get user from login session
     request.body.id = parseInt(request.body.id);
-    await DB_UpdateDocument(request.body, "test-user");
-    await duplicatesCheck();
+    await DB_UpdateDocument(request.body, request.session.username);
+    await duplicatesCheck(request);
 
     response.end("All good pardner");
   }
@@ -192,9 +193,8 @@ app.post("/remove", async (request, response) =>
 {
   const laptopID = parseInt(request.body.id);
 
-  // TODO: Get user from login session
-  await DB_DeleteDocument(request.body, "test-user");
-  await duplicatesCheck();
+  await DB_DeleteDocument(request.body, request.session.username);
+  await duplicatesCheck(request);
   response.end("Yippee");
 });
 
@@ -212,9 +212,9 @@ app.use((error, request, response, next) =>
   response.status(500).send('Error :/');
 });
 
-const duplicatesCheck = async function()
+const duplicatesCheck = async function(request)
 {
-  const collection = await DB_FindDocuments({}, "test-user");
+  const collection = await DB_FindDocuments({}, request.session.username);
 
   for (let baseRow = 0; baseRow < collection.length; baseRow++)
   {
@@ -235,7 +235,7 @@ const duplicatesCheck = async function()
     }
 
     collection[baseRow].dup = Boolean(match);
-    await DB_UpdateDocument(collection[baseRow], "test-user");
+    await DB_UpdateDocument(collection[baseRow], request.session.username);
   }
 }
 

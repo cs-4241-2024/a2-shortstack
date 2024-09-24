@@ -5,16 +5,16 @@
     <title>Login</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/css/main.css">
+
+    {{#if bodyscript}}
+      <script src="/js/{{bodyscript}}"></script>
+    {{/if}}
     
     <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
 
   <body>
-    {{#if bodyscript}}
-      <script src="/js/{{bodyscript}}"></script>
-    {{/if}}
-
     {{{body}}}
   </body>
   

@@ -5,7 +5,7 @@
  * @param {string} message Base log message.
  * @returns Formatted log message.
  */
-const formatLog = function(src, message)
+function formatLog(src, message)
 {
   return `[${src.toUpperCase()}] → ${message}`;
 }
@@ -16,7 +16,7 @@ const formatLog = function(src, message)
  * @param {string} id Table header id.
  * @returns Interpreted table header.
  */
-const translateHeaderID = function(id)
+function translateHeaderID(id)
 {
   switch (id)
   {
@@ -42,7 +42,7 @@ const translateHeaderID = function(id)
  * 
  * @param {*} event Event object.
  */
-const submit = async function(event)
+async function submit(event)
 {
   // Prevent browser from loading a new page
   event.preventDefault();
@@ -80,7 +80,7 @@ const submit = async function(event)
  * 
  * @param {*} btn Button object.
  */
-const removeRow = async function(btn)
+async function removeRow(btn)
 { 
   // Get corresponding laptop ID
   let button = document.querySelector(`#${btn.currentTarget.id}`);
@@ -102,9 +102,38 @@ const removeRow = async function(btn)
 }
 
 /**
+ * Attempts to log in user with given username and password.
+ * @param {*} event 
+ */
+async function logout(event)
+{
+  // Prevent browser from loading a new page
+  // event.preventDefault();
+  
+  // Send POST request
+  const response = await fetch("/logout", {method:"POST"});
+  const text     = await response.text();
+
+  if (response.ok)
+  {
+    // document.querySelector("#login-msg").innerText = `Login success!`;
+    document.open();
+    document.write(text);
+    document.close();
+  }
+  else
+  {
+    // document.querySelector("#login-msg").innerText = `Login failed!`;
+
+    // Alert window if error
+    // window.alert(`ERROR: ${text}`);
+  }
+}
+
+/**
  * Refresh active loan table (replace with version most up-to-date with server).
  */
-const refreshTable = async function()
+async function refreshTable()
 {
   // Reference: https://www.geeksforgeeks.org/javascript-fetch-method/
   let tableData;
@@ -227,8 +256,12 @@ window.onload = function()
   const refreshBtn = document.getElementById("rfrsh");
   refreshBtn.onclick = refreshTable;
 
+  // Set log out function
+  const logoutButton = document.getElementById("logout");
+  logoutButton.onclick = logout;
+
   // Init table
   refreshTable();
 
-  console.log("LOADED MAIN.JS");
+  // console.log("LOADED MAIN.JS");
 }

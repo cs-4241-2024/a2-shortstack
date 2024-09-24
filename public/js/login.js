@@ -2,7 +2,7 @@
  * Attempts to log in user with given username and password.
  * @param {*} event 
  */
-const login = async function(event)
+async function login(event)
 {
   // Prevent browser from loading a new page
   event.preventDefault();
@@ -45,5 +45,5 @@ window.onload = function()
   const loginBtn = document.getElementById("login-btn");
   loginBtn.onclick = login;
 
-  console.log("LOADED LOGIN.JS");
+  // console.log("LOADED LOGIN.JS");
 }

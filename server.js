@@ -9,6 +9,7 @@ const handlebars = require("express-handlebars").engine;
 const {cookieKey1, cookieKey2} = require("./public/js/private.js");
 const
 {
+  DB_CreateCollection,
   DB_CreateDocument,
   DB_UpdateDocument,
   DB_DeleteDocument,
@@ -90,6 +91,7 @@ app.post("/login", async (request, response) =>
     request.session.login = true;
     request.session.username = request.body.user;
 
+    console.log(formatLog("SERVER", `New account created for \"${request.session.username}\"`));
     response.render("main", {layout: "index", bodyscript: "main.js"});
   }
   else if (result.length === 1)
@@ -138,7 +140,7 @@ app.use(function(request, response, next)
   }
   else
   {
-    console.log("NOT LOGGED IN :(");
+    // console.log("NOT LOGGED IN :(");
     response.render("login", {layout: "index", bodyscript: "login.js"});
   }
 });
@@ -195,6 +197,14 @@ app.post("/remove", async (request, response) =>
   await duplicatesCheck();
   response.end("Yippee");
 });
+
+// POST logout handler
+app.post("/logout", async (request, response) =>
+  {
+    request.session.login = false;
+    request.session.username = "";
+    response.render("login", {layout: "index", bodyscript: "login.js"});
+  });
 
 app.use((error, request, response, next) =>
 {

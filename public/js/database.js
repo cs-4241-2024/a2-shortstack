@@ -29,6 +29,18 @@ const formatLog = function(src, message)
   return `[${src.toUpperCase()}] → ${message}`;
 }
 
+const DB_CreateCollection = async function(collection, database = "laptop-loans")
+{
+  try
+  {
+
+  }
+  catch
+  {
+    console.log(formatLog("DB", `ERROR creating new document in ${database}.${collection}`));
+  }
+}
+
 const DB_CreateDocument = async function(document, collection, database = "laptop-loans")
 {
   try
@@ -185,6 +197,7 @@ const DB_Close = async function()
 
 module.exports =
 {
+  DB_CreateCollection,
   DB_CreateDocument,
   DB_UpdateDocument,
   DB_DeleteDocument,

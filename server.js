@@ -1,16 +1,21 @@
+require('dotenv').config()
+
+
 const express = require( 'express' ),
       cookie  = require( 'cookie-session' ),
       hbs     = require( 'express-handlebars' ).engine,
-      app     = express()
       { MongoClient, ObjectId } = require('mongodb');
+      app     = express()
+
 
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
 app.use( express.urlencoded({ extended:true }) )
-app.use(express.static("./") )
 app.use(express.json() )
-const uri = `mongodb+srv://tester:${process.env.password}@cluster0.f9zkh.mongodb.net/`
+
+const uri = `mongodb+srv://aekratman:abbeysPassword@abbeyscluster.0bppf.mongodb.net/?retryWrites=true&w=majority&appName=AbbeysCluster/`
 const client = new MongoClient( uri )
+
 
 
 
@@ -31,8 +36,7 @@ let collection = null;
 
 async function run() {
   await client.connect()
-  collection = await client.db("datatest6").collection("test")
-  //collect the data
+  collection = await client.db("logFromAssignment").collection("logs")
 }
 run()
 
@@ -45,7 +49,8 @@ app.post( '/add', async (req,res) => {
 })
  
 
-app.post( '/login', (req,res)=> {
+
+app.post( '/login', async (req,res)=> {
 
   console.log( req.body )
   const username = req.body.username
@@ -53,23 +58,15 @@ app.post( '/login', (req,res)=> {
 
   const password = req.body.password
   console.log(password);
-  
+
+  const user = await collection.findOne({ username });
 
   
-  // below is *just a simple authentication example* 
-  // for A3, you should check username / password combos in your database
-
   if( req.body.password === password){
     req.session.login = true
-  
-
-
-  // if( req.body.password === 'test' ) {
-  //   // define a variable that we can check in other middleware
-  //   // the session object is added to our requests by the cookie-session middleware
-  //   req.session.login = true
-    
     res.redirect( 'main.html' )
+
+    
 
   }else{
     // cancel session login in case if it's true
@@ -79,6 +76,11 @@ app.post( '/login', (req,res)=> {
   }
 })
 
+app.use(express.static("./") )
+
+app.post("/submit", async (req, res) => {
+// code from tutorial that does insertion
+})
 
 // route to get all docs
 app.get("/docs", async (req, res) => {
@@ -89,8 +91,12 @@ app.get("/docs", async (req, res) => {
 })
 
 app.get( '/', (req,res) => {
+  console.log("Rendering your res, apping your get");
   res.render( 'index', { msg:'', layout:false })
+
 })
+
+
 
 // add some middleware that always sends unauthenicaetd users to the login page
 app.use( function( req,res,next) {

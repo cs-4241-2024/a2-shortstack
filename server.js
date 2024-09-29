@@ -57,7 +57,7 @@ run().then((collection) => {
   if (collection) {
     console.log("Collection ready!");
   } else {
-    console.log("Collection is null or not set.");
+    console.log("Collection is not all set.");
   }
 });
 
@@ -77,7 +77,7 @@ app.post( '/login', async (req,res)=> {
 
   console.log( req.body )
 
-  const username = req.body.username
+  const username = req.body.username || "null"
   const password = req.body.password
   console.log(username);
   console.log(`Attempting login for user: ${username}`);
@@ -111,19 +111,26 @@ app.post( '/login', async (req,res)=> {
 app.use(express.static("./") )
 
 
+
 app.post('/submit', async (req, res) => {
   const { name, musical, songs } = req.body; // Extract other fields
   const username = req.session.username; // Get username from session
 
+  console.log("Received data:", req.body); // Log the incoming data
+
   try {
       // Insert the new document into the MongoDB collection
       const result = await collection.insertOne({ username, name, musical, songs });
+      console.log("Insertion result:", result); // Log the result of the insertion
 
       // Check if the insertion was successful
       if (result.insertedId) {
-          // Fetch the inserted document by its ID to return it
-          const insertedDocument = await collection.findOne({ _id: result.insertedId });
-          res.json([insertedDocument]); // Send the inserted document back in an array
+          // Fetch all documents from the collection after insertion
+          const allDocuments = await collection.find().toArray(); // Fetch all entries
+          console.log("All documents fetched:", allDocuments); // Log all documents
+
+          // Send back all documents in an array
+          res.json(allDocuments);
       } else {
           res.status(500).json({ error: 'Insertion failed, no document was inserted.' });
       }
@@ -132,6 +139,8 @@ app.post('/submit', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
 
 
 
@@ -165,6 +174,110 @@ app.get('/login', (req, res) => {
     const msg = username ? `You've logged in! Welcome, ${username}` : '';
     res.render('login', { msg: msg, layout: false });
 });
+
+
+
+
+const appdata = []
+
+
+
+const server = http.createServer( function( request,response ) {
+  if( request.method === 'GET' ) {
+    handleGet( request, response )    
+  }else if( request.method === 'POST' ){
+    handlePost( request, response ) 
+  } else if ( request.method === 'DELETE' ){
+    handleDelete ( request, response ) 
+  }
+})
+
+const handleGet = function( request, response ) {
+  const filename = dir + request.url.slice( 1 ) 
+
+  if( request.url === '/' ) {
+    sendFile( response, 'public/index.html' )
+  }else{
+    sendFile( response, filename )
+  }
+}
+
+const handlePost = function( request, response ) {
+  let dataString = ''
+
+  request.on( 'data', function( data ) {
+      dataString += data 
+  })
+
+  request.on( 'end', function() {
+    const data = JSON.parse( dataString )
+    
+    appdata.push(data);
+    console.log(appdata);    
+  
+    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+    response.end( JSON.stringify( appdata ) )
+  })
+}
+
+// new handle, for deletion: very similar to the others!
+
+const handleDelete = function(request, response) {
+  let dataString = '';
+
+  request.on('data', function(data) {
+    dataString += data;
+  });
+
+  request.on('end', function() {
+
+      const data = JSON.parse(dataString);
+      const { name } = data;
+
+      // Find delete index
+      const indexNum = appdata.findIndex(item => item.name === name);
+
+    // if the index exists, delete it
+      if (indexNum !== -1) {
+        appdata.splice(indexNum, 1);
+        
+        console.log("Current array:");
+        console.log(appdata);
+        
+        // same as handleget
+        response.writeHead(200, "OK", {'Content-Type': 'application/json'});
+        response.end(JSON.stringify(appdata));
+      } 
+  } 
+)};
+       
+
+    
+    
+    
+    
+
+const sendFile = function( response, filename ) {
+   const type = mime.getType( filename ) 
+
+   fs.readFile( filename, function( err, content ) {
+
+     // if the error = null, then we've loaded the file successfully
+     if( err === null ) {
+
+       // status code: https://httpstatuses.com
+       response.writeHeader( 200, { 'Content-Type': type })
+       response.end( content )
+
+     }else{
+
+       // file not found, error code 404
+       response.writeHeader( 404 )
+       response.end( '404 Error: File Not Found' )
+
+     }
+   })
+}
 
 
 app.listen( process.env.PORT || 3000 )

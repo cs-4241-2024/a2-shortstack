@@ -1,29 +1,83 @@
-const submit = async function(event) {
-  event.preventDefault(); // Prevent the default form submission
 
-
-  const input = document.querySelector('#name');  
-  const input2 = document.querySelector('#musical');
-  const input3 = document.querySelector('#songs');
-
-  const json = { name: input.value, musical: input2.value, songs: input3.value };
-  const body = JSON.stringify(json);
-
-  const response = await fetch('/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' }, // Add headers to specify the content type
-      body
-  });
   
-  if (!response.ok) {
-      console.error('Error:', response.statusText);
-      return; // Handle the error
-  }
+const submit = async function( event ) {
 
-  const text = await response.json();
+  event.preventDefault()
+  
+
+  const input = document.querySelector( '#name' )  
+  const input2 = document.querySelector ('#musical' )
+  const input3 = document.querySelector ('#songs')
+  const input4 = document.querySelector ('#role')
+
+  
+    const json = { name: input.value, musical: input2.value, 
+                  songs: input3.value }
+    const body = JSON.stringify( json )
+
+    console.log("Submitting data:", json);
+
+  const response = await fetch( '/submit', {
+    method:'POST',
+    headers: {'Content-Type': 'application/json'},
+    body
+  })
+      
+  const text = await response.json()  
+  clearTable();
   generateTable(text);
 
+
+  
+  const element = document.createElement('p')
+  document.body.appendChild( element )
+
+}
+
+function clearTable() {
+  const currentTable = document.querySelector('table');
+  if (currentTable){
+    currentTable.remove();
+    
+  }
+}
+
+
+
+async function deleteCharacter(name){
+  const response = await fetch('/delete', {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name })
+    });
+  
+  if (response.ok){
+    const newData = await response.json();
+    updated(newData);
+    
+  } else {
+    console.error("Issue of deletion");
+  }
 };
+    
+  function calculateRole(ranking){
+    
+
+  console.log("Ranking: " +  ranking);
+
+    if (ranking > 0 && ranking < 2){
+      return "Ensemble";
+     } else if (ranking >= 2 && ranking < 3){
+      return "Secondary Character";
+    } else if (ranking >= 3){
+        return "Lead";
+    } else {
+        return "Invalid Input";
+    } 
+  }
+    
+
+
 
 
 
@@ -38,7 +92,7 @@ function generateTable(text) {
 
     const tableHeader = document.createElement("thead");
     const hRow = document.createElement("tr");
-    const headers = ["Username", "Name", "Musical", "Songs", "Role", "Delete?"]; // Add "Username" to headers
+    const headers = ["Name", "Musical", "Songs", "Role", "Delete?"];
 
     headers.forEach(headerText => {
       const th = document.createElement("th");
@@ -63,34 +117,28 @@ function generateTable(text) {
 
   text.forEach(item => {
     const row = document.createElement("tr");
-
-    // CREATE COLUMN FOR USERNAME
-    const cellUsername = document.createElement("td");
-    cellUsername.textContent = createTextNode(text[j].username);
-    cellUsername.style.border = "1px solid black"; // Set border for the cell
-    row.appendChild(cellUsername); // Append the username cell to the row
-
-    // CREATE COLUMN FOR NAME
+    
+    // CREATE COLUMN FOR NAMES
     const cellName = document.createElement("td");
-    cellName.textContent = createTextNode(text[j].name);
+    cellName.textContent = item.name;
     cellName.style.border = "1px solid black";
     row.appendChild(cellName);
 
     // CREATE COLUMN FOR MUSICAL TITLE
     const cellMusical = document.createElement("td");
-    cellMusical.textContent = createTextNode(text[j].musical);
+    cellMusical.textContent = item.musical;
     cellMusical.style.border = "1px solid black";
     row.appendChild(cellMusical);
 
     // CREATE COLUMN FOR SONGS
     const cellSongCount = document.createElement("td");
-    cellSongCount.textContent = createTextNode(text[j].songs);
+    cellSongCount.textContent = item.songs;
     cellSongCount.style.border = "1px solid black";
     row.appendChild(cellSongCount);
-   sdkfjdkf
+
     // CREATE COLUMN FOR ROLE
     const cellRole = document.createElement("td");
-    cellRole.textContent = calculateRole(createTextNode(text[j].songs));
+    cellRole.textContent = calculateRole(item.songs);
     cellRole.style.border = "1px solid black";
     row.appendChild(cellRole);
 
@@ -113,9 +161,22 @@ function generateTable(text) {
 
 
 
+function updated(text){
+  clearTable();
+  generateTable(text);
+}
 
-// Attach the submit event listener to the form
+
+const preWrite = [
+  { name: "Example Name", musical: "Example: The Musical", songs: 3 },
+];
+
+
+// when the window loads, make sure the button is hanging out
 window.onload = function() {
-  const form = document.querySelector("#rankingForm");
-  form.onsubmit = submit;    
-};
+  const button = document.querySelector("#btnSubmit");
+  button.onclick = submit;    
+  
+
+
+}

@@ -11,27 +11,50 @@
 </head>
 <body>
     <p>{{msg}}</p>
-
-    <h1>Musical Theatre Role Rankings for New Men</h1>
-
-    <form id="rankingForm">
-        <ul>
-            <li>
-                <label for="name">Character name:</label>
-                <input type="text" id="name" value="Benjamin Barker">
-            </li>
-            <li>
-                <label for="musical">Musical From:</label>
-                <input type="text" id="musical" value="Sweeney Todd" />
-            </li>
-            <li>
-                <label for="songs">Song Number:</label>
-                <input type="number" id="songs" value="10">
-            </li>
-        </ul>
-
-        <button type="submit" id="btnSubmit">Submit</button>
-    </form>
     
-</body>
+<div class="flex">
+    <div class="nunito">
+      
+    <h1>Musical Theatre Role Rankings</h1>
+      <p>Enter in a character from a musical and find their role (lead/secondary/ensemble)!</p>
+      <em>The example will disappear after your first submission.</em>
+      <h2>
+        Results!
+      </h2>
+      
+      
+        
+      
+    <form>
+    <ul>
+      <li>
+      <label for="name">Character name:</label>
+      <input type="text" id="name" value="">
+
+
+      </li>
+      <li>
+        <label for="musical">Musical From:</label>
+        <input type="text" id="musical" value="" />
+
+      </li>
+      
+      <li>
+        <label for="msg">Solo Song Count:</label>
+        <input type="number" id="songs" value="">
+      </li>
+      
+    </ul>
+    </form>
+        
+                
+      <button type="submit" id="btnSubmit">Generate your table!</button>
+<br><br><br>
+
+    
+     </div> <!-- close flex -->
+
+    </div> <!-- close font -->
+  </body>
 </html>
+

@@ -1,18 +1,37 @@
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <style>input { display:block }</style>
-  </head>
-  <body>
-    <p>Please enter your username and password.</p>
-    
-    <form action="/login" method="POST">
-      name: <input type="text" name="username" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-      password:<input type="password" name="password" value="password" />
-      <input id="submit" type="submit" value="login" />
+    <script src="public/client.js" defer></script>
+    <link rel="stylesheet" href="public/main.css">
+
+    <title>Login</title>
+</head>
+<body>
+    <p>{{msg}}</p>
+
+    <h1>Musical Theatre Role Rankings for New Men</h1>
+
+    <form id="rankingForm">
+        <ul>
+            <li>
+                <label for="name">Character name:</label>
+                <input type="text" id="name" value="Benjamin Barker">
+            </li>
+            <li>
+                <label for="musical">Musical From:</label>
+                <input type="text" id="musical" value="Sweeney Todd" />
+            </li>
+            <li>
+                <label for="songs">Song Number:</label>
+                <input type="number" id="songs" value="10">
+            </li>
+        </ul>
+
+        <button type="submit" id="btnSubmit">Submit</button>
     </form>
     
-    {{{msg}}}
-    
-  </body>
+</body>
 </html>

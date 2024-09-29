@@ -1,21 +1,51 @@
+/* element selectors */
+
+
 body {
-  background:black;
-  color:white;
+  background:lightblue;
+  color:black;
 }
 
-form {
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Gill Sans", sans-serif;
 }
 
-/* Various CSS Selector functionality must be demonstrated:
+table, th, tr, td {
+  border-collapse: collapse;
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  border: 3px solid black;
+  padding: 5px;
+  text-align: center;
+}
 
-    Element selectors
-    ID selectors
-    Class selectors
 
-CSS positioning and styling of the primary visual elements in the application:
+/* flexbox used */
+.flex{
+  display: flex;
+  flex-flow: row wrap;
+  margin: auto;
+  justify-content: center;
+  text-align: center;
 
-    Use of either a CSS grid or flexbox for layout
-    Rules defining fonts for all text used; be deliberate! Be sure to use a web safe font or a font from a web service like Google Fonts
+}
 
-CSS defined in a maintainable, readable form, in external stylesheets */
+/* class selectors selector, font definition */
+.title {
+    font-family: "Gill Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    }
+
+
+.nunito {
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    }
+
+/* id selector */
+#dataTable {
+  background-color: aliceblue;
+  margin: auto;
+}

@@ -1,3 +1,4 @@
+
 require('dotenv').config()
 
 
@@ -13,7 +14,7 @@ const express = require( 'express' ),
 app.use( express.urlencoded({ extended:true }) )
 app.use(express.json() )
 
-const uri = `mongodb+srv://aekratman:abbeysPassword@abbeyscluster.0bppf.mongodb.net/?retryWrites=true&w=majority&appName=AbbeysCluster/`
+const uri = 'mongodb+srv://aekratman:abbeysPassword@abbeyscluster.0bppf.mongodb.net/?retryWrites=true&w=majority&appName=AbbeysCluster/'
 const client = new MongoClient( uri )
 
 
@@ -35,10 +36,32 @@ const url = 'mongodb://localhost:3000'
 let collection = null;
 
 async function run() {
-  await client.connect()
-  collection = await client.db("logFromAssignment").collection("logs")
+  try {
+    await client.connect();  
+    
+    // Set the collection
+    collection = client.db("logFromAssignment").collection("logs");
+    console.log("Collection is set: ", collection !== null);
+    
+    // Insert a test document to the collection
+    // await collection.insertOne({ testField: "testValue" });
+    console.log("Inserted a test document into 'logs' collection.");
+    
+    return collection;
+  } catch (err) {
+    console.error("Error during MongoDB connection or insertion:", err);
+  }
 }
-run()
+
+run().then((collection) => {
+  if (collection) {
+    console.log("Collection ready!");
+  } else {
+    console.log("Collection is null or not set.");
+  }
+});
+
+run();
 
 
 
@@ -53,34 +76,65 @@ app.post( '/add', async (req,res) => {
 app.post( '/login', async (req,res)=> {
 
   console.log( req.body )
+
   const username = req.body.username
-  console.log(username);
-
   const password = req.body.password
-  console.log(password);
+  console.log(username);
+  console.log(`Attempting login for user: ${username}`);
 
-  const user = await collection.findOne({ username });
+
+
+
+  if (collection === null){
+    console.log("collection not set");
+  }
+
+  user = await collection.findOne({username: username});
 
   
   if( req.body.password === password){
-    req.session.login = true
-    res.redirect( 'main.html' )
+    req.session.login = true;
+    req.session.username = username;
+    console.log(`User logged in: ${username}`)
+    res.redirect( 'login' )
 
-    
-
+    if (!user){
+      await collection.insertOne({ username: username, password: password });
+    }
   }else{
     // cancel session login in case if it's true
     req.session.login = false
-    // go back to login
     res.render('index', { msg:'Login has failed; try again!', layout:false })
   }
 })
 
 app.use(express.static("./") )
 
-app.post("/submit", async (req, res) => {
-// code from tutorial that does insertion
-})
+
+app.post('/submit', async (req, res) => {
+  const { name, musical, songs } = req.body; // Extract other fields
+  const username = req.session.username; // Get username from session
+
+  try {
+      // Insert the new document into the MongoDB collection
+      const result = await collection.insertOne({ username, name, musical, songs });
+
+      // Check if the insertion was successful
+      if (result.insertedId) {
+          // Fetch the inserted document by its ID to return it
+          const insertedDocument = await collection.findOne({ _id: result.insertedId });
+          res.json([insertedDocument]); // Send the inserted document back in an array
+      } else {
+          res.status(500).json({ error: 'Insertion failed, no document was inserted.' });
+      }
+  } catch (error) {
+      console.error("Error inserting document:", error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
 
 // route to get all docs
 app.get("/docs", async (req, res) => {
@@ -106,10 +160,11 @@ app.use( function( req,res,next) {
     res.render('index', { msg:'login failed, please try again', layout:false })
 })
 
-app.get( '/main.html', ( req, res) => {
-    res.render( 'main', { msg:'Success! You are now logged in!', layout:false })
-})
-
+app.get('/login', (req, res) => {
+    const username = req.session.username || ''; // Get username from session
+    const msg = username ? `You've logged in! Welcome, ${username}` : '';
+    res.render('login', { msg: msg, layout: false });
+});
 
 
 app.listen( process.env.PORT || 3000 )

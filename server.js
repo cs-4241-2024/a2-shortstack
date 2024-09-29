@@ -1,116 +1,115 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
-
-    // Characters from musicals
-      // name, musical name, song #
-      // derived: "position", if song > 3, character is a "lead" 
-      // if song 1-2 "secondary" / songs 0 "ensemble"
+require('dotenv').config()
 
 
+const express = require( 'express' ),
+      cookie  = require( 'cookie-session' ),
+      hbs     = require( 'express-handlebars' ).engine,
+      { MongoClient, ObjectId } = require('mongodb');
+      app     = express()
 
 
-const appdata = []
+// use express.urlencoded to get data sent by defaut form actions
+// or GET requests
+app.use( express.urlencoded({ extended:true }) )
+app.use(express.json() )
+
+const uri = `mongodb+srv://aekratman:abbeysPassword@abbeyscluster.0bppf.mongodb.net/?retryWrites=true&w=majority&appName=AbbeysCluster/`
+const client = new MongoClient( uri )
 
 
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
-  } else if ( request.method === 'DELETE' ){
-    handleDelete ( request, response ) 
+
+// handlebars
+app.engine( 'handlebars',  hbs() )
+app.set(    'view engine', 'handlebars' )
+app.set(    'views',       './views' )
+
+app.use( cookie({
+  name: 'session',
+  keys: ['secretKey01', 'secretKey02']
+}))
+
+const url = 'mongodb://localhost:3000'
+
+// create variable collection
+let collection = null;
+
+async function run() {
+  await client.connect()
+  collection = await client.db("logFromAssignment").collection("logs")
+}
+run()
+
+
+
+
+app.post( '/add', async (req,res) => {
+  const result = await collection.insertOne( req.body )
+  res.json( result )
+})
+ 
+
+
+app.post( '/login', async (req,res)=> {
+
+  console.log( req.body )
+  const username = req.body.username
+  console.log(username);
+
+  const password = req.body.password
+  console.log(password);
+
+  const user = await collection.findOne({ username });
+
+  
+  if( req.body.password === password){
+    req.session.login = true
+    res.redirect( 'main.html' )
+
+    
+
+  }else{
+    // cancel session login in case if it's true
+    req.session.login = false
+    // go back to login
+    res.render('index', { msg:'Login has failed; try again!', layout:false })
   }
 })
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
+app.use(express.static("./") )
 
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
+app.post("/submit", async (req, res) => {
+// code from tutorial that does insertion
+})
+
+// route to get all docs
+app.get("/docs", async (req, res) => {
+  if (collection !== null) {
+    const docs = await collection.find({}).toArray()
+    res.json( docs )
   }
-}
+})
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+app.get( '/', (req,res) => {
+  console.log("Rendering your res, apping your get");
+  res.render( 'index', { msg:'', layout:false })
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+})
 
-  request.on( 'end', function() {
-    const data = JSON.parse( dataString )
-    
-    appdata.push(data);
-    console.log(appdata);    
-  
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end( JSON.stringify( appdata ) )
-  })
-}
 
-// new handle, for deletion: very similar to the others!
 
-const handleDelete = function(request, response) {
-  let dataString = '';
+// add some middleware that always sends unauthenicaetd users to the login page
+app.use( function( req,res,next) {
+  if( req.session.login === true )
+    next()
+  else
+    res.render('index', { msg:'login failed, please try again', layout:false })
+})
 
-  request.on('data', function(data) {
-    dataString += data;
-  });
+app.get( '/main.html', ( req, res) => {
+    res.render( 'main', { msg:'Success! You are now logged in!', layout:false })
+})
 
-  request.on('end', function() {
 
-      const data = JSON.parse(dataString);
-      const { name } = data;
 
-      // Find delete index
-      const indexNum = appdata.findIndex(item => item.name === name);
-
-    // if the index exists, delete it
-      if (indexNum !== -1) {
-        appdata.splice(indexNum, 1);
-        
-        console.log("Current array:");
-        console.log(appdata);
-        
-        // same as handleget
-        response.writeHead(200, "OK", {'Content-Type': 'application/json'});
-        response.end(JSON.stringify(appdata));
-      } 
-  } 
-)};
-       
-
-    
-    
-    
-    
-
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
-
-   fs.readFile( filename, function( err, content ) {
-
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
-}
-
-server.listen( process.env.PORT || port )
+app.listen( process.env.PORT || 3000 )

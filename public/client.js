@@ -1,3 +1,5 @@
+const { text } = require("body-parser");
+
 // Function to handle form submission
 const submit = async function(event) {
   event.preventDefault();
@@ -194,7 +196,7 @@ function generateTable(data) {
         };
 
         console.log("Updating the value:", updatedData);
-        print(updatedData)
+        console.log(text);
 
         // Save changes and update the table
         updateCharacter(item.name, updatedData).then(updatedList => {

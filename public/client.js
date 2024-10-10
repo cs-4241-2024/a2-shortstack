@@ -1,65 +1,54 @@
+// Function to handle form submission
+const submit = async function(event) {
+  event.preventDefault();
 
-  
-const submit = async function( event ) {
+  const input = document.querySelector('#name');
+  const input2 = document.querySelector('#musical');
+  const input3 = document.querySelector('#songs');
+  const json = { name: input.value, musical: input2.value, songs: Number(input3.value) }; // Ensure songs is a number
+  const body = JSON.stringify(json);
 
-  event.preventDefault()
-  
+  console.log("Submitting data:", json);
 
-  const input = document.querySelector( '#name' )  
-  const input2 = document.querySelector ('#musical' )
-  const input3 = document.querySelector ('#songs')
-  const input4 = document.querySelector ('#role')
-
-
-  
-    const json = { name: input.value, musical: input2.value, songs: input3.value }
-    const body = JSON.stringify( json )
-
-    console.log("Submitting data:", json);
-
-  const response = await fetch( '/submit', {
-    method:'POST',
-    headers: {'Content-Type': 'application/json'},
+  const response = await fetch('/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body
-  })
-      
-  // make the text array
-  const text = await response.json()  
-  
-  // clear whatever used to exist & regenerate that nonsense
+  });
+
+  // Check if the response is OK before parsing
+  if (!response.ok) {
+    console.error("Error submitting data:", response.statusText);
+    return;
+  }
+
+  // Get the JSON response
+  const updatedList = await response.json(); // This should include the updated table data
   clearTable();
-  generateTable(text);
+  generateTable(updatedList);
+};
 
-
-  
-  const element = document.createElement('p')
-  document.body.appendChild( element )
-
-}
-
+// Function to clear the existing table
 function clearTable() {
   const currentTable = document.querySelector('table');
-  if (currentTable){
+  if (currentTable) {
     currentTable.remove();
-    
   }
 }
 
-
+// Function to delete a character from the list
 async function deleteCharacter(name) {
   try {
     const response = await fetch('/delete', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name }) 
+      body: JSON.stringify({ name })
     });
 
     if (response.ok) {
-      const updatedList = await response.json();  
-
-      // Check if the updated list is an array
+      const updatedList = await response.json();
       if (Array.isArray(updatedList)) {
-        updated(updatedList);  
+        updated(updatedList);
       } else {
         console.error("Error. Expected an array but got ", updatedList);
       }
@@ -71,228 +60,176 @@ async function deleteCharacter(name) {
   }
 }
 
-
+// Function to update a character's data
 async function updateCharacter(oldName, updatedData) {
   try {
     const response = await fetch('/update', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ oldName, updatedData })
+
     });
 
     if (!response.ok) {
       throw new Error(`Error updating data: ${response.statusText}`);
     }
 
-    const updatedList = await response.json(); 
+    const updatedList = await response.json();
     console.log("Updated list:", updatedList);
-    return updatedList;
+    return updatedList; // Return the updated list to update the table
   } catch (error) {
     console.error("Error updating data:", error);
   }
 }
 
-
-
-
-    
-  function calculateRole(ranking){
-    if (ranking > 0 && ranking < 2){
-      return "Ensemble";
-     } else if (ranking >= 2 && ranking < 3){
-      return "Secondary Character";
-    } else if (ranking >= 3){
-        return "Lead";
-    } else {
-        return "Invalid Input";
-    } 
+// Function to calculate role based on ranking
+function calculateRole(ranking) {
+  if (ranking > 0 && ranking < 2) {
+    return "Ensemble";
+  } else if (ranking >= 2 && ranking < 3) {
+    return "Secondary Character";
+  } else if (ranking >= 3) {
+    return "Lead";
+  } else {
+    return "Invalid Input";
   }
-    
+}
 
+// Function to generate the table
+function generateTable(data) {
+  let tbl = document.querySelector("#dataTable");
 
+  if (!tbl) {
+    tbl = document.createElement("table");
+    tbl.id = "dataTable";
+    tbl.style.borderCollapse = "collapse";
+    tbl.style.border = "2px solid black";
 
+    const tableHeader = document.createElement("thead");
+    const hRow = document.createElement("tr");
+    const headers = ["Name", "Musical", "Songs", "Role", "Actions"];
 
-  function generateTable(text) {
-    let tbl = document.querySelector("#dataTable");
-  
-    if (!tbl) {
-      tbl = document.createElement("table");
-      tbl.id = "dataTable";
-      tbl.style.borderCollapse = "collapse";
-      tbl.style.border = "2px solid black";
-  
-      const tableHeader = document.createElement("thead");
-      const hRow = document.createElement("tr");
-      const headers = ["Name", "Musical", "Songs", "Role", "Actions"];
-  
-      headers.forEach(headerText => {
-        const th = document.createElement("th");
-        th.textContent = headerText;
-        th.style.border = "1px solid black";
-        th.style.padding = "5px";
-        hRow.appendChild(th);
-      });
-  
-      tableHeader.appendChild(hRow);
-      tbl.appendChild(tableHeader);
-      document.body.appendChild(tbl);
-    }
-  
-    let tblBody = document.querySelector("#dataTable tbody");
-    if (!tblBody) {
-      tblBody = document.createElement("tbody");
-      tbl.appendChild(tblBody);
-    } else {
-      tblBody.innerHTML = ""; // clear existing rows
-    }
-  
-    // make! your! rows!
-    text.forEach(item => {
-      const row = document.createElement("tr");
-  
-      // don't add username/passwords to the printing
-      if (item.password) {
-        return;  
-      }
-  
-      // CREATE COLUMN FOR NAMES
-      const cellName = document.createElement("td");
-      const nameInput = document.createElement("input");
-      nameInput.value = item.name;
-      nameInput.disabled = true; // Initially disabled
-      cellName.appendChild(nameInput);
-      cellName.style.border = "1px solid black";
-      row.appendChild(cellName);
-  
-      // CREATE COLUMN FOR MUSICAL TITLE
-      const cellMusical = document.createElement("td");
-      const musicalInput = document.createElement("input");
-      musicalInput.value = item.musical;
-      musicalInput.disabled = true; // Initially disabled
-      cellMusical.appendChild(musicalInput);
-      cellMusical.style.border = "1px solid black";
-      row.appendChild(cellMusical);
-  
-      // CREATE COLUMN FOR SONGS
-      const cellSongCount = document.createElement("td");
-      const songsInput = document.createElement("input");
-      songsInput.type = "number";
-      songsInput.value = item.songs;
-      songsInput.disabled = true; // Initially disabled
-      cellSongCount.appendChild(songsInput);
-      cellSongCount.style.border = "1px solid black";
-      row.appendChild(cellSongCount);
-  
-      // CREATE COLUMN FOR ROLE
-      const cellRole = document.createElement("td");
-      cellRole.textContent = calculateRole(item.songs);
-      cellRole.style.border = "1px solid black";
-      row.appendChild(cellRole);
-  
-      // ACTIONS COLUMN
-      const cellActions = document.createElement("td");
-      
+    headers.forEach(headerText => {
+      const th = document.createElement("th");
+      th.textContent = headerText;
+      th.style.border = "1px solid black";
+      th.style.padding = "5px";
+      hRow.appendChild(th);
+    });
 
+    tableHeader.appendChild(hRow);
+    tbl.appendChild(tableHeader);
+    document.body.appendChild(tbl);
+  }
 
-      // Edit Button
-const editButton = document.createElement("button");
-editButton.textContent = "Edit";
+  let tblBody = document.querySelector("#dataTable tbody");
+  if (!tblBody) {
+    tblBody = document.createElement("tbody");
+    tbl.appendChild(tblBody);
+  } else {
+    tblBody.innerHTML = ""; // Clear existing rows
+  }
 
-editButton.onclick = function () {
-  console.log("Is this thing on?")
+  // Create rows
+  data.forEach(item => {
+    const row = document.createElement("tr");
 
-    const isDisabled = nameInput.disabled;
+    // Create column for names
+    const cellName = document.createElement("td");
+    const nameInput = document.createElement("input");
+    nameInput.value = item.name;
+    nameInput.disabled = true; // Initially disabled
+    cellName.appendChild(nameInput);
+    cellName.style.border = "1px solid black";
+    row.appendChild(cellName);
 
-    nameInput.disabled = !isDisabled;
-    musicalInput.disabled = !isDisabled;
-    songsInput.disabled = !isDisabled;
+    // Create column for musical title
+    const cellMusical = document.createElement("td");
+    const musicalInput = document.createElement("input");
+    musicalInput.value = item.musical;
+    musicalInput.disabled = true; // Initially disabled
+    cellMusical.appendChild(musicalInput);
+    cellMusical.style.border = "1px solid black";
+    row.appendChild(cellMusical);
 
+    // Create column for songs
+    const cellSongCount = document.createElement("td");
+    const songsInput = document.createElement("input");
+    songsInput.type = "number";
+    songsInput.value = item.songs;
+    songsInput.disabled = true; // Initially disabled
+    cellSongCount.appendChild(songsInput);
+    cellSongCount.style.border = "1px solid black";
+    row.appendChild(cellSongCount);
 
-    if (isDisabled) {
+    // Create column for role
+    const cellRole = document.createElement("td");
+    cellRole.textContent = calculateRole(item.songs);
+    cellRole.style.border = "1px solid black";
+    row.appendChild(cellRole);
+
+    // Actions column
+    const cellActions = document.createElement("td");
+
+    const editButton = document.createElement("button"); // Initialize the edit button here
+    editButton.textContent = "Edit";
+
+    editButton.onclick = function () {
+      const isDisabled = nameInput.disabled;
+
+      nameInput.disabled = !isDisabled;
+      musicalInput.disabled = !isDisabled;
+      songsInput.disabled = !isDisabled;
+
+      if (isDisabled) {
         editButton.textContent = "Save"; 
-        console.log("Changed to save.");
-    } else {
+      } else {
         editButton.textContent = "Edit";
 
         // Create an updated data object
         const updatedData = {
-            name: nameInput.value,
-            musical: musicalInput.value,
-            songs: Number(songsInput.value) // Ensure songs is a number
+          name: nameInput.value,
+          musical: musicalInput.value,
+          songs: Number(songsInput.value) // Ensure songs is a number
         };
 
-        console.log("Update the value.");
-        console.log(updatedData);
+        console.log("Updating the value:", updatedData);
+        print(updatedData)
 
+        // Save changes and update the table
         updateCharacter(item.name, updatedData).then(updatedList => {
-            updated(updatedList); 
-            
+          updated(updatedList); 
+          console.log("New list: ", updatedList);
         }).catch(error => {
-            console.error("Error updating character:", error); 
+          console.error("Error updating character:", error); 
         });
-    }
-};
+      }
+    };
 
-cellActions.appendChild(editButton);
+    cellActions.appendChild(editButton);
 
-  
-      // DELETE BUTTON
-      const deleteButton = document.createElement("button");
-      deleteButton.textContent = "Delete";
-      deleteButton.onclick = function() {
-        deleteCharacter(item.name);  // Call deleteCharacter on click
-      };
-      
-      cellActions.appendChild(deleteButton);
-      row.appendChild(cellActions);
-  
-      tblBody.appendChild(row);
-    });
-  }
-  
-  async function saveChanges(oldName, updatedData) {
-    try {
-        const response = await fetch('/update', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ oldName, updatedData })
-        });
+    // DELETE BUTTON
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.onclick = function() {
+      deleteCharacter(item.name);  // Call deleteCharacter on click
+    };
+    
+    cellActions.appendChild(deleteButton);
+    row.appendChild(cellActions);
 
-        if (!response.ok) {
-            throw new Error(`Error updating data: ${response.statusText}`);
-        }
-
-        // Get the updated list from the server
-        const updatedList = await response.json(); 
-        console.log("Updated list:", updatedList);
-        
-        // Update the table with the new list
-        updated(updatedList); 
-    } catch (error) {
-        console.error("Error updating data:", error);
-    }
+    tblBody.appendChild(row);
+  });
 }
 
-  
-  
-
-
+// Function to regenerate the table with updated data
 function updated(data) {
   clearTable();  
   generateTable(data);  
 }
 
-
-const preWrite = [
-  { name: "Example Name", musical: "Example: The Musical", songs: 3 },
-];
-
-
-// when the window loads, make sure the button is hanging out
+// Set up event listeners on window load
 window.onload = function() {
   const button = document.querySelector("#btnSubmit");
   button.onclick = submit;    
-  
-
-
-}
+};

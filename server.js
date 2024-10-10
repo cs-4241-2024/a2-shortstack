@@ -131,6 +131,7 @@ app.put('/update', async (req, res) => {
 
 
 
+
 app.post( '/login', async (req,res)=> {
 
   console.log( req.body )
@@ -197,10 +198,6 @@ app.post('/submit', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
-
-
-
 
 
 // route to get all docs

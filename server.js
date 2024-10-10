@@ -70,7 +70,65 @@ app.post( '/add', async (req,res) => {
   const result = await collection.insertOne( req.body )
   res.json( result )
 })
- 
+
+
+app.delete('/delete', async (req, res) => {
+  console.log("Deleting object from MongoDB...");
+
+  try {
+    const nameToDelete = req.body.name;
+
+    if (!nameToDelete) {
+      return res.status(400).send("Missing name in request body");
+    }
+
+    // Delete the document from MongoDB
+    const result = await collection.deleteOne({ name: nameToDelete });
+
+    if (result.deletedCount === 1) {
+      console.log("Successfully deleted the object");
+
+      // Fetch the updated list of characters after deletion
+      const updatedList = await collection.find().toArray();
+
+      // Send the updated list back to the client as an array
+      res.status(200).json(updatedList);  // Ensure this is an array
+    } else {
+      console.log("Object not found");
+      res.status(404).json({ message: "Object not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting object:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+
+app.put('/update', async (req, res) => {
+  const { oldName, updatedData } = req.body;
+
+  try {
+      const result = await collection.updateOne(
+          { name: oldName },
+          { $set: updatedData }
+      );
+
+      if (result.modifiedCount === 1) {
+          const updatedList = await collection.find().toArray(); // Fetch the updated list
+          res.json(updatedList);
+      } else {
+          res.status(404).json({ message: "Character not found or no changes made." });
+      }
+  } catch (error) {
+      console.error("Error updating character:", error);
+      res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+
+
 
 
 app.post( '/login', async (req,res)=> {
@@ -147,7 +205,18 @@ app.post('/submit', async (req, res) => {
 
 // route to get all docs
 app.get("/docs", async (req, res) => {
+  const usernameToFind = "desiredUsername"; 
   if (collection !== null) {
+
+    const matchingDocuments = await collection.find({ username: usernameToFind }).toArray();
+    
+    if (matchingDocuments.length > 0) {
+        console.log("Matching users:", matchingDocuments);
+    } else {
+        console.log("No users found");
+    }
+    
+
     const docs = await collection.find({}).toArray()
     res.json( docs )
   }
@@ -174,110 +243,6 @@ app.get('/login', (req, res) => {
     const msg = username ? `You've logged in! Welcome, ${username}` : '';
     res.render('login', { msg: msg, layout: false });
 });
-
-
-
-
-const appdata = []
-
-
-
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
-  } else if ( request.method === 'DELETE' ){
-    handleDelete ( request, response ) 
-  }
-})
-
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
-
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
-  }
-}
-
-const handlePost = function( request, response ) {
-  let dataString = ''
-
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
-
-  request.on( 'end', function() {
-    const data = JSON.parse( dataString )
-    
-    appdata.push(data);
-    console.log(appdata);    
-  
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end( JSON.stringify( appdata ) )
-  })
-}
-
-// new handle, for deletion: very similar to the others!
-
-const handleDelete = function(request, response) {
-  let dataString = '';
-
-  request.on('data', function(data) {
-    dataString += data;
-  });
-
-  request.on('end', function() {
-
-      const data = JSON.parse(dataString);
-      const { name } = data;
-
-      // Find delete index
-      const indexNum = appdata.findIndex(item => item.name === name);
-
-    // if the index exists, delete it
-      if (indexNum !== -1) {
-        appdata.splice(indexNum, 1);
-        
-        console.log("Current array:");
-        console.log(appdata);
-        
-        // same as handleget
-        response.writeHead(200, "OK", {'Content-Type': 'application/json'});
-        response.end(JSON.stringify(appdata));
-      } 
-  } 
-)};
-       
-
-    
-    
-    
-    
-
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
-
-   fs.readFile( filename, function( err, content ) {
-
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
-}
 
 
 app.listen( process.env.PORT || 3000 )

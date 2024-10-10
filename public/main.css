@@ -1,50 +1,51 @@
-/* element selectors */
-
-
-body {
-  background:lightblue;
-  color:black;
+/* Body background and text color */
+.bg-lightblue {
+  background-color: lightblue;
 }
 
+/* Headings using Gill Sans */
 h1, h2, h3, h4, h5, h6 {
   font-family: "Gill Sans", sans-serif;
 }
 
-table, th, tr, td {
+/* Table styling */
+.table-custom {
   border-collapse: collapse;
   font-family: "Nunito", sans-serif;
   font-size: 14px;
+  border: 3px solid black;
+}
+
+.table-custom th, .table-custom td {
   border: 3px solid black;
   padding: 5px;
   text-align: center;
 }
 
-
-/* flexbox used */
-.flex{
+/* Flexbox using Bootstrap utilities */
+.flex {
   display: flex;
   flex-flow: row wrap;
-  margin: auto;
   justify-content: center;
   text-align: center;
-
+  margin: auto;
 }
 
-/* class selectors selector, font definition */
+/* Title class using Gill Sans */
 .title {
-    font-family: "Gill Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    }
+  font-family: "Gill Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
 
-
+/* Nunito font for specific elements */
 .nunito {
-    font-family: "Nunito", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    }
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
 
-/* id selector */
+/* ID selector for a specific table */
 #dataTable {
   background-color: aliceblue;
   margin: auto;

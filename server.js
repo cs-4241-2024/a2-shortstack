@@ -8,10 +8,8 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+let appdata = [
+  {"task":"Quiz", "priority":"Low", "creationdate":"09/02/2024", "duedate":"09/19/2024", "dueTime" : "0"},
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -32,22 +30,42 @@ const handleGet = function( request, response ) {
   }
 }
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+const handlePost = function(request, response) {
+  let dataString = '';
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+  request.on('data', function(data) {
+    dataString += data;
+  });
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+  request.on('end', function() {
+    if (request.url === "/submit") {
+      // Handle task submission
+      let dataJson = JSON.parse(dataString);
+      appdata.push(dataJson); // Add task to appdata
+      console.log('After submit:', appdata);
+    } else if (request.url === "/delete") {
+      // Handle task deletion
+      let dataJson = JSON.parse(dataString);
+      let taskToDelete = dataJson.task;
+      appdata = appdata.filter(item => item.task !== taskToDelete); // Remove task
+      console.log('After delete:', appdata);
+    }
 
-    // ... do something with the data here!!!
+    // Send response with the (now empty) appdata
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(appdata));
+  });
+};
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
+
+function calculateDaysLeft(dueDay) {
+  let currentDate = new Date();
+  let dueDate = new Date(dueDay);
+  let timeDiff = dueDate.getTime() - currentDate.getTime();
+  let daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  return daysLeft > 0 ? daysLeft : 0;  // Return 0 if the due date has passed
 }
+
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 

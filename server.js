@@ -8,11 +8,20 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+const appdata = [];
+
+const calculateForce = function(radius, depth, fluid) {
+
+  let fluidDensity = fluid === 'water' ? 1000 : 850; // water: 1000 kg/m³, oil: ~850 kg/m³
+  
+  // pressure calculation based on radius, depth, and fluid type (P = ρgh)
+  const pressure = fluidDensity * 9.81 * depth;
+
+  // surface area of ball in m
+  const area = 4 * Math.PI * radius * radius / 10000;
+
+  return pressure * area;
+};
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
@@ -32,22 +41,35 @@ const handleGet = function( request, response ) {
   }
 }
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+const handlePost = function(request, response) {
+  let dataString = '';
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+  // Collect data from the incoming request
+  request.on('data', function(data) {
+    dataString += data;
+  });
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+  request.on('end', function() {
+    const data = JSON.parse(dataString);
 
-    // ... do something with the data here!!!
+    // unpack data from the request (radius, depth, fluid)
+    const { radius, depth, fluid } = data;
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
+    const force = calculateForce(radius, depth, fluid);
+
+    // update appdata
+    appdata.push({
+      radius: radius,
+      depth: depth,
+      fluid: fluid,
+      force: force
+    });
+
+    // return appdata array to client
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(appdata[appdata.length-1]));
+  });
+};
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 

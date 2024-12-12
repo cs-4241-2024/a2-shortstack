@@ -1,18 +1,74 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
+    <title>CS4241 Assignment 2: Pressure Force Calculator</title>
+    <meta charset="utf-8" />
     <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    
+    <link rel="stylesheet" href="css/main.css" />
+
     <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
   </head>
   <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
-    </form>
+    <div id="container">
+      <h1>Pressure Force Calculator</h1>
+      <p>Find out the pressure force on a ball submerged in either water or oil!</p>
+      <form onsubmit="submit(event)">
+        <div class="form-group">
+          <label for="radius">Radius of Ball: <span id="radiusValue">1</span> cm</label>
+          <input
+            type="range"
+            id="radius"
+            name="radius"
+            min="0.1"
+            max="10"
+            step="0.1"
+            value="1"
+            oninput="updateValue('radius')"
+          />
+        </div>
+        <div class="form-group">
+          <label for="depth">Depth: <span id="depthValue">10</span> m</label>
+          <input
+            type="range"
+            id="depth"
+            name="depth"
+            min="0.5"
+            max="20"
+            step="0.1"
+            value="10"
+            oninput="updateValue('depth')"
+          />
+        </div>
+        <div class="form-group">
+          <label>Fluid Type:</label>
+          <label for="water"> <input type="radio" id="water" name="fluid" value="water" checked /> Water </label>
+          <label for="oil"> <input type="radio" id="oil" name="fluid" value="oil" /> Oil </label>
+        </div>
+        <button type="submit">Calculate</button>
+      </form>
+
+      <table id="results">
+        <thead>
+          <tr>
+            <th>Radius (cm)</th>
+            <th>Depth (m)</th>
+            <th>Liquid</th>
+            <th>Force (N)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rows will be dynamically added here -->
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      function updateValue(id) {
+        const value = document.getElementById(id).value;
+        const formattedValue = parseFloat(value).toFixed(1); // Format to 1 decimal place
+        document.getElementById(`${id}Value`).textContent = `${formattedValue}`;
+      }
+    </script>
   </body>
 </html>

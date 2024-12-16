@@ -1,8 +1,9 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "reaction-time-game",
+  "version": "1.0.0",
+  "description": "A simple reaction time game.",
+  "main": "server.js",
+  "author": "JJcool1128",
   "scripts": {
     "start": "node server.js"
   },

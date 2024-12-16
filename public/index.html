@@ -1,18 +1,38 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>CS4241 Assignment 2</title>
+    <title>Reaction Time Game</title>
     <meta charset="utf-8">
-    <script src="js/main.js"></script>
+    <script src="js/main.js" defer></script>
     <link rel="stylesheet" href="css/main.css">
-    
-    <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   </head>
   <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
+    <h1>Reaction Time Game</h1>
+    <div id="description">Click the colored dot as fast as you can!</div>
+    <form id="playerForm">
+      <input type="text" id="playerName" placeholder="Enter your name" required>
+      <button type="submit">Start Game</button>
     </form>
+    <div id="gameContainer">
+      <div id="box">
+        <div id="dot"></div>
+      </div>
+    </div>
+    <table id="resultsTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Time 1</th>
+          <th>Time 2</th>
+          <th>Time 3</th>
+          <th>Time 4</th>
+          <th>Time 5</th>
+          <th>Average Time</th>
+        </tr>
+      </thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
   </body>
 </html>

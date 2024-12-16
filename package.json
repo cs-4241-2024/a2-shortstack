@@ -1,8 +1,8 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "spell-slot-tracker",
+  "version": "1.0",
+  "description": "Used to track spell slot usage for wizards in D&D 5th Edition",
+  "author": "Thomas O'Leary",
   "scripts": {
     "start": "node server.js"
   },

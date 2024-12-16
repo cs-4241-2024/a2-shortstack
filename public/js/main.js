@@ -7,21 +7,65 @@ const submit = async function( event ) {
   // remains to this day
   event.preventDefault()
   
-  const input = document.querySelector( '#yourname' ),
-        json = { yourname: input.value },
-        body = JSON.stringify( json )
-
+  const ul = document.querySelector('ul')
+  ul.innerHTML = ''
+  
+  const input = document.querySelector( '#yourname' ).value
+  const input2 = document.querySelector( '#game' ).value
+  const input3 = document.querySelector( '#score' ).value
+  
+  
   const response = await fetch( '/submit', {
     method:'POST',
-    body 
+    body: JSON.stringify({
+      yourname: input,
+      game: input2,
+      score: input3
+      
+    })
   })
 
-  const text = await response.text()
+  const data = await response.json()
 
-  console.log( 'text:', text )
+  data.forEach((element) => {
+    console.log(element.yourname, element.game, element.score, element.rank)
+    const li = document.createElement('li')
+    li.innerText = 'Name: ' + element.yourname + ', Game: ' + element.game + ', Score: ' + element.score + ', Rank: ' + element.rank + '  ';
+    ul.appendChild(li)
+  })
+}
+
+const del = async function ( event ) {
+  event.preventDefault()
+  
+  const ul = document.querySelector('ul')
+  ul.innerHTML = ''
+
+  const input = document.querySelector( '#yourname' ).value
+  const input2 = document.querySelector( '#game' ).value
+  const input3 = document.querySelector( '#score' ).value
+  
+  const response = await fetch( '/delete', {
+    method:'DELETE',
+    body: JSON.stringify({ 
+      yourname: input,
+      game: input2,
+      score: input3
+
+    })
+  })
+  
+  const data = await response.json()
+  
+  data.forEach((element) => {
+    console.log(element.yourname, element.game, element.score, element.rank)
+    const li = document.createElement('li')
+    li.innerText = 'Name: ' + element.yourname + ', Game: ' + element.game + ', Score: ' + element.score + ', Rank: ' + element.rank + '  ';
+    ul.appendChild(li)
+  })
 }
 
 window.onload = function() {
-   const button = document.querySelector("button");
-  button.onclick = submit;
+  document.querySelector('#submit').onclick=submit
+  document.querySelector('#delete').onclick=del
 }

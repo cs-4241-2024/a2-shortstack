@@ -8,11 +8,7 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+const appdata = []
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
@@ -42,11 +38,17 @@ const handlePost = function( request, response ) {
   request.on( 'end', function() {
     console.log( JSON.parse( dataString ) )
 
-    // ... do something with the data here!!!
+    let event = JSON.parse(dataString)
+    if (event.sold == event.capacity) {
+      event.status = 'Sold Out'
+    } else {
+      event.status = 'Filling'
+    }
+    appdata.push(event)
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(appdata));
+  }) 
 }
 
 const sendFile = function( response, filename ) {

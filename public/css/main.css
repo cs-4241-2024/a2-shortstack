@@ -1,4 +1,47 @@
 body {
-  background:black;
-  color:white;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+  padding: 10px;
+  background-color:grey;
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  font-size:120%
 }
+
+h1 {
+  color: pink;
+  grid-row-start: 1;
+}
+
+h2 {
+  color: lightblue;
+  grid-column-start: 2;
+  grid-row-start: 1;
+}
+
+h1,
+h2 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 200%
+}
+
+#event-form{
+  grid-column-start: 1;
+}
+
+#event-table{
+  grid-column-start: 2;
+}
+
+th,
+td {
+  border: 1px solid black;
+}
+
+
+
+

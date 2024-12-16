@@ -9,9 +9,7 @@ const http = require( 'http' ),
       port = 3000
 
 const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+  { 'username': 'Ananya', 'show title': "Jujutsu Kaisen", 'last ep watched': 12, 'date logged': '9/9/2024' },
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -19,6 +17,8 @@ const server = http.createServer( function( request,response ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){
     handlePost( request, response ) 
+  } else if( request.method === 'DELETE') {
+    handleDelete(request, response);
   }
 })
 
@@ -27,10 +27,13 @@ const handleGet = function( request, response ) {
 
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
-  }else{
+  } else if (request.url === '/appdata') {
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(appdata));
+  } else {
     sendFile( response, filename )
-  }
-}
+  } 
+} 
 
 const handlePost = function( request, response ) {
   let dataString = ''
@@ -40,13 +43,56 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+    const formData = JSON.parse(dataString);
 
-    // ... do something with the data here!!!
+    const newEntry = {
+      'username': formData.username,
+      'show title': formData.showName,
+      'last ep watched': Number(formData.lastViewed),
+      'date logged': getDate()
+    };
+
+    appdata.push(newEntry);
+
+    console.log(appdata);
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end(JSON.stringify( appdata ));
   })
+}
+
+const handleDelete = function(request, response) {
+  let dataString = '';
+
+  request.on('data', function(data) {
+    dataString += data;
+  });
+
+  request.on('end', function() {
+    const formData = JSON.parse(dataString);
+    const { username, showTitle } = formData;
+
+    //filter out the entry that matches the username and show title
+    const newAppData = appdata.filter(entry =>
+      !(entry.username === username && entry['show title'] === showTitle)
+    );
+
+    appdata.length = 0; //clears the old data
+    appdata.push(...newAppData); 
+
+    response.writeHead(200, "OK", {'Content-Type': 'application/json'});
+    response.end(JSON.stringify(appdata));
+  });
+}
+
+function getDate() {
+  const date = new Date();
+
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  return `${month}/${day}/${year}`;
 }
 
 const sendFile = function( response, filename ) {
@@ -61,7 +107,7 @@ const sendFile = function( response, filename ) {
        response.writeHeader( 200, { 'Content-Type': type })
        response.end( content )
 
-     }else{
+     } else{
 
        // file not found, error code 404
        response.writeHeader( 404 )

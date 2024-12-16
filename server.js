@@ -8,11 +8,7 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+const appdata = []
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
@@ -22,6 +18,7 @@ const server = http.createServer( function( request,response ) {
   }
 })
 
+//Handles all get request
 const handleGet = function( request, response ) {
   const filename = dir + request.url.slice( 1 ) 
 
@@ -32,22 +29,55 @@ const handleGet = function( request, response ) {
   }
 }
 
-const handlePost = function( request, response ) {
-  let dataString = ''
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+// Handles all POST requests
+const handlePost = function(request, response) {
+  console.log('Post request made');
+  
+  let dataString = '';
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+  request.on('data', function(data) {
+    dataString += data;
+  });
 
-    // ... do something with the data here!!!
+  request.on('end', function() {
+    console.log('Data string: ' + dataString);
+    
+    let parsed = JSON.parse(dataString);
+    parsed.total = parsed.sets * parsed.reps;
+    console.log('Parsed data: ', parsed);
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
+    switch (request.url) {
+      case '/submit':
+        appdata.push(parsed);
+        response.writeHead(200, "OK", { 'Content-Type': 'text/plain' });
+        response.end(JSON.stringify({ data: appdata }));
+        break;
+
+      case '/clear':
+        appdata.length = 0;
+        response.writeHead(200, "OK", { 'Content-Type': 'text/plain' });
+        response.end(JSON.stringify({ data: appdata }));
+        break;
+
+      case '/delete':
+        console.log('Index to delete: ' + parsed.index);
+        appdata.splice(parsed.index, 1);
+        response.writeHead(200, "OK", { 'Content-Type': 'text/plain' });
+        response.end(JSON.stringify({ data: appdata }));
+        break;
+      case '/onLoad':
+        response.writeHead(200, "OK", { 'Content-Type': 'text/plain' });
+        response.end(JSON.stringify({data: appdata}));
+        break;
+      default:
+        response.writeHead(404, "BAD", { 'Content-Type': 'text/plain' });
+        response.end();
+        break;
+    }
+  });
+};
+
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 

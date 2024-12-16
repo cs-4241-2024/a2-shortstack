@@ -8,19 +8,18 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+const appdata = []
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){
     handlePost( request, response ) 
-  }
-})
+  }else if (request.method === 'DELETE') {
+    handleDelete(request, response);
+  }else if (request.method === 'PUT') {
+    handleUpdate(request, response); 
+}})
 
 const handleGet = function( request, response ) {
   const filename = dir + request.url.slice( 1 ) 
@@ -41,13 +40,51 @@ const handlePost = function( request, response ) {
 
   request.on( 'end', function() {
     console.log( JSON.parse( dataString ) )
-
-    // ... do something with the data here!!!
+    appdata.push( JSON.parse( dataString ) )
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.end(JSON.stringify(appdata));
   })
 }
+
+const handleDelete = function (request, response) {
+  const urlParts = request.url.split('/');
+  const index = parseInt(urlParts[urlParts.length - 1]);
+
+  if (Number.isInteger(index) && index >= 0 && index < appdata.length) {
+    appdata.splice(index, 1); 
+    response.writeHead(200, 'OK', { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(appdata));
+  } else {
+    response.writeHead(400, 'Bad Request', { 'Content-Type': 'text/plain' });
+    response.end('Invalid index');
+  }
+};
+
+const handleUpdate = function (request, response) {
+  const urlParts = request.url.split('/');
+  const index = parseInt(urlParts[urlParts.length - 1]);
+
+  if (Number.isInteger(index) && index >= 0 && index < appdata.length) {
+    let dataString = '';
+
+    request.on('data', function (data) {
+      dataString += data;
+    });
+
+    request.on('end', function () {
+      const updatedTask = JSON.parse(dataString);
+      appdata[index] = updatedTask; // Update the task at the specified index
+
+      response.writeHead(200, 'OK', { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify(appdata));
+    });
+  } else {
+    response.writeHead(400, 'Bad Request', { 'Content-Type': 'text/plain' });
+    response.end('Invalid index');
+  }
+};
+
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 

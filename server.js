@@ -8,10 +8,10 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
+let appdata = [
+  { "workout": "Full Body", "date": "2024-09-01", "stime": "13:00", "etime": "14:30", "time": "90" },
+  { "workout": "Lower Body", "date": "2024-09-03", "stime": "16:00", "etime": "17:15", "time": "75" },
+  { "workout": "Upper Body", "date": "2024-09-05", "stime": "15:42", "etime": "16:54", "time": "72" } 
 ]
 
 const server = http.createServer( function( request,response ) {
@@ -19,6 +19,9 @@ const server = http.createServer( function( request,response ) {
     handleGet( request, response )    
   }else if( request.method === 'POST' ){
     handlePost( request, response ) 
+  }else if( request.method === 'DELETE' ){
+    console.log("this deletee")
+    handleDel( request, response ) 
   }
 })
 
@@ -27,7 +30,41 @@ const handleGet = function( request, response ) {
 
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
+  }if( request.url === '/gets' ) {
+    response.writeHead( 200, "OK", {'Content-Type': 'application/json' })
+    response.end(JSON.stringify(appdata))
   }else{
+    sendFile( response, filename )
+  }
+}
+
+const handleDel = function( request, response ) {
+  const filename = dir + request.url.slice( 1 ) 
+
+  if( request.url === '/' ) {
+    sendFile( response, 'public/index.html' )
+  }if( request.url === '/delete') {
+    console.log("delete!")
+    
+    let dataString = ''
+
+    request.on( 'data', function( data ) {
+        dataString += data 
+    })
+
+    request.on( 'end', function() {
+
+      const entry = JSON.parse( dataString )
+
+      console.log("delete debugg")
+      console.log(entry)
+
+      appdata = appdata.filter(data => !(data.workout === entry.workout && data.date === entry.date && data.stime === entry.stime && data.etime === entry.etime))
+
+      response.writeHead( 200, "OK", {'Content-Type': 'application/json' })
+      response.end(JSON.stringify(appdata))
+    })
+  } else{
     sendFile( response, filename )
   }
 }
@@ -40,14 +77,18 @@ const handlePost = function( request, response ) {
   })
 
   request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+    
+    const entry = JSON.parse( dataString )
+    
 
-    // ... do something with the data here!!!
+    appdata.push(entry)
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+    response.writeHead( 200, "OK", {'Content-Type': 'application/json' })
+    response.end(JSON.stringify(appdata))
   })
-}
+    
+  }
+
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 

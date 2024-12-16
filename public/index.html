@@ -8,11 +8,35 @@
     
     <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
   </head>
   <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
+  <div style="text-align: center">
+    <a href="https://tetris.com/play-tetris" target="_blank" rel="noopener noreferrer" id="play-tetris" style="align-content: center"> Go play tetris, come back and share your score</a>
+  </div>
+  <form style="display: flex; flex-direction: row; justify-content: center">
+      <input type="text" id="yourname" value="your name">
+      <input type="date" id="thedate" value="the date">
+      <input type="number" id="points" value="points">
+      <button id="submitbutton">submit</button>
     </form>
+    <div id = "column">
+    <button id="showleader">show leaderboard</button>
+      <table id="leader">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Points</th>
+            <th>Rank</th>
+        </thead>
+        <tbody id = "leaderdata">
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>

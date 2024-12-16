@@ -1,18 +1,20 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
-    <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    
-    <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  </head>
-  <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
-    </form>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enter Names</title>
+  <script src="js/main.js" defer></script>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <h1>Guest List</h1>
+  <form id="nameForm">
+    <input type="text" id="nameInput" placeholder="Enter name" required />
+    <button type="submit">Submit</button>
+  </form>
+
+  <h2>List</h2>
+  <ul id="nameList"></ul>
+</body>
 </html>

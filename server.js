@@ -1,74 +1,57 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+const express = require('express');
+const path = require('path');
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+const app = express();
+const port = process.env.PORT || 3000;
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
-  }
-})
+let assignments = [];
+let nextId = 1;
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
-  }
-}
+app.get('/assignments', (req, res) => {
+    res.json(assignments);
+});
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+app.post('/assignments', (req, res) => {
+    const data = req.body;
+    const assignment = {
+        id: nextId++,
+        class: data.class,
+        name: data.assignment,
+        dueDate: data['due-date'],
+        startDate: data['start-date']
+    };
+    assignments.push(assignment);
+    res.status(201).send();
+});
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+app.put('/assignments/:id', (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    const updatedData = req.body;
+    
+    let assignment = assignments.find(a => a.id === id);
+    
+    if (assignment) {
+        assignment.class = updatedData.class;
+        assignment.name = updatedData.assignment;
+        assignment.dueDate = updatedData['due-date'];
+        assignment.startDate = updatedData['start-date'];
+        
+        console.log('Updated assignment:', assignment); // Debug log
+        res.status(200).send();
+    } else {
+        res.status(404).send('Assignment not found');
+    }
+});
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+app.delete('/assignments/:id', (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    assignments = assignments.filter(a => a.id !== id);
+    res.status(204).send();
+});
 
-    // ... do something with the data here!!!
-
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
-
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
-
-   fs.readFile( filename, function( err, content ) {
-
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
-}
-
-server.listen( process.env.PORT || port )
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}/`);
+});

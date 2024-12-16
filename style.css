@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    font-family: "Courier New", Courier, monospace;
+    background-color: #ede0ff;
+}
+header {
+  background-color: #8F8F8F; 
+  color: white; 
+  padding: 10px 20px;
+  ul {
+  color: rgb(143, 143, 143);
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+}
+}
+
+h1 {
+    color: rgb(158, 214, 182);
+}
+
+h2 {
+  color: rgb(255, 123, 0);
+}
+
+p {
+  color: rgb(143, 143, 143);
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input[type="text"], input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+td {
+    position: relative;
+}
+
+.delete-btn {
+    color: red;
+    cursor: pointer;
+}
+footer {
+  text-align: center;
+  background-color: #8F8F8F; 
+  padding: 10px 20px;
+  position: absolute; 
+  bottom: 0; 
+  left: 0;
+  right:0;
+  z-index: 10;
+}

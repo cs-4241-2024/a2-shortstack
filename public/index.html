@@ -11,8 +11,18 @@
   </head>
   <body>
     <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
+      <input type="number" id="firstvalue" value="first value here"><br>
+      <input type="radio" id="addition" value="addition" name="operator">
+      <label for="addition">addition (+)</label><br>
+      <input type="radio" id="subtraction" value="subtraction" name="operator">
+      <label for="subtraction">subtraction (-)</label><br>
+      <input type="radio" id="multiplication" value="multiplication" name="operator">
+      <label for="multiplication">multiplication (*)</label><br>
+      <input type="radio" id="division" value="division" name="operator">
+      <label for="division">division (/)</label><br>
+      <input type="number" id="secondvalue" value="second value here"><br>
+      <button id="submit">submit</button>
     </form>
+    <h1 id="equation">awaiting equation...</h1>
   </body>
 </html>

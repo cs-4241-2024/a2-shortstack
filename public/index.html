@@ -8,11 +8,39 @@
     
     <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   </head>
   <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
+    <h1>Find Out How Cool You Are!</h1>
+
+    <form class="CheckForm">
+      <div class="Check">
+      <input type="checkbox" id="Op1" value="Earthworms">
+      <label for="Op1">Earthworms</label>
+      </div>
+      <div class="Check">
+      <input type="checkbox" id="Op2" value="Music">
+      <label for="Op2">Tunes</label>
+      </div>
+      <div class="Check">
+      <input type="checkbox" id="Op3" value="Cards">
+      <label for="Op3">Card Games</label>
+      </div>
+      <div class="Check">
+      <input type="checkbox" id="Op4" value="Rabbits">
+      <label for="Op4">Rabbits</label>
+      </div>
+      <div class="Check">
+      <input type="checkbox" id="Op5" value="Treats">
+      <label for="Op5">Rice Krispies Treats</label>
+      </div>
+      <div class="Break"></div>
       <button>submit</button>
     </form>
+
+    <p class= "Results" id="Result1"><strong id="Reg"> You are:</strong></p>
+    <p class= "Results" id="Result2"><strong id="Super">_% Cool!</strong></p>
   </body>
 </html>

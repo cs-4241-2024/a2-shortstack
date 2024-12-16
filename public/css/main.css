@@ -1,4 +1,133 @@
+/* public/css/main.css */
+
 body {
-  background:black;
-  color:white;
+    font-family: Arial, sans-serif;  /* Use Arial font for the body text */
+    margin: 20px;
+    background: #f7f6f8;
+    color: #333;
+    transition: background 0.3s ease;
+}
+
+/* Element selector */
+h1 {
+    text-align: center;
+    color: #4a90e2;
+    animation: fadeIn 1s ease-out;
+}
+
+/* Class selector for forms */
+.form-section {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: slideIn 0.8s ease-out;
+}
+
+/* ID selector for form fields */
+#addTaskForm {
+    border: 2px solid #4a90e2;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+#modifyTaskForm {
+    border: 2px solid #e74c3c;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+/* Class selector for input fields */
+.input-field {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+/* Element selector for input focus */
+input:focus, select:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+/* Class selector for buttons */
+.button-primary {
+    background-color: #4a90e2;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-primary:hover {
+    background-color: #357ab8;
+    transform: scale(1.05);
+}
+
+/* ID selector for the task table */
+#taskTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    animation: fadeIn 1s ease-out;
+}
+
+/* Element selector for table headers and cells */
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    transition: background 0.3s ease;
+}
+
+/* Class selector for table styling */
+.task-table th {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.task-table td {
+    background-color: white;
+}
+
+.task-table tr:hover td {
+    background-color: #f1f7ff;
+}
+
+/* Specific button styling inside table cells */
+td button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #e74c3c;
+    color: white;
+    transition: background 0.3s ease;
+}
+
+td button:hover {
+    background-color: #c0392b;
+    transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

@@ -1,18 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
-    <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    
-    <!-- get rid of favicon error -->
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  </head>
-  <body>
-    <form>
-      <input type="text" id="yourname" value="your name here">
-      <button>submit</button>
-    </form>
-  </body>
+<head>
+  <title>CS4241 Assignment 2</title>
+  <meta charset="utf-8" />
+  <script src="js/main.js"></script>
+  <link rel="stylesheet" href="css/main.css" />
+  <link
+          href="https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap"
+          rel="stylesheet"
+  />
+  <!-- get rid of favicon error -->
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+</head>
+<body>
+<header>
+  <h1>Find the age and day</h1>
+</header>
+<div class="container">
+  <input type="text" id="yourdate" placeholder="Enter date (MM/DD/YYYY)" />
+  <button id="submit-btn">Submit</button>
+  <div id="date-info"></div>
+  <div id="age-info">
+    <p id="oldest-age"></p>
+    <p id="youngest-age"></p>
+  </div>
+  <details>
+    <summary>List of Dates</summary>
+    <ul id="date-list"></ul>
+  </details>
+</div>
+</body>
 </html>

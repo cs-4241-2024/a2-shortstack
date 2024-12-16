@@ -1,74 +1,149 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library if you're testing this on your local machine.
-      // However, Glitch will install it automatically by looking in your package.json
-      // file.
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+const http = require("http");
+const fs = require("fs");
+const mime = require("mime");
+const dir = "public/";
+const port = 3000;
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+let tasks = []; // Store tasks here
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+const server = http.createServer(function (request, response) {
+  if (request.method === "GET") {
+    handleGet(request, response);
+  } else if (request.method === "POST") {
+    handlePost(request, response);
+  } else if (request.method === "PUT") {
+    if (request.url.startsWith("/complete/")) {
+      handleComplete(request, response);
+    } else if (request.url.startsWith("/in-progress/")) {
+      handleInProgress(request, response);
+    } else {
+      handlePut(request, response);
+    }
+  } else if (request.method === "DELETE") {
+    handleDelete(request, response);
+  } else {
+    response.writeHead(405, { "Content-Type": "text/plain" });
+    response.end("Method Not Allowed");
   }
-})
+});
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
+const handleGet = function (request, response) {
+  const filename = dir + request.url.slice(1);
 
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
+  if (request.url === "/" || request.url === "/index.html") {
+    sendFile(response, "public/index.html", "text/html");
+  } else if (request.url === "/tasks") {
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.end(JSON.stringify(tasks));
+  } else {
+    sendFile(response, filename, mime.getType(filename));
   }
-}
+};
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+// Handle adding a new task
+const handlePost = function (request, response) {
+  let dataString = "";
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
+  request.on("data", function (data) {
+    dataString += data;
+  });
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+  request.on("end", function () {
+    const parsedData = JSON.parse(dataString);
 
-    // ... do something with the data here!!!
+    const creationDate = new Date().toISOString().split("T")[0];
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
-  })
-}
+    const newTask = {
+      task: parsedData.task,
+      description: parsedData.description,
+      dueDate: parsedData.dueDate,
+      creationDate: creationDate,
+      priority: parsedData.priority,
+      status: "In Progress",
+    };
 
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
+    tasks.push(newTask);
 
-   fs.readFile( filename, function( err, content ) {
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.end(
+      JSON.stringify({ message: "Task added successfully!", tasks })
+    );
+  });
+};
 
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
+// Handle updating a task
+const handlePut = function (request, response) {
+  let dataString = "";
+  const taskIndex = parseInt(request.url.split("/")[2]);
 
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
+  request.on("data", function (data) {
+    dataString += data;
+  });
 
-     }else{
+  request.on("end", function () {
+    const parsedData = JSON.parse(dataString);
 
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
+    tasks[taskIndex] = {
+      ...tasks[taskIndex],
+      task: parsedData.task,
+      description: parsedData.description,
+      dueDate: parsedData.dueDate,
+      priority: parsedData.priority,
+      status: "In Progress",
+    };
 
-     }
-   })
-}
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.end(
+      JSON.stringify({ message: "Task updated successfully!", tasks })
+    );
+  });
+};
 
-server.listen( process.env.PORT || port )
+// Handle marking a task as completed
+const handleComplete = function (request, response) {
+  const taskIndex = parseInt(request.url.split("/")[2]);
+
+  tasks[taskIndex].status = "Completed"; // Mark the task as completed
+
+  response.writeHead(200, { "Content-Type": "application/json" });
+  response.end(JSON.stringify({ message: "Task marked as complete!", tasks }));
+};
+
+// Handle marking a completed task as "In Progress"
+const handleInProgress = function (request, response) {
+  const taskIndex = parseInt(request.url.split("/")[2]);
+
+  tasks[taskIndex].status = "In Progress"; // Mark the task back as "In Progress"
+
+  response.writeHead(200, { "Content-Type": "application/json" });
+  response.end(
+    JSON.stringify({ message: "Task marked as In Progress!", tasks })
+  );
+};
+
+// Handle deleting a task
+const handleDelete = function (request, response) {
+  const taskIndex = parseInt(request.url.split("/")[2]);
+  tasks.splice(taskIndex, 1); // Remove the task at the given index
+
+  response.writeHead(200, { "Content-Type": "application/json" });
+  response.end(
+    JSON.stringify({ message: "Task deleted successfully!", tasks })
+  );
+};
+
+const sendFile = function (response, filename, contentType) {
+  fs.readFile(filename, function (err, content) {
+    if (err) {
+      response.writeHead(404, { "Content-Type": "text/plain" });
+      response.end("404 Error: File Not Found");
+    } else {
+      response.writeHead(200, { "Content-Type": contentType });
+      response.end(content);
+    }
+  });
+};
+
+server.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});

@@ -8,67 +8,96 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const appdata = [
+let appdata = [
   { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
   { 'model': 'honda', 'year': 2004, 'mpg': 30 },
   { 'model': 'ford', 'year': 1987, 'mpg': 14} 
 ]
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+const calculateYearsOld = function (cars) {
+  const currentYear = new Date().getFullYear();
+  cars.forEach(car => {
+    car.yearsOld = 2024 - car.year; 
+  });
+};
+
+calculateYearsOld(appdata);
+
+const server = http.createServer(function (request, response) {
+  if (request.method === 'GET') {
+    handleGet(request, response)
+  } else if (request.method === 'POST') {
+    handlePost(request, response)
+  } else if (request.method === 'DELETE') {
+    handleDelete(request, response)
   }
 })
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
-
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
+const handleGet = function (request, response) {
+  const filename = dir + request.url.slice(1)
+  if (request.url === '/') {
+    sendFile(response, 'public/index.html')
+  }
+  else if (request.url === '/data') {
+    response.writeHeader(200, { "Content-type": "application/json" });
+    response.end(JSON.stringify(appdata));
+  }
+  else {
+    sendFile(response, filename)
   }
 }
-
-const handlePost = function( request, response ) {
+const handlePost = function (request, response) {
+  console.log("request URL" + request.url);
   let dataString = ''
-
-  request.on( 'data', function( data ) {
-      dataString += data 
+  request.on('data', function (data) {
+    dataString += data;
   })
+  request.on('end', function () {
+    console.log('Data received:', dataString);
+    let postResponse = JSON.parse(dataString);
+    console.log('Data received:', postResponse.year);
+    const yearsOld = 2024 - postResponse.year;
+    appdata.push({
+      model: postResponse.model,
+      year: postResponse.year,
+      mpg: postResponse.mpg,
+      yearsOld: yearsOld
+    });
 
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
+    response.writeHead(200, "OK", { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(appdata));
+  });
+};
 
-    // ... do something with the data here!!!
-
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end('test')
+const handleDelete = function (request, response) {
+  let dataString = ''
+  request.on('data', function (data) {
+    dataString += data
+  })
+  request.on('end', function () {
+    let modelToRemove = JSON.parse(dataString).modelToRemove
+    appdata = appdata.filter(function (car) {
+      return car.model !== modelToRemove;
+    })
+    response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
+    response.end(JSON.stringify(appdata))
   })
 }
 
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
+const sendFile = function (response, filename) {
+  const type = mime.getType(filename)
+  console.log('Requested file:', filename);
 
-   fs.readFile( filename, function( err, content ) {
+  fs.readFile(filename, function (err, content) {
 
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
+    if (err === null) {
+      response.writeHeader(200, { 'Content-Type': type })
+      response.end(content)
+    } else {
+      response.writeHeader(404)
+      response.end('404 Error: File Not Found')
+    }
+  })
 }
 
-server.listen( process.env.PORT || port )
+server.listen(process.env.PORT || port)
